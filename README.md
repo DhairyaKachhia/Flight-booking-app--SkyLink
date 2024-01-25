@@ -2,7 +2,7 @@
 Canada's premier flight-booking platform, where travelers can seamlessly discover and book the most innovative and tailored flight options, redefining their travel experience.
 
 ## Vision Statement
-- Our [Vision Statement](https://code.cs.umanitoba.ca/comp3350-summer2019/cook-eBook/blob/master/docs/Vision%20Statement.md) for Iteration 0
+- Our [Vision Statement](https://code.cs.umanitoba.ca/comp3350-winter2024/shadedragon-a02-6/-/blob/main/docs/VisionStatement.md) for Iteration 0
 
 ## Iteration Documents
 For the markers:
