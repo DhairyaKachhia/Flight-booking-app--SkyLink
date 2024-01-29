@@ -1,78 +1,103 @@
 package com.example.skylink;
-
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-
-import com.google.android.material.snackbar.Snackbar;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.view.View;
-
-import androidx.core.view.WindowCompat;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
-
-import com.example.skylink.databinding.ActivityMainBinding;
-
-import android.view.Menu;
-import android.view.MenuItem;
-
 public class MainActivity extends AppCompatActivity {
 
-    private AppBarConfiguration appBarConfiguration;
-    private ActivityMainBinding binding;
+    private TextView resultTextView;
+    private SQLiteDatabase profileDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
 
-        binding = ActivityMainBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
+        resultTextView = findViewById(R.id.resultTextView);
+        Button fetchDataButton = findViewById(R.id.fetchDataButton);
 
-        setSupportActionBar(binding.toolbar);
-
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
-        appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
-        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
-
-        binding.fab.setOnClickListener(new View.OnClickListener() {
+        fetchDataButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAnchorView(R.id.fab)
-                        .setAction("Action", null).show();
+                fetchDataAndDisplay();
             }
         });
+
+        initializeSQLiteDB();
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
+    private void initializeSQLiteDB() {
+        try {
+            // Create or open the SQLite database
+            profileDatabase = openOrCreateDatabase("profiledb", MODE_PRIVATE, null);
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+            // Creating a DatabaseManager instance
+            DatabaseManager databaseManager = new DatabaseManager(profileDatabase);
+            databaseManager.setTables(); // Set up tables.
+            databaseManager.insertAirport(this);
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+
+
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+    }
+    private void fetchDataAndDisplay() {
+        try {
+            // Modify the cursor query to select all airports
+            Cursor cursor = profileDatabase.rawQuery("SELECT * FROM Airport", null);
 
-        return super.onOptionsItemSelected(item);
+            // Display the details in the TextView
+            StringBuilder result = new StringBuilder();
+
+            // Check if the cursor has data
+            if (cursor.moveToFirst()) {
+                // Assuming the columns in the Airport table are named "Airport_ID", "ICAO", "Airport_Name"
+                int airportIdIndex = cursor.getColumnIndex("Airport_ID");
+                int icaoIndex = cursor.getColumnIndex("ICAO");
+                int airportNameIndex = cursor.getColumnIndex("Airport_Name");
+
+                do {
+                    if (airportIdIndex != -1) {
+                        int airportId = cursor.getInt(airportIdIndex);
+                        result.append("Airport ID: ").append(airportId).append("\n");
+                    }
+
+                    if (icaoIndex != -1) {
+                        String icao = cursor.getString(icaoIndex);
+                        result.append("ICAO: ").append(icao).append("\n");
+                    }
+
+                    if (airportNameIndex != -1) {
+                        String airportName = cursor.getString(airportNameIndex);
+                        result.append("Airport Name: ").append(airportName).append("\n\n");
+                    }
+                } while (cursor.moveToNext());
+            } else {
+                // Handle the case where the cursor is empty
+                result.append("No data found in the Airport table.\n");
+            }
+
+            resultTextView.setText(result.toString());
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
-    public boolean onSupportNavigateUp() {
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
-        return NavigationUI.navigateUp(navController, appBarConfiguration)
-                || super.onSupportNavigateUp();
+    protected void onDestroy() {
+        // Close the database when the activity is destroyed
+        if (profileDatabase != null) {
+            profileDatabase.close();
+        }
+        super.onDestroy();
     }
 }
