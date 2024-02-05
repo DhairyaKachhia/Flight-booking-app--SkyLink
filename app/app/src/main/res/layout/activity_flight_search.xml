@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Flight_search"
+    tools:layout_editor_absoluteX="0dp"
+    tools:layout_editor_absoluteY="-10dp"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="10dp"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:background="#FFFFFF"
+            android:src="?attr/actionModeCloseDrawable" >
+
+        </ImageButton>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Search Flight"
+            android:textColor="@android:color/black"
+            android:textSize="40sp">
+
+        </TextView>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/flightResult"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:background="#EFEFEF"
+            android:gravity="center"
+            android:text="Flight Searching..."
+            android:textAlignment="center"
+            android:textSize="60sp">
+
+        </TextView>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/createDepartFlightBtn"
+            android:layout_width="0dp"
+            android:layout_height="70dp"
+            android:text="Create otbound flight"
+            android:layout_margin="15dp"
+            android:layout_weight="1"
+            />
+
+        <Button
+            android:id="@+id/createReturnFlightBtn"
+            android:layout_width="0dp"
+            android:layout_height="70dp"
+            android:text="Create inbound flight"
+            android:layout_margin="15dp"
+            android:layout_weight="1"
+            />
+
+        <Button
+            android:id="@+id/showFlightBtn"
+            android:layout_width="0dp"
+            android:layout_height="70dp"
+            android:layout_weight="1"
+            android:layout_margin="15dp"
+            android:text="Show Flight List"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:text="Select flight"
+            android:textColor="@android:color/black"
+            android:textSize="35sp">
+
+        </TextView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="10dp"            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="10dp"
+                android:text="Sort by: "
+                android:textColor="@android:color/black"
+                android:textSize="25sp">
+
+            </TextView>
+
+            <Spinner
+                android:id="@+id/sortingListOption"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:paddingHorizontal="10dp"
+                android:layout_gravity="center">
+            </Spinner>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/flightListView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="1dp"
+        android:layout_marginEnd="1dp"
+        android:background="#D1D1D1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/createFlightBtn"
+        app:layout_constraintVertical_bias="1.0" />
+
+
+</LinearLayout>

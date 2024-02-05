@@ -1,0 +1,220 @@
+package com.example.skylink;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ListView;
+import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Random;
+import java.util.stream.Collectors;
+
+public class Flight_search extends AppCompatActivity {
+
+    private ListView showFlightLV;
+    ArrayList<Flight> availableFlights = new ArrayList<>();
+    ArrayList<Flight> outFlights = new ArrayList<>();
+    ArrayList<Flight> inFlights = new ArrayList<>();
+    private Trip trip = new Trip();
+    private boolean isOneWay;
+
+    private boolean isDepartureSelected;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_flight_search);
+
+        Intent intent = getIntent();
+        Trip userInput = intent.getParcelableExtra("user_input");
+
+        if (userInput != null) {
+            TextView tv = findViewById(R.id.flightResult);
+
+            tv.setText(userInput.getFlyingFrom());
+
+        }
+
+
+        Spinner sortingOptions = findViewById(R.id.sortingListOption);
+        ArrayAdapter<CharSequence> sortAdapter = ArrayAdapter.createFromResource(this, R.array.sorting_list_option, R.layout.custom_spinner_text);
+
+        // Specify the layout to use when the list of choices appears.
+        sortAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // Apply the adapter to the spinner.
+        sortingOptions.setAdapter(sortAdapter);
+
+
+        Button createDepartFlightBtn = findViewById(R.id.createDepartFlightBtn);
+        Button createReturnFlightBtn = findViewById(R.id.createReturnFlightBtn);
+        Button showFlightBtn = findViewById(R.id.showFlightBtn);
+        showFlightLV = findViewById(R.id.flightListView);
+
+        createDepartFlightBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                createDptFlight();
+            }
+        });
+
+        createReturnFlightBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                createRetFlight();
+            }
+        });
+
+        showFlightBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                trip.setOutbound(outFlights);
+                trip.setInbound(inFlights);
+
+                isOneWay = trip.getInbound().isEmpty();
+                availableFlights = trip.getOutbound();
+                isDepartureSelected = false;
+
+                Toast.makeText(getApplicationContext(), "Is search Oneway?: " + isOneWay, Toast.LENGTH_LONG).show();
+                showFlights(trip.getOutbound());
+            }
+        });
+
+        sortingOptions.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                ArrayList<Flight> filteredFlights = new ArrayList<>();
+
+                String selectedItem = sortingOptions.getSelectedItem().toString();
+
+                Toast.makeText(getApplicationContext(), "You have selected: " + selectedItem, Toast.LENGTH_LONG).show();
+                
+                if (selectedItem.equals("Lowest price")) {
+//                    availableFlights.sort(Comparator.comparing(availableFlights::get));
+                    if (availableFlights.size() > 0) {
+                        filteredFlights = (ArrayList<Flight>) availableFlights.stream().sorted(Comparator.comparing(Flight::getEconPrice)).collect(Collectors.toList());
+                    }
+
+                    if (filteredFlights.size() > 0) {
+                        showFlights(filteredFlights);
+                    }
+                    
+                } else if (selectedItem.equals("Time taken")) {
+
+                }
+
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+    }
+
+    private void createRetFlight() {
+        Flight flight = new Flight();
+
+        Random r = new Random();
+
+
+        for (int i = 0; i < 10; i++) {
+            flight = new Flight("YYZ" + i, "YWG" + i, "17:00", "18:30", "1 hrs. 30 mins",
+                    r.nextInt(450-300)+300, r.nextInt(450-300)+300);
+            inFlights.add(flight);
+        }
+    }
+
+
+    private void createDptFlight() {
+        Flight flight = new Flight();
+
+        Random r = new Random();
+
+
+        for (int i = 0; i < 10; i++) {
+            flight = new Flight("YWG" + i, "YYZ" + i, "11:00", "13:30", "2 hrs. 30 mins",
+                    r.nextInt(450-300)+300, r.nextInt(450-300)+300);
+            outFlights.add(flight);
+        }
+
+    }
+
+    private void showFlights(ArrayList<Flight> toDisplayFlights) {
+
+        //TODO: Need new param: isOneway. Based on this create two new method.
+        //      If oneway -> diff CustomFlightAdaptor and note the button listener to next activity
+        //      If round -> diff CustomFlightAdaptor and button click show next flight and finally next activity!
+
+//        if (isOneWay) {
+//            showOneway(toDisplayFlights);
+//        } else {
+//            showRoundtrip(toDisplayFlights);
+//        }
+
+        CustomFlightAdaptor customFlightAdaptor = new CustomFlightAdaptor(Flight_search.this, toDisplayFlights, isOneWay);
+
+        showFlightLV.setAdapter(customFlightAdaptor);
+
+    }
+
+    private void showOneway(ArrayList<Flight> toDisplayFlights) {
+//        CustomFlightAdaptor customFlightAdaptor = new CustomFlightAdaptor(MainActivity.this, toDisplayFlights);
+//
+//        showFlightLV.setAdapter(customFlightAdaptor);
+    }
+
+    private void showRoundtrip(ArrayList<Flight> toDisplayFlights) {
+//        CustomFlightAdaptor customFlightAdaptor = new CustomFlightAdaptor(MainActivity.this, toDisplayFlights);
+//
+//        showFlightLV.setAdapter(customFlightAdaptor);
+    }
+
+
+    public void onClassPriceBtn(View v) {
+        if(!isOneWay) {
+
+            availableFlights = trip.getInbound();
+            showFlights(trip.getInbound());
+
+        } else {
+
+//            Button econBook = findViewById(v.getId());
+//
+//            econBook.setOnClickListener(onewayBook);
+//            Intent nextPageIntent = new Intent(this, UserInfo.class);
+//            startActivities(nextPageIntent);
+        }
+    }
+
+    public boolean getDepartureStatus() {
+        return isDepartureSelected;
+    }
+
+    public void setDepartureStatus(boolean departureStatus) {
+        isDepartureSelected = departureStatus;
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (isDepartureSelected) {
+            isDepartureSelected = false;
+
+            Toast.makeText(getApplicationContext(), "Departure: " + isDepartureSelected, Toast.LENGTH_LONG).show();
+            // Update your listView to show departing flights
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+}

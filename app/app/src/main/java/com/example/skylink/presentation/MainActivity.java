@@ -1,7 +1,11 @@
 package com.example.skylink.presentation;
+import com.example.skylink.Flight_search;
+import com.example.skylink.Trip;
+import com.example.skylink.User_info;
 import com.example.skylink.data.DatabaseManager;
 import  com.example.skylink.business.FetchAirport;
 
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -77,6 +81,25 @@ public class MainActivity extends AppCompatActivity {
                 if (radioButton != null) {
                     tripType = radioButton.getText().toString();
                 }
+            }
+        });
+
+        Button searchBtn = findViewById(R.id.searchBtn);
+
+        searchBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                // TODO Add validation for trip info
+                Trip userInput = new Trip(autoCompleteFrom.getText().toString(), "hello", "some", "thing", 1, true);
+
+
+
+                Intent displayFlights = new Intent(MainActivity.this, Flight_search.class);
+                displayFlights.putExtra("user_input", userInput);
+
+                MainActivity.this.startActivity(displayFlights);
             }
         });
     }

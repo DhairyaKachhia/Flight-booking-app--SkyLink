@@ -3,4 +3,10 @@
     <string name="flying_from">From</string>
     <string name="flying_to">To</string>
     <string name="search_flights">Search flights...</string>
+
+    <string-array name="sorting_list_option">
+        <item>Best</item>
+        <item>Lowest price</item>
+        <item>Time taken</item>
+    </string-array>
 </resources>
