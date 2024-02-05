@@ -1,16 +1,21 @@
 package com.example.skylink.business;
 
+import org.apache.commons.lang3.ObjectUtils;
 import org.jgrapht.Graph;
 import org.jgrapht.graph.DefaultWeightedEdge;
 import org.jgrapht.graph.SimpleWeightedGraph;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 
-public class AirportPath {
+import com.example.skylink.data.FlightDatabase;
+import com.example.skylink.data.Flight;
+
+public class AirportPath implements AirportPathInterface{
     private final Graph<String, DefaultWeightedEdge> airportGraph;
 
     public AirportPath() {
@@ -80,4 +85,34 @@ public class AirportPath {
         }
         return distance;
     }
+
+    public List<List<List<Flight>>> pullFlight(List<List<String>> all_dept_flight, String flight_dept_date){
+        FlightDatabase flightDatabase = new FlightDatabase();
+        List<List<List<Flight>>> proposed_flight_path = new ArrayList<>();
+        for (List<String> path : all_dept_flight) {
+            String[] all_hubs_landing = path.toString().replaceAll("[\\[\\]]", "").split(", ");
+            List<List<Flight>> layover = new ArrayList<>();
+            for (int i = 0; i < all_hubs_landing.length - 1; i++) {
+                String currentHub = all_hubs_landing[i];
+                String nextHub = all_hubs_landing[i + 1];
+                layover.add(flightDatabase.findFlight(currentHub, nextHub,"02/02/2024"));
+            }
+            proposed_flight_path.add(layover);
+        }
+        return proposed_flight_path;
+    }
+
+
+    public HashMap< String,List<List<List<Flight>>>> findFlights(String flight_dept, String flight_arrival, String flight_dept_date, String flight_return_date) {
+        HashMap<String, List<List<List<Flight>>>> itinerary = new HashMap<>();
+        List<List<String>> all_dept_flight = findAllPaths(flight_dept, flight_arrival);
+        itinerary.put("Outbound",pullFlight(all_dept_flight,flight_dept_date));
+        if (flight_return_date == null) {
+            List<List<String>> all_arr_flight = findAllPaths(flight_arrival, flight_dept);
+            itinerary.put("Inbound",pullFlight(all_arr_flight,flight_dept_date));
+        }
+        return itinerary;
+    }
+
+
 }
