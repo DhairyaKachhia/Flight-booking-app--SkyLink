@@ -33,15 +33,18 @@ public class Flight_search extends AppCompatActivity {
     ArrayList<Flight> outFlights = new ArrayList<>();
     ArrayList<Flight> inFlights = new ArrayList<>();
     private Trip trip = new Trip();
-    private boolean isOneWay;
+    private boolean isOneWay = true;
 //    private CustomFlightAdaptor customFlightAdaptor;
 //    private CustomFlightAdaptor returnAdaptor;
 //    private CustomFlightAdaptor currAdaptor;
 
     private boolean isDepartureSelected;
 
-    private ArrayList<Flight> tripOutbound;
-    private ArrayList<Flight> tripInbound;
+//    private ArrayList<Flight> tripOutbound;
+//    private ArrayList<Flight> tripInbound;
+
+    private List<Flight> tripOutbound;
+    private List<Flight> tripInbound;
 
 
     @Override
@@ -190,18 +193,18 @@ public class Flight_search extends AppCompatActivity {
 
             if (!isOneWay) {
                 // Retrieve and process outbound flights
-                List<List<List<Flight>>> inboundFlights = receivedData.get("inbound");
+                List<List<List<Flight>>> inboundFlights = receivedData.get("Inbound");
                 if (inboundFlights != null) {
-                    processFlights(inboundFlights);
+                    processFlights(inboundFlights, tripInbound);
                 }
 
             }
 
 
             // Retrieve and process inbound flights
-            List<List<List<Flight>>> outboundFlights = receivedData.get("outbound");
+            List<List<List<Flight>>> outboundFlights = receivedData.get("Outbound");
             if (outboundFlights != null) {
-                processFlights(outboundFlights);
+                processFlights(outboundFlights, tripOutbound);
             }
 
 
@@ -239,12 +242,18 @@ public class Flight_search extends AppCompatActivity {
 //        }
     }
 
-    private void processFlights(List<List<List<Flight>>> flightsList) {
+    private void processFlights(List<List<List<Flight>>> flightsList, List<Flight> storeFlights ) {
         for (List<List<Flight>> flightLists : flightsList) {
             for (List<Flight> flights : flightLists) {
-                for (Flight flight : flights) {
-                    // Process each flight
+                // Process each flight
+
+                if (flights != null) {
+                    storeFlights.addAll(flights);
+                    Toast.makeText(getApplicationContext(), "search: " + storeFlights, Toast.LENGTH_LONG).show();
                 }
+
+//                String flightResult = flights.toString();
+
             }
         }
     }
