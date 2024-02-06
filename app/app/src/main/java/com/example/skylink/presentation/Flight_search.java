@@ -1,4 +1,4 @@
-package com.example.skylink;
+package com.example.skylink.presentation;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -12,6 +12,10 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.skylink.Flight;
+import com.example.skylink.R;
+import com.example.skylink.Trip;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -44,12 +48,12 @@ public class Flight_search extends AppCompatActivity {
         Intent intent = getIntent();
         Trip userInput = intent.getParcelableExtra("user_input");
 
-        if (userInput != null) {
-            TextView tv = findViewById(R.id.flightResult);
-
-            tv.setText(userInput.getFlyingFrom());
-
-        }
+//        if (userInput != null) {
+//            TextView tv = findViewById(R.id.flightResult);
+//
+//            tv.setText(userInput.getFlyingFrom());
+//
+//        }
 
 
         Spinner sortingOptions = findViewById(R.id.sortingListOption);

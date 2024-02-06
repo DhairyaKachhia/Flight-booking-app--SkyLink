@@ -1,4 +1,4 @@
-package com.example.skylink;
+package com.example.skylink.presentation;
 
 import android.content.Context;
 import android.content.Intent;
@@ -10,6 +10,11 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.skylink.Flight;
+import com.example.skylink.R;
+import com.example.skylink.presentation.Flight_search;
+import com.example.skylink.presentation.User_info;
 
 import java.util.ArrayList;
 

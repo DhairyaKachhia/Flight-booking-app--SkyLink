@@ -13,10 +13,10 @@
         android:theme="@style/Theme.Skylink"
         tools:targetApi="31">
         <activity
-            android:name=".User_info"
+            android:name=".presentation.User_info"
             android:exported="false" />
         <activity
-            android:name=".Flight_search"
+            android:name=".presentation.Flight_search"
             android:exported="false" />
         <activity
             android:name=".presentation.MainActivity"

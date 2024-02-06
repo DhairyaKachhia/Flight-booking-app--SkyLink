@@ -1,8 +1,10 @@
-package com.example.skylink;
+package com.example.skylink.presentation;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import com.example.skylink.R;
 
 public class User_info extends AppCompatActivity {
 
