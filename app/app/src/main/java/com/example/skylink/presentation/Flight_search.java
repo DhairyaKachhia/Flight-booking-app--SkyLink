@@ -10,7 +10,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 //import com.example.skylink.Flight;
@@ -25,7 +24,6 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Random;
 import java.util.stream.Collectors;
 
 public class Flight_search extends AppCompatActivity {
@@ -53,11 +51,30 @@ public class Flight_search extends AppCompatActivity {
 
 
         Intent intent = getIntent();
-        Flights flightData = (Flights) intent.getSerializableExtra("flightData");
-        HashMap< String,List<List<List<com.example.skylink.objects.Flight>>>>  receivedData = flightData.getData();
-//        addCards(receivedData);
 
-        extractFlightData(receivedData);
+        Bundle userInput = intent.getExtras();
+        if (userInput != null) {
+            String departingCountry = userInput.getString("departingCountry");
+            String returningCountry = userInput.getString("returningCountry");
+            String departingDate = userInput.getString("departingDate");
+            String returningDate = userInput.getString("returningDate");
+            int totalPassengers = userInput.getInt("totalPassengers");
+            boolean isOneWay = userInput.getBoolean("isOneWay");
+            // Extract flight data if added to the bundle
+            // Flights flightData = (Flights) extras.getSerializable("flightData");
+        }
+
+
+
+        Flights flightData = (Flights) intent.getSerializableExtra("flightData");
+        HashMap<String, List<List<List<com.example.skylink.objects.Flight>>>> receivedData = null;
+
+        if (flightData != null) {
+            receivedData = flightData.getData();
+//           addCards(receivedData);
+        }
+
+        extractFlightData(receivedData, isOneWay);
 
 //        Intent intent = getIntent();
 //        Trip userInput = intent.getParcelableExtra("user_input");
@@ -167,20 +184,71 @@ public class Flight_search extends AppCompatActivity {
 
     }
 
-    private void extractFlightData (HashMap< String,List<List<List<com.example.skylink.objects.Flight>>>>  receivedData) {
-        for (String key : receivedData.keySet()) {
-            List<List<List<Flight>>> flights = receivedData.get(key);
-            for (List<List<Flight>> flightList : flights) {
-                for (List<Flight> flightDetails : flightList) {
+    private void extractFlightData (HashMap< String,List<List<List<Flight>>>>  receivedData, boolean isOneWay) {
 
-                    String flightNumber = flightDetails.toString();
+        if (receivedData != null) {
 
-                    Toast.makeText(getApplicationContext(), "search: " + flightNumber, Toast.LENGTH_LONG).show();
+            if (!isOneWay) {
+                // Retrieve and process outbound flights
+                List<List<List<Flight>>> inboundFlights = receivedData.get("inbound");
+                if (inboundFlights != null) {
+                    processFlights(inboundFlights);
+                }
+
+            }
 
 
+            // Retrieve and process inbound flights
+            List<List<List<Flight>>> outboundFlights = receivedData.get("outbound");
+            if (outboundFlights != null) {
+                processFlights(outboundFlights);
+            }
+
+
+
+
+        }
+
+//        if (receivedData.keySet().equals("Inbound")) {
+//            List<List<List<Flight>>> flights = receivedData.get(key);
+//            for (List<List<Flight>> flightList : flights) {
+//                for (List<Flight> flightDetails : flightList) {
+//
+//                    String flightNumber = flightDetails.toString();
+//
+//                    Toast.makeText(getApplicationContext(), "search: " + flightNumber, Toast.LENGTH_LONG).show();
+//
+//
+//                }
+//            }
+//        }
+//        if (receivedData.keySet().equals("Outbound") andeceivedData.keySet() is not null ){
+//            List<List<List<Flight>>> flights = receivedData.get(key);
+//            for (List<List<Flight>> flightList : flights) {
+//                for (List<Flight> flightDetails : flightList) {
+//
+//                    String flightNumber = flightDetails.toString();
+//
+//                    Toast.makeText(getApplicationContext(), "search: " + flightNumber, Toast.LENGTH_LONG).show();
+//
+//
+//                }
+//            }
+//        }else{
+//            "no flight"
+//        }
+    }
+
+    private void processFlights(List<List<List<Flight>>> flightsList) {
+        for (List<List<Flight>> flightLists : flightsList) {
+            for (List<Flight> flights : flightLists) {
+                for (Flight flight : flights) {
+                    // Process each flight
                 }
             }
         }
+    }
+
 //
 //    private void createRetFlight() {
 ////        Flight flight = new Flight();
@@ -314,7 +382,4 @@ public class Flight_search extends AppCompatActivity {
 //        }
 //
 //    }
-
-
-    }
 }
