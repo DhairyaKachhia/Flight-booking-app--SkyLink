@@ -2,6 +2,7 @@ package com.example.skylink.presentation;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 //import com.example.skylink.Flight;
@@ -34,9 +36,7 @@ public class Flight_search extends AppCompatActivity {
     ArrayList<Flight> inFlights = new ArrayList<>();
     private Trip trip = new Trip();
     private boolean isOneWay;
-//    private CustomFlightAdaptor customFlightAdaptor;
-//    private CustomFlightAdaptor returnAdaptor;
-//    private CustomFlightAdaptor currAdaptor;
+
 
     private boolean isDepartureSelected;
 
@@ -49,10 +49,26 @@ public class Flight_search extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_flight_search);
 
-
         Intent intent = getIntent();
 
         Bundle userInput = intent.getExtras();
+
+        designDisplay(userInput);
+
+        Flights flightData = (Flights) intent.getSerializableExtra("flightData");
+        HashMap<String, List<List<List<com.example.skylink.objects.Flight>>>> receivedData = null;
+
+        if (flightData != null) {
+            receivedData = flightData.getData();
+        }
+
+        extractFlightData(receivedData, isOneWay);
+
+    }
+
+
+    @SuppressLint("SetTextI18n")
+    private void designDisplay(Bundle userInput) {
         if (userInput != null) {
             String departingCountry = userInput.getString("departingCountry");
             String returningCountry = userInput.getString("returningCountry");
@@ -60,129 +76,35 @@ public class Flight_search extends AppCompatActivity {
             String returningDate = userInput.getString("returningDate");
             int totalPassengers = userInput.getInt("totalPassengers");
             boolean isOneWay = userInput.getBoolean("isOneWay");
-            // Extract flight data if added to the bundle
-            // Flights flightData = (Flights) extras.getSerializable("flightData");
+
+            TextView toLocTV = findViewById(R.id.toLocTV);
+            toLocTV.setText(departingCountry);
+
+            TextView fromLocTV = findViewById(R.id.fromLocTV);
+            fromLocTV.setText(returningCountry);
+
+            TextView departDateTV = findViewById(R.id.departDateTV);
+            departDateTV.setText(departingDate);
+
+            TextView returnDateLabelTV = findViewById(R.id.returnDateLabelTV); // TextView for "Return date" label
+            TextView returnDateTV = findViewById(R.id.returnDateTV);
+            if (returningDate != null) {
+                returnDateLabelTV.setVisibility(View.VISIBLE);
+                returnDateTV.setText(returningDate);
+            } else {
+                returnDateLabelTV.setVisibility(View.GONE);
+                returnDateTV.setText("");
+            }
+
+            TextView totalGuestTV = findViewById(R.id.totalGuestTV);
+            totalGuestTV.setText(totalPassengers + " Traveler");
+
+            if (isOneWay) {
+                returnDateTV.setVisibility(View.GONE);
+            }
         }
-
-
-
-        Flights flightData = (Flights) intent.getSerializableExtra("flightData");
-        HashMap<String, List<List<List<com.example.skylink.objects.Flight>>>> receivedData = null;
-
-        if (flightData != null) {
-            receivedData = flightData.getData();
-//           addCards(receivedData);
-        }
-
-        extractFlightData(receivedData, isOneWay);
-
-//        Intent intent = getIntent();
-//        Trip userInput = intent.getParcelableExtra("user_input");
-
-//        if (userInput != null) {
-//            TextView tv = findViewById(R.id.flightResult);
-//
-//            tv.setText(userInput.getFlyingFrom());
-//
-//        }
-
-
-        Spinner sortingOptions = findViewById(R.id.sortingListOption);
-        ArrayAdapter<CharSequence> sortAdapter = ArrayAdapter.createFromResource(this, R.array.sorting_list_option, R.layout.custom_spinner_text);
-
-        // Specify the layout to use when the list of choices appears.
-        sortAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        // Apply the adapter to the spinner.
-        sortingOptions.setAdapter(sortAdapter);
-
-
-        Button createDepartFlightBtn = findViewById(R.id.createDepartFlightBtn);
-        Button createReturnFlightBtn = findViewById(R.id.createReturnFlightBtn);
-        Button showFlightBtn = findViewById(R.id.showFlightBtn);
-        showFlightLV = findViewById(R.id.flightListView);
-
-//        createDepartFlightBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                createDptFlight();
-//            }
-//        });
-//
-//        createReturnFlightBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                createRetFlight();
-//            }
-//        });
-
-        showFlightBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                // Initialize trip object.      ** To be Removed **
-//                trip.setOutbound(outFlights);
-//                trip.setInbound(inFlights);
-//
-//                isOneWay = trip.getInbound().isEmpty();
-////                isOneWay = trip.isOneway();           // TODO: right way
-//                availableFlights = trip.getOutbound();
-//                // ** To be Removed **
-//
-//                isDepartureSelected = false;
-//
-//                tripOutbound = trip.getOutbound();
-//                tripInbound = trip.getInbound();
-//
-//                Toast.makeText(getApplicationContext(), "Is search Oneway?: " + isOneWay, Toast.LENGTH_LONG).show();
-//
-//                customFlightAdaptor = new CustomFlightAdaptor(Flight_search.this, tripOutbound, isOneWay);
-//                returnAdaptor = new CustomFlightAdaptor(Flight_search.this, tripInbound, isOneWay);
-//                currAdaptor = customFlightAdaptor;
-//
-//                showFlightLV.setAdapter(currAdaptor);
-
-//                showFlights(tripOutbound);
-            }
-        });
-
-        sortingOptions.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                ArrayList<Flight> filteredFlights = new ArrayList<>();
-
-                String selectedItem = sortingOptions.getSelectedItem().toString();
-
-                Toast.makeText(getApplicationContext(), "You have selected: " + selectedItem, Toast.LENGTH_LONG).show();
-                
-                if (selectedItem.equals("Lowest price")) {
-//                    availableFlights.sort(Comparator.comparing(availableFlights::get));
-                    if (availableFlights.size() > 0) {
-                        filteredFlights = (ArrayList<Flight>) availableFlights.stream().sorted(Comparator.comparing(Flight::getEconPrice)).collect(Collectors.toList());
-
-                    }
-
-                    if (filteredFlights.size() > 0) {
-
-//                        currAdaptor.setAvailableFlights(filteredFlights);
-//                        currAdaptor.notifyDataSetChanged();
-
-//                        showFlights(filteredFlights);
-                    }
-                    
-                } else if (selectedItem.equals("Time taken")) {
-
-                }
-
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-
     }
+
 
     private void extractFlightData (HashMap< String,List<List<List<Flight>>>>  receivedData, boolean isOneWay) {
 
