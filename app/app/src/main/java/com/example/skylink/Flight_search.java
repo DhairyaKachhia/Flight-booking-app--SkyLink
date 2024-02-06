@@ -26,8 +26,15 @@ public class Flight_search extends AppCompatActivity {
     ArrayList<Flight> inFlights = new ArrayList<>();
     private Trip trip = new Trip();
     private boolean isOneWay;
+    private CustomFlightAdaptor customFlightAdaptor;
+    private CustomFlightAdaptor returnAdaptor;
+    private CustomFlightAdaptor currAdaptor;
 
     private boolean isDepartureSelected;
+
+    private ArrayList<Flight> tripOutbound;
+    private ArrayList<Flight> tripInbound;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,15 +83,30 @@ public class Flight_search extends AppCompatActivity {
         showFlightBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                // Initialize trip object.      ** To be Removed **
                 trip.setOutbound(outFlights);
                 trip.setInbound(inFlights);
 
                 isOneWay = trip.getInbound().isEmpty();
+//                isOneWay = trip.isOneway();           // TODO: right way
                 availableFlights = trip.getOutbound();
+                // ** To be Removed **
+
                 isDepartureSelected = false;
 
+                tripOutbound = trip.getOutbound();
+                tripInbound = trip.getInbound();
+
                 Toast.makeText(getApplicationContext(), "Is search Oneway?: " + isOneWay, Toast.LENGTH_LONG).show();
-                showFlights(trip.getOutbound());
+
+                customFlightAdaptor = new CustomFlightAdaptor(Flight_search.this, tripOutbound, isOneWay);
+                returnAdaptor = new CustomFlightAdaptor(Flight_search.this, tripInbound, isOneWay);
+                currAdaptor = customFlightAdaptor;
+
+                showFlightLV.setAdapter(currAdaptor);
+
+//                showFlights(tripOutbound);
             }
         });
 
@@ -101,10 +123,15 @@ public class Flight_search extends AppCompatActivity {
 //                    availableFlights.sort(Comparator.comparing(availableFlights::get));
                     if (availableFlights.size() > 0) {
                         filteredFlights = (ArrayList<Flight>) availableFlights.stream().sorted(Comparator.comparing(Flight::getEconPrice)).collect(Collectors.toList());
+
                     }
 
                     if (filteredFlights.size() > 0) {
-                        showFlights(filteredFlights);
+
+                        currAdaptor.setAvailableFlights(filteredFlights);
+                        currAdaptor.notifyDataSetChanged();
+
+//                        showFlights(filteredFlights);
                     }
                     
                 } else if (selectedItem.equals("Time taken")) {
@@ -123,13 +150,13 @@ public class Flight_search extends AppCompatActivity {
     }
 
     private void createRetFlight() {
-        Flight flight = new Flight();
+//        Flight flight = new Flight();
 
         Random r = new Random();
 
 
         for (int i = 0; i < 10; i++) {
-            flight = new Flight("YYZ" + i, "YWG" + i, "17:00", "18:30", "1 hrs. 30 mins",
+            Flight flight = new Flight("YYZ" + i, "YWG" + i, "17:00", "18:30", "1 hrs. 30 mins",
                     r.nextInt(450-300)+300, r.nextInt(450-300)+300);
             inFlights.add(flight);
         }
@@ -137,13 +164,13 @@ public class Flight_search extends AppCompatActivity {
 
 
     private void createDptFlight() {
-        Flight flight = new Flight();
+//        Flight flight = new Flight();
 
         Random r = new Random();
 
 
         for (int i = 0; i < 10; i++) {
-            flight = new Flight("YWG" + i, "YYZ" + i, "11:00", "13:30", "2 hrs. 30 mins",
+            Flight flight = new Flight("YWG" + i, "YYZ" + i, "11:00", "13:30", "2 hrs. 30 mins",
                     r.nextInt(450-300)+300, r.nextInt(450-300)+300);
             outFlights.add(flight);
         }
@@ -162,7 +189,8 @@ public class Flight_search extends AppCompatActivity {
 //            showRoundtrip(toDisplayFlights);
 //        }
 
-        CustomFlightAdaptor customFlightAdaptor = new CustomFlightAdaptor(Flight_search.this, toDisplayFlights, isOneWay);
+        customFlightAdaptor = new CustomFlightAdaptor(Flight_search.this, toDisplayFlights, isOneWay);
+        returnAdaptor = new CustomFlightAdaptor(Flight_search.this, toDisplayFlights, isOneWay);
 
         showFlightLV.setAdapter(customFlightAdaptor);
 
@@ -197,6 +225,27 @@ public class Flight_search extends AppCompatActivity {
         }
     }
 
+    public void updateFlights() {
+        if (!isOneWay) {
+            if (isDepartureSelected) {
+//            customFlightAdaptor.clear();
+//            customFlightAdaptor.addAll(tripInbound);
+                currAdaptor = returnAdaptor;
+
+                availableFlights = tripInbound;
+            } else {
+//            customFlightAdaptor.clear();
+//            customFlightAdaptor.addAll(tripOutbound);
+                currAdaptor = customFlightAdaptor;
+
+                availableFlights = tripOutbound;
+            }
+
+            showFlightLV.setAdapter(currAdaptor);
+        }
+//        customFlightAdaptor.notifyDataSetChanged();
+    }
+
     public boolean getDepartureStatus() {
         return isDepartureSelected;
     }
@@ -207,14 +256,30 @@ public class Flight_search extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (isDepartureSelected) {
-            isDepartureSelected = false;
 
-            Toast.makeText(getApplicationContext(), "Departure: " + isDepartureSelected, Toast.LENGTH_LONG).show();
-            // Update your listView to show departing flights
+        if (!isOneWay) {
+            // if showing return flights, show departure flight
+            if (isDepartureSelected) {
+                isDepartureSelected = false;
+
+                Toast.makeText(getApplicationContext(), "BACK BTN, if - Departure: " + isDepartureSelected, Toast.LENGTH_LONG).show();
+                // Update your listView to show departing flights
+
+                updateFlights();
+            } else {
+                Toast.makeText(getApplicationContext(), "BACK BTN, else - Departure: " + isDepartureSelected, Toast.LENGTH_LONG).show();
+
+                super.onBackPressed();
+
+            }
+
         } else {
+            Toast.makeText(getApplicationContext(), "BACK BTN, else - Departure: " + isDepartureSelected, Toast.LENGTH_LONG).show();
+
             super.onBackPressed();
+
         }
+
     }
 
 }

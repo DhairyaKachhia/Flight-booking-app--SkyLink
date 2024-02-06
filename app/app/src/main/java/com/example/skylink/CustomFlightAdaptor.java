@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -13,7 +13,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-public class CustomFlightAdaptor extends BaseAdapter {
+public class CustomFlightAdaptor extends ArrayAdapter<Flight> {
 
     Context mContext;
     private Flight_search flightResult;
@@ -21,6 +21,7 @@ public class CustomFlightAdaptor extends BaseAdapter {
     boolean isOneWay;
 
     public CustomFlightAdaptor(Context context, ArrayList<Flight> availableFlights, boolean isOneWay) {
+        super(context, 0, availableFlights);
         mContext = context;
         this.availableFlights = availableFlights;
         this.isOneWay = isOneWay;
@@ -38,7 +39,7 @@ public class CustomFlightAdaptor extends BaseAdapter {
     }
 
     @Override
-    public Object getItem(int position) {
+    public Flight getItem(int position) {
         return availableFlights.get(position);
     }
 
@@ -67,13 +68,21 @@ public class CustomFlightAdaptor extends BaseAdapter {
         Button busnBook = convertView.findViewById(R.id.busnPriceBtn);
 
 
+        orgCode.setText(tempFlight.getOriginAirportCode());
+        destCode.setText(tempFlight.getDestAirportCode());
+        timeTaken.setText(tempFlight.getTimeTaken());
+        takeoffTime.setText(tempFlight.getTakeoffTime());
+        landingTime.setText(tempFlight.getLandingTime());
+        econPrice.setText("$"+ tempFlight.getEconPrice());
+        busnPrice.setText("$" + tempFlight.getBusnPrice());
+
         econBook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                LinearLayout ll = (LinearLayout) v.getParent();
-                TextView tv = ll.findViewById(R.id.econPrice);
-                String ePrice = tv.getText().toString();
+//                LinearLayout ll = (LinearLayout) v.getParent();
+//                TextView tv = ll.findViewById(R.id.econPrice);
+//                String ePrice = tv.getText().toString();
 
                 Toast.makeText(mContext, "Departure in Adaptor, econ btn: " + flightResult.getDepartureStatus() + " Price " + orgCode.getText().toString(), Toast.LENGTH_LONG).show();
 
@@ -86,8 +95,8 @@ public class CustomFlightAdaptor extends BaseAdapter {
                         if (flightResult.getDepartureStatus()) {
                             toNextActivity();
                         } else {
-                            displayReturnFlight();
                             flightResult.setDepartureStatus(true);
+                            displayReturnFlight();
                         }
                     }
 
@@ -114,8 +123,8 @@ public class CustomFlightAdaptor extends BaseAdapter {
                         if (flightResult.getDepartureStatus()) {
                             toNextActivity();
                         } else {
-                            displayReturnFlight();
                             flightResult.setDepartureStatus(true);
+                            displayReturnFlight();
                         }
                     }
                 }
@@ -123,36 +132,6 @@ public class CustomFlightAdaptor extends BaseAdapter {
         });
 
 
-//        if (isOneWay) {
-//            econBook.setOnClickListener(onewayBook);
-//            busnBook.setOnClickListener(onewayBook);
-//        } else {
-//
-//            Toast.makeText(mContext, "Departure in Adaptor: " + flightResult.getDepartureStatus(), Toast.LENGTH_LONG).show();
-//
-//            if (flightResult != null) {
-//
-//                if (flightResult.getDepartureStatus()) {
-//                    econBook.setOnClickListener(roundtripReturn);
-//                    busnBook.setOnClickListener(roundtripReturn);
-//                } else {
-//
-//
-//                    econBook.setOnClickListener(roundtripOrigin);
-//                    busnBook.setOnClickListener(roundtripOrigin);
-//
-//                    flightResult.setDepartureStatus(true);
-//                }
-//            }
-//        }
-
-        orgCode.setText(tempFlight.getOriginAirportCode());
-        destCode.setText(tempFlight.getDestAirportCode());
-        timeTaken.setText(tempFlight.getTimeTaken());
-        takeoffTime.setText(tempFlight.getTakeoffTime());
-        landingTime.setText(tempFlight.getLandingTime());
-        econPrice.setText("$"+ tempFlight.getEconPrice());
-        busnPrice.setText("$" + tempFlight.getBusnPrice());
 
         return convertView;
     }
@@ -187,10 +166,18 @@ public class CustomFlightAdaptor extends BaseAdapter {
         Toast.makeText(mContext.getApplicationContext(), "Round trip origin booking. showing return..", Toast.LENGTH_SHORT).show();
 
         // Show return flights...
-
+        flightResult.updateFlights();
     }
 
-//    View.OnClickListener roundtripOrigin = new View.OnClickListener() {
+    public ArrayList<Flight> getAvailableFlights() {
+        return availableFlights;
+    }
+
+    public void setAvailableFlights(ArrayList<Flight> availableFlights) {
+        this.availableFlights = availableFlights;
+    }
+
+    //    View.OnClickListener roundtripOrigin = new View.OnClickListener() {
 //        @Override
 //        public void onClick(View v) {
 //            Toast.makeText(mContext.getApplicationContext(), "Round trip origin booking. showing return..", Toast.LENGTH_SHORT).show();
