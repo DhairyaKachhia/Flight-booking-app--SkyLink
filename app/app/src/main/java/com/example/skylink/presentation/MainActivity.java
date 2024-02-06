@@ -1,20 +1,12 @@
 package com.example.skylink.presentation;
-import com.example.skylink.data.DatabaseManager;
-import  com.example.skylink.business.FetchAirport;
 
-import android.content.pm.ActivityInfo;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
