@@ -15,6 +15,13 @@ import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.skylink.R;
+import com.example.skylink.business.AirportPath;
+import com.example.skylink.objects.Flight;
+import com.example.skylink.objects.Flights;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -84,14 +91,15 @@ public class MainActivity extends AppCompatActivity {
 
 
                 // TODO Add validation for trip info
-                Trip userInput = new Trip(autoCompleteFrom.getText().toString(), "hello", "some", "thing", 1, true);
+//                Trip userInput = new Trip(autoCompleteFrom.getText().toString(), "hello", "some", "thing", 1, true);
 
 
+                searchFlights();
 
-                Intent displayFlights = new Intent(MainActivity.this, Flight_search.class);
-                displayFlights.putExtra("user_input", userInput);
+//                Intent displayFlights = new Intent(MainActivity.this, Flight_search.class);
+//                displayFlights.putExtra("user_input", userInput);
 
-                MainActivity.this.startActivity(displayFlights);
+//                MainActivity.this.startActivity(displayFlights);
             }
         });
     }
@@ -109,4 +117,47 @@ public class MainActivity extends AppCompatActivity {
         }
         super.onDestroy();
     }
+
+    // TODO: sends user input data and flight results to Flight_search class activity
+    private void searchFlights() {
+
+        //Update this based on variable names for respected field
+//        String departingCountry = departingCountrySpinner.getSelectedItem().toString();
+//        String returningCountry = returningCountrySpinner.getSelectedItem().toString();
+//        String departingDate = departingDateEditText.getText().toString();
+//        String returningDate = returningDateEditText.getText().toString();
+//        boolean isOneWay = oneWayRadioButton.isChecked();
+
+        String departingCountry = "YYZ";
+        String returningCountry = "YVR";
+        String departingDate = "02/02/2024";
+        String returningDate = "05/02/2024";
+        int totalPassengers = 1;
+        boolean isOneWay = true;
+
+
+        Bundle userInfoBundle = new Bundle();
+
+        userInfoBundle.putString("departingCountry", departingCountry);
+        userInfoBundle.putString("returningCountry", returningCountry);
+        userInfoBundle.putString("departingDate", departingDate);
+        userInfoBundle.putString("returningDate", returningDate);
+        userInfoBundle.putInt("totalPassengers", totalPassengers);
+        userInfoBundle.putBoolean("isOneWay", isOneWay);
+
+        AirportPath path = new AirportPath();
+
+        HashMap<String, List<List<List<Flight>>>> p = path.findFlights(departingCountry, returningCountry, departingDate, returningDate, isOneWay);
+
+        Flights flightData = new Flights(p);
+
+        Intent intent = new Intent(MainActivity.this, Flight_search.class);
+        intent.putExtra("flightData", flightData);
+        intent.putExtra("user_input", userInfoBundle);
+
+
+        startActivity(intent);
+
+    }
+
 }

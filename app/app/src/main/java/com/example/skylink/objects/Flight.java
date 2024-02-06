@@ -11,6 +11,8 @@ public class Flight implements Serializable {
     private String airCraft_Type;
     private String depature_Gate;
     private String arr_Gate;
+    private int econPrice;
+    private int busnPrice;
 
     public Flight (String flightNumber, String departure_icao, String arrival_icao, String flight_dept_date_time, String flight_arr_date_time, String airCraft_Type, String depature_Gate, String arr_Gate){
         this.flightNumber = flightNumber;
@@ -55,6 +57,16 @@ public class Flight implements Serializable {
 
     public String getArr_Gate() {
         return arr_Gate;
+    }
+
+    public int getEconPrice() {
+        econPrice = 300;        // TODO
+        return econPrice;
+    }
+
+    public int getBusnPrice() {
+        busnPrice = 400;        // TODO
+        return busnPrice;
     }
 
     public String toString() {
