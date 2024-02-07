@@ -88,18 +88,7 @@ public class MainActivity extends AppCompatActivity {
         searchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
-                // TODO Add validation for trip info
-//                Trip userInput = new Trip(autoCompleteFrom.getText().toString(), "hello", "some", "thing", 1, true);
-
-
                 searchFlights();
-
-//                Intent displayFlights = new Intent(MainActivity.this, Flight_search.class);
-//                displayFlights.putExtra("user_input", userInput);
-
-//                MainActivity.this.startActivity(displayFlights);
             }
         });
     }
@@ -121,19 +110,13 @@ public class MainActivity extends AppCompatActivity {
     // TODO: sends user input data and flight results to Flight_search class activity
     private void searchFlights() {
 
-        //Update this based on variable names for respected field
-//        String departingCountry = departingCountrySpinner.getSelectedItem().toString();
-//        String returningCountry = returningCountrySpinner.getSelectedItem().toString();
-//        String departingDate = departingDateEditText.getText().toString();
-//        String returningDate = returningDateEditText.getText().toString();
-//        boolean isOneWay = oneWayRadioButton.isChecked();
 
         String departingCountry = "YYZ";
-        String returningCountry = "YVR";
-        String departingDate = "02/02/2024";
-        String returningDate = "05/02/2024";
+        String returningCountry = "YYC";
+        String departingDate = "09/02/2024";
+        String returningDate = "12/02/2024";
         int totalPassengers = 1;
-        boolean isOneWay = true;
+        boolean isOneWay = false;
 
 
         Bundle userInfoBundle = new Bundle();
@@ -153,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
 
         Intent intent = new Intent(MainActivity.this, Flight_search.class);
         intent.putExtra("flightData", flightData);
-        intent.putExtra("user_input", userInfoBundle);
+        intent.putExtras(userInfoBundle);
 
 
         startActivity(intent);

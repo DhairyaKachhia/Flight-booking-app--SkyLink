@@ -1,6 +1,7 @@
 package com.example.skylink.objects;
 
 import java.io.Serializable;
+import java.util.Random;
 
 public class Flight implements Serializable {
     private String flightNumber;
@@ -24,6 +25,10 @@ public class Flight implements Serializable {
         this.depature_Gate = depature_Gate;
         this.arr_Gate = arr_Gate;
 
+        // TODO ...
+        Random r = new Random();
+        this.econPrice = r.nextInt(450-300)+300;        // TODO ;
+        this.busnPrice = r.nextInt(450-400)+400;
     }
 
 
@@ -60,12 +65,10 @@ public class Flight implements Serializable {
     }
 
     public int getEconPrice() {
-        econPrice = 300;        // TODO
         return econPrice;
     }
 
     public int getBusnPrice() {
-        busnPrice = 400;        // TODO
         return busnPrice;
     }
 
