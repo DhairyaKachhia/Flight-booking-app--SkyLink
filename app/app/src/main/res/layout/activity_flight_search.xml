@@ -186,43 +186,6 @@
 
         </LinearLayout>
 
-<!--        <LinearLayout-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:orientation="horizontal">-->
-
-<!--            &lt;!&ndash; Placeholder for 'Create outbound flight' Button &ndash;&gt;-->
-<!--            <Button-->
-<!--                android:id="@+id/createDepartFlightBtn"-->
-<!--                android:layout_width="0dp"-->
-<!--                android:layout_height="70dp"-->
-<!--                android:text="Create outbound flight"-->
-<!--                android:layout_margin="15dp"-->
-<!--                android:layout_weight="1"-->
-<!--                />-->
-
-<!--            &lt;!&ndash; Placeholder for 'Create inbound flight' Button &ndash;&gt;-->
-<!--            <Button-->
-<!--                android:id="@+id/createReturnFlightBtn"-->
-<!--                android:layout_width="0dp"-->
-<!--                android:layout_height="70dp"-->
-<!--                android:text="Create inbound flight"-->
-<!--                android:layout_margin="15dp"-->
-<!--                android:layout_weight="1"-->
-<!--                />-->
-
-<!--            &lt;!&ndash; Placeholder for 'Show Flight List' Button &ndash;&gt;-->
-<!--            <Button-->
-<!--                android:id="@+id/showFlightBtn"-->
-<!--                android:layout_width="0dp"-->
-<!--                android:layout_height="70dp"-->
-<!--                android:layout_weight="1"-->
-<!--                android:layout_margin="15dp"-->
-<!--                android:text="Show Flight List"-->
-<!--                />-->
-
-<!--        </LinearLayout>-->
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -278,11 +241,23 @@
             android:layout_marginStart="1dp"
             android:layout_marginEnd="1dp"
             android:background="#D1D1D1"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/createFlightBtn"
-            app:layout_constraintVertical_bias="1.0" />
+            android:visibility="gone"/>
+
+        <TextView
+            android:id="@+id/noFlightTextV"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/flight_not_found"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            android:gravity="center_horizontal"
+            android:layout_marginVertical="40dp"
+            android:lineSpacingExtra="20sp"
+            android:padding="10dp"
+            android:background="@color/white">
+        </TextView>
 
     </LinearLayout>
+
+
 </ScrollView>
