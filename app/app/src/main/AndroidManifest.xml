@@ -8,14 +8,22 @@
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:screenOrientation="sensorPortrait"
         android:supportsRtl="true"
         android:theme="@style/Theme.Skylink"
         tools:targetApi="31">
+        <activity
+            android:name=".presentation.User_info"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.Flight_search"
+            android:exported="false" />
         <activity
             android:name=".presentation.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

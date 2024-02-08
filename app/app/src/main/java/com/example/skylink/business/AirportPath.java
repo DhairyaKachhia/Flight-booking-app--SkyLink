@@ -106,7 +106,7 @@ public class AirportPath {
         HashMap<String, List<List<List<Flight>>>> itinerary = new HashMap<>();
         List<List<String>> all_dept_flight = findAllPaths(flight_dept, flight_arrival);
         itinerary.put("Outbound",pullFlight(all_dept_flight,flight_dept_date));
-        if (isOneWay) {
+        if (!isOneWay) {
             List<List<String>> all_arr_flight = findAllPaths(flight_arrival, flight_dept);
             itinerary.put("Inbound",pullFlight(all_arr_flight,flight_return_date));
         }
