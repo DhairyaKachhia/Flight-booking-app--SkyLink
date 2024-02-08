@@ -14,6 +14,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.skylink.R;
+import com.example.skylink.business.FlightSorting;
 import com.example.skylink.objects.Flights;
 import com.example.skylink.objects.Flight;
 
@@ -33,6 +34,7 @@ public class Flight_search extends AppCompatActivity {
     private CustomFlightAdaptor customFlightAdaptor;
     private CustomFlightAdaptor returnAdaptor;
     private CustomFlightAdaptor currAdaptor;
+    private FlightSorting flightSorting;
     private boolean isDepartureSelected;
     private List<List<List<Flight>>> tripOutbound = null;
     private List<List<List<Flight>>> tripInbound = null;
@@ -161,18 +163,25 @@ public class Flight_search extends AppCompatActivity {
 
             if (filteredFlights.size() > 0) {
                 if (selectedItem.equals("Lowest price")) {
-//                    filteredFlights = (List<List<List<Flight>>>) availableFlights.stream().sorted(Comparator.comparing(Flight::getEconPrice)).collect(Collectors.toList());
 
-                    sortFlightsByPrice(filteredFlights);
+                    flightSorting = new FlightSorting(FlightSorting.SortingOption.PRICE);
 
-                    if (filteredFlights.size() > 0) {
 
-                        currAdaptor.setAvailableFlights(filteredFlights);
-                        currAdaptor.notifyDataSetChanged();
+                } else if (selectedItem.equals("Direct flight")) {
+                    flightSorting = new FlightSorting(FlightSorting.SortingOption.DIRECT_FLIGHTS);
 
-                    }
 
-                } else if (selectedItem.equals("Time taken")) {
+                } else {                //sorting on Earliest departure
+                    flightSorting = new FlightSorting(FlightSorting.SortingOption.EARLIEST_DEPARTURE);
+
+                }
+
+                Collections.sort(filteredFlights, flightSorting);
+
+                if (filteredFlights.size() > 0) {
+
+                    currAdaptor.setAvailableFlights(filteredFlights);
+                    currAdaptor.notifyDataSetChanged();
 
                 }
             }
@@ -183,22 +192,6 @@ public class Flight_search extends AppCompatActivity {
         public void onNothingSelected(AdapterView<?> parent) {
             // Do nothing if nothing is selected
         }
-    }
-
-
-    private void sortFlightsByPrice(List<List<List<Flight>>> flightsList) {
-        // Create a comparator to compare lists of flights based on their total price
-        Comparator<List<List<Flight>>> comparator = new Comparator<List<List<Flight>>>() {
-            @Override
-            public int compare(List<List<Flight>> flightList1, List<List<Flight>> flightList2) {
-                int price1 = getTotalPrice(flightList1);
-                int price2 = getTotalPrice(flightList2);
-                return Integer.compare(price1, price2);
-            }
-        };
-
-        // Sort the flightsList based on the total price of flights using the comparator
-        Collections.sort(flightsList, comparator);
     }
 
     private int getTotalPrice(List<List<Flight>> flightList) {
