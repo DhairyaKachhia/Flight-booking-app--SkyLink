@@ -128,9 +128,9 @@ public class MainActivity extends AppCompatActivity {
 
         AirportPath path = new AirportPath();
 
-        HashMap<String, List<List<List<Flight>>>> p = path.findFlights(departingCountry, returningCountry, departingDate, returningDate, isOneWay);
+        HashMap<String, List<List<List<Flight>>>> flightPathResults = path.findFlights(departingCountry, returningCountry, departingDate, returningDate, isOneWay);
 
-        Flights flightData = new Flights(p);
+        Flights flightData = new Flights(flightPathResults);
 
         Intent intent = new Intent(MainActivity.this, Flight_search.class);
         intent.putExtra("flightData", flightData);
