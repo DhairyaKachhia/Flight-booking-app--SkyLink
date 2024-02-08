@@ -1,5 +1,6 @@
 package com.example.skylink.presentation;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -26,6 +27,8 @@ import java.util.List;
 
 import android.app.DatePickerDialog;
 import android.widget.EditText;
+import android.widget.Toast;
+
 import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity {
@@ -63,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
     private int travelerCount = 1;
 
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -234,10 +238,10 @@ public class MainActivity extends AppCompatActivity {
 
         String departingCity = fromCityCode;
         String returningCity = toCityCode;
-        String departingDate = "02/02/2024"; //etDeparture.getText().toString();
-        String returningDate = "02/02/2024";//etReturn.getText().toString();
+        String departingDate =  etDeparture.getText().toString();
+        String returningDate = etReturn.getText().toString();
         int totalPassengers = travelerCount;
-        boolean isOneWay = tripType == "Round Trip" ? false : true;
+        boolean isOneWay = tripType.equals("Round Trip") ? false : true;
 
         Bundle userInfoBundle = new Bundle();
 
@@ -252,14 +256,18 @@ public class MainActivity extends AppCompatActivity {
 
         HashMap<String, List<List<List<Flight>>>> flightPathResults = path.findFlights(departingCity, returningCity, departingDate, returningDate, isOneWay);
 
-        Flights flightData = new Flights(flightPathResults);
 
-        Intent intent = new Intent(MainActivity.this, Flight_search.class);
-        intent.putExtra("flightData", flightData);
-        intent.putExtras(userInfoBundle);
+        if (flightPathResults.isEmpty()) {
+            Toast.makeText(MainActivity.this, "400: Could not resolve the request", Toast.LENGTH_SHORT).show();
+        } else {
+            Flights flightData = new Flights(flightPathResults);
 
+            Intent intent = new Intent(MainActivity.this, Flight_search.class);
+            intent.putExtra("flightData", flightData);
+            intent.putExtras(userInfoBundle);
 
-        startActivity(intent);
+            startActivity(intent);
+        }
 
     }
 
