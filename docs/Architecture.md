@@ -62,14 +62,14 @@ Please see [**Architecture.png**](https://code.cs.umanitoba.ca/comp3350-winter20
 
 ### 1: Basic Flight Searching Component
 Fully functional.
-Cost: days
+Cost: 5 days
 ### 2: Flight Filters
 Partially functional
-Cost:  days
+Cost: 3 days
 ### 3:Show Flights for Flexible Date Range
 Partially functional
-Cost: days
+Cost: 3 days
 ### 4:Categorize ticket price range using colours
 Partially functional
-Cost: days
+Cost: 3 days
 
