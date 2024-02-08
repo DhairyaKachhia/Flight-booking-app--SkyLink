@@ -241,7 +241,7 @@ public class MainActivity extends AppCompatActivity {
         String departingDate =  etDeparture.getText().toString();
         String returningDate = etReturn.getText().toString();
         int totalPassengers = travelerCount;
-        boolean isOneWay = tripType.equals("Round Trip") ? false : true;
+        boolean isOneWay = !tripType.equals("Round Trip");
 
         Bundle userInfoBundle = new Bundle();
 

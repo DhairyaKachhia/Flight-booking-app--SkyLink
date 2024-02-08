@@ -14,6 +14,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.skylink.R;
+import com.example.skylink.business.FlightSorting;
 import com.example.skylink.objects.Flights;
 import com.example.skylink.objects.Flight;
 
@@ -33,6 +34,7 @@ public class Flight_search extends AppCompatActivity {
     private CustomFlightAdaptor customFlightAdaptor;
     private CustomFlightAdaptor returnAdaptor;
     private CustomFlightAdaptor currAdaptor;
+    private FlightSorting flightSorting;
     private boolean isDepartureSelected;
     private List<List<List<Flight>>> tripOutbound = null;
     private List<List<List<Flight>>> tripInbound = null;
@@ -161,18 +163,38 @@ public class Flight_search extends AppCompatActivity {
 
             if (filteredFlights.size() > 0) {
                 if (selectedItem.equals("Lowest price")) {
+
+                    flightSorting = new FlightSorting(FlightSorting.SortingOption.PRICE);
+
 //                    filteredFlights = (List<List<List<Flight>>>) availableFlights.stream().sorted(Comparator.comparing(Flight::getEconPrice)).collect(Collectors.toList());
 
-                    sortFlightsByPrice(filteredFlights);
+//                    sortFlightsByPrice(filteredFlights);
 
-                    if (filteredFlights.size() > 0) {
+//                    if (filteredFlights.size() > 0) {
+//
+//                        currAdaptor.setAvailableFlights(filteredFlights);
+//                        currAdaptor.notifyDataSetChanged();
+//
+//                    }
 
-                        currAdaptor.setAvailableFlights(filteredFlights);
-                        currAdaptor.notifyDataSetChanged();
+                } else if (selectedItem.equals("Direct flight")) {
+                    flightSorting = new FlightSorting(FlightSorting.SortingOption.DIRECT_FLIGHTS);
 
-                    }
 
-                } else if (selectedItem.equals("Time taken")) {
+
+
+                } else {                //sorting on Earliest departure
+                    flightSorting = new FlightSorting(FlightSorting.SortingOption.EARLIEST_DEPARTURE);
+
+
+                }
+
+                Collections.sort(filteredFlights, flightSorting);
+
+                if (filteredFlights.size() > 0) {
+
+                    currAdaptor.setAvailableFlights(filteredFlights);
+                    currAdaptor.notifyDataSetChanged();
 
                 }
             }
