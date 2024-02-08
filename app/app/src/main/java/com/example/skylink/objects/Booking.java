@@ -23,4 +23,8 @@ public class Booking {
     public String getDate() {
         return date;
     }
+
+    public boolean equals(final Booking b){
+        return this.name.equals(b.getName()) && this.destination.equals(b.getDestination()) && this.date.equals(b.getDate());
+    }
 }
