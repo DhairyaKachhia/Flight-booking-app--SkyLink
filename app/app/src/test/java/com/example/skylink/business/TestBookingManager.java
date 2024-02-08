@@ -1,4 +1,4 @@
-package com.example.skylink;
+package com.example.skylink.business;
 
 import com.example.skylink.business.BookingManager;
 import com.example.skylink.objects.Booking;
