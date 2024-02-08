@@ -33,17 +33,12 @@ import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity {
 
-    private TextView resultTextView;
-    private SQLiteDatabase profileDatabase;
-
     private RadioGroup radioGroupTripType;
     private String tripType;
 
     AutoCompleteTextView autoCompleteFrom;
     AutoCompleteTextView autoCompleteTo;
 
-    ArrayAdapter<String> adapterItemsFrom;
-    ArrayAdapter<String> adapterItemsTo;
     String[] cities = {
             "Toronto - YYZ",
             "Montreal - YUL",
@@ -220,15 +215,6 @@ public class MainActivity extends AppCompatActivity {
         return parts.length == 2 ? parts[1] : "";
     }
 
-
-    @Override
-    protected void onDestroy() {
-        // Close the database when the activity is destroyed
-        if (profileDatabase != null) {
-            profileDatabase.close();
-        }
-        super.onDestroy();
-    }
 
     // TODO: sends user input data and flight results to Flight_search class activity
     private void searchFlights() {
