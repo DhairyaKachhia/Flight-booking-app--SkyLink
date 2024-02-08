@@ -55,7 +55,6 @@ public class CustomFlightAdaptor extends ArrayAdapter<Flight> {
         return position;
     }
 
-    // TODO: handle position!!! {Debug}
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
@@ -121,7 +120,6 @@ public class CustomFlightAdaptor extends ArrayAdapter<Flight> {
 
 
         orgCode.setText(tempFlight.getDeparture_icao());
-//        timeTaken.setText(tempFlight.getTimeTaken());         // TODO
         econPrice.setText("$"+ tempFlight.getEconPrice());
         busnPrice.setText("$" + tempFlight.getBusnPrice());
 
@@ -153,24 +151,18 @@ public class CustomFlightAdaptor extends ArrayAdapter<Flight> {
             }
         });
 
-        busnBook.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        busnBook.setOnClickListener(v -> {
+            if (isOneWay) {
+                toNextActivity();
 
-//                Toast.makeText(mContext, "Departure in Adaptor, busn btn: " + flightResult.getDepartureStatus() + " Price " + busnPrice.getText().toString(), Toast.LENGTH_LONG).show();
+            } else {
+                if (flightResult != null) {
 
-                if (isOneWay) {
-                    toNextActivity();
-
-                } else {
-                    if (flightResult != null) {
-
-                        if (flightResult.getDepartureStatus()) {
-                            toNextActivity();
-                        } else {
-                            flightResult.setDepartureStatus(true);
-                            displayReturnFlight();
-                        }
+                    if (flightResult.getDepartureStatus()) {
+                        toNextActivity();
+                    } else {
+                        flightResult.setDepartureStatus(true);
+                        displayReturnFlight();
                     }
                 }
             }
@@ -204,8 +196,6 @@ public class CustomFlightAdaptor extends ArrayAdapter<Flight> {
     }
 
     private void toNextActivity() {
-//        Toast.makeText(mContext.getApplicationContext(), "Going next activity.. ", Toast.LENGTH_SHORT).show();
-
         if (flightResult != null) {
             Intent nextPageIntent = new Intent(flightResult, User_info.class);
             flightResult.startActivity(nextPageIntent);
@@ -213,16 +203,9 @@ public class CustomFlightAdaptor extends ArrayAdapter<Flight> {
     }
 
     private void displayReturnFlight() {
-//        Toast.makeText(mContext.getApplicationContext(), "Round trip origin booking. showing return..", Toast.LENGTH_SHORT).show();
-
-        // Show return flights...
         flightResult.updateFlights();
     }
 
-//    public ArrayList<Flight> getAvailableFlights() {
-//        return availableFlights;
-//    }
-//
     public void setAvailableFlights(List<List<List<Flight>>> availableFlights) {
         this.availableFlights = availableFlights;
     }
