@@ -55,7 +55,6 @@ public class CustomFlightAdaptor extends ArrayAdapter<Flight> {
         return position;
     }
 
-    // TODO: handle position!!! {Debug}
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
