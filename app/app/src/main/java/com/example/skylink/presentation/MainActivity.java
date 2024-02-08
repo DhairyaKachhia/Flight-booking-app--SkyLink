@@ -1,5 +1,4 @@
 package com.example.skylink.presentation;
-import com.example.skylink.Trip;
 
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
@@ -19,7 +18,6 @@ import com.example.skylink.business.AirportPath;
 import com.example.skylink.objects.Flight;
 import com.example.skylink.objects.Flights;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
