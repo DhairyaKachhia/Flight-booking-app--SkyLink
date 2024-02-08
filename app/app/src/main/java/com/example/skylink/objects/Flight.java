@@ -15,7 +15,7 @@ public class Flight implements Serializable {
     private int econPrice;
     private int busnPrice;
 
-    public Flight (String flightNumber, String departure_icao, String arrival_icao, String flight_dept_date_time, String flight_arr_date_time, String airCraft_Type, String depature_Gate, String arr_Gate){
+    public Flight (String flightNumber, String departure_icao, String arrival_icao, String flight_dept_date_time, String flight_arr_date_time, String airCraft_Type, String depature_Gate, String arr_Gate ,int econPrice,int busnPrice){
         this.flightNumber = flightNumber;
         this.departure_icao =  departure_icao;
         this.arrival_icao = arrival_icao;
@@ -24,11 +24,8 @@ public class Flight implements Serializable {
         this.airCraft_Type = airCraft_Type;
         this.depature_Gate = depature_Gate;
         this.arr_Gate = arr_Gate;
-
-        // TODO ...
-        Random r = new Random();
-        this.econPrice = r.nextInt(450-300)+300;        // TODO ;
-        this.busnPrice = r.nextInt(450-400)+400;
+        this.econPrice = econPrice;
+        this.busnPrice = busnPrice;
     }
 
 
