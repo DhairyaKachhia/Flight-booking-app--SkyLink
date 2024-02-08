@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -55,41 +55,61 @@
                 android:gravity="center_horizontal"
                 android:layout_marginHorizontal="15dp"
                 android:layout_marginVertical="5dp"
+                android:padding="15dp"
                 android:background="@color/white">
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="From:"
-                    android:textSize="25sp">
-                </TextView>
+                    android:layout_weight="1"
+                    android:orientation="horizontal"
+                    android:layout_marginHorizontal="15dp">
 
-                <TextView
-                    android:id="@+id/toLocTV"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="YYW"
-                    android:textSize="30sp"
-                    android:layout_marginHorizontal="15dp"
-                    android:textColor="@color/black">
-                </TextView>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="From:"
+                        android:textSize="25sp">
+                    </TextView>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="To:"
-                    android:textSize="25sp">
-                </TextView>
+                    <TextView
+                        android:id="@+id/toLocTV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="YYW"
+                        android:textSize="30sp"
+                        android:layout_marginHorizontal="15dp"
+                        android:textColor="@color/black">
+                    </TextView>
 
-                <TextView
-                    android:id="@+id/fromLocTV"
-                    android:layout_width="wrap_content"
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="YYZ"
-                    android:textSize="30sp"
-                    android:layout_marginHorizontal="15dp"
-                    android:textColor="@color/black">
-                </TextView>
+                    android:layout_weight="1"
+                    android:orientation="horizontal"
+                    android:layout_marginHorizontal="15dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="To:"
+                        android:textSize="25sp">
+                    </TextView>
+
+                    <TextView
+                        android:id="@+id/fromLocTV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="YYZ"
+                        android:textSize="30sp"
+                        android:layout_marginHorizontal="15dp"
+                        android:textColor="@color/black">
+                    </TextView>
+
+                </LinearLayout>
+
 
             </LinearLayout>
 
@@ -98,55 +118,71 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:layout_marginHorizontal="15dp"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="10dp"
                 android:background="@color/white">
 
-                <TextView
-                    android:layout_width="match_parent"
+                <LinearLayout
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Departure date"
-                    android:textSize="15sp">
-                </TextView>
+                    android:orientation="vertical"
+                    android:layout_marginHorizontal="15dp"
+                    android:layout_marginVertical="10dp">
 
-                <TextView
-                    android:id="@+id/departDateTV"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Mon, Feb 5"
-                    android:textSize="25dp"
-                    android:textColor="@color/black">
-                </TextView>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Departure date"
+                        android:textSize="15sp">
+                    </TextView>
 
+                    <TextView
+                        android:id="@+id/departDateTV"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Mon, Feb 5"
+                        android:textSize="25dp"
+                        android:textColor="@color/black">
+                    </TextView>
+
+                </LinearLayout>
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/returnDateLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:layout_marginHorizontal="15dp"
-                android:layout_marginTop="15dp"
-                android:background="@color/white">
+                android:layout_marginBottom="10dp"
+                android:background="@color/white"
+                android:visibility="visible">
 
-                <TextView
-                    android:id="@+id/returnDateLabelTV"
-                    android:layout_width="match_parent"
+                <LinearLayout
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Return date"
-                    android:textSize="15sp">
-                </TextView>
+                    android:orientation="vertical"
+                    android:layout_marginHorizontal="15dp"
+                    android:layout_marginVertical="10dp">
 
-                <TextView
-                    android:id="@+id/returnDateTV"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text=""
-                    android:textSize="25sp"
-                    android:textColor="@color/black">
-                </TextView>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Return date"
+                        android:textSize="15sp">
+                    </TextView>
+
+                    <TextView
+                        android:id="@+id/returnDateTV"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Wed, Feb 7"
+                        android:textSize="25dp"
+                        android:textColor="@color/black">
+                    </TextView>
+
+                </LinearLayout>
 
             </LinearLayout>
-
-
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -260,4 +296,4 @@
     </LinearLayout>
 
 
-</ScrollView>
+</LinearLayout>

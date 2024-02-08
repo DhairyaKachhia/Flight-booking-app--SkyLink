@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -45,7 +46,6 @@ public class Flight_search extends AppCompatActivity {
         Intent intent = getIntent();
 
         Bundle userInput = intent.getExtras();
-
         displayUserSelection(userInput);
 
         Flights flightData = (Flights) intent.getSerializableExtra("flightData");
@@ -79,7 +79,6 @@ public class Flight_search extends AppCompatActivity {
             int totalPassengers = userInput.getInt("totalPassengers");
             boolean isOneWay = userInput.getBoolean("isOneWay");
 
-
             this.isOneWay = isOneWay;
 
             TextView toLocTV = findViewById(R.id.toLocTV);
@@ -91,22 +90,23 @@ public class Flight_search extends AppCompatActivity {
             TextView departDateTV = findViewById(R.id.departDateTV);
             departDateTV.setText(departingDate);
 
-            TextView returnDateLabelTV = findViewById(R.id.returnDateLabelTV); // TextView for "Return date" label
+            LinearLayout returnDateSection = findViewById(R.id.returnDateLayout);
             TextView returnDateTV = findViewById(R.id.returnDateTV);
-            if (returningDate != null) {
-                returnDateLabelTV.setVisibility(View.VISIBLE);
-                returnDateTV.setText(returningDate);
+
+            TextView tripWayTV = findViewById(R.id.tripWayTV);
+
+            if (isOneWay) {
+                tripWayTV.setText("Oneway");
+                returnDateSection.setVisibility(View.GONE);
             } else {
-                returnDateLabelTV.setVisibility(View.GONE);
-                returnDateTV.setText("");
+                tripWayTV.setText("Round-trip");
+                returnDateSection.setVisibility(View.VISIBLE);
+                returnDateTV.setText(returningDate);
             }
 
             TextView totalGuestTV = findViewById(R.id.totalGuestTV);
             totalGuestTV.setText(totalPassengers + " Traveler");
 
-            if (isOneWay) {
-                returnDateTV.setVisibility(View.GONE);
-            }
         }
     }
 
