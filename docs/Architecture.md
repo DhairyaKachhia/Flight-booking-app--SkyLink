@@ -15,7 +15,7 @@ Moved for iteration 2.
 ## Flexible Date Ranges
 We have created UI for this feature, we are using fixed flight dates for now, users can select their preferred date from the main screen and will be able to search for flights accordingly.
 ## Architecture
-Please see **Architecture.png** (To be added)
+Please see [**Architecture.png**](https://code.cs.umanitoba.ca/comp3350-winter2024/shadedragon-a02-6/-/blob/main/docs/iteration1_architecture.jpg)
 
 ### Presentation layer:
 
