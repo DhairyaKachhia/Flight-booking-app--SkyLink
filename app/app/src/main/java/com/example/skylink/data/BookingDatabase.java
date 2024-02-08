@@ -15,13 +15,18 @@ public class BookingDatabase {
         bookings.add(booking);
     }
 
-    public Booking findBooking(Booking booking){
+    public boolean findBooking(Booking searchBooking) {
         Booking result = null;
-        for(Booking b : bookings){
-            if(b.equals(booking)){
-                result = booking;
+        for (Booking b : bookings) {
+            if (b.getTitle().equals(searchBooking.getTitle()) &&
+                    b.getFirstName().equals(searchBooking.getFirstName()) &&
+                    b.getLastName().equals(searchBooking.getLastName()) &&
+                    b.getTelephoneNumber().equals(searchBooking.getTelephoneNumber()) &&
+                    b.getEmailAddress().equals(searchBooking.getEmailAddress())) {
+                return  true;
             }
         }
-        return result;
+        return false;
     }
+
 }
