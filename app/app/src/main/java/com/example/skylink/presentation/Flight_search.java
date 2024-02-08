@@ -72,8 +72,8 @@ public class Flight_search extends AppCompatActivity {
     @SuppressLint("SetTextI18n")
     private void displayUserSelection(Bundle userInput) {
         if (userInput != null) {
-            String departingCountry = userInput.getString("departingCountry");
-            String returningCountry = userInput.getString("returningCountry");
+            String departingCity = userInput.getString("departingCity");
+            String returningCity = userInput.getString("returningCity");
             String departingDate = userInput.getString("departingDate");
             String returningDate = userInput.getString("returningDate");
             int totalPassengers = userInput.getInt("totalPassengers");
@@ -82,10 +82,10 @@ public class Flight_search extends AppCompatActivity {
             this.isOneWay = isOneWay;
 
             TextView toLocTV = findViewById(R.id.toLocTV);
-            toLocTV.setText(departingCountry);
+            toLocTV.setText(departingCity);
 
             TextView fromLocTV = findViewById(R.id.fromLocTV);
-            fromLocTV.setText(returningCountry);
+            fromLocTV.setText(returningCity);
 
             TextView departDateTV = findViewById(R.id.departDateTV);
             departDateTV.setText(departingDate);

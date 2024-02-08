@@ -17,9 +17,16 @@ import com.example.skylink.R;
 import com.example.skylink.business.AirportPath;
 import com.example.skylink.objects.Flight;
 import com.example.skylink.objects.Flights;
+import com.google.android.material.textfield.TextInputLayout;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+
+import android.app.DatePickerDialog;
+import android.widget.EditText;
+import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -35,17 +42,26 @@ public class MainActivity extends AppCompatActivity {
     ArrayAdapter<String> adapterItemsFrom;
     ArrayAdapter<String> adapterItemsTo;
     String[] cities = {
-            "Toronto",
-            "Montreal",
-            "Calgary",
-            "Ottawa",
-            "Edmonton",
-            "Mississauga",
-            "Winnipeg",
-            "Vancouver",
-            "Brampton",
-            "Hamilton"
+            "Toronto - YYZ",
+            "Montreal - YUL",
+            "Calgary - YYC",
+            "Ottawa - YOW",
+            "Edmonton - YEG",
+            "Mississauga - YYZ",
+            "Winnipeg - YWG",
+            "Vancouver - YVR",
+            "Brampton - YZZ",
+            "Hamilton - YHM"
     };
+
+    private EditText etDeparture, etReturn;
+    private DatePickerDialog datePickerDialog;
+    private Calendar calendar;
+
+    private TextView tvTravelerCount;
+    private Button btnIncrement, btnDecrement;
+    private int travelerCount = 1;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,8 +82,36 @@ public class MainActivity extends AppCompatActivity {
         // Initialize adapters for AutoCompleteTextViews
         ArrayAdapter<String> adapterItemsFrom = new ArrayAdapter<>(this, R.layout.list_item, cities);
         ArrayAdapter<String> adapterItemsTo = new ArrayAdapter<>(this, R.layout.list_item, cities);
+
         autoCompleteFrom.setAdapter(adapterItemsFrom);
         autoCompleteTo.setAdapter(adapterItemsTo);
+
+        updateAdapterItems(autoCompleteFrom, null);
+        updateAdapterItems(autoCompleteTo, null);
+
+        autoCompleteFrom.setOnItemClickListener((parent, view, position, id) -> {
+            String selectedFromCity = (String) parent.getItemAtPosition(position);
+            updateAdapterItems(autoCompleteTo, selectedFromCity);
+        });
+
+        autoCompleteTo.setOnItemClickListener((parent, view, position, id) -> {
+            String selectedToCity = (String) parent.getItemAtPosition(position);
+            updateAdapterItems(autoCompleteFrom, selectedToCity);
+        });
+
+        etDeparture = findViewById(R.id.et_departure);
+        etReturn = findViewById(R.id.et_return);
+        calendar = Calendar.getInstance();
+
+        etDeparture.setOnClickListener(v -> showDatePickerDialog(etDeparture));
+        etReturn.setOnClickListener(v -> showDatePickerDialog(etReturn));
+
+        final TextInputLayout textInputLayoutReturn = findViewById(R.id.textInputLayout_return);
+        RadioButton selectedTripType = findViewById(radioGroupTripType.getCheckedRadioButtonId());
+        if (selectedTripType != null) {
+            tripType = selectedTripType.getText().toString();
+            textInputLayoutReturn.setVisibility("Round Trip".equals(tripType) ? View.VISIBLE : View.GONE);
+        }
 
         // Set an OnCheckedChangeListener to the radio group to listen for changes
         radioGroupTripType.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -89,12 +133,89 @@ public class MainActivity extends AppCompatActivity {
                 searchFlights();
             }
         });
+
+        tvTravelerCount = findViewById(R.id.tv_travelerCount);
+        btnIncrement = findViewById(R.id.btn_increment);
+        btnDecrement = findViewById(R.id.btn_decrement);
+
+        btnIncrement.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                travelerCount++;
+                updateTravelerCount();
+            }
+        });
+
+        btnDecrement.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (travelerCount > 1) {
+                    travelerCount--;
+                    updateTravelerCount();
+                }
+            }
+        });
+
+
+        radioGroupTripType.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                RadioButton radioButton = findViewById(checkedId);
+                tripType = radioButton.getText().toString();
+
+                if ("Round Trip".equals(tripType)) {
+                    textInputLayoutReturn.setVisibility(View.VISIBLE);
+                } else {
+                    textInputLayoutReturn.setVisibility(View.GONE);
+                    etReturn.setText("");
+                }
+            }
+        });
+
     }
 
-    private void retrieveLocations() {
-        String fromLocation = autoCompleteFrom.getText().toString();
-        String toLocation = autoCompleteTo.getText().toString();
+    private void updateAdapterItems(AutoCompleteTextView autoCompleteTextView, String excludeCity) {
+        List<String> updatedCities = new ArrayList<>(Arrays.asList(cities));
+        if (excludeCity != null && !excludeCity.isEmpty()) {
+            // Remove the excludeCity from the list
+            updatedCities.removeIf(city -> city.equals(excludeCity) || city.startsWith(excludeCity + " - "));
+        }
+        ArrayAdapter<String> adapterItems = new ArrayAdapter<>(this, R.layout.list_item, updatedCities);
+        autoCompleteTextView.setAdapter(adapterItems);
     }
+
+    private void showDatePickerDialog(EditText editText) {
+        DatePickerDialog.OnDateSetListener dateSetListener = (view, year, monthOfYear, dayOfMonth) -> {
+            String selectedDate = String.format("%02d/%02d/%04d", dayOfMonth, monthOfYear + 1, year);
+            editText.setText(selectedDate);
+        };
+
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+        datePickerDialog = new DatePickerDialog(this, dateSetListener, year, month, day);
+
+        datePickerDialog.getDatePicker().setMinDate(calendar.getTimeInMillis());
+
+        datePickerDialog.show();
+    }
+
+    private void updateTravelerCount() {
+        String travelerText = travelerCount + " " + (travelerCount > 1 ? "Passengers" : "Passenger");
+        tvTravelerCount.setText(travelerText);
+    }
+
+
+    private String extractCityCode(String cityEntry) {
+        if (cityEntry == null || !cityEntry.contains(" - ")) {
+            return "";
+        }
+
+        String[] parts = cityEntry.split(" - ");
+        return parts.length == 2 ? parts[1] : "";
+    }
+
 
     @Override
     protected void onDestroy() {
@@ -108,19 +229,20 @@ public class MainActivity extends AppCompatActivity {
     // TODO: sends user input data and flight results to Flight_search class activity
     private void searchFlights() {
 
+        String fromCityCode = extractCityCode(autoCompleteFrom.getText().toString());
+        String toCityCode = extractCityCode(autoCompleteTo.getText().toString());
 
-        String departingCountry = "YYZ";
-        String returningCountry = "YYC";
-        String departingDate = "09/02/2024";
-        String returningDate = "12/02/2024";
-        int totalPassengers = 1;
-        boolean isOneWay = false;
-
+        String departingCity = fromCityCode;
+        String returningCity = toCityCode;
+        String departingDate = "02/02/2024"; //etDeparture.getText().toString();
+        String returningDate = "02/02/2024";//etReturn.getText().toString();
+        int totalPassengers = travelerCount;
+        boolean isOneWay = tripType == "Round Trip" ? false : true;
 
         Bundle userInfoBundle = new Bundle();
 
-        userInfoBundle.putString("departingCountry", departingCountry);
-        userInfoBundle.putString("returningCountry", returningCountry);
+        userInfoBundle.putString("departingCity", departingCity);
+        userInfoBundle.putString("returningCity", returningCity);
         userInfoBundle.putString("departingDate", departingDate);
         userInfoBundle.putString("returningDate", returningDate);
         userInfoBundle.putInt("totalPassengers", totalPassengers);
@@ -128,7 +250,7 @@ public class MainActivity extends AppCompatActivity {
 
         AirportPath path = new AirportPath();
 
-        HashMap<String, List<List<List<Flight>>>> flightPathResults = path.findFlights(departingCountry, returningCountry, departingDate, returningDate, isOneWay);
+        HashMap<String, List<List<List<Flight>>>> flightPathResults = path.findFlights(departingCity, returningCity, departingDate, returningDate, isOneWay);
 
         Flights flightData = new Flights(flightPathResults);
 
