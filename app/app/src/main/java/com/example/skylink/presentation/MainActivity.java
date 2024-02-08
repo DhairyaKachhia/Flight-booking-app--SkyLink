@@ -16,6 +16,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.skylink.R;
 import com.example.skylink.business.AirportPath;
+import com.example.skylink.data.CitiesRepository;
+import com.example.skylink.objects.City;
 import com.example.skylink.objects.Flight;
 import com.example.skylink.objects.Flights;
 import com.google.android.material.textfield.TextInputLayout;
@@ -39,18 +41,10 @@ public class MainActivity extends AppCompatActivity {
     AutoCompleteTextView autoCompleteFrom;
     AutoCompleteTextView autoCompleteTo;
 
-    String[] cities = {
-            "Toronto - YYZ",
-            "Montreal - YUL",
-            "Calgary - YYC",
-            "Ottawa - YOW",
-            "Edmonton - YEG",
-            "Mississauga - YYZ",
-            "Winnipeg - YWG",
-            "Vancouver - YVR",
-            "Brampton - YZZ",
-            "Hamilton - YHM"
-    };
+    ArrayAdapter<String> adapterItemsFrom;
+    ArrayAdapter<String> adapterItemsTo;
+    private CitiesRepository citiesRepository;
+
 
     private EditText etDeparture, etReturn;
     private DatePickerDialog datePickerDialog;
@@ -71,6 +65,9 @@ public class MainActivity extends AppCompatActivity {
         autoCompleteTo = findViewById(R.id.autoComplete_to);
         radioGroupTripType = findViewById(R.id.radioGroupTripType);
 
+        citiesRepository = new CitiesRepository();
+        List<City> cities = citiesRepository.getCities();
+
         // Check if a RadioButton is initially selected
         int selectedTripTypeId = radioGroupTripType.getCheckedRadioButtonId();
         if (selectedTripTypeId != -1) { // -1 means no id is selected
@@ -79,8 +76,8 @@ public class MainActivity extends AppCompatActivity {
         }
 
         // Initialize adapters for AutoCompleteTextViews
-        ArrayAdapter<String> adapterItemsFrom = new ArrayAdapter<>(this, R.layout.list_item, cities);
-        ArrayAdapter<String> adapterItemsTo = new ArrayAdapter<>(this, R.layout.list_item, cities);
+        ArrayAdapter<City> adapterItemsFrom = new ArrayAdapter<>(this, R.layout.list_item, cities);
+        ArrayAdapter<City> adapterItemsTo = new ArrayAdapter<>(this, R.layout.list_item, cities);
 
         autoCompleteFrom.setAdapter(adapterItemsFrom);
         autoCompleteTo.setAdapter(adapterItemsTo);
@@ -89,13 +86,13 @@ public class MainActivity extends AppCompatActivity {
         updateAdapterItems(autoCompleteTo, null);
 
         autoCompleteFrom.setOnItemClickListener((parent, view, position, id) -> {
-            String selectedFromCity = (String) parent.getItemAtPosition(position);
-            updateAdapterItems(autoCompleteTo, selectedFromCity);
+            City selectedFromCity = (City) parent.getItemAtPosition(position);
+            updateAdapterItems(autoCompleteTo, selectedFromCity); // This will update the 'To' field
         });
 
         autoCompleteTo.setOnItemClickListener((parent, view, position, id) -> {
-            String selectedToCity = (String) parent.getItemAtPosition(position);
-            updateAdapterItems(autoCompleteFrom, selectedToCity);
+            City selectedToCity = (City) parent.getItemAtPosition(position);
+            updateAdapterItems(autoCompleteFrom, selectedToCity); // This will update the 'From' field
         });
 
         etDeparture = findViewById(R.id.et_departure);
@@ -111,6 +108,17 @@ public class MainActivity extends AppCompatActivity {
             tripType = selectedTripType.getText().toString();
             textInputLayoutReturn.setVisibility("Round Trip".equals(tripType) ? View.VISIBLE : View.GONE);
         }
+
+        Button swapButton = findViewById(R.id.swapBtn);
+        swapButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CharSequence fromCity = autoCompleteFrom.getText();
+                CharSequence toCity = autoCompleteTo.getText();
+                autoCompleteFrom.setText(toCity);
+                autoCompleteTo.setText(fromCity);
+            }
+        });
 
         // Set an OnCheckedChangeListener to the radio group to listen for changes
         radioGroupTripType.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -173,15 +181,17 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void updateAdapterItems(AutoCompleteTextView autoCompleteTextView, String excludeCity) {
-        List<String> updatedCities = new ArrayList<>(Arrays.asList(cities));
-        if (excludeCity != null && !excludeCity.isEmpty()) {
-            // Remove the excludeCity from the list
-            updatedCities.removeIf(city -> city.equals(excludeCity) || city.startsWith(excludeCity + " - "));
+    private void updateAdapterItems(AutoCompleteTextView autoCompleteTextView, City excludeCity) {
+        List<City> updatedCities = new ArrayList<>(citiesRepository.getCities());
+        if (excludeCity != null) {
+            // Remove the excluded city from the list based on the city code comparison
+            updatedCities.removeIf(city -> city.getCode().equals(excludeCity.getCode()));
         }
-        ArrayAdapter<String> adapterItems = new ArrayAdapter<>(this, R.layout.list_item, updatedCities);
+        ArrayAdapter<City> adapterItems = new ArrayAdapter<>(this, R.layout.list_item, updatedCities);
         autoCompleteTextView.setAdapter(adapterItems);
     }
+
+
 
     private void showDatePickerDialog(EditText editText) {
         DatePickerDialog.OnDateSetListener dateSetListener = (view, year, monthOfYear, dayOfMonth) -> {
@@ -219,15 +229,12 @@ public class MainActivity extends AppCompatActivity {
     // TODO: sends user input data and flight results to Flight_search class activity
     private void searchFlights() {
 
-        String fromCityCode = extractCityCode(autoCompleteFrom.getText().toString());
-        String toCityCode = extractCityCode(autoCompleteTo.getText().toString());
-
-        String departingCity = fromCityCode;
-        String returningCity = toCityCode;
+        String departingCity = extractCityCode(autoCompleteFrom.getText().toString());;
+        String returningCity = extractCityCode(autoCompleteTo.getText().toString());
         String departingDate =  etDeparture.getText().toString();
         String returningDate = etReturn.getText().toString();
         int totalPassengers = travelerCount;
-        boolean isOneWay = tripType.equals("Round Trip") ? false : true;
+        boolean isOneWay = !tripType.equals("Round Trip");
 
         Bundle userInfoBundle = new Bundle();
 
