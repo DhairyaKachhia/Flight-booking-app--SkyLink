@@ -171,7 +171,7 @@ public class AirportPath {
             List<List<String>> all_arr_flight = filterPaths(reverseInnerLists(all_dept_flight),3);
             List<List<List<Flight>>> in_bound_flights_found = pullFlight(all_arr_flight,flight_return_date);
             if (in_bound_flights_found != null && !in_bound_flights_found.isEmpty()) {
-                itinerary.put("Outbound", in_bound_flights_found);
+                itinerary.put("Inbound", in_bound_flights_found);
             }
 
         }
