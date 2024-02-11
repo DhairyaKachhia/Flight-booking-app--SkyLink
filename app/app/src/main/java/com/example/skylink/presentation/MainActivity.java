@@ -303,7 +303,7 @@ public class MainActivity extends AppCompatActivity {
 
     private boolean checkDates () {
         boolean validDate = true;
-        SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
         String departDateStr = etDeparture.getText().toString();
         String returnDateStr = etReturn.getText().toString();
