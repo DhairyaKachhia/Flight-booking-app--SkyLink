@@ -2,7 +2,6 @@ package com.example.skylink.presentation;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -22,8 +21,10 @@ import com.example.skylink.objects.Flight;
 import com.example.skylink.objects.Flights;
 import com.google.android.material.textfield.TextInputLayout;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -259,7 +260,7 @@ public class MainActivity extends AppCompatActivity {
 
         HashMap<String, List<List<List<Flight>>>> flightPathResults = path.findFlights(departingCity, returningCity, departingDate, returningDate, isOneWay);
 
-        boolean validEntry = validateUserInput();
+        boolean validEntry = validateUserInput(isOneWay);
 
         if (validEntry) {
             Flights flightData = new Flights(flightPathResults);
@@ -269,17 +270,65 @@ public class MainActivity extends AppCompatActivity {
             intent.putExtras(userInfoBundle);
 
             startActivity(intent);
-        } else {
-            Toast.makeText(MainActivity.this, "400: Could not resolve the request", Toast.LENGTH_SHORT).show();
         }
 
     }
 
-    private boolean validateUserInput() {
+    private boolean validateUserInput(boolean isOneWay) {
 
-        // TODO...
+        boolean isValid = true;
 
-        return true;
+        if (autoCompleteFrom.getText().toString().isEmpty() || autoCompleteTo.getText().toString().isEmpty()) {
+            Toast.makeText(MainActivity.this, "Please select airport(s).", Toast.LENGTH_SHORT).show();
+            isValid = false;
+        }
+
+        if (etDeparture.getText().toString().isEmpty()) {
+            Toast.makeText(MainActivity.this, "Please select departure date.", Toast.LENGTH_SHORT).show();
+            isValid = false;
+        }
+
+        if (!isOneWay) {
+            if (etReturn.getText().toString().isEmpty()) {
+                Toast.makeText(MainActivity.this, "Please select Return date.", Toast.LENGTH_SHORT).show();
+                isValid = false;
+            } else {
+                isValid = checkDates();
+            }
+        }
+
+        return isValid;
+
     }
 
+    private boolean checkDates () {
+        boolean validDate = true;
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+
+        String departDateStr = etDeparture.getText().toString();
+        String returnDateStr = etReturn.getText().toString();
+
+        if (!departDateStr.isEmpty() && !returnDateStr.isEmpty()) {
+
+            try {
+                Date departDate = dateFormat.parse(departDateStr);
+                Date returnDate = dateFormat.parse(returnDateStr);
+
+                if (departDate.after(returnDate)) {
+                    Toast.makeText(this, "Please select return date after departure date", Toast.LENGTH_SHORT).show();
+                    validDate = false;
+                }
+
+            } catch (ParseException e) {
+                Toast.makeText(this, "Invalid date format", Toast.LENGTH_SHORT).show();
+                validDate = false;
+            }
+
+
+        } else {
+            validDate = false;
+        }
+
+        return validDate;
+    }
 }

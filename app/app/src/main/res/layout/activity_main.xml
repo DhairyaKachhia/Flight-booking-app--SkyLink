@@ -172,7 +172,8 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:padding="10dp"
-                    android:text="1 Passenger" />
+                    android:text="1 Passenger"
+                    android:textSize="20sp"/>
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_increment"
