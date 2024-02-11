@@ -47,25 +47,31 @@ public class Flight_search extends AppCompatActivity {
 
         Intent intent = getIntent();
 
-        Bundle userInput = intent.getExtras();
-        displayUserSelection(userInput);
-
-        Flights flightData = (Flights) intent.getSerializableExtra("flightData");
-        HashMap<String, List<List<List<com.example.skylink.objects.Flight>>>> receivedData = null;
-
-        if (flightData != null) {
-            receivedData = flightData.getData();
-        }
-
-        extractFlightData(receivedData, isOneWay);
-
-        sortingOptions = setupSpinner();
-
         noFlightTV = findViewById(R.id.noFlightTextV);
         showFlightLV = findViewById(R.id.flightListView);
-        setupListview();
 
-        sortingOptions.setOnItemSelectedListener(new spinnerItemSelectListner());
+        Flights flightData = (Flights) intent.getSerializableExtra("flightData");
+        HashMap<String, List<List<List<Flight>>>> receivedData = null;
+
+        if (flightData != null && !flightData.getData().isEmpty()) {
+
+            Bundle userInput = intent.getExtras();
+            displayUserSelection(userInput);
+
+            receivedData = flightData.getData();
+
+            extractFlightData(receivedData, isOneWay);
+
+            sortingOptions = setupSpinner();
+
+            setupListview();
+
+            sortingOptions.setOnItemSelectedListener(new spinnerItemSelectListner());
+
+        } else {
+            noFlightTV.setVisibility(View.VISIBLE);
+            showFlightLV.setVisibility(View.GONE);
+        }
 
     }
 

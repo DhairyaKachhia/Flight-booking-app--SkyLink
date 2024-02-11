@@ -35,14 +35,16 @@ import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity {
 
+    private final int MAX_TRAVELERS = 4;
+    private final int MIN_TRAVELERS = 1;
     private RadioGroup radioGroupTripType;
     private String tripType;
 
-    AutoCompleteTextView autoCompleteFrom;
-    AutoCompleteTextView autoCompleteTo;
+    private AutoCompleteTextView autoCompleteFrom;
+    private AutoCompleteTextView autoCompleteTo;
 
-    ArrayAdapter<String> adapterItemsFrom;
-    ArrayAdapter<String> adapterItemsTo;
+    private ArrayAdapter<String> adapterItemsFrom;
+    private ArrayAdapter<String> adapterItemsTo;
     private CitiesRepository citiesRepository;
 
 
@@ -52,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
 
     private TextView tvTravelerCount;
     private Button btnIncrement, btnDecrement;
-    private int travelerCount = 1;
+    private int travelerCount = MIN_TRAVELERS;
 
 
     @SuppressLint("MissingInflatedId")
@@ -156,7 +158,7 @@ public class MainActivity extends AppCompatActivity {
         btnDecrement.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (travelerCount > 1) {
+                if (travelerCount > MIN_TRAVELERS) {
                     travelerCount--;
                     updateTravelerCount();
                 }
@@ -211,8 +213,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void updateTravelerCount() {
-        String travelerText = travelerCount + " " + (travelerCount > 1 ? "Passengers" : "Passenger");
+        String travelerText = travelerCount + " " + (travelerCount > MIN_TRAVELERS ? "Passengers" : "Passenger");
         tvTravelerCount.setText(travelerText);
+
+        checkTravelerCount();
+    }
+
+    private void checkTravelerCount() {
+
+        btnIncrement.setEnabled(travelerCount != MAX_TRAVELERS);
+
+        btnDecrement.setEnabled(travelerCount != MIN_TRAVELERS);
+
     }
 
 
@@ -225,8 +237,6 @@ public class MainActivity extends AppCompatActivity {
         return parts.length == 2 ? parts[1] : "";
     }
 
-
-    // TODO: sends user input data and flight results to Flight_search class activity
     private void searchFlights() {
 
         String departingCity = extractCityCode(autoCompleteFrom.getText().toString());;
@@ -249,10 +259,9 @@ public class MainActivity extends AppCompatActivity {
 
         HashMap<String, List<List<List<Flight>>>> flightPathResults = path.findFlights(departingCity, returningCity, departingDate, returningDate, isOneWay);
 
+        boolean validEntry = validateUserInput();
 
-        if (flightPathResults.isEmpty()) {
-            Toast.makeText(MainActivity.this, "400: Could not resolve the request", Toast.LENGTH_SHORT).show();
-        } else {
+        if (validEntry) {
             Flights flightData = new Flights(flightPathResults);
 
             Intent intent = new Intent(MainActivity.this, Flight_search.class);
@@ -260,8 +269,17 @@ public class MainActivity extends AppCompatActivity {
             intent.putExtras(userInfoBundle);
 
             startActivity(intent);
+        } else {
+            Toast.makeText(MainActivity.this, "400: Could not resolve the request", Toast.LENGTH_SHORT).show();
         }
 
+    }
+
+    private boolean validateUserInput() {
+
+        // TODO...
+
+        return true;
     }
 
 }
