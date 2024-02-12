@@ -38,10 +38,10 @@ public class FlightDatabase {
         addFlight("AC792", "YUL", "YZZ", "12/02/2024 15:57", "12/02/2024 16:38", "Airbus A320", "Gate8", "Gate6", 204, 50);
         addFlight("AC792", "YZZ", "YHM", "12/02/2024 18:57", "12/02/2024 19:38", "Airbus A320", "Gate8", "Gate6", 104, 32);
 
-        addFlight("AC792", "YUL", "YZZ", "12/02/2024 5:57", "12/02/2024 6:38", "Airbus A320", "Gate8", "Gate6", 204, 50);
+        addFlight("AC792", "YUL", "YZZ", "12/02/2024 5:57", "12/02/2024 6:38", "Airbus A320", "Gate8", "Gate6", 104, 50);
         addFlight("AC792", "YZZ", "YHM", "12/02/2024 8:57", "12/02/2024 9:38", "Airbus A320", "Gate8", "Gate6", 104, 32);
 
-        addFlight("AC792", "YUL", "YHM", "12/02/2024 12:57", "12/02/2024 13:38", "Airbus A320", "Gate8", "Gate6", 104, 70);
+        addFlight("AC792", "YUL", "YHM", "12/02/2024 12:57", "12/02/2024 13:38", "Airbus A320", "Gate8", "Gate6", 304, 70);
 
 
         addFlight("AC792", "YHM", "YUL", "13/02/2024 4:50", "12/02/2024 5:40", "Airbus A320", "Gate8", "Gate6", 304, 70);
