@@ -20,7 +20,6 @@ import com.example.skylink.objects.Flight;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
@@ -31,7 +30,7 @@ public class Flight_search extends AppCompatActivity {
     private TextView noFlightTV;
     private List<List<List<Flight>>> availableFlights = new ArrayList<>();
     private boolean isOneWay = true;
-    private CustomFlightAdaptor customFlightAdaptor;
+    private CustomFlightAdaptor originAdaptor;
     private CustomFlightAdaptor returnAdaptor;
     private CustomFlightAdaptor currAdaptor;
     private FlightSorting flightSorting;
@@ -150,9 +149,9 @@ public class Flight_search extends AppCompatActivity {
 
         isDepartureSelected = false;
 
-        customFlightAdaptor = new CustomFlightAdaptor(Flight_search.this, tripOutbound, isOneWay);
+        originAdaptor = new CustomFlightAdaptor(Flight_search.this, tripOutbound, isOneWay);
         returnAdaptor = new CustomFlightAdaptor(Flight_search.this, tripInbound, isOneWay);
-        currAdaptor = customFlightAdaptor;
+        currAdaptor = originAdaptor;
 
         availableFlights = new ArrayList<>(tripOutbound);
 
@@ -218,7 +217,7 @@ public class Flight_search extends AppCompatActivity {
                 availableFlights = new ArrayList<>(tripInbound);
 
             } else {
-                currAdaptor = customFlightAdaptor;
+                currAdaptor = originAdaptor;
 
                 availableFlights = new ArrayList<>(tripOutbound);
             }

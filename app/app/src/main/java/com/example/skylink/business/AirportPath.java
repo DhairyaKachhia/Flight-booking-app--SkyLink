@@ -124,7 +124,9 @@ public class AirportPath {
 
     public List<List<List<Flight>>> pullFlight(List<List<String>> all_dept_flight, String flight_dept_date){
         FlightDatabase flightDatabase = new FlightDatabase();
+        boolean isDirectPath;
         List<List<List<Flight>>> proposed_flight_path = new ArrayList<>();
+        List<List<List<Flight>>> dirFlight = new ArrayList<>();
 
         if (all_dept_flight == null || flight_dept_date == null || all_dept_flight.isEmpty()) {
             return null;
@@ -134,20 +136,31 @@ public class AirportPath {
         for (List<String> path : all_dept_flight) {
             String[] all_hubs_landing = path.toString().replaceAll("[\\[\\]]", "").split(", ");
             List<List<Flight>> layover = new ArrayList<>();
+            isDirectPath = (all_hubs_landing.length == 2);
             boolean allLegsHaveFlights = true;
+
             for (int i = 0; i < all_hubs_landing.length - 1; i++) {
                 String currentHub = all_hubs_landing[i];
                 String nextHub = all_hubs_landing[i + 1];
                 List<Flight> flights = flightDatabase.findFlight(currentHub, nextHub, flight_dept_date);
+
                 if (flights != null && !flights.isEmpty()) {
                     layover.add(flights);
-                }else{
+
+                } else{
                     allLegsHaveFlights = false;
                     break;
                 }
             }
             if (allLegsHaveFlights && !layover.isEmpty()) {
-                proposed_flight_path.add(layover);
+
+                if (isDirectPath) {
+                    proposed_flight_path.addAll(addDirectFlight(layover.get(0)));
+
+                } else {
+                    proposed_flight_path.add(layover);
+
+                }
             }
 
 
@@ -155,6 +168,24 @@ public class AirportPath {
         return proposed_flight_path;
     }
 
+    private List<List<List<Flight>>> addDirectFlight(List<Flight> directFlightList) {
+
+        List<List<List<Flight>>> dirFlights = new ArrayList<>();
+
+        for (int i = 0; i < directFlightList.size(); i++) {
+            List<List<Flight>> flightCard = new ArrayList<>();
+            List<Flight> currFlight = new ArrayList<>();
+
+            currFlight.add(directFlightList.get(i));
+
+            flightCard.add(currFlight);
+
+            dirFlights.add(flightCard);
+        }
+
+        return dirFlights;
+
+    }
 
     public HashMap< String,List<List<List<Flight>>>> findFlights(String flight_dept, String flight_arrival, String flight_dept_date, String flight_return_date, boolean isOneWay) {
         HashMap<String, List<List<List<Flight>>>> itinerary = new HashMap<>();

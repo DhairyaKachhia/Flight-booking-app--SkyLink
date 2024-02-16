@@ -256,13 +256,14 @@ public class MainActivity extends AppCompatActivity {
         userInfoBundle.putInt("totalPassengers", totalPassengers);
         userInfoBundle.putBoolean("isOneWay", isOneWay);
 
-        AirportPath path = new AirportPath();
-
-        HashMap<String, List<List<List<Flight>>>> flightPathResults = path.findFlights(departingCity, returningCity, departingDate, returningDate, isOneWay);
 
         boolean validEntry = validateUserInput(isOneWay);
 
         if (validEntry) {
+            AirportPath path = new AirportPath();
+
+            HashMap<String, List<List<List<Flight>>>> flightPathResults = path.findFlights(departingCity, returningCity, departingDate, returningDate, isOneWay);
+
             Flights flightData = new Flights(flightPathResults);
 
             Intent intent = new Intent(MainActivity.this, Flight_search.class);
