@@ -63,7 +63,7 @@ public class Flight_search extends AppCompatActivity {
 
             sortingOptions = setupSpinner();
 
-            setupListview();
+            setupListview(userInput);
 
             sortingOptions.setOnItemSelectedListener(new spinnerItemSelectListner());
 
@@ -145,12 +145,12 @@ public class Flight_search extends AppCompatActivity {
         }
     }
 
-    private void setupListview () {
+    private void setupListview (Bundle userInput) {
 
         isDepartureSelected = false;
 
-        originAdaptor = new CustomFlightAdaptor(Flight_search.this, tripOutbound, isOneWay);
-        returnAdaptor = new CustomFlightAdaptor(Flight_search.this, tripInbound, isOneWay);
+        originAdaptor = new CustomFlightAdaptor(Flight_search.this, tripOutbound, isOneWay, userInput);
+        returnAdaptor = new CustomFlightAdaptor(Flight_search.this, tripInbound, isOneWay, userInput);
         currAdaptor = originAdaptor;
 
         availableFlights = new ArrayList<>(tripOutbound);

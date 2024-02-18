@@ -1,12 +1,12 @@
 package com.example.skylink;
 
 import com.example.skylink.business.BookingManager;
-import com.example.skylink.objects.Booking;
+
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-public class TestBookingManager {
+public class TestPassengerDataManager {
     private BookingManager bookingManager;
 
     @Before
