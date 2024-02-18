@@ -15,12 +15,12 @@ import android.widget.TextView;
 
 import com.example.skylink.R;
 import com.example.skylink.business.FlightSorting;
+import com.example.skylink.business.Session;
 import com.example.skylink.objects.Flights;
 import com.example.skylink.objects.Flight;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
@@ -31,7 +31,7 @@ public class Flight_search extends AppCompatActivity {
     private TextView noFlightTV;
     private List<List<List<Flight>>> availableFlights = new ArrayList<>();
     private boolean isOneWay = true;
-    private CustomFlightAdaptor customFlightAdaptor;
+    private CustomFlightAdaptor originAdaptor;
     private CustomFlightAdaptor returnAdaptor;
     private CustomFlightAdaptor currAdaptor;
     private FlightSorting flightSorting;
@@ -47,25 +47,34 @@ public class Flight_search extends AppCompatActivity {
 
         Intent intent = getIntent();
 
-        Bundle userInput = intent.getExtras();
-        displayUserSelection(userInput);
-
-        Flights flightData = (Flights) intent.getSerializableExtra("flightData");
-        HashMap<String, List<List<List<com.example.skylink.objects.Flight>>>> receivedData = null;
-
-        if (flightData != null) {
-            receivedData = flightData.getData();
-        }
-
-        extractFlightData(receivedData, isOneWay);
-
-        sortingOptions = setupSpinner();
+        String userId = Session.getInstance().getEmail();
+        String username = Session.getInstance().getUsername();
 
         noFlightTV = findViewById(R.id.noFlightTextV);
         showFlightLV = findViewById(R.id.flightListView);
-        setupListview();
 
-        sortingOptions.setOnItemSelectedListener(new spinnerItemSelectListner());
+        Flights flightData = (Flights) intent.getSerializableExtra("flightData");
+        HashMap<String, List<List<List<Flight>>>> receivedData = null;
+
+        if (flightData != null && !flightData.getData().isEmpty()) {
+
+            Bundle userInput = intent.getExtras();
+            displayUserSelection(userInput);
+
+            receivedData = flightData.getData();
+
+            extractFlightData(receivedData, isOneWay);
+
+            sortingOptions = setupSpinner();
+
+            setupListview();
+
+            sortingOptions.setOnItemSelectedListener(new spinnerItemSelectListner());
+
+        } else {
+            noFlightTV.setVisibility(View.VISIBLE);
+            showFlightLV.setVisibility(View.GONE);
+        }
 
     }
 
@@ -144,9 +153,9 @@ public class Flight_search extends AppCompatActivity {
 
         isDepartureSelected = false;
 
-        customFlightAdaptor = new CustomFlightAdaptor(Flight_search.this, tripOutbound, isOneWay);
+        originAdaptor = new CustomFlightAdaptor(Flight_search.this, tripOutbound, isOneWay);
         returnAdaptor = new CustomFlightAdaptor(Flight_search.this, tripInbound, isOneWay);
-        currAdaptor = customFlightAdaptor;
+        currAdaptor = originAdaptor;
 
         availableFlights = new ArrayList<>(tripOutbound);
 
@@ -212,7 +221,7 @@ public class Flight_search extends AppCompatActivity {
                 availableFlights = new ArrayList<>(tripInbound);
 
             } else {
-                currAdaptor = customFlightAdaptor;
+                currAdaptor = originAdaptor;
 
                 availableFlights = new ArrayList<>(tripOutbound);
             }

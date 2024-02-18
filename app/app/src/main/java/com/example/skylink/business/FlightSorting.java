@@ -2,8 +2,11 @@ package com.example.skylink.business;
 
 import com.example.skylink.objects.Flight;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 
 public class FlightSorting implements Comparator<List<List<Flight>>> {
@@ -30,8 +33,6 @@ public class FlightSorting implements Comparator<List<List<Flight>>> {
                 return compareByDirectFlights(flight1, flight2);
             case EARLIEST_DEPARTURE:
                 return compareByEarliestDeparture(flight1, flight2);
-            default:
-//                throw new IllegalArgumentException("Invalid sorting option");
         }
         return 0;
 
@@ -50,11 +51,6 @@ public class FlightSorting implements Comparator<List<List<Flight>>> {
     private int getTotalPrice (List<List<Flight>> flightList) {
 
         int totalPrice = 0;
-//        for (List<Flight> flights : flightList) {
-//            for (Flight flight : flights) {
-//                totalPrice += flight.getEconPrice();
-//            }
-//        }
 
         // get price of main flight
         if (!flightList.isEmpty() && !flightList.get(0).isEmpty()) {
@@ -88,10 +84,55 @@ public class FlightSorting implements Comparator<List<List<Flight>>> {
     }
 
     private int compareByEarliestDeparture(List<List<Flight>> flightList1, List<List<Flight>> flightList2) {
-
-
-        return 0;
+        long earliestDeparture1 = getEarliestDeparture(flightList1);
+        long earliestDeparture2 = getEarliestDeparture(flightList2);
+        return Long.compare(earliestDeparture1, earliestDeparture2);
     }
+
+    private long getEarliestDeparture(List<List<Flight>> flightList) {
+        long earliestDeparture = Long.MAX_VALUE;
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+
+        if (!flightList.isEmpty() && !flightList.get(0).isEmpty()) {
+            String flightDeparture = flightList.get(0).get(0).getFlight_dept_date_time();
+
+            try {
+                // Parse the departure date and time string to Date object
+                Date departureDateTime = dateFormat.parse(flightDeparture);
+
+                // Get the time in milliseconds since epoch
+                long departureTime = departureDateTime.getTime();
+
+                // Update the earliest departure time
+                earliestDeparture = departureTime;
+            } catch (ParseException e) {
+                // Empty
+            }
+        }
+
+
+//        for (List<Flight> flights : flightList) {
+//            for (Flight flight : flights) {
+//                try {
+//                    // Parse the departure date and time string to Date object
+//                    Date departureDateTime = dateFormat.parse(flight.getDepartureDate());
+//
+//                    // Get the time in milliseconds since epoch
+//                    long departureTime = departureDateTime.getTime();
+//
+//                    // Update the earliest departure time if the current flight's departure time is earlier
+//                    if (departureTime < earliestDeparture) {
+//                        earliestDeparture = departureTime;
+//                    }
+//                } catch (ParseException e) {
+//                    e.printStackTrace();
+//                    // Handle parsing errors if needed
+//                }
+//            }
+//        }
+        return earliestDeparture;
+    }
+
 
 
 }

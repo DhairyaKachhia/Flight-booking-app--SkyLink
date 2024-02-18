@@ -18,7 +18,6 @@ public class CitiesRepository {
         cities.add(new City("Vancouver", "YVR"));
         cities.add(new City("Brampton", "YZZ"));
         cities.add(new City("Hamilton", "YHM"));
-        // ... add other cities
         return cities;
     }
 }
