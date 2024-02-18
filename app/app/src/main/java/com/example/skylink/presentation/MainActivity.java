@@ -2,7 +2,6 @@ package com.example.skylink.presentation;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -16,14 +15,17 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.skylink.R;
 import com.example.skylink.business.AirportPath;
+import com.example.skylink.business.Session;
 import com.example.skylink.data.CitiesRepository;
 import com.example.skylink.objects.City;
 import com.example.skylink.objects.Flight;
 import com.example.skylink.objects.Flights;
 import com.google.android.material.textfield.TextInputLayout;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -35,14 +37,16 @@ import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity {
 
+    private final int MAX_TRAVELERS = 4;
+    private final int MIN_TRAVELERS = 1;
     private RadioGroup radioGroupTripType;
     private String tripType;
 
-    AutoCompleteTextView autoCompleteFrom;
-    AutoCompleteTextView autoCompleteTo;
+    private AutoCompleteTextView autoCompleteFrom;
+    private AutoCompleteTextView autoCompleteTo;
 
-    ArrayAdapter<String> adapterItemsFrom;
-    ArrayAdapter<String> adapterItemsTo;
+    private ArrayAdapter<String> adapterItemsFrom;
+    private ArrayAdapter<String> adapterItemsTo;
     private CitiesRepository citiesRepository;
 
 
@@ -52,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
 
     private TextView tvTravelerCount;
     private Button btnIncrement, btnDecrement;
-    private int travelerCount = 1;
+    private int travelerCount = MIN_TRAVELERS;
 
 
     @SuppressLint("MissingInflatedId")
@@ -156,7 +160,7 @@ public class MainActivity extends AppCompatActivity {
         btnDecrement.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (travelerCount > 1) {
+                if (travelerCount > MIN_TRAVELERS) {
                     travelerCount--;
                     updateTravelerCount();
                 }
@@ -211,8 +215,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void updateTravelerCount() {
-        String travelerText = travelerCount + " " + (travelerCount > 1 ? "Passengers" : "Passenger");
+        String travelerText = travelerCount + " " + (travelerCount > MIN_TRAVELERS ? "Passengers" : "Passenger");
         tvTravelerCount.setText(travelerText);
+
+        checkTravelerCount();
+    }
+
+    private void checkTravelerCount() {
+
+        btnIncrement.setEnabled(travelerCount != MAX_TRAVELERS);
+
+        btnDecrement.setEnabled(travelerCount != MIN_TRAVELERS);
+
     }
 
 
@@ -225,8 +239,6 @@ public class MainActivity extends AppCompatActivity {
         return parts.length == 2 ? parts[1] : "";
     }
 
-
-    // TODO: sends user input data and flight results to Flight_search class activity
     private void searchFlights() {
 
         String departingCity = extractCityCode(autoCompleteFrom.getText().toString());;
@@ -245,14 +257,18 @@ public class MainActivity extends AppCompatActivity {
         userInfoBundle.putInt("totalPassengers", totalPassengers);
         userInfoBundle.putBoolean("isOneWay", isOneWay);
 
-        AirportPath path = new AirportPath();
 
-        HashMap<String, List<List<List<Flight>>>> flightPathResults = path.findFlights(departingCity, returningCity, departingDate, returningDate, isOneWay);
+        boolean validEntry = validateUserInput(isOneWay);
 
+        // Set session data (e.g., during login)
+        Session.getInstance().setEmail("123");
+        Session.getInstance().setUsername("JohnDoe");
 
-        if (flightPathResults.isEmpty()) {
-            Toast.makeText(MainActivity.this, "400: Could not resolve the request", Toast.LENGTH_SHORT).show();
-        } else {
+        if (validEntry) {
+            AirportPath path = new AirportPath();
+
+            HashMap<String, List<List<List<Flight>>>> flightPathResults = path.findFlights(departingCity, returningCity, departingDate, returningDate, isOneWay);
+
             Flights flightData = new Flights(flightPathResults);
 
             Intent intent = new Intent(MainActivity.this, Flight_search.class);
@@ -264,4 +280,61 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    private boolean validateUserInput(boolean isOneWay) {
+
+        boolean isValid = true;
+
+        if (autoCompleteFrom.getText().toString().isEmpty() || autoCompleteTo.getText().toString().isEmpty()) {
+            Toast.makeText(MainActivity.this, "Please select airport(s).", Toast.LENGTH_SHORT).show();
+            isValid = false;
+        }
+
+        if (etDeparture.getText().toString().isEmpty()) {
+            Toast.makeText(MainActivity.this, "Please select departure date.", Toast.LENGTH_SHORT).show();
+            isValid = false;
+        }
+
+        if (!isOneWay) {
+            if (etReturn.getText().toString().isEmpty()) {
+                Toast.makeText(MainActivity.this, "Please select Return date.", Toast.LENGTH_SHORT).show();
+                isValid = false;
+            } else {
+                isValid = checkDates();
+            }
+        }
+
+        return isValid;
+
+    }
+
+    private boolean checkDates () {
+        boolean validDate = true;
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+
+        String departDateStr = etDeparture.getText().toString();
+        String returnDateStr = etReturn.getText().toString();
+
+        if (!departDateStr.isEmpty() && !returnDateStr.isEmpty()) {
+
+            try {
+                Date departDate = dateFormat.parse(departDateStr);
+                Date returnDate = dateFormat.parse(returnDateStr);
+
+                if (departDate.after(returnDate)) {
+                    Toast.makeText(this, "Please select return date after departure date", Toast.LENGTH_SHORT).show();
+                    validDate = false;
+                }
+
+            } catch (ParseException e) {
+                Toast.makeText(this, "Invalid date format", Toast.LENGTH_SHORT).show();
+                validDate = false;
+            }
+
+
+        } else {
+            validDate = false;
+        }
+
+        return validDate;
+    }
 }

@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,7 +19,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-public class CustomFlightAdaptor extends ArrayAdapter<Flight> {
+public class CustomFlightAdaptor extends BaseAdapter {
 
     private Context mContext;
     private Flight_search flightResult;
@@ -27,8 +27,6 @@ public class CustomFlightAdaptor extends ArrayAdapter<Flight> {
     private boolean isOneWay;
 
     public CustomFlightAdaptor(Context context, List<List<List<Flight>>> availableFlights, boolean isOneWay) {
-        super(context, 0);
-
         mContext = context;
         this.availableFlights = availableFlights;
         this.isOneWay = isOneWay;
@@ -46,8 +44,8 @@ public class CustomFlightAdaptor extends ArrayAdapter<Flight> {
     }
 
     @Override
-    public Flight getItem(int position) {
-        return availableFlights.get(position).get(0).get(0);
+    public List<List<Flight>> getItem(int position) {
+        return availableFlights.get(position);
     }
 
     @Override
@@ -78,24 +76,16 @@ public class CustomFlightAdaptor extends ArrayAdapter<Flight> {
         Button econBook = listItemView.findViewById(R.id.econPriceBtn);
         Button busnBook = listItemView.findViewById(R.id.busnPriceBtn);
 
+        List<List<Flight>> flightCardView = getItem(position);
+        Flight fromOrigin = flightCardView.get(0).get(0);
 
-        Flight tempFlight = availableFlights.get(position).get(0).get(0);
-
-        if (availableFlights.get(position).size() >= 2) {
-
+        if (flightCardView.size() > 1) {
             String middleAirports = "";
 
-            // loop from first to last second flight
-            for (int i = 0; i <= availableFlights.get(position).size() -2; i++) {
-                Flight midFlights = availableFlights.get(position).get(i).get(0);
-
-                middleAirports += "  " + midFlights.getArrival_icao();
-
-
-            }
+            middleAirports += fromOrigin.getArrival_icao() + " ";
             midCode.setText(middleAirports);
 
-            Flight lastFlight = availableFlights.get(position).get(availableFlights.get(position).size() -1).get(0);
+            Flight lastFlight = flightCardView.get(1).get(0);
 
             destCode.setText(lastFlight.getArrival_icao());
             String getLandingTime = parseTime(lastFlight.getFlight_arr_date_time());
@@ -104,24 +94,25 @@ public class CustomFlightAdaptor extends ArrayAdapter<Flight> {
                 landingTime.setText(getLandingTime);
             }
 
-        } else if (availableFlights.get(position).size() == 1) {
+        } else {
+
             midCode.setText("");
 
-            destCode.setText(tempFlight.getArrival_icao());
+            destCode.setText(fromOrigin.getArrival_icao());
 
-            String getLandingTime = parseTime(tempFlight.getFlight_arr_date_time());
+            String getLandingTime = parseTime(fromOrigin.getFlight_arr_date_time());
             if (getLandingTime != null) {
                 landingTime.setText(getLandingTime);
             }
 
         }
 
-        String getTakeOffTime = parseTime(tempFlight.getFlight_dept_date_time());
+        String getTakeOffTime = parseTime(fromOrigin.getFlight_dept_date_time());
 
 
-        orgCode.setText(tempFlight.getDeparture_icao());
-        econPrice.setText("$"+ tempFlight.getEconPrice());
-        busnPrice.setText("$" + tempFlight.getBusnPrice());
+        orgCode.setText(fromOrigin.getDeparture_icao());
+        econPrice.setText("$" + fromOrigin.getEconPrice());
+        busnPrice.setText("$" + fromOrigin.getBusnPrice());
 
         if (getTakeOffTime != null) {
             takeoffTime.setText(getTakeOffTime);
@@ -130,8 +121,6 @@ public class CustomFlightAdaptor extends ArrayAdapter<Flight> {
         econBook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-//                Toast.makeText(mContext, "Departure in Adaptor, econ btn: " + flightResult.getDepartureStatus() + " Price " + orgCode.getText().toString(), Toast.LENGTH_LONG).show();
 
                 if (isOneWay) {
                     toNextActivity();
