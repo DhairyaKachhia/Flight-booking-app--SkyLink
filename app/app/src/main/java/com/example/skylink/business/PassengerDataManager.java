@@ -3,10 +3,10 @@ package com.example.skylink.business;
 import com.example.skylink.data.BookingDatabase;
 import com.example.skylink.objects.PassengerData;
 
-public class BookingManager {
+public class PassengerDataManager {
     private BookingDatabase bookingDatabase;
 
-    public BookingManager() {
+    public PassengerDataManager() {
         this.bookingDatabase = new BookingDatabase();
     }
 

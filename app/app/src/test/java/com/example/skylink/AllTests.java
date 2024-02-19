@@ -1,7 +1,7 @@
 package com.example.skylink;
 
 import com.example.skylink.business.AirportPath;
-import com.example.skylink.business.BookingManager;
+import com.example.skylink.business.PassengerDataManager;
 import com.example.skylink.objects.Flight;
 import org.junit.Before;
 import org.junit.Test;
@@ -9,23 +9,22 @@ import org.junit.Test;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-import java.util.List;
 
 import static org.junit.Assert.*;
 
 public class AllTests {
 
-    private BookingManager bookingManager;
+    private PassengerDataManager passengerDataManager;
 
     @Before
     public void setUp() {
-        System.out.println("Starting tests for BookingManager");
-        bookingManager = new BookingManager();
+        System.out.println("Starting tests for PassengerDataManager");
+        passengerDataManager = new PassengerDataManager();
     }
 
     @Test
     public void testAddBooking() {
-        System.out.println("\nTesting findBooking in BookingManager");
+        System.out.println("\nTesting findBooking in PassengerDataManager");
 
         String title = "Mr";
         String firstName = "Jeff";
@@ -33,9 +32,9 @@ public class AllTests {
         String telephoneNumber = "2045145629";
         String emailAddress = "jeff.akan@example.com";
 
-        bookingManager.addBooking(title, firstName, lastName, telephoneNumber, emailAddress);
+        passengerDataManager.addBooking(title, firstName, lastName, telephoneNumber, emailAddress);
 
-        boolean retrievedBooking = bookingManager.findBooking(title, firstName, lastName, telephoneNumber, emailAddress);
+        boolean retrievedBooking = passengerDataManager.findBooking(title, firstName, lastName, telephoneNumber, emailAddress);
 
         assertTrue("The booking should not be null", retrievedBooking);
     }

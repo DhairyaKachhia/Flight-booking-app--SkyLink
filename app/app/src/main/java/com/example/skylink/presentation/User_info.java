@@ -11,7 +11,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.skylink.R;
-import com.example.skylink.business.BookingManager;
+import com.example.skylink.business.PassengerDataManager;
 import com.example.skylink.objects.PassengerData;
 
 import java.util.ArrayList;
@@ -19,7 +19,7 @@ import java.util.List;
 
 public class User_info extends AppCompatActivity {
 
-    private BookingManager bookingManager;
+    private PassengerDataManager passengerDataManager;
     private CustomUserFormAdapter userFormAdapter;
     private ListView userFormList;
     private Button submitBtn;
@@ -39,7 +39,7 @@ public class User_info extends AppCompatActivity {
         userFormAdapter = new CustomUserFormAdapter(getApplicationContext(), userInput);
         userFormList.setAdapter(userFormAdapter);
 
-        bookingManager = new BookingManager();
+        passengerDataManager = new PassengerDataManager();
         passengers = new ArrayList<>();
 
         submitBtn.setOnClickListener(v -> {
@@ -60,7 +60,7 @@ public class User_info extends AppCompatActivity {
                 String phoneNum = phoneNumberEditText.getText().toString();
 
                 // Add the booking
-                passengers.add(bookingManager.addBooking(title, firstname, lastname, phoneNum, email));
+                passengers.add(passengerDataManager.addBooking(title, firstname, lastname, phoneNum, email));
 
             }
 
