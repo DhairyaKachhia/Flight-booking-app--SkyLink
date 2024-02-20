@@ -15,7 +15,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.skylink.R;
 import com.example.skylink.business.AirportPath;
+<<<<<<< HEAD
 import com.example.skylink.business.Session;
+=======
+import com.example.skylink.business.validations.IValidateSearchInput;
+import com.example.skylink.business.validations.ValidateSearchInput;
+>>>>>>> origin/Improvement_User_info
 import com.example.skylink.data.CitiesRepository;
 import com.example.skylink.objects.City;
 import com.example.skylink.objects.Flight;
@@ -91,11 +96,13 @@ public class MainActivity extends AppCompatActivity {
         updateAdapterItems(autoCompleteTo, null);
 
         autoCompleteFrom.setOnItemClickListener((parent, view, position, id) -> {
+            autoCompleteFrom.setError(null);
             City selectedFromCity = (City) parent.getItemAtPosition(position);
             updateAdapterItems(autoCompleteTo, selectedFromCity); // This will update the 'To' field
         });
 
         autoCompleteTo.setOnItemClickListener((parent, view, position, id) -> {
+            autoCompleteTo.setError(null);
             City selectedToCity = (City) parent.getItemAtPosition(position);
             updateAdapterItems(autoCompleteFrom, selectedToCity); // This will update the 'From' field
         });
@@ -213,6 +220,7 @@ public class MainActivity extends AppCompatActivity {
         datePickerDialog.getDatePicker().setMinDate(calendar.getTimeInMillis());
 
         datePickerDialog.show();
+        editText.setError(null);
     }
 
     private void updateTravelerCount() {
@@ -258,10 +266,46 @@ public class MainActivity extends AppCompatActivity {
         userInfoBundle.putInt("totalPassengers", totalPassengers);
         userInfoBundle.putBoolean("isOneWay", isOneWay);
 
+<<<<<<< HEAD
 
         boolean validEntry = validateUserInput(isOneWay);
+=======
+        boolean isValid = true;
 
+        IValidateSearchInput validator = new ValidateSearchInput();
+        String error = "";
+>>>>>>> origin/Improvement_User_info
 
+        error = validator.validAirportFrom(departingCity);
+        if (!error.isEmpty()) {
+            autoCompleteFrom.setError(error);
+            isValid = false;
+        }
+        error = validator.validAirportTo(returningCity);
+        if (!error.isEmpty()) {
+            autoCompleteTo.setError(error);
+            isValid = false;
+        }
+        error = validator.validDepartureDate(departingDate);
+        if (!error.isEmpty()) {
+            etDeparture.setError(error);
+            isValid = false;
+        }
+
+        if (!isOneWay) {
+            error = validator.validReturnDate(departingDate, returningDate);
+            if (!error.isEmpty()) {
+                etReturn.setError(error);
+                isValid = false;
+            }
+        }
+
+        if (isValid) {
+            AirportPath path = new AirportPath();
+
+            HashMap<String, List<List<List<Flight>>>> flightPathResults = path.findFlights(departingCity, returningCity, departingDate, returningDate, isOneWay);
+
+<<<<<<< HEAD
         if (validEntry) {
             AirportPath path = new AirportPath();
 
@@ -272,6 +316,8 @@ public class MainActivity extends AppCompatActivity {
             // Save User Flight Search Information in a session.
             Session.getInstance().setFlightSearch(flightSearch);
 
+=======
+>>>>>>> origin/Improvement_User_info
             Flights flightData = new Flights(flightPathResults);
 
             Intent intent = new Intent(MainActivity.this, Flight_search.class);

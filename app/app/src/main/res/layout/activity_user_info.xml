@@ -1,118 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".presentation.User_info"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#E5E4DF"
-    tools:context="com.example.skylink.presentation.User_info">
+    android:orientation="vertical">
 
-    <!-- Floating Card Container -->
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/cardView"
-        android:layout_width="0dp"
+
+    <TextView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="15dp"
-        app:cardCornerRadius="18dp"
-        app:cardElevation="0dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        >
+        android:background="@color/white"
+        android:gravity="center"
+        android:text="Passenger Information"
+        android:textColor="@android:color/black"
+        android:textSize="40sp"
+        android:padding="20dp">
+    </TextView>
 
-        <!-- Wrapper for the inputs to provide vertical stacking -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="30dp">
+    <ListView
+        android:id="@+id/lvUserForms"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
 
-            <TextView
-                android:id="@+id/textView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingLeft="0dp"
-                android:paddingBottom="10dp"
-                android:text="Passenger Information"
-                android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-                android:textFontWeight="600"
-                android:textSize="20dp" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_gravity="bottom"
+        android:background="@color/white"
+        android:padding="30dp">
 
-            <!-- Title -->
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp">
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etTitle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Title" />
-            </com.google.android.material.textfield.TextInputLayout>
+        <Button
+            android:id="@+id/submitBtn"
+            android:layout_width="400dp"
+            android:layout_height="70dp"
+            android:gravity="center"
+            android:text="Submit"
+            android:textSize="25sp">
+        </Button>
+    </LinearLayout>
 
-            <!-- First Name -->
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp">
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etFirstName"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="First Name"
-                    android:inputType="textPersonName" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <!-- Last Name -->
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp">
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etLastName"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Last Name"
-                    android:inputType="textPersonName" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <!-- Telephone Number -->
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp">
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etTelephoneNumber"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Telephone Number"
-                    android:inputType="phone" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <!-- Email Address -->
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp">
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etEmailAddress"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Email Address"
-                    android:inputType="textEmailAddress" />
-            </com.google.android.material.textfield.TextInputLayout>
-            <Button
-                android:id="@+id/addUserBtn"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:layout_marginTop="10dp"
-                android:text="Add Passenger"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cardView" />
-        </LinearLayout>
-
-    </com.google.android.material.card.MaterialCardView>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

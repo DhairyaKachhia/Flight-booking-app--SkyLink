@@ -3,6 +3,7 @@ package com.example.skylink.presentation;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,15 +22,23 @@ import java.util.List;
 
 public class CustomFlightAdaptor extends BaseAdapter {
 
-    private Context mContext;
-    private Flight_search flightResult;
+    private final Context mContext;
+    private final Flight_search flightResult;
     private List<List<List<Flight>>> availableFlights;
+<<<<<<< HEAD
     private boolean isOneWay;
 
     public CustomFlightAdaptor(Context context, List<List<List<Flight>>> availableFlights, boolean isOneWay) {
+=======
+    private final boolean isOneWay;
+    private final Bundle userInput;
+
+    public CustomFlightAdaptor(Context context, List<List<List<Flight>>> availableFlights, boolean isOneWay, Bundle userInput) {
+>>>>>>> origin/Improvement_User_info
         mContext = context;
         this.availableFlights = availableFlights;
         this.isOneWay = isOneWay;
+        this.userInput = userInput;
 
         if (context instanceof Flight_search) {
             flightResult = (Flight_search) context;
@@ -187,6 +196,7 @@ public class CustomFlightAdaptor extends BaseAdapter {
     private void toNextActivity() {
         if (flightResult != null) {
             Intent nextPageIntent = new Intent(flightResult, User_info.class);
+            nextPageIntent.putExtras(userInput);
             flightResult.startActivity(nextPageIntent);
         }
     }

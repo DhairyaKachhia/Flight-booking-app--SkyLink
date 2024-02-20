@@ -189,6 +189,14 @@ public class AirportPath {
         return distance;
     }
 
+<<<<<<< HEAD
+=======
+    public List<List<List<Flight>>> pullFlight(List<List<String>> all_dept_flight, String flight_dept_date){
+        FlightDatabase flightDatabase = new FlightDatabase();
+        boolean isDirectPath;
+        List<List<List<Flight>>> proposed_flight_path = new ArrayList<>();
+        List<List<List<Flight>>> dirFlight = new ArrayList<>();
+>>>>>>> origin/Improvement_User_info
 
     public List<List<List<Flight>>> pullFlights(List<List<String>> flightPaths, String date) {
         FlightDatabase flightDatabase = new FlightDatabase();
@@ -199,6 +207,7 @@ public class AirportPath {
 
         List<List<List<Flight>>> flightsFound = new ArrayList<>();
 
+<<<<<<< HEAD
         for (List<String> path : flightPaths) {
             List<List<Flight>> pathFlights = new ArrayList<>();
 
@@ -221,12 +230,60 @@ public class AirportPath {
             // Add the complete path with its segments to the result
             if (!pathFlights.isEmpty()) {
                 flightsFound.add(pathFlights);
+=======
+        for (List<String> path : all_dept_flight) {
+            String[] all_hubs_landing = path.toString().replaceAll("[\\[\\]]", "").split(", ");
+            List<List<Flight>> layover = new ArrayList<>();
+            isDirectPath = (all_hubs_landing.length == 2);
+            boolean allLegsHaveFlights = true;
+
+            for (int i = 0; i < all_hubs_landing.length - 1; i++) {
+                String currentHub = all_hubs_landing[i];
+                String nextHub = all_hubs_landing[i + 1];
+                List<Flight> flights = flightDatabase.findFlight(currentHub, nextHub, flight_dept_date);
+
+                if (flights != null && !flights.isEmpty()) {
+                    layover.add(flights);
+
+                } else{
+                    allLegsHaveFlights = false;
+                    break;
+                }
+            }
+            if (allLegsHaveFlights && !layover.isEmpty()) {
+
+                if (isDirectPath) {
+                    proposed_flight_path.addAll(addDirectFlight(layover.get(0)));
+
+                } else {
+                    proposed_flight_path.add(layover);
+
+                }
+>>>>>>> origin/Improvement_User_info
             }
         }
 
         return flightsFound.isEmpty() ? null : flightsFound;
     }
 
+    private List<List<List<Flight>>> addDirectFlight(List<Flight> directFlightList) {
+
+        List<List<List<Flight>>> dirFlights = new ArrayList<>();
+
+        for (int i = 0; i < directFlightList.size(); i++) {
+            List<List<Flight>> flightCard = new ArrayList<>();
+            List<Flight> currFlight = new ArrayList<>();
+
+            currFlight.add(directFlightList.get(i));
+
+            flightCard.add(currFlight);
+
+            dirFlights.add(flightCard);
+        }
+
+        return dirFlights;
+
+    }
 
 
     public List<List<List<Flight>>> findFlight(String flight_dept, String flight_arrival, String date){
@@ -255,12 +312,22 @@ public class AirportPath {
         if (outBoundFlights != null) {
             itinerary.put("Outbound", outBoundFlights);
         }
+<<<<<<< HEAD
         // If there is a return and the outbound flight is not null.
         if (!flightSearch.isOneWay() && outBoundFlights != null) {
             // Get the inbound flights.
             List<List<List<Flight>>> inBoundFlights = findFlight(flightSearch.getFlightArrival(), flightSearch.getFlightDept(), flightSearch.getFlightReturnDate());
             if (inBoundFlights != null) {
                 itinerary.put("Inbound", outBoundFlights);
+=======
+
+
+        if (!isOneWay) {
+            List<List<String>> all_arr_flight = filterPaths(reverseInnerLists(all_dept_flight),3);
+            List<List<List<Flight>>> in_bound_flights_found = pullFlight(all_arr_flight,flight_return_date);
+            if (in_bound_flights_found != null && !in_bound_flights_found.isEmpty()) {
+                itinerary.put("Inbound", in_bound_flights_found);
+>>>>>>> origin/Improvement_User_info
             }
         }
 

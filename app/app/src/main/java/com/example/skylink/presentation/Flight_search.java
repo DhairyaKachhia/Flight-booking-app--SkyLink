@@ -60,6 +60,7 @@ public class Flight_search extends AppCompatActivity {
 
             receivedData = flightData.getData();
 
+<<<<<<< HEAD
             extractFlightData(receivedData, isOneWay);
 
             sortingOptions = setupSpinner();
@@ -67,6 +68,23 @@ public class Flight_search extends AppCompatActivity {
             setupListview();
 
             sortingOptions.setOnItemSelectedListener(new spinnerItemSelectListner());
+=======
+            if (receivedData.containsKey("Outbound")) {
+
+                extractFlightData(receivedData, isOneWay);
+
+                sortingOptions = setupSpinner();
+
+                setupListview(userInput);
+
+                sortingOptions.setOnItemSelectedListener(new spinnerItemSelectListner());
+
+            } else {
+                noFlightTV.setVisibility(View.VISIBLE);
+                showFlightLV.setVisibility(View.GONE);
+            }
+
+>>>>>>> origin/Improvement_User_info
 
         } else {
             noFlightTV.setVisibility(View.VISIBLE);
@@ -146,12 +164,17 @@ public class Flight_search extends AppCompatActivity {
         }
     }
 
-    private void setupListview () {
+    private void setupListview (Bundle userInput) {
 
         isDepartureSelected = false;
 
+<<<<<<< HEAD
         originAdaptor = new CustomFlightAdaptor(Flight_search.this, tripOutbound, isOneWay);
         returnAdaptor = new CustomFlightAdaptor(Flight_search.this, tripInbound, isOneWay);
+=======
+        originAdaptor = new CustomFlightAdaptor(Flight_search.this, tripOutbound, isOneWay, userInput);
+        returnAdaptor = new CustomFlightAdaptor(Flight_search.this, tripInbound, isOneWay, userInput);
+>>>>>>> origin/Improvement_User_info
         currAdaptor = originAdaptor;
 
         availableFlights = new ArrayList<>(tripOutbound);
