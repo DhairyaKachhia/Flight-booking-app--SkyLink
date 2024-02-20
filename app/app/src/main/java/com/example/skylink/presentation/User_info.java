@@ -2,6 +2,7 @@ package com.example.skylink.presentation;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -45,6 +46,8 @@ public class User_info extends AppCompatActivity {
             // Show confirmation message
             Toast.makeText(User_info.this, "Booking Added Successfully", Toast.LENGTH_SHORT).show();
 
+            Intent intent = new Intent(User_info.this, SeatSelection.class);
+            startActivity(intent);
         });
     }
 }

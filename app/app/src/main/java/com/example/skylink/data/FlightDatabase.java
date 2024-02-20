@@ -18,7 +18,7 @@ public class FlightDatabase {
     }
 
     public void addFlights() {
-        addFlight("AC697", "YYZ", "YUL", "18/02/2024 02:57", "18/02/2024 12:12", "Boeing 737", "Gate4", "Gate5", 34, 1569);
+        addFlight("AC697", "YYZ", "YUL", "20/02/2024 02:57", "18/02/2024 12:12", "Boeing 737", "Gate4", "Gate5", 34, 1569);
         addFlight("AC333", "YYZ", "YYC", "18/02/2024 02:57", "18/02/2024 07:13", "Airbus A320", "Gate3", "Gate9", 79, 1105);
         addFlight("AC180", "YYZ", "YOW", "18/02/2024 02:57", "18/02/2024 11:34", "Boeing 737", "Gate6", "Gate8", 30, 1299);
         addFlight("AC724", "YYZ", "YEG", "18/02/2024 02:57", "18/02/2024 12:45", "Airbus A320", "Gate5", "Gate10", 103, 916);

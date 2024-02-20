@@ -5,6 +5,8 @@
     <string name="search_flights">Search flights...</string>
     <string name="flight_not_found">Flight not found\nPlease update search or filter parameters</string>
 
+    <string name="seat_text_format">%s%s</string>
+
     <string-array name="sorting_list_option">
         <item>Lowest price</item>
         <item>Direct flight</item>
