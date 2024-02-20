@@ -59,13 +59,21 @@ public class Flight_search extends AppCompatActivity {
 
             receivedData = flightData.getData();
 
-            extractFlightData(receivedData, isOneWay);
+            if (receivedData.containsKey("Outbound")) {
 
-            sortingOptions = setupSpinner();
+                extractFlightData(receivedData, isOneWay);
 
-            setupListview(userInput);
+                sortingOptions = setupSpinner();
 
-            sortingOptions.setOnItemSelectedListener(new spinnerItemSelectListner());
+                setupListview(userInput);
+
+                sortingOptions.setOnItemSelectedListener(new spinnerItemSelectListner());
+
+            } else {
+                noFlightTV.setVisibility(View.VISIBLE);
+                showFlightLV.setVisibility(View.GONE);
+            }
+
 
         } else {
             noFlightTV.setVisibility(View.VISIBLE);

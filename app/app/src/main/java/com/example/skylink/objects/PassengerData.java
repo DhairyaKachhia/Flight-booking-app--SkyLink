@@ -36,4 +36,24 @@ public class PassengerData {
         return email_address;
     }
 
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setFirst_name(String first_name) {
+        this.first_name = first_name;
+    }
+
+    public void setLast_name(String last_name) {
+        this.last_name = last_name;
+    }
+
+    public void setTelephone_number(String telephone_number) {
+        this.telephone_number = telephone_number;
+    }
+
+    public void setEmail_address(String email_address) {
+        this.email_address = email_address;
+    }
+
 }

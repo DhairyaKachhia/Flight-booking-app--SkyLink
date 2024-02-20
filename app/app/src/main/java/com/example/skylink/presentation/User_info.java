@@ -11,7 +11,9 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.skylink.R;
+import com.example.skylink.business.validations.IValidatePassgnData;
 import com.example.skylink.business.PassengerDataManager;
+import com.example.skylink.business.validations.ValidatePassgnData;
 import com.example.skylink.objects.PassengerData;
 
 import java.util.ArrayList;
@@ -36,16 +38,23 @@ public class User_info extends AppCompatActivity {
         userFormList = findViewById(R.id.lvUserForms);
         submitBtn = findViewById(R.id.submitBtn);
 
+        userFormList.setFastScrollEnabled(false);
         userFormAdapter = new CustomUserFormAdapter(getApplicationContext(), userInput);
         userFormList.setAdapter(userFormAdapter);
 
         passengerDataManager = new PassengerDataManager();
         passengers = new ArrayList<>();
 
+        IValidatePassgnData validator = new ValidatePassgnData();
+
         submitBtn.setOnClickListener(v -> {
+
+            boolean success = false;
 
             // Iterate through the form fields and get the values from the EditText fields
             for (int i = 0; i < userFormList.getChildCount(); i++) {
+                success = true;
+
                 View innerForm = userFormList.getChildAt(i);
                 EditText titleEditText = innerForm.findViewById(R.id.etTitle);
                 EditText firstNameEditText = innerForm.findViewById(R.id.etFirstName);
@@ -59,20 +68,60 @@ public class User_info extends AppCompatActivity {
                 String email = emailEditText.getText().toString();
                 String phoneNum = phoneNumberEditText.getText().toString();
 
+                String error = "";
+
+                error = validator.validTitle(title);
+                if (!error.isEmpty()) {
+                    titleEditText.setError(error);
+                    success = false;
+                }
+                error = validator.validFirstname(firstname);
+                if (!error.isEmpty()) {
+                    firstNameEditText.setError(error);
+                    success = false;
+                }
+                error = validator.validLastname(lastname);
+                if (!error.isEmpty()) {
+                    lastNameEditText.setError(error);
+                    success = false;
+                }
+                error = validator.validEmail(email);
+                if (!error.isEmpty()) {
+                    emailEditText.setError(error);
+                    success = false;
+                }
+                error = validator.validPhoneNum(phoneNum);
+                if (!error.isEmpty()) {
+                    phoneNumberEditText.setError(error);
+                    success = false;
+                }
+
+
+
                 // Add the booking
-                passengers.add(passengerDataManager.addBooking(title, firstname, lastname, phoneNum, email));
+                if (success) {
+                    PassengerData newPassenger = passengerDataManager.addBooking(title, firstname, lastname, phoneNum, email);
+
+                    passengers.add(newPassenger);
+
+                }
+
 
             }
 
+            if (success) {
+                // Show confirmation message
+                Toast.makeText(User_info.this, "Passenger Data Added Successfully", Toast.LENGTH_SHORT).show();
 
-            // Show confirmation message
-            Toast.makeText(User_info.this, "PassengerData Added Successfully", Toast.LENGTH_SHORT).show();
-
-            // Pass the list to the next activity
+                // Pass the list to the next activity
 //            Intent nextActivityIntent = new Intent(this, NextActivity.class);
 //            nextActivityIntent.putExtra("travelers", (Serializable) travelers);
 //            startActivity(nextActivityIntent);
+            } else {
+                // Show error message
+                Toast.makeText(User_info.this, "Passenger data invalid", Toast.LENGTH_SHORT).show();
 
+            }
 
 
         });
