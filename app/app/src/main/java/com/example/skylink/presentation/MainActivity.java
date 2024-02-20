@@ -15,11 +15,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.skylink.R;
 import com.example.skylink.business.AirportPath;
-import com.example.skylink.business.validations.IValidateSearchInput;
-import com.example.skylink.business.validations.ValidateSearchInput;
+import com.example.skylink.business.Session;
 import com.example.skylink.data.CitiesRepository;
 import com.example.skylink.objects.City;
 import com.example.skylink.objects.Flight;
+import com.example.skylink.objects.FlightSearch;
 import com.example.skylink.objects.Flights;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -91,13 +91,11 @@ public class MainActivity extends AppCompatActivity {
         updateAdapterItems(autoCompleteTo, null);
 
         autoCompleteFrom.setOnItemClickListener((parent, view, position, id) -> {
-            autoCompleteFrom.setError(null);
             City selectedFromCity = (City) parent.getItemAtPosition(position);
             updateAdapterItems(autoCompleteTo, selectedFromCity); // This will update the 'To' field
         });
 
         autoCompleteTo.setOnItemClickListener((parent, view, position, id) -> {
-            autoCompleteTo.setError(null);
             City selectedToCity = (City) parent.getItemAtPosition(position);
             updateAdapterItems(autoCompleteFrom, selectedToCity); // This will update the 'From' field
         });
@@ -215,7 +213,6 @@ public class MainActivity extends AppCompatActivity {
         datePickerDialog.getDatePicker().setMinDate(calendar.getTimeInMillis());
 
         datePickerDialog.show();
-        editText.setError(null);
     }
 
     private void updateTravelerCount() {
@@ -261,39 +258,19 @@ public class MainActivity extends AppCompatActivity {
         userInfoBundle.putInt("totalPassengers", totalPassengers);
         userInfoBundle.putBoolean("isOneWay", isOneWay);
 
-        boolean isValid = true;
 
-        IValidateSearchInput validator = new ValidateSearchInput();
-        String error = "";
+        boolean validEntry = validateUserInput(isOneWay);
 
-        error = validator.validAirportFrom(departingCity);
-        if (!error.isEmpty()) {
-            autoCompleteFrom.setError(error);
-            isValid = false;
-        }
-        error = validator.validAirportTo(returningCity);
-        if (!error.isEmpty()) {
-            autoCompleteTo.setError(error);
-            isValid = false;
-        }
-        error = validator.validDepartureDate(departingDate);
-        if (!error.isEmpty()) {
-            etDeparture.setError(error);
-            isValid = false;
-        }
 
-        if (!isOneWay) {
-            error = validator.validReturnDate(departingDate, returningDate);
-            if (!error.isEmpty()) {
-                etReturn.setError(error);
-                isValid = false;
-            }
-        }
-
-        if (isValid) {
+        if (validEntry) {
             AirportPath path = new AirportPath();
 
-            HashMap<String, List<List<List<Flight>>>> flightPathResults = path.findFlights(departingCity, returningCity, departingDate, returningDate, isOneWay);
+            FlightSearch flightSearch = new FlightSearch(departingCity, returningCity, departingDate, returningDate, totalPassengers, isOneWay);
+
+            HashMap<String, List<List<List<Flight>>>> flightPathResults = path.findFlights(flightSearch);
+
+            // Save User Flight Search Information in a session.
+            Session.getInstance().setFlightSearch(flightSearch);
 
             Flights flightData = new Flights(flightPathResults);
 
@@ -306,4 +283,61 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    private boolean validateUserInput(boolean isOneWay) {
+
+        boolean isValid = true;
+
+        if (autoCompleteFrom.getText().toString().isEmpty() || autoCompleteTo.getText().toString().isEmpty()) {
+            Toast.makeText(MainActivity.this, "Please select airport(s).", Toast.LENGTH_SHORT).show();
+            isValid = false;
+        }
+
+        if (etDeparture.getText().toString().isEmpty()) {
+            Toast.makeText(MainActivity.this, "Please select departure date.", Toast.LENGTH_SHORT).show();
+            isValid = false;
+        }
+
+        if (!isOneWay) {
+            if (etReturn.getText().toString().isEmpty()) {
+                Toast.makeText(MainActivity.this, "Please select Return date.", Toast.LENGTH_SHORT).show();
+                isValid = false;
+            } else {
+                isValid = checkDates();
+            }
+        }
+
+        return isValid;
+
+    }
+
+    private boolean checkDates () {
+        boolean validDate = true;
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+
+        String departDateStr = etDeparture.getText().toString();
+        String returnDateStr = etReturn.getText().toString();
+
+        if (!departDateStr.isEmpty() && !returnDateStr.isEmpty()) {
+
+            try {
+                Date departDate = dateFormat.parse(departDateStr);
+                Date returnDate = dateFormat.parse(returnDateStr);
+
+                if (departDate.after(returnDate)) {
+                    Toast.makeText(this, "Please select return date after departure date", Toast.LENGTH_SHORT).show();
+                    validDate = false;
+                }
+
+            } catch (ParseException e) {
+                Toast.makeText(this, "Invalid date format", Toast.LENGTH_SHORT).show();
+                validDate = false;
+            }
+
+
+        } else {
+            validDate = false;
+        }
+
+        return validDate;
+    }
 }
