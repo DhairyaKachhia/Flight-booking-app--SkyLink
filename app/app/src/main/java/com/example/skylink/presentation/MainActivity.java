@@ -19,6 +19,7 @@ import com.example.skylink.business.Session;
 import com.example.skylink.data.CitiesRepository;
 import com.example.skylink.objects.City;
 import com.example.skylink.objects.Flight;
+import com.example.skylink.objects.FlightSearch;
 import com.example.skylink.objects.Flights;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -260,14 +261,16 @@ public class MainActivity extends AppCompatActivity {
 
         boolean validEntry = validateUserInput(isOneWay);
 
-        // Set session data (e.g., during login)
-        Session.getInstance().setEmail("123");
-        Session.getInstance().setUsername("JohnDoe");
 
         if (validEntry) {
             AirportPath path = new AirportPath();
 
-            HashMap<String, List<List<List<Flight>>>> flightPathResults = path.findFlights(departingCity, returningCity, departingDate, returningDate, isOneWay);
+            FlightSearch flightSearch = new FlightSearch(departingCity, returningCity, departingDate, returningDate, totalPassengers, isOneWay);
+
+            HashMap<String, List<List<List<Flight>>>> flightPathResults = path.findFlights(flightSearch);
+
+            // Save User Flight Search Information in a session.
+            Session.getInstance().setFlightSearch(flightSearch);
 
             Flights flightData = new Flights(flightPathResults);
 

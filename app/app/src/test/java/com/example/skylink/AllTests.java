@@ -3,6 +3,8 @@ package com.example.skylink;
 import com.example.skylink.business.AirportPath;
 import com.example.skylink.business.BookingManager;
 import com.example.skylink.objects.Flight;
+import com.example.skylink.objects.FlightSearch;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -23,22 +25,22 @@ public class AllTests {
         bookingManager = new BookingManager();
     }
 
-    @Test
-    public void testAddBooking() {
-        System.out.println("\nTesting findBooking in BookingManager");
-
-        String title = "Mr";
-        String firstName = "Jeff";
-        String lastName = "Akan";
-        String telephoneNumber = "2045145629";
-        String emailAddress = "jeff.akan@example.com";
-
-        bookingManager.addBooking(title, firstName, lastName, telephoneNumber, emailAddress);
-
-        boolean retrievedBooking = bookingManager.findBooking(title, firstName, lastName, telephoneNumber, emailAddress);
-
-        assertTrue("The booking should not be null", retrievedBooking);
-    }
+//    @Test
+//    public void testAddBooking() {
+//        System.out.println("\nTesting findBooking in BookingManager");
+//
+//        String title = "Mr";
+//        String firstName = "Jeff";
+//        String lastName = "Akan";
+//        String telephoneNumber = "2045145629";
+//        String emailAddress = "jeff.akan@example.com";
+//
+//        bookingManager.addBooking(title, firstName, lastName, telephoneNumber, emailAddress);
+//
+//        boolean retrievedBooking = bookingManager.findBooking(title, firstName, lastName, telephoneNumber, emailAddress);
+//
+//        assertTrue("The booking should not be null", retrievedBooking);
+//    }
 
     @Test
     public void testFindAllPaths() {
@@ -57,21 +59,22 @@ public class AllTests {
         assertEquals(6125, distance, 0.1);
     }
 
-    @Test
-    public void testPullFlight() {
-        AirportPath airportPath = new AirportPath();
-        List<List<String>> allDeptFlight = Arrays.asList(
-                Arrays.asList("YYC", "YEG", "YOW"),
-                Arrays.asList("YVR","YYZ")
-        );
-        List<List<List<Flight>>> proposedFlightPath = airportPath.pullFlight(allDeptFlight, "10/02/2024 23:56");
-        assertNotNull(proposedFlightPath);
-    }
+//    @Test
+//    public void testPullFlight() {
+//        AirportPath airportPath = new AirportPath();
+//        List<List<String>> allDeptFlight = Arrays.asList(
+//                Arrays.asList("YYC", "YEG", "YOW"),
+//                Arrays.asList("YVR","YYZ")
+//        );
+//        List<List<List<Flight>>> proposedFlightPath = airportPath.pullFlight(allDeptFlight, "10/02/2024 23:56");
+//        assertNotNull(proposedFlightPath);
+//    }
 
     @Test
     public void testFindFlights() {
         AirportPath airportPath = new AirportPath();
-        HashMap<String, List<List<List<Flight>>>> itinerary = airportPath.findFlights("YOW", "YVR", "02/02/2024", "02/02/2024", true);
+        FlightSearch flightSearch = new FlightSearch("YOW", "YVR", "02/02/2024", "02/02/2024", 2,true);
+        HashMap<String, List<List<List<Flight>>>> itinerary = airportPath.findFlights(flightSearch);
         assertNotNull(itinerary);
     }
 

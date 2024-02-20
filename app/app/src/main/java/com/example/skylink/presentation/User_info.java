@@ -11,6 +11,8 @@ import android.widget.Toast;
 
 import com.example.skylink.R;
 import com.example.skylink.business.BookingManager;
+import com.example.skylink.business.Session;
+import com.example.skylink.objects.Booking;
 
 public class User_info extends AppCompatActivity {
 
@@ -22,6 +24,7 @@ public class User_info extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_info);
 
+        int numberOfPassengers = Session.getInstance().getFlightSearch().getTotalPassengers();
 
         bookingManager = new BookingManager();
 
@@ -31,23 +34,29 @@ public class User_info extends AppCompatActivity {
         etTelephoneNumber = findViewById(R.id.etTelephoneNumber);
         etEmailAddress = findViewById(R.id.etEmailAddress);
 
-        Button addUserBtn = findViewById(R.id.addUserBtn);
-        addUserBtn.setOnClickListener(view -> {
-            // Retrieve the data from inputs
-            String title = etTitle.getText().toString();
-            String firstName = etFirstName.getText().toString();
-            String lastName = etLastName.getText().toString();
-            String telephoneNumber = etTelephoneNumber.getText().toString();
-            String emailAddress = etEmailAddress.getText().toString();
 
-            // Add the booking
-            bookingManager.addBooking(title, firstName, lastName, telephoneNumber, emailAddress);
+    }
+    Button addUserBtn = findViewById(R.id.addUserBtn);
+        addUserBtn.setOnClickListener(view -> onAddButtonClick());
+    private void onAddButtonClick() {
+        // Retrieve the data from inputs
+        String title = etTitle.getText().toString();
+        String firstName = etFirstName.getText().toString();
+        String lastName = etLastName.getText().toString();
+        String telephoneNumber = etTelephoneNumber.getText().toString();
+        String emailAddress = etEmailAddress.getText().toString();
 
-            // Show confirmation message
-            Toast.makeText(User_info.this, "Booking Added Successfully", Toast.LENGTH_SHORT).show();
+        Booking[] bookings = new Booking[1];
+        bookings[0] = new Booking(title, firstName, lastName, telephoneNumber, emailAddress);
 
-            Intent intent = new Intent(User_info.this, SeatSelection.class);
-            startActivity(intent);
-        });
+        // Add the booking
+        bookingManager.addBooking(bookings[0]);
+        Session.getInstance().setBookings(bookings);
+
+        // Show confirmation message
+        Toast.makeText(User_info.this, "Booking Added Successfully", Toast.LENGTH_SHORT).show();
+
+        Intent intent = new Intent(User_info.this, SeatSelection.class);
+        startActivity(intent);
     }
 }

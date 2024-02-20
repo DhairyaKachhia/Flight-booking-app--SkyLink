@@ -47,9 +47,6 @@ public class Flight_search extends AppCompatActivity {
 
         Intent intent = getIntent();
 
-        String userId = Session.getInstance().getEmail();
-        String username = Session.getInstance().getUsername();
-
         noFlightTV = findViewById(R.id.noFlightTextV);
         showFlightLV = findViewById(R.id.flightListView);
 

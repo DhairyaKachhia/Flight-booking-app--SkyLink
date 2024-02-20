@@ -10,8 +10,7 @@ public class BookingManager {
         this.bookingDatabase = new BookingDatabase();
     }
 
-    public void addBooking(String title, String firstName, String lastName, String telephoneNumber, String emailAddress) {
-        Booking newBooking = new Booking(title, firstName, lastName, telephoneNumber, emailAddress);
+    public void addBooking(Booking newBooking) {
         bookingDatabase.addBooking(newBooking);
     }
 

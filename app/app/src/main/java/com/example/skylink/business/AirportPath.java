@@ -16,6 +16,7 @@ import java.util.Collections;
 
 import com.example.skylink.data.FlightDatabase;
 import com.example.skylink.objects.Flight;
+import com.example.skylink.objects.FlightSearch;
 
 public class AirportPath {
     private final Graph<String, DefaultWeightedEdge> airportGraph;
@@ -247,17 +248,17 @@ public class AirportPath {
         return pullFlights(pathsFromOriginToDestination, date);
     }
 
-    public HashMap< String,List<List<List<Flight>>>> findFlights(String flight_dept, String flight_arrival, String flight_dept_date, String flight_return_date, boolean isOneWay) {
+    public HashMap< String,List<List<List<Flight>>>> findFlights(FlightSearch flightSearch) {
         HashMap<String, List<List<List<Flight>>>> itinerary = new HashMap<>();
         // Get the outbound flights.
-        List<List<List<Flight>>> outBoundFlights = findFlight(flight_dept, flight_arrival,flight_dept_date);
+        List<List<List<Flight>>> outBoundFlights = findFlight(flightSearch.getFlightDept(), flightSearch.getFlightArrival(), flightSearch.getFlightDeptDate());
         if (outBoundFlights != null) {
             itinerary.put("Outbound", outBoundFlights);
         }
         // If there is a return and the outbound flight is not null.
-        if (!isOneWay && outBoundFlights != null) {
+        if (!flightSearch.isOneWay() && outBoundFlights != null) {
             // Get the inbound flights.
-            List<List<List<Flight>>> inBoundFlights = findFlight(flight_arrival, flight_dept,flight_return_date);
+            List<List<List<Flight>>> inBoundFlights = findFlight(flightSearch.getFlightArrival(), flightSearch.getFlightDept(), flightSearch.getFlightReturnDate());
             if (inBoundFlights != null) {
                 itinerary.put("Inbound", outBoundFlights);
             }

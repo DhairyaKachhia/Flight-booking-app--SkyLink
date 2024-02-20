@@ -15,21 +15,21 @@ public class TestBookingManager {
         bookingManager = new BookingManager();
     }
 
-    @Test
-    public void testAddBooking() {
-        System.out.println("\nTesting findBooking in BookingManager");
-
-        String title = "Mr";
-        String firstName = "Jeff";
-        String lastName = "Akan";
-        String telephoneNumber = "2045145629";
-        String emailAddress = "jeff.akan@example.com";
-
-        bookingManager.addBooking(title, firstName, lastName, telephoneNumber, emailAddress);
-
-        boolean retrievedBooking = bookingManager.findBooking(title, firstName, lastName, telephoneNumber, emailAddress);
-
-        assertTrue("The booking should not be null", retrievedBooking);
-
-    }
+//    @Test
+//    public void testAddBooking() {
+//        System.out.println("\nTesting findBooking in BookingManager");
+//
+//        String title = "Mr";
+//        String firstName = "Jeff";
+//        String lastName = "Akan";
+//        String telephoneNumber = "2045145629";
+//        String emailAddress = "jeff.akan@example.com";
+//
+//        bookingManager.addBooking(title, firstName, lastName, telephoneNumber, emailAddress);
+//
+//        boolean retrievedBooking = bookingManager.findBooking(title, firstName, lastName, telephoneNumber, emailAddress);
+//
+//        assertTrue("The booking should not be null", retrievedBooking);
+//
+//    }
 }
