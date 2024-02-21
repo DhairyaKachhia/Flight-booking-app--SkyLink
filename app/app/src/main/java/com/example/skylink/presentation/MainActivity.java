@@ -17,6 +17,7 @@ import com.example.skylink.R;
 import com.example.skylink.business.AirportPath;
 import com.example.skylink.business.validations.IValidateSearchInput;
 import com.example.skylink.business.validations.ValidateSearchInput;
+import com.example.skylink.business.Session;
 import com.example.skylink.data.CitiesRepository;
 import com.example.skylink.objects.City;
 import com.example.skylink.objects.Flight;
@@ -291,6 +292,12 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if (isValid) {
+            AirportPath path = new AirportPath();
+
+            // Set session data (e.g., during login)
+            Session.getInstance().setEmail("123");
+            Session.getInstance().setUsername("JohnDoe");
+
             AirportPath path = new AirportPath();
 
             HashMap<String, List<List<List<Flight>>>> flightPathResults = path.findFlights(departingCity, returningCity, departingDate, returningDate, isOneWay);

@@ -39,11 +39,19 @@ Please see [**Architecture.jpg**](https://code.cs.umanitoba.ca/comp3350-winter20
 **AirportPath**
 - Responsible for searching and returning the list of flights based on destination, date, and other parameters the user has selected on MainActivity.
 
+**BookingManager**
+- Takes user information for booking flight.
+
+**FlightSorting**
+- Sorts resulting flights based on the option user has selected from spinner.
 
 ### Data:
 
 **FlightDatabase**
 - Stores flight route database.
+
+**BookingDatabase**
+- Stores user entered data for flight booking.
 
 ### Domain Specific Object:
 
