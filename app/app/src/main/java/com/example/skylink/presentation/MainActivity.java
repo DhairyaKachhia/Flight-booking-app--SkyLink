@@ -298,8 +298,6 @@ public class MainActivity extends AppCompatActivity {
             Session.getInstance().setEmail("123");
             Session.getInstance().setUsername("JohnDoe");
 
-            AirportPath path = new AirportPath();
-
             HashMap<String, List<List<List<Flight>>>> flightPathResults = path.findFlights(departingCity, returningCity, departingDate, returningDate, isOneWay);
 
             Flights flightData = new Flights(flightPathResults);

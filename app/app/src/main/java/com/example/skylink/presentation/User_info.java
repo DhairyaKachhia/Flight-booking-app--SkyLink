@@ -49,11 +49,11 @@ public class User_info extends AppCompatActivity {
 
         submitBtn.setOnClickListener(v -> {
 
-            boolean success = false;
+            boolean allValidForm = true;
 
             // Iterate through the form fields and get the values from the EditText fields
             for (int i = 0; i < userFormList.getChildCount(); i++) {
-                success = true;
+                boolean success = true;
 
                 View innerForm = userFormList.getChildAt(i);
                 EditText titleEditText = innerForm.findViewById(R.id.etTitle);
@@ -104,12 +104,14 @@ public class User_info extends AppCompatActivity {
 
                     passengers.add(newPassenger);
 
+                } else {
+                    allValidForm = false;
                 }
 
 
             }
 
-            if (success) {
+            if (allValidForm) {
                 // Show confirmation message
                 Toast.makeText(User_info.this, "Passenger Data Added Successfully", Toast.LENGTH_SHORT).show();
 
