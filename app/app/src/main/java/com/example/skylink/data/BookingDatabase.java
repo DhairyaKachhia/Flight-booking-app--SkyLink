@@ -1,28 +1,28 @@
 package com.example.skylink.data;
 
-import com.example.skylink.objects.Booking;
+import com.example.skylink.objects.PassengerData;
 
 import java.util.ArrayList;
 import java.util.List;
 public class BookingDatabase {
-    private final List<Booking> bookings;
+    private final List<PassengerData> passengerData;
 
     public BookingDatabase(){
-        this.bookings = new ArrayList<>();
+        this.passengerData = new ArrayList<>();
     }
 
-    public void addBooking(Booking booking){
-        bookings.add(booking);
+    public void addBooking(PassengerData passengerData){
+        this.passengerData.add(passengerData);
     }
 
-    public boolean findBooking(Booking searchBooking) {
-        Booking result = null;
-        for (Booking b : bookings) {
-            if (b.getTitle().equals(searchBooking.getTitle()) &&
-                    b.getFirstName().equals(searchBooking.getFirstName()) &&
-                    b.getLastName().equals(searchBooking.getLastName()) &&
-                    b.getTelephoneNumber().equals(searchBooking.getTelephoneNumber()) &&
-                    b.getEmailAddress().equals(searchBooking.getEmailAddress())) {
+    public boolean findBooking(PassengerData searchPassengerData) {
+        PassengerData result = null;
+        for (PassengerData b : passengerData) {
+            if (b.getTitle().equals(searchPassengerData.getTitle()) &&
+                    b.getFirstName().equals(searchPassengerData.getFirstName()) &&
+                    b.getLastName().equals(searchPassengerData.getLastName()) &&
+                    b.getTelephoneNumber().equals(searchPassengerData.getTelephoneNumber()) &&
+                    b.getEmailAddress().equals(searchPassengerData.getEmailAddress())) {
                 return  true;
             }
         }

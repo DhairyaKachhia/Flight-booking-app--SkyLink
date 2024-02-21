@@ -61,15 +61,23 @@ public class Flight_search extends AppCompatActivity {
             Bundle userInput = intent.getExtras();
             displayUserSelection(userInput);
 
-            receivedData = flightData.getData();
+                receivedData = flightData.getData();
 
-            extractFlightData(receivedData, isOneWay);
+            if (receivedData.containsKey("Outbound")) {
 
-            sortingOptions = setupSpinner();
+                extractFlightData(receivedData, isOneWay);
 
-            setupListview();
+                sortingOptions = setupSpinner();
 
-            sortingOptions.setOnItemSelectedListener(new spinnerItemSelectListner());
+                setupListview(userInput);
+
+                sortingOptions.setOnItemSelectedListener(new spinnerItemSelectListner());
+
+            } else {
+                noFlightTV.setVisibility(View.VISIBLE);
+                showFlightLV.setVisibility(View.GONE);
+            }
+
 
         } else {
             noFlightTV.setVisibility(View.VISIBLE);
@@ -149,12 +157,12 @@ public class Flight_search extends AppCompatActivity {
         }
     }
 
-    private void setupListview () {
+    private void setupListview (Bundle userInput) {
 
         isDepartureSelected = false;
 
-        originAdaptor = new CustomFlightAdaptor(Flight_search.this, tripOutbound, isOneWay);
-        returnAdaptor = new CustomFlightAdaptor(Flight_search.this, tripInbound, isOneWay);
+        originAdaptor = new CustomFlightAdaptor(Flight_search.this, tripOutbound, isOneWay, userInput);
+        returnAdaptor = new CustomFlightAdaptor(Flight_search.this, tripInbound, isOneWay, userInput);
         currAdaptor = originAdaptor;
 
         availableFlights = new ArrayList<>(tripOutbound);
