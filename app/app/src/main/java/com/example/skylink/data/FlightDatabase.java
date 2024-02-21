@@ -30,25 +30,25 @@ public class FlightDatabase {
         addFlight("AC881", "YUL", "YEG", "16/02/2024 07:20", "16/02/2024 09:03", "Airbus A380", "Gate6", "Gate2", 221, 47);
         addFlight("AC792", "YUL", "YVR", "12/02/2024 10:57", "12/02/2024 12:38", "Airbus A320", "Gate8", "Gate6", 94, 13);
 
-        addFlight("AC792", "YUL", "YVR", "12/02/2024 11:57", "12/02/2024 12:38", "Airbus A320", "Gate8", "Gate6", 194, 43);
+        addFlight("AC792", "YUL", "YVR", "29/02/2024 11:57", "12/02/2024 12:38", "Airbus A320", "Gate8", "Gate6", 194, 43);
 
-        addFlight("AC792", "YUL", "YYZ", "12/02/2024 15:57", "12/02/2024 16:38", "Airbus A320", "Gate8", "Gate6", 204, 50);
-        addFlight("AC792", "YYZ", "YVR", "12/02/2024 18:57", "12/02/2024 19:38", "Airbus A320", "Gate8", "Gate6", 104, 32);
+        addFlight("AC792", "YUL", "YYZ", "29/02/2024 15:57", "12/02/2024 16:38", "Airbus A320", "Gate8", "Gate6", 204, 50);
+        addFlight("AC792", "YYZ", "YVR", "29/02/2024 18:57", "12/02/2024 19:38", "Airbus A320", "Gate8", "Gate6", 104, 32);
 
-        addFlight("AC792", "YUL", "YZZ", "20/02/2024 15:57", "12/02/2024 16:38", "Airbus A320", "Gate8", "Gate6", 204, 50);
-        addFlight("AC792", "YZZ", "YHM", "20/02/2024 18:57", "12/02/2024 19:38", "Airbus A320", "Gate8", "Gate6", 104, 32);
+        addFlight("AC792", "YUL", "YZZ", "01/03/2024 15:57", "12/02/2024 16:38", "Airbus A320", "Gate8", "Gate6", 204, 50);
+        addFlight("AC792", "YZZ", "YHM", "01/03/2024 18:57", "12/02/2024 19:38", "Airbus A320", "Gate8", "Gate6", 104, 32);
 
-        addFlight("AC792", "YUL", "YZZ", "20/02/2024 5:57", "12/02/2024 6:38", "Airbus A320", "Gate8", "Gate6", 104, 50);
-        addFlight("AC792", "YZZ", "YHM", "20/02/2024 8:57", "12/02/2024 9:38", "Airbus A320", "Gate8", "Gate6", 104, 32);
+        addFlight("AC792", "YUL", "YZZ", "01/03/2024 5:57", "12/02/2024 6:38", "Airbus A320", "Gate8", "Gate6", 104, 50);
+        addFlight("AC792", "YZZ", "YHM", "01/03/2024 8:57", "12/02/2024 9:38", "Airbus A320", "Gate8", "Gate6", 104, 32);
 
-        addFlight("AC792", "YUL", "YHM", "20/02/2024 12:57", "12/02/2024 13:38", "Airbus A320", "Gate8", "Gate6", 304, 70);
-        addFlight("AC792", "YUL", "YHM", "20/02/2024 20:57", "12/02/2024 23:38", "Airbus A320", "Gate8", "Gate6", 304, 70);
+        addFlight("AC792", "YUL", "YHM", "01/03/2024 12:57", "12/02/2024 13:38", "Airbus A320", "Gate8", "Gate6", 304, 70);
+        addFlight("AC792", "YUL", "YHM", "01/03/2024 20:57", "12/02/2024 23:38", "Airbus A320", "Gate8", "Gate6", 304, 70);
 
 
-        addFlight("AC792", "YHM", "YUL", "21/02/2024 4:50", "12/02/2024 5:40", "Airbus A320", "Gate8", "Gate6", 304, 70);
+        addFlight("AC792", "YHM", "YUL", "02/03/2024 4:50", "12/02/2024 5:40", "Airbus A320", "Gate8", "Gate6", 304, 70);
 
-        addFlight("AC792", "YHM", "YZZ", "21/02/2024 5:57", "12/02/2024 6:38", "Airbus A320", "Gate8", "Gate6", 204, 50);
-        addFlight("AC792", "YZZ", "YUL", "21/02/2024 8:57", "12/02/2024 9:38", "Airbus A320", "Gate8", "Gate6", 104, 32);
+        addFlight("AC792", "YHM", "YZZ", "02/03/2024 5:57", "12/02/2024 6:38", "Airbus A320", "Gate8", "Gate6", 204, 50);
+        addFlight("AC792", "YZZ", "YUL", "02/03/2024 8:57", "12/02/2024 9:38", "Airbus A320", "Gate8", "Gate6", 104, 32);
 
         addFlight("AC175", "YOW", "YWG", "14/02/2024 13:22", "14/02/2024 18:35", "Airbus A320", "Gate8", "Gate2", 123, 37);
         addFlight("AC445", "YZZ", "YYZ", "27/02/2024 05:11", "27/02/2024 10:14", "Boeing 747", "Gate3", "Gate16", 96, 18);
