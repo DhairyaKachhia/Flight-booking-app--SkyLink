@@ -116,9 +116,8 @@ public class User_info extends AppCompatActivity {
                 Toast.makeText(User_info.this, "Passenger Data Added Successfully", Toast.LENGTH_SHORT).show();
 
                 // Pass the list to the next activity
-//            Intent nextActivityIntent = new Intent(this, NextActivity.class);
-//            nextActivityIntent.putExtra("travelers", (Serializable) travelers);
-//            startActivity(nextActivityIntent);
+            Intent nextActivityIntent = new Intent(this, SeatSelection.class);
+            startActivity(nextActivityIntent);
             } else {
                 // Show error message
                 Toast.makeText(User_info.this, "Passenger data invalid", Toast.LENGTH_SHORT).show();

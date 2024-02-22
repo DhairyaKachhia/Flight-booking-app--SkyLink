@@ -28,6 +28,9 @@
             android:name=".presentation.Flight_search"
             android:exported="false" />
         <activity
+            android:name=".presentation.SeatSelection"
+            android:exported="false" />
+        <activity
             android:name=".presentation.MainActivity"
             android:exported="true">
         </activity>
