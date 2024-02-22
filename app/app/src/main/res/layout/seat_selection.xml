@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="16dp"
+    android:paddingTop="16dp"
+    android:background="#FFFFFF"
+    android:paddingRight="16dp"
+    android:paddingBottom="16dp"
+    tools:context=".presentation.SeatSelection">
+
+    <!-- Use a RelativeLayout as the direct child of the ScrollView -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!-- Center the Linear layout in the middle of the RelativeLayout -->
+        <LinearLayout
+            android:id="@+id/Flight_Layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_centerInParent="true">
+
+            <!-- The content of Flight_Layout goes here -->
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <!-- Other views and seat definitions go here -->
+
+</ScrollView>
