@@ -3,6 +3,8 @@ package com.example.skylink.business;
 import com.example.skylink.objects.PassengerData;
 import com.example.skylink.objects.FlightSearch;
 
+import java.util.List;
+
 public class Session {
 
     private static Session instance;
@@ -11,13 +13,18 @@ public class Session {
 
     // Temporary storage for flights and bookings
     private FlightSearch flightSearch;
-    private PassengerData[] Bookings;
 
-    public com.example.skylink.objects.PassengerData[] getBooking() {
+    public List<PassengerData> getBookings() {
         return Bookings;
     }
 
-    public void setBookings(com.example.skylink.objects.PassengerData[] booking) {
+    private List<PassengerData> Bookings;
+
+    public List<PassengerData> getBooking() {
+        return Bookings;
+    }
+
+    public void setBookings(List<PassengerData> booking) {
         Bookings = booking;
     }
 

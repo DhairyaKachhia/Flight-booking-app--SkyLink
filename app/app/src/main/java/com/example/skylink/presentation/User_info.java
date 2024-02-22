@@ -11,6 +11,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.skylink.R;
+import com.example.skylink.business.Session;
 import com.example.skylink.business.validations.IValidatePassgnData;
 import com.example.skylink.business.PassengerDataManager;
 import com.example.skylink.business.validations.ValidatePassgnData;
@@ -116,8 +117,9 @@ public class User_info extends AppCompatActivity {
                 Toast.makeText(User_info.this, "Passenger Data Added Successfully", Toast.LENGTH_SHORT).show();
 
                 // Pass the list to the next activity
-            Intent nextActivityIntent = new Intent(this, SeatSelection.class);
-            startActivity(nextActivityIntent);
+                Session.getInstance().setBookings(passengers);
+                Intent nextActivityIntent = new Intent(this, SeatSelection.class);
+                startActivity(nextActivityIntent);
             } else {
                 // Show error message
                 Toast.makeText(User_info.this, "Passenger data invalid", Toast.LENGTH_SHORT).show();
