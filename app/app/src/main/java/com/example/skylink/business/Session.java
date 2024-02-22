@@ -2,6 +2,7 @@ package com.example.skylink.business;
 
 import com.example.skylink.objects.PassengerData;
 import com.example.skylink.objects.FlightSearch;
+import com.example.skylink.objects.Flight;
 
 public class Session {
 

@@ -49,11 +49,11 @@ public class User_info extends AppCompatActivity {
 
         submitBtn.setOnClickListener(v -> {
 
-            boolean success = false;
+            boolean allValidForm = true;
 
             // Iterate through the form fields and get the values from the EditText fields
             for (int i = 0; i < userFormList.getChildCount(); i++) {
-                success = true;
+                boolean success = true;
 
                 View innerForm = userFormList.getChildAt(i);
                 EditText titleEditText = innerForm.findViewById(R.id.etTitle);
@@ -104,17 +104,24 @@ public class User_info extends AppCompatActivity {
 
                     passengers.add(newPassenger);
 
+                } else {
+                    allValidForm = false;
                 }
-
-                Intent intent_1 = new Intent(User_info.this, SeatSelection.class);
-                startActivity(intent_1);
 
 
             }
 
-            if (success) {
+            if (allValidForm) {
                 // Show confirmation message
                 Toast.makeText(User_info.this, "Passenger Data Added Successfully", Toast.LENGTH_SHORT).show();
+
+                // Pass the list to the next activity
+//            Intent nextActivityIntent = new Intent(this, NextActivity.class);
+//            nextActivityIntent.putExtra("travelers", (Serializable) travelers);
+//            startActivity(nextActivityIntent);
+                Intent intent_1 = new Intent(User_info.this, SeatSelection.class);
+                startActivity(intent_1);
+
 
             } else {
                 // Show error message

@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.example.skylink.R;
 import com.example.skylink.business.FlightSorting;
+import com.example.skylink.business.Session;
 import com.example.skylink.objects.Flights;
 import com.example.skylink.objects.Flight;
 
@@ -46,6 +47,9 @@ public class Flight_search extends AppCompatActivity {
 
         Intent intent = getIntent();
 
+        String userId = Session.getInstance().getEmail();
+        String username = Session.getInstance().getUsername();
+
         noFlightTV = findViewById(R.id.noFlightTextV);
         showFlightLV = findViewById(R.id.flightListView);
 
@@ -57,7 +61,7 @@ public class Flight_search extends AppCompatActivity {
             Bundle userInput = intent.getExtras();
             displayUserSelection(userInput);
 
-            receivedData = flightData.getData();
+                receivedData = flightData.getData();
 
             if (receivedData.containsKey("Outbound")) {
 
