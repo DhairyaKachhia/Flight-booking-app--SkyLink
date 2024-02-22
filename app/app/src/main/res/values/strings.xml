@@ -4,6 +4,7 @@
     <string name="flying_to">To</string>
     <string name="search_flights">Search flights...</string>
     <string name="flight_not_found">Flight not found\nPlease update search or filter parameters</string>
+    <string name="sign_up"><u>Sign up</u></string>
 
     <string-array name="sorting_list_option">
         <item>Lowest price</item>
