@@ -9,15 +9,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.skylink.R;
+import com.example.skylink.business.Session;
 import com.example.skylink.objects.Flight;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 public class CustomFlightAdaptor extends BaseAdapter {
@@ -124,16 +127,32 @@ public class CustomFlightAdaptor extends BaseAdapter {
         econBook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                View parentRow = (View) v.getParent();
+                ListView listView = (ListView) parentRow.getParent().getParent().getParent().getParent().getParent();
+                final int position = listView.getPositionForView(parentRow);
 
-                if (isOneWay) {
-                    toNextActivity();
+                List<List<Flight>> flightCardView = getItem(position);
 
-                } else {
-                    if (flightResult != null) {
+                if (flightResult != null) {
+                    HashMap<String, List<List<Flight>>> selectedFlights = flightResult.getSelectedFlights();
+
+                    if (isOneWay) {
+                        selectedFlights.put("Outbound", flightCardView);
+                        flightResult.setSelectedFlights(selectedFlights);
+
+                        toNextActivity();
+
+                    } else {
 
                         if (flightResult.getDepartureStatus()) {
+                            selectedFlights.put("Inbound", flightCardView);
+                            flightResult.setSelectedFlights(selectedFlights);
+
                             toNextActivity();
                         } else {
+                            selectedFlights.put("Outbound", flightCardView);
+                            flightResult.setSelectedFlights(selectedFlights);
+
                             flightResult.setDepartureStatus(true);
                             displayReturnFlight();
                         }
@@ -143,18 +162,39 @@ public class CustomFlightAdaptor extends BaseAdapter {
             }
         });
 
-        busnBook.setOnClickListener(v -> {
-            if (isOneWay) {
-                toNextActivity();
+        busnBook.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-            } else {
+                View parentRow = (View) v.getParent();
+                ListView listView = (ListView) parentRow.getParent().getParent().getParent().getParent().getParent();
+                final int position = listView.getPositionForView(parentRow);
+
+                List<List<Flight>> flightCardView = getItem(position);
+
                 if (flightResult != null) {
+                    HashMap<String, List<List<Flight>>> selectedFlights = flightResult.getSelectedFlights();
 
-                    if (flightResult.getDepartureStatus()) {
+                    if (isOneWay) {
+                        selectedFlights.put("Outbound", flightCardView);
+                        flightResult.setSelectedFlights(selectedFlights);
+
                         toNextActivity();
+
                     } else {
-                        flightResult.setDepartureStatus(true);
-                        displayReturnFlight();
+
+                        if (flightResult.getDepartureStatus()) {
+                            selectedFlights.put("Inbound", flightCardView);
+                            flightResult.setSelectedFlights(selectedFlights);
+
+                            toNextActivity();
+                        } else {
+                            selectedFlights.put("Outbound", flightCardView);
+                            flightResult.setSelectedFlights(selectedFlights);
+
+                            flightResult.setDepartureStatus(true);
+                            displayReturnFlight();
+                        }
                     }
                 }
             }
@@ -189,6 +229,9 @@ public class CustomFlightAdaptor extends BaseAdapter {
 
     private void toNextActivity() {
         if (flightResult != null) {
+
+            Session.getInstance().setSelectedFlights(flightResult.getSelectedFlights());
+
             Intent nextPageIntent = new Intent(flightResult, User_info.class);
             nextPageIntent.putExtras(userInput);
             flightResult.startActivity(nextPageIntent);
