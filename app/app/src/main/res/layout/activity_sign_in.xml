@@ -58,6 +58,7 @@
             android:id="@+id/etUsername"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:inputType="text"
             android:paddingStart="25dp"
             android:textColor="@color/black"
             android:textSize="30sp" />

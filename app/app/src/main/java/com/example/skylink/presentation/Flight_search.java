@@ -36,9 +36,10 @@ public class Flight_search extends AppCompatActivity {
     private CustomFlightAdaptor currAdaptor;
     private FlightSorting flightSorting;
     private boolean isDepartureSelected;
-    private List<List<List<Flight>>> tripOutbound = null;
-    private List<List<List<Flight>>> tripInbound = null;
+    private List<List<List<Flight>>> tripOutbound = new ArrayList<>();
+    private List<List<List<Flight>>> tripInbound = new ArrayList<>();
 
+    private HashMap<String, List<List<Flight>>> selectedFlights = new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -144,12 +145,15 @@ public class Flight_search extends AppCompatActivity {
 
             if (!isOneWay) {
                 // Retrieve and process outbound flights
-                tripInbound = receivedData.get("Inbound");
+                if (receivedData.containsKey("Inbound")) {
+                    tripInbound = receivedData.get("Inbound");
+                }
             }
 
-
             // Retrieve and process inbound flights
-            tripOutbound = receivedData.get("Outbound");
+            if (receivedData.containsKey("Outbound")) {
+                tripOutbound = receivedData.get("Outbound");
+            }
 
         }
     }
@@ -280,5 +284,13 @@ public class Flight_search extends AppCompatActivity {
 
     public void setDepartureStatus(boolean departureStatus) {
         isDepartureSelected = departureStatus;
+    }
+
+    public HashMap<String, List<List<Flight>>> getSelectedFlights() {
+        return selectedFlights;
+    }
+
+    public void setSelectedFlights(HashMap<String, List<List<Flight>>> selectedFlights) {
+        this.selectedFlights = selectedFlights;
     }
 }

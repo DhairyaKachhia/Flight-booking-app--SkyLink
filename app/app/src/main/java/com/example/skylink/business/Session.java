@@ -1,7 +1,11 @@
 package com.example.skylink.business;
 
+import com.example.skylink.objects.Flight;
 import com.example.skylink.objects.PassengerData;
 import com.example.skylink.objects.FlightSearch;
+
+import java.util.HashMap;
+import java.util.List;
 
 public class Session {
 
@@ -11,26 +15,9 @@ public class Session {
 
     // Temporary storage for flights and bookings
     private FlightSearch flightSearch;
-    private PassengerData[] Bookings;
+    private List<PassengerData> passengerData;
 
-    public com.example.skylink.objects.PassengerData[] getBooking() {
-        return Bookings;
-    }
-
-    public void setBookings(com.example.skylink.objects.PassengerData[] booking) {
-        Bookings = booking;
-    }
-
-
-
-
-    public FlightSearch getFlightSearch() {
-        return flightSearch;
-    }
-
-    public void setFlightSearch(FlightSearch flightSearch) {
-        this.flightSearch = flightSearch;
-    }
+    private HashMap<String, List<List<Flight>>> selectedFlights;
 
     private Session() {
         // Private constructor to prevent instantiation
@@ -43,6 +30,25 @@ public class Session {
         }
         return instance;
     }
+
+
+    public List<PassengerData> getPassengerData() {
+        return passengerData;
+    }
+
+    public void setPassengerData(List<PassengerData> passengerData) {
+        this.passengerData = passengerData;
+    }
+
+    public FlightSearch getFlightSearch() {
+        return flightSearch;
+    }
+
+    public void setFlightSearch(FlightSearch flightSearch) {
+        this.flightSearch = flightSearch;
+    }
+
+
 
     public String getUsername() {
         return username;
@@ -58,5 +64,13 @@ public class Session {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public HashMap<String, List<List<Flight>>> getSelectedFlights() {
+        return selectedFlights;
+    }
+
+    public void setSelectedFlights(HashMap<String, List<List<Flight>>> selectedFlights) {
+        this.selectedFlights = selectedFlights;
     }
 }
