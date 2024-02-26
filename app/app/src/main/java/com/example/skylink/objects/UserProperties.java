@@ -21,6 +21,21 @@ public class UserProperties {
         this.dateOfBirth = dateOfBirth;
         this.countryOfOrigin = countryOfOrigin;
     }
+    public UserProperties(String fullName, String email, String password) {
+        this.fullName = fullName;
+        this.email = email;
+        this.password = password;
+        this.gender = gender;
+        this.address = address;
+        this.phone = phone;
+        this.dateOfBirth = dateOfBirth;
+        this.countryOfOrigin = countryOfOrigin;
+    }
+
+    public UserProperties(String email, String password) {
+        this.email = email;
+        this.password = password;
+    }
 
     public String getFullName() {
         return fullName;

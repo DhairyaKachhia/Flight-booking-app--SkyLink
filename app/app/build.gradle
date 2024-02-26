@@ -39,4 +39,5 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
     implementation("com.github.javafaker:javafaker:1.0.2")
     implementation 'org.jgrapht:jgrapht-core:1.5.2'
+    implementation 'de.svenkubiak:jBCrypt:0.4.1'
 }
