@@ -1,8 +1,10 @@
 package com.example.skylink.presentation;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -24,6 +26,7 @@ public class SeatSelection extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.seat_selection);
 
@@ -39,6 +42,21 @@ public class SeatSelection extends AppCompatActivity {
 
         // Add seats to Flight_Layout
         addSeatsToLayout(planeConfigurations[2]);
+        Button myButton = findViewById(R.id.myButton);
+        myButton.setOnClickListener(new View.OnClickListener() {
+           @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(SeatSelection.this,CreditCardPaymentActivity.class);
+
+                // You can add extra data to the intent if needed
+                // intent.putExtra("key", "value");
+
+                // Start the new activity
+                startActivity(intent);
+                // Handle button click event
+           }
+        });
     }
 
     private void addSeatsToLayout(String[] planeConfig) {

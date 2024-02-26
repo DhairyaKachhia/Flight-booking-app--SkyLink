@@ -35,7 +35,16 @@
             android:exported="false" />
         <activity
             android:name=".presentation.MainActivity"
-            android:exported="true"></activity>
+            android:exported="true">
+        </activity>
+        <activity
+            android:name=".presentation.CreditCardPaymentActivity"
+            android:exported="true">
+        </activity>
+        <activity
+            android:name=".presentation.PaymentSuccessfulActivity"
+            android:exported="true">
+        </activity>
     </application>
 
 </manifest>
