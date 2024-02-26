@@ -10,10 +10,12 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.skylink.R;
+import com.example.skylink.business.validations.IValidateUserAuth;
+import com.example.skylink.business.validations.ValidateUserAuth;
 
 public class SignInActivity extends AppCompatActivity {
 
-    private EditText username, password;
+    private EditText email, password;
     private TextView singUp;
     private Button signIn;
     @Override
@@ -21,13 +23,51 @@ public class SignInActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
 
+        email = findViewById(R.id.etEmail);
+        password = findViewById(R.id.etPassword);
+
+
+        singUp = findViewById(R.id.tvSignInClick);
+
+        singUp.setOnClickListener(v -> {
+
+            Intent intent = new Intent(SignInActivity.this, SignUpActivity.class);
+            startActivity(intent);
+
+        });
+
 
         signIn = findViewById(R.id.btnSignIn);
 
         signIn.setOnClickListener(v -> {
-            Intent intent = new Intent(SignInActivity.this, MainActivity.class);
-            startActivity(intent);
+
+            if (isValid()) {
+                Intent intent = new Intent(SignInActivity.this, MainActivity.class);
+                startActivity(intent);
+            }
         });
 
+    }
+
+    private boolean isValid(){
+        boolean isValid = true;
+
+        IValidateUserAuth validateUserAuth = new ValidateUserAuth();
+        String error = "";
+
+        error = validateUserAuth.validEmail(email.getText().toString());
+        if (!error.isEmpty()) {
+            email.setError(error);
+            isValid = false;
+        }
+
+        error = validateUserAuth.validPassword(password.getText().toString());
+        if (!error.isEmpty()) {
+            password.setError(error);
+            isValid = false;
+        }
+
+
+        return isValid;
     }
 }
