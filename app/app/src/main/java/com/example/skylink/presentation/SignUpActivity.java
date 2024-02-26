@@ -7,10 +7,13 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.skylink.R;
+import com.example.skylink.business.UserHandler;
 import com.example.skylink.business.validations.IValidateUserAuth;
 import com.example.skylink.business.validations.ValidateUserAuth;
+import com.example.skylink.objects.UserProperties;
 
 public class SignUpActivity extends AppCompatActivity {
 
@@ -41,9 +44,25 @@ public class SignUpActivity extends AppCompatActivity {
         signUp.setOnClickListener(v -> {
 
             if (validInputs()) {
-                Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
-                startActivity(intent);
+
+                String userFullname = fullname.getText().toString();
+                String userEmail = email.getText().toString();
+                String userPassword = password.getText().toString();
+                String userRePassword = retypePassword.getText().toString();
+
+
+                UserProperties user = new UserProperties(userFullname, userEmail, userPassword);
+                UserHandler handler = new UserHandler();
+
+                if (handler.createUser(user, userRePassword)) {
+                    Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
+                    startActivity(intent);
+                } else {
+                    // Handle user creation failure, show an error message, etc.
+                    Toast.makeText(SignUpActivity.this, "Unable to create new user", Toast.LENGTH_SHORT).show();
+                }
             }
+
 
         });
     }

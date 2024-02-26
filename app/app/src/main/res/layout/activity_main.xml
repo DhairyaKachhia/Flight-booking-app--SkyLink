@@ -195,6 +195,14 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/cardView" />
+
+            <Button
+                android:id="@+id/signInButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Log Out"
+                android:layout_centerInParent="true"
+                android:onClick="goToSignInActivity" />
         </LinearLayout>
 
     </com.google.android.material.card.MaterialCardView>
