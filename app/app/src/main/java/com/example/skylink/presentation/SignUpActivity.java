@@ -4,28 +4,25 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.skylink.R;
 
-public class SignInActivity extends AppCompatActivity {
+public class SignUpActivity extends AppCompatActivity {
 
-    private EditText username, password;
-    private Button signIn;
+    private EditText fullname, username, password, retypePassword;
+    private Button signUp;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sign_in);
+        setContentView(R.layout.activity_sign_up);
 
+        signUp = findViewById(R.id.btnSignUp);
 
-        signIn = findViewById(R.id.btnSignIn);
-
-        signIn.setOnClickListener(v -> {
-            Intent intent = new Intent(SignInActivity.this, MainActivity.class);
+        signUp.setOnClickListener(v -> {
+            Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
             startActivity(intent);
         });
-
     }
 }

@@ -13,6 +13,9 @@
         android:theme="@style/Theme.Skylink"
         tools:targetApi="31">
         <activity
+            android:name=".presentation.SignUpActivity"
+            android:exported="false" />
+        <activity
             android:name=".presentation.SignInActivity"
             android:exported="true">
             <intent-filter>
@@ -32,8 +35,7 @@
             android:exported="false" />
         <activity
             android:name=".presentation.MainActivity"
-            android:exported="true">
-        </activity>
+            android:exported="true"></activity>
     </application>
 
 </manifest>
