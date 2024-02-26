@@ -39,26 +39,26 @@
         app:layout_constraintTop_toBottomOf="@+id/tvWelcomeTitle" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/usernameTxtLayout"
+        android:id="@+id/emailTxtLayout"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="50dp"
         android:layout_marginTop="120dp"
         android:layout_marginEnd="50dp"
-        android:hint="Username"
+        android:hint="Email"
         app:boxStrokeWidth="3sp"
         app:hintTextAppearance="@style/TextAppearance.AppCompat.Headline"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvSignUpMsg"
-        app:startIconDrawable="@drawable/baseline_person_24">
+        app:startIconDrawable="@drawable/baseline_mail_24">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etUsername"
+            android:id="@+id/etEmail"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:inputType="text"
+            android:inputType="textEmailAddress"
             android:paddingStart="25dp"
             android:textColor="@color/black"
             android:textSize="30sp" />
@@ -79,7 +79,7 @@
         app:startIconDrawable="@drawable/baseline_security_24"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/usernameTxtLayout">
+        app:layout_constraintTop_toBottomOf="@+id/emailTxtLayout">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etPassword"
