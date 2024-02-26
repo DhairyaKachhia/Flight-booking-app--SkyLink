@@ -3,6 +3,7 @@ package com.example.skylink.presentation;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -14,26 +15,23 @@ import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.skylink.R;
+import com.example.skylink.application.Services;
 import com.example.skylink.business.AirportPath;
 import com.example.skylink.business.validations.IValidateSearchInput;
 import com.example.skylink.business.validations.ValidateSearchInput;
 import com.example.skylink.business.Session;
-import com.example.skylink.data.CitiesRepository;
+import com.example.skylink.persistence.CitiesRepository;
 import com.example.skylink.objects.City;
 import com.example.skylink.objects.Flight;
 import com.example.skylink.objects.Flights;
 import com.google.android.material.textfield.TextInputLayout;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
 import android.app.DatePickerDialog;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import java.util.Calendar;
 
@@ -66,6 +64,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Services.setup(this);
 
         autoCompleteFrom = findViewById(R.id.autoComplete_from);
         autoCompleteTo = findViewById(R.id.autoComplete_to);

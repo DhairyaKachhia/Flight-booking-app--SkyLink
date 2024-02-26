@@ -13,7 +13,7 @@ import java.util.Set;
 import java.util.Collections;
 
 
-import com.example.skylink.data.FlightDatabase;
+import com.example.skylink.persistence.FlightDatabase;
 import com.example.skylink.objects.Flight;
 
 public class AirportPath {
