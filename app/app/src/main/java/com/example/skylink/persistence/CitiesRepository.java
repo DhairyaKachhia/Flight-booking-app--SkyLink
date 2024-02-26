@@ -1,4 +1,4 @@
-package com.example.skylink.data;
+package com.example.skylink.persistence;
 
 import com.example.skylink.objects.City;
 

@@ -1,6 +1,6 @@
 package com.example.skylink.business;
 
-import com.example.skylink.data.BookingDatabase;
+import com.example.skylink.persistence.BookingDatabase;
 import com.example.skylink.objects.PassengerData;
 
 public class PassengerDataManager {
