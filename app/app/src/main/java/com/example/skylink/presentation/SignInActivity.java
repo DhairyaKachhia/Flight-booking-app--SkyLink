@@ -7,12 +7,14 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.example.skylink.R;
 
 public class SignInActivity extends AppCompatActivity {
 
     private EditText username, password;
+    private TextView singUp;
     private Button signIn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
