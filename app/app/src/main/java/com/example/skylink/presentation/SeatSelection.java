@@ -12,6 +12,8 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.skylink.R;
+import com.example.skylink.business.Session;
+import com.example.skylink.objects.Flight;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,13 +26,52 @@ public class SeatSelection extends AppCompatActivity {
     private Map<String, SeatStatus> seatStatusMap = new HashMap<>();
     private List<String> selectedSeats = new ArrayList<>();
 
+    // Declare the TextViews
+    private TextView departingAirportTextView;
+    private TextView arrivingAirportTextView;
+    private TextView departureTimeTextView;
+    private TextView arrivalTimeTextView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.seat_selection);
 
-        String[][] planeConfigurations = {
+        departingAirportTextView = findViewById(R.id.departingAirportTextView);
+        arrivingAirportTextView = findViewById(R.id.arrivingAirportTextView);
+        departureTimeTextView = findViewById(R.id.departureTimeTextView);
+        arrivalTimeTextView = findViewById(R.id.arrivalTimeTextView);
+
+        HashMap<String, List<List<Flight>>> selectedFlights = Session.getInstance().getSelectedFlights();
+
+//        if (selectedFlights != null && selectedFlights.containsKey("Inbound")) {
+//            List<List<Flight>> inboundFlights = selectedFlights.get("Inbound");
+
+            // Assuming the first flight contains the necessary information
+//            if (inboundFlights != null && !inboundFlights.isEmpty()) {
+//                Flight firstFlight = inboundFlights.get(0);
+
+                // Extract relevant information from the Flight object
+                String departAirport = "YYZ";//firstFlight.getDepartureAirport();
+                String arriveAirport = "YUL";//firstFlight.getArrivalAirport();
+                String departureTime = "23:00";//firstFlight.getDepartureTime();
+                String arrivalTime = "15:00";//firstFlight.getArrivalTime();
+
+                // Example: Update the Departing Airport TextView
+                updateTextView(departingAirportTextView, "Departing Airport: " + departAirport);
+                // Example: Update the Arriving Airport TextView
+                updateTextView(arrivingAirportTextView, "Arriving Airport: " + arriveAirport);
+                // Example: Update the Departure Time TextView
+                updateTextView(departureTimeTextView, "Departure Time: " + departureTime);
+                // Example: Update the Arrival Time TextView
+                updateTextView(arrivalTimeTextView, "Arrival Time: " + arrivalTime);
+//            }
+//        }
+
+
+
+    String[][] planeConfigurations = {
                 {"Boeing 737", "4", "6", "6", "18"},
                 {"Airbus A320", "4", "7", "6", "14"},
                 {"Embraer E190", "4", "4", "6", "10"},
@@ -218,5 +259,8 @@ public class SeatSelection extends AppCompatActivity {
         boolean isTaken() {
             return isTaken;
         }
+    }
+    private void updateTextView(TextView textView, String newText) {
+        textView.setText(newText);
     }
 }

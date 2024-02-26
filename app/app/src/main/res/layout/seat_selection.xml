@@ -1,7 +1,7 @@
-<?xml version="1.0" encoding="utf-8"?>
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingLeft="16dp"
@@ -11,31 +11,90 @@
     android:paddingBottom="16dp"
     tools:context=".presentation.SeatSelection">
 
-    <!-- Use a RelativeLayout as the direct child of the ScrollView -->
-    <RelativeLayout
+    <!-- Use a ConstraintLayout as the direct child of the ScrollView -->
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
+
+        <!-- Button at the top -->
         <Button
             android:id="@+id/myButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="My Button"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"/>
-        <!-- Center the Linear layout in the middle of the RelativeLayout -->
+            android:layout_marginTop="16dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:backgroundTint="@color/greenColor"/>
+
+
+
+        <!-- Departing Airport TextView -->
+        <TextView
+            android:id="@+id/departingAirportTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Departing Airport: XYZ"
+            android:textSize="18sp"
+            android:textColor="@android:color/black"
+            app:layout_constraintTop_toBottomOf="@+id/myButton"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="16dp"/>
+
+        <!-- Arriving Airport TextView -->
+        <TextView
+            android:id="@+id/arrivingAirportTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Arriving Airport: ABC"
+            android:textSize="18sp"
+            android:textColor="@android:color/black"
+            app:layout_constraintTop_toBottomOf="@+id/departingAirportTextView"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="8dp"/>
+
+        <!-- Departure Time TextView -->
+        <TextView
+            android:id="@+id/departureTimeTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Departure Time: 12:00 PM"
+            android:textSize="18sp"
+            android:textColor="@android:color/black"
+            app:layout_constraintTop_toBottomOf="@+id/arrivingAirportTextView"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="8dp"/>
+
+        <!-- Arrival Time TextView -->
+        <TextView
+            android:id="@+id/arrivalTimeTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Arrival Time: 2:00 PM"
+            android:textSize="18sp"
+            android:textColor="@android:color/black"
+            app:layout_constraintTop_toBottomOf="@+id/departureTimeTextView"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="8dp"/>
+
+        <!-- Flight Layout -->
         <LinearLayout
             android:id="@+id/Flight_Layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+            app:layout_constraintTop_toBottomOf="@+id/arrivalTimeTextView"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             android:layout_centerInParent="true">
-
-            <!-- The content of Flight_Layout goes here -->
-
+            <!-- Add your flight-related content here -->
         </LinearLayout>
 
-    </RelativeLayout>
-
-    <!-- Other views and seat definitions go here -->
-
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
