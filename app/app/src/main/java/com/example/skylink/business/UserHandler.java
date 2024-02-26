@@ -1,5 +1,6 @@
 package com.example.skylink.business;
 
+import com.example.skylink.application.Services;
 import com.example.skylink.objects.UserProperties;
 import org.mindrot.jbcrypt.BCrypt;
 import  com.example.skylink.persistence.IUser;
@@ -12,7 +13,7 @@ public class UserHandler implements IUserHandler {
             String hashedRePassword = BCrypt.hashpw(rePassword, BCrypt.gensalt());
             userProperties.setPassword(hashedRePassword);
 
-            long userId = IUser.addUser_Auth(userProperties);
+            long userId = Services.getUserDatabase().addUser_Auth(userProperties);
             Session.getInstance().setUser_id(userId);
 
             if (userId != -1) {
@@ -29,7 +30,7 @@ public class UserHandler implements IUserHandler {
         public boolean updateUserProfile(UserProperties userProperties) {
             long user_id = Session.getInstance().getUser_id();
             try{
-                if(IUser.update_user_info(user_id,userProperties)){
+                if(Services.getUserDatabase().update_user_info(user_id,userProperties)){
                     return true;
                 }
                 return false;
@@ -37,7 +38,6 @@ public class UserHandler implements IUserHandler {
                 e.printStackTrace();
                 return false;
             }
-            return true;
         }
 
     public boolean signinUser(UserProperties userProperties) {
@@ -45,7 +45,7 @@ public class UserHandler implements IUserHandler {
         String providedPassword = userProperties.getPassword();
 
         try {
-            String password_db = IUser.findPassword(email);
+            String password_db = Services.getUserDatabase().findPassword(email);
             if (BCrypt.checkpw(providedPassword, password_db)) {
                 return true;
             }

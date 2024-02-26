@@ -66,8 +66,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Services.setup(this);
-
         autoCompleteFrom = findViewById(R.id.autoComplete_from);
         autoCompleteTo = findViewById(R.id.autoComplete_to);
         radioGroupTripType = findViewById(R.id.radioGroupTripType);
@@ -315,6 +313,11 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         }
 
+    }
+
+    public void goToSignInActivity(View view) {
+        Intent intent = new Intent(this, SignInActivity.class);
+        startActivity(intent);
     }
 
 }
