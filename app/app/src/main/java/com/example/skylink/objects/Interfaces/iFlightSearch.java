@@ -20,6 +20,5 @@ public interface iFlightSearch {
     void setFlightDeptDate(String flightDeptDate);
     void setFlightReturnDate(String flightReturnDate);
     void setTotalPassengers(int totalPassengers);
-    HashMap< String,List<List<List<iFlight>>>> findFlights(FlightSearch flightSearch);
     void setOneWay(boolean isOneWay);
 }

@@ -15,6 +15,7 @@ import java.util.Collections;
 
 import com.example.skylink.business.Interface.iAirportPath;
 import com.example.skylink.objects.Interfaces.iFlight;
+import com.example.skylink.objects.Interfaces.iFlightSearch;
 import com.example.skylink.persistence.Implementations.hsqldb.FlightDatabase;
 import com.example.skylink.objects.Implementations.Flight;
 import com.example.skylink.objects.Implementations.FlightSearch;
@@ -198,7 +199,7 @@ public class AirportPath implements iAirportPath {
     }
 
     //String flight_dept, String flight_arrival, String flight_dept_date, String flight_return_date, boolean isOneWay
-    public HashMap< String,List<List<List<iFlight>>>> findFlights(FlightSearch flightSearch) {
+    public HashMap< String,List<List<List<iFlight>>>> findFlights(iFlightSearch flightSearch) {
         HashMap<String, List<List<List<iFlight>>>> itinerary = new HashMap<>();
         List<List<String>> all_dept_flight = filterPaths(findAllPaths(flightSearch.getFlightDept(), flightSearch.getFlightArrival()),3);
 

@@ -50,7 +50,7 @@ public class Flight_search extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_flight_search);
 
-        Intent intent = getIntent();
+        iFlightSearch flightSearchDetail = Session.getInstance().getFlightSearch();
 
         noFlightTV = findViewById(R.id.noFlightTextV);
         showFlightLV = findViewById(R.id.flightListView);
@@ -62,8 +62,7 @@ public class Flight_search extends AppCompatActivity {
 
         if (flightData != null && !flightData.getData().isEmpty()) {
 
-            Bundle userInput = intent.getExtras();
-            displayUserSelection(userInput);
+            displayUserSelection(flightSearchDetail);
 
                 receivedData = flightData.getData();
 
@@ -73,7 +72,7 @@ public class Flight_search extends AppCompatActivity {
 
                 sortingOptions = setupSpinner();
 
-                setupListview(userInput);
+                setupListview(flightSearchDetail);
 
                 sortingOptions.setOnItemSelectedListener(new spinnerItemSelectListner());
 
@@ -93,14 +92,14 @@ public class Flight_search extends AppCompatActivity {
 
 
     @SuppressLint("SetTextI18n")
-    private void displayUserSelection(Bundle userInput) {
-        if (userInput != null) {
-            String departingCity = userInput.getString("departingCity");
-            String returningCity = userInput.getString("returningCity");
-            String departingDate = userInput.getString("departingDate");
-            String returningDate = userInput.getString("returningDate");
-            int totalPassengers = userInput.getInt("totalPassengers");
-            boolean isOneWay = userInput.getBoolean("isOneWay");
+    private void displayUserSelection(iFlightSearch flightSearchDetail) {
+        if (flightSearchDetail != null) {
+            String departingCity = flightSearchDetail.getFlightDept();
+            String returningCity = flightSearchDetail.getFlightArrival();
+            String departingDate = flightSearchDetail.getFlightDeptDate();
+            String returningDate = flightSearchDetail.getFlightReturnDate();
+            int totalPassengers = flightSearchDetail.getTotalPassengers();
+            boolean isOneWay = flightSearchDetail.isOneWay();
 
             this.isOneWay = isOneWay;
 
@@ -164,12 +163,12 @@ public class Flight_search extends AppCompatActivity {
         }
     }
 
-    private void setupListview (Bundle userInput) {
+    private void setupListview (iFlightSearch flightSearchDetail) {
 
         isDepartureSelected = false;
 
-        originAdaptor = new CustomFlightAdaptor(Flight_search.this, tripOutbound, isOneWay, userInput);
-        returnAdaptor = new CustomFlightAdaptor(Flight_search.this, tripInbound, isOneWay, userInput);
+        originAdaptor = new CustomFlightAdaptor(Flight_search.this, tripOutbound, isOneWay, flightSearchDetail);
+        returnAdaptor = new CustomFlightAdaptor(Flight_search.this, tripInbound, isOneWay, flightSearchDetail);
         currAdaptor = originAdaptor;
 
         availableFlights = new ArrayList<>(tripOutbound);

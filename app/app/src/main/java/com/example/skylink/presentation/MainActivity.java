@@ -227,15 +227,6 @@ public class MainActivity extends AppCompatActivity {
         int totalPassengers = travelerCount;
         boolean isOneWay = !tripType.equals("Round Trip");
 
-        Bundle userInfoBundle = new Bundle();
-
-        userInfoBundle.putString("departingCity", departingCity);
-        userInfoBundle.putString("returningCity", returningCity);
-        userInfoBundle.putString("departingDate", departingDate);
-        userInfoBundle.putString("returningDate", returningDate);
-        userInfoBundle.putInt("totalPassengers", totalPassengers);
-        userInfoBundle.putBoolean("isOneWay", isOneWay);
-
         boolean isValid = true;
 
         IValidateSearchInput validator = new ValidateSearchInput();
@@ -268,11 +259,9 @@ public class MainActivity extends AppCompatActivity {
         if (isValid) {
             iAirportPath path = new AirportPath();
 
-            // Set session data (e.g., during login)
-            Session.getInstance().setEmail("123");
-            Session.getInstance().setUsername("JohnDoe");
-
             iFlightSearch flightSearch = new FlightSearch(departingCity, returningCity, departingDate, returningDate, totalPassengers, isOneWay);
+
+            Session.getInstance().setFlightSearch(flightSearch);
 
             HashMap<String, List<List<List<iFlight>>>> flightPathResults = path.findFlights(flightSearch);
 

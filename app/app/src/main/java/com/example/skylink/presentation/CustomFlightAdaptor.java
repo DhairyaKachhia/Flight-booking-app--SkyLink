@@ -16,6 +16,7 @@ import com.example.skylink.R;
 import com.example.skylink.business.Implementations.Session;
 import com.example.skylink.objects.Implementations.Flight;
 import com.example.skylink.objects.Interfaces.iFlight;
+import com.example.skylink.objects.Interfaces.iFlightSearch;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -29,9 +30,9 @@ public class CustomFlightAdaptor extends BaseAdapter {
     private final Flight_search flightResult;
     private List<List<List<iFlight>>> availableFlights;
     private final boolean isOneWay;
-    private final Bundle userInput;
+    private final iFlightSearch userInput;
 
-    public CustomFlightAdaptor(Context context, List<List<List<iFlight>>> availableFlights, boolean isOneWay, Bundle userInput) {
+    public CustomFlightAdaptor(Context context, List<List<List<iFlight>>> availableFlights, boolean isOneWay, iFlightSearch userInput) {
         mContext = context;
         this.availableFlights = availableFlights;
         this.isOneWay = isOneWay;
@@ -227,7 +228,7 @@ public class CustomFlightAdaptor extends BaseAdapter {
             Session.getInstance().setSelectedFlights(flightResult.getSelectedFlights());
 
             Intent nextPageIntent = new Intent(flightResult, User_info.class);
-            nextPageIntent.putExtras(userInput);
+//            nextPageIntent.putExtras(userInput);
             flightResult.startActivity(nextPageIntent);
         }
     }

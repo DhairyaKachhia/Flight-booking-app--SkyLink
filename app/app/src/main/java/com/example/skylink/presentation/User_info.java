@@ -17,6 +17,7 @@ import com.example.skylink.business.validations.IValidatePassgnData;
 import com.example.skylink.business.Implementations.PassengerDataManager;
 import com.example.skylink.business.validations.ValidatePassgnData;
 import com.example.skylink.objects.Implementations.PassengerData;
+import com.example.skylink.objects.Interfaces.iFlightSearch;
 import com.example.skylink.objects.Interfaces.iPassengerData;
 
 import java.util.ArrayList;
@@ -35,14 +36,13 @@ public class User_info extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_info);
 
-        Intent intent = getIntent();
-        Bundle userInput = intent.getExtras();
+        iFlightSearch flightSearch = Session.getInstance().getFlightSearch();
 
         userFormList = findViewById(R.id.lvUserForms);
         submitBtn = findViewById(R.id.submitBtn);
 
         userFormList.setFastScrollEnabled(false);
-        userFormAdapter = new CustomUserFormAdapter(getApplicationContext(), userInput);
+        userFormAdapter = new CustomUserFormAdapter(getApplicationContext(), flightSearch);
         userFormList.setAdapter(userFormAdapter);
 
         passengerDataManager = new PassengerDataManager();
