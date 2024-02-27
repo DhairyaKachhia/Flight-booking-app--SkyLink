@@ -55,7 +55,7 @@ public class SignUpActivity extends AppCompatActivity {
                 UserHandler handler = new UserHandler();
 
                 if (handler.createUser(user, userRePassword)) {
-                    Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
+                    Intent intent = new Intent(SignUpActivity.this, UpdateUserProfileActivity.class);
                     startActivity(intent);
                 } else {
                     // Handle user creation failure, show an error message, etc.
