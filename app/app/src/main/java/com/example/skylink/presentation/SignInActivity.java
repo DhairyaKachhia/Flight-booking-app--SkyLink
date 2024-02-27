@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -12,16 +11,22 @@ import android.widget.Toast;
 
 import com.example.skylink.R;
 import com.example.skylink.application.Services;
-import com.example.skylink.business.UserHandler;
+
+import com.example.skylink.business.Interface.IUserHandler;
+import com.example.skylink.objects.Interfaces.iUserProperties;
+
+import com.example.skylink.business.Implementations.UserHandler;
+import com.example.skylink.objects.Implementations.UserProperties;
+
 import com.example.skylink.business.validations.IValidateUserAuth;
 import com.example.skylink.business.validations.ValidateUserAuth;
-import com.example.skylink.objects.UserProperties;
-import com.example.skylink.business.IUsesHandler;
+
 public class SignInActivity extends AppCompatActivity {
 
     private EditText email, password;
-    private TextView singUp;
+    private TextView signUp;
     private Button signIn;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,43 +37,38 @@ public class SignInActivity extends AppCompatActivity {
         email = findViewById(R.id.etEmail);
         password = findViewById(R.id.etPassword);
 
+        signUp = findViewById(R.id.tvSignInClick);
 
-        singUp = findViewById(R.id.tvSignInClick);
-
-        singUp.setOnClickListener(v -> {
+        signUp.setOnClickListener(v -> {
             Intent intent = new Intent(SignInActivity.this, SignUpActivity.class);
             startActivity(intent);
-
         });
-
 
         signIn = findViewById(R.id.btnSignIn);
 
         signIn.setOnClickListener(v -> {
-
             if (isValid()) {
                 String userEmail = email.getText().toString();
                 String userPassword = password.getText().toString();
 
-                UserProperties user = new UserProperties(userEmail,userPassword);
-                UserHandler checkUser = new UserHandler();
-//                if(checkUser.signinUser(user)){
-                if(true){
+                iUserProperties user = new UserProperties(userEmail, userPassword);
+                IUserHandler checkUser = new UserHandler();
+
+                if (checkUser.signinUser(user)) {
                     Intent intent = new Intent(SignInActivity.this, MainActivity.class);
                     startActivity(intent);
-                }else{
+                } else {
                     Toast.makeText(SignInActivity.this, "Sign in failed", Toast.LENGTH_SHORT).show();
                 }
             }
         });
-
     }
 
-    private boolean isValid(){
+    private boolean isValid() {
         boolean isValid = true;
+        String error;
 
         IValidateUserAuth validateUserAuth = new ValidateUserAuth();
-        String error = "";
 
         error = validateUserAuth.validEmail(email.getText().toString());
         if (!error.isEmpty()) {
@@ -81,7 +81,6 @@ public class SignInActivity extends AppCompatActivity {
             password.setError(error);
             isValid = false;
         }
-
 
         return isValid;
     }

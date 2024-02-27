@@ -1,6 +1,8 @@
-package com.example.skylink.objects;
+package com.example.skylink.objects.Implementations;
 
-public class UserProperties {
+import com.example.skylink.objects.Interfaces.iUserProperties;
+
+public class UserProperties implements iUserProperties {
 
     private String fullName;
     private String email;

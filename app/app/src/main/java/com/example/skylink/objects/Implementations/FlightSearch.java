@@ -1,6 +1,8 @@
-package com.example.skylink.objects;
+package com.example.skylink.objects.Implementations;
 
-public class FlightSearch {
+import com.example.skylink.objects.Interfaces.iFlightSearch;
+
+public class FlightSearch implements iFlightSearch {
 
     private String flightDept;
     private String flightArrival;

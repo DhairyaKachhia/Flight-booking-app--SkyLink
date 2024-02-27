@@ -1,4 +1,4 @@
-package com.example.skylink.business;
+package com.example.skylink.business.Implementations;
 
 import org.jgrapht.Graph;
 import org.jgrapht.graph.DefaultWeightedEdge;
@@ -13,11 +13,13 @@ import java.util.Set;
 import java.util.Collections;
 
 
-import com.example.skylink.persistence.FlightDatabase;
-import com.example.skylink.objects.Flight;
-import com.example.skylink.objects.FlightSearch;
+import com.example.skylink.business.Interface.iAirportPath;
+import com.example.skylink.objects.Interfaces.iFlight;
+import com.example.skylink.persistence.Implementations.hsqldb.FlightDatabase;
+import com.example.skylink.objects.Implementations.Flight;
+import com.example.skylink.objects.Implementations.FlightSearch;
 
-public class AirportPath {
+public class AirportPath implements iAirportPath {
     private final Graph<String, DefaultWeightedEdge> airportGraph;
 
     public AirportPath() {
@@ -125,11 +127,16 @@ public class AirportPath {
         return distance;
     }
 
-    public List<List<List<Flight>>> pullFlight(List<List<String>> all_dept_flight, String flight_dept_date){
+    @Override
+    public List<List<List<Flight>>> retrieveFlightsBasedOnPath(List<List<String>> paths, String flightDepartureDate) {
+        return null;
+    }
+
+    public List<List<List<iFlight>>> pullFlight(List<List<String>> all_dept_flight, String flight_dept_date){
         FlightDatabase flightDatabase = new FlightDatabase();
         boolean isDirectPath;
-        List<List<List<Flight>>> proposed_flight_path = new ArrayList<>();
-        List<List<List<Flight>>> dirFlight = new ArrayList<>();
+        List<List<List<iFlight>>> proposed_flight_path = new ArrayList<>();
+        List<List<List<iFlight>>> dirFlight = new ArrayList<>();
 
         if (all_dept_flight == null || flight_dept_date == null || all_dept_flight.isEmpty()) {
             return null;
@@ -138,14 +145,14 @@ public class AirportPath {
 
         for (List<String> path : all_dept_flight) {
             String[] all_hubs_landing = path.toString().replaceAll("[\\[\\]]", "").split(", ");
-            List<List<Flight>> layover = new ArrayList<>();
+            List<List<iFlight>> layover = new ArrayList<>();
             isDirectPath = (all_hubs_landing.length == 2);
             boolean allLegsHaveFlights = true;
 
             for (int i = 0; i < all_hubs_landing.length - 1; i++) {
                 String currentHub = all_hubs_landing[i];
                 String nextHub = all_hubs_landing[i + 1];
-                List<Flight> flights = flightDatabase.findFlight(currentHub, nextHub, flight_dept_date);
+                List<iFlight> flights = flightDatabase.findFlight(currentHub, nextHub, flight_dept_date);
 
                 if (flights != null && !flights.isEmpty()) {
                     layover.add(flights);
@@ -171,13 +178,13 @@ public class AirportPath {
         return proposed_flight_path;
     }
 
-    private List<List<List<Flight>>> addDirectFlight(List<Flight> directFlightList) {
+    private List<List<List<iFlight>>> addDirectFlight(List<iFlight> directFlightList) {
 
-        List<List<List<Flight>>> dirFlights = new ArrayList<>();
+        List<List<List<iFlight>>> dirFlights = new ArrayList<>();
 
         for (int i = 0; i < directFlightList.size(); i++) {
-            List<List<Flight>> flightCard = new ArrayList<>();
-            List<Flight> currFlight = new ArrayList<>();
+            List<List<iFlight>> flightCard = new ArrayList<>();
+            List<iFlight> currFlight = new ArrayList<>();
 
             currFlight.add(directFlightList.get(i));
 
@@ -191,11 +198,11 @@ public class AirportPath {
     }
 
     //String flight_dept, String flight_arrival, String flight_dept_date, String flight_return_date, boolean isOneWay
-    public HashMap< String,List<List<List<Flight>>>> findFlights(FlightSearch flightSearch) {
-        HashMap<String, List<List<List<Flight>>>> itinerary = new HashMap<>();
+    public HashMap< String,List<List<List<iFlight>>>> findFlights(FlightSearch flightSearch) {
+        HashMap<String, List<List<List<iFlight>>>> itinerary = new HashMap<>();
         List<List<String>> all_dept_flight = filterPaths(findAllPaths(flightSearch.getFlightDept(), flightSearch.getFlightArrival()),3);
 
-        List<List<List<Flight>>> out_bound_flights_found = pullFlight(all_dept_flight,flightSearch.getFlightDeptDate());
+        List<List<List<iFlight>>> out_bound_flights_found = pullFlight(all_dept_flight,flightSearch.getFlightDeptDate());
 
         if (out_bound_flights_found != null && !out_bound_flights_found.isEmpty()) {
             itinerary.put("Outbound", out_bound_flights_found);
@@ -204,13 +211,18 @@ public class AirportPath {
 
         if (!flightSearch.isOneWay()) {
             List<List<String>> all_arr_flight = filterPaths(reverseInnerLists(all_dept_flight), 3);
-            List<List<List<Flight>>> in_bound_flights_found = pullFlight(all_arr_flight, flightSearch.getFlightReturnDate());
+            List<List<List<iFlight>>> in_bound_flights_found = pullFlight(all_arr_flight, flightSearch.getFlightReturnDate());
             if (in_bound_flights_found != null && !in_bound_flights_found.isEmpty()) {
                 itinerary.put("Inbound", in_bound_flights_found);
             }
         }
         // return empty hash map or an hash map that has outbound and inbound.
         return itinerary;
+    }
+
+    @Override
+    public List<List<String>> filterPaths(List<List<String>> allPaths) {
+        return null;
     }
 
     public List<List<String>> filterPaths(List<List<String>> allPaths, int maxLayovers) {
@@ -225,7 +237,7 @@ public class AirportPath {
         return filteredPaths;
     }
 
-    public static List<List<String>> reverseInnerLists(List<List<String>> outerList) {
+    public List<List<String>> reverseInnerLists(List<List<String>> outerList) {
         List<List<String>> reversedList = new ArrayList<>();
 
         for (List<String> innerList : outerList) {

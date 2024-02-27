@@ -1,6 +1,8 @@
-package com.example.skylink.objects;
+package com.example.skylink.objects.Implementations;
 
-public class City {
+import com.example.skylink.objects.Interfaces.iCity;
+
+public class City implements iCity {
     private String name;
     private String code;
 

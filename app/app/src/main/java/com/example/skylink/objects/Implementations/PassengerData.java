@@ -1,6 +1,8 @@
-package com.example.skylink.objects;
+package com.example.skylink.objects.Implementations;
 
-public class PassengerData {
+import com.example.skylink.objects.Interfaces.iPassengerData;
+
+public class PassengerData implements iPassengerData {
     private String title;
     private String first_name;
     private String last_name;
@@ -40,19 +42,19 @@ public class PassengerData {
         this.title = title;
     }
 
-    public void setFirst_name(String first_name) {
+    public void setFirstName(String first_name) {
         this.first_name = first_name;
     }
 
-    public void setLast_name(String last_name) {
+    public void setLastName(String last_name) {
         this.last_name = last_name;
     }
 
-    public void setTelephone_number(String telephone_number) {
+    public void setTelephoneNumber(String telephone_number) {
         this.telephone_number = telephone_number;
     }
 
-    public void setEmail_address(String email_address) {
+    public void setEmailAddress(String email_address) {
         this.email_address = email_address;
     }
 

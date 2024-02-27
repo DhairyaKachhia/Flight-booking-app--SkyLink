@@ -14,10 +14,14 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.skylink.R;
-import com.example.skylink.business.FlightSorting;
-import com.example.skylink.business.Session;
-import com.example.skylink.objects.Flights;
-import com.example.skylink.objects.Flight;
+import com.example.skylink.business.Implementations.FlightSorting;
+import com.example.skylink.business.Implementations.Session;
+import com.example.skylink.business.Interface.iFlightSorting;
+import com.example.skylink.objects.Implementations.Flights;
+import com.example.skylink.objects.Implementations.Flight;
+import com.example.skylink.objects.Interfaces.iFlight;
+import com.example.skylink.objects.Interfaces.iFlightSearch;
+import com.example.skylink.objects.Interfaces.iFlights;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -29,17 +33,17 @@ public class Flight_search extends AppCompatActivity {
     private ListView showFlightLV;
     private Spinner sortingOptions;
     private TextView noFlightTV;
-    private List<List<List<Flight>>> availableFlights = new ArrayList<>();
+    private List<List<List<iFlight>>> availableFlights = new ArrayList<>();
     private boolean isOneWay = true;
     private CustomFlightAdaptor originAdaptor;
     private CustomFlightAdaptor returnAdaptor;
     private CustomFlightAdaptor currAdaptor;
-    private FlightSorting flightSorting;
+    private iFlightSorting flightSorting;
     private boolean isDepartureSelected;
-    private List<List<List<Flight>>> tripOutbound = new ArrayList<>();
-    private List<List<List<Flight>>> tripInbound = new ArrayList<>();
+    private List<List<List<iFlight>>> tripOutbound = new ArrayList<>();
+    private List<List<List<iFlight>>> tripInbound = new ArrayList<>();
 
-    private HashMap<String, List<List<Flight>>> selectedFlights = new HashMap<>();
+    private HashMap<String, List<List<iFlight>>> selectedFlights = new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,8 +55,10 @@ public class Flight_search extends AppCompatActivity {
         noFlightTV = findViewById(R.id.noFlightTextV);
         showFlightLV = findViewById(R.id.flightListView);
 
-        Flights flightData = (Flights) intent.getSerializableExtra("flightData");
-        HashMap<String, List<List<List<Flight>>>> receivedData = null;
+        HashMap<String, List<List<List<iFlight>>>> flightPath = Session.getInstance().getFlightPathResults();
+        iFlights flightData = new Flights(flightPath);
+
+        HashMap<String, List<List<List<iFlight>>>> receivedData = null;
 
         if (flightData != null && !flightData.getData().isEmpty()) {
 
@@ -139,7 +145,7 @@ public class Flight_search extends AppCompatActivity {
         return sortingOptions;
     }
 
-    private void extractFlightData (HashMap< String,List<List<List<Flight>>>>  receivedData, boolean isOneWay) {
+    private void extractFlightData (HashMap< String,List<List<List<iFlight>>>>  receivedData, boolean isOneWay) {
 
         if (receivedData != null) {
 
@@ -177,7 +183,7 @@ public class Flight_search extends AppCompatActivity {
             // Perform actions when an item is selected
             String selectedItem = parent.getItemAtPosition(position).toString();
 
-            List<List<List<Flight>>> filteredFlights = new ArrayList<>(availableFlights);
+            List<List<List<iFlight>>> filteredFlights = new ArrayList<>(availableFlights);
 
             if (filteredFlights.size() > 0) {
                 if (selectedItem.equals("Lowest price")) {
@@ -194,7 +200,7 @@ public class Flight_search extends AppCompatActivity {
 
                 }
 
-                Collections.sort(filteredFlights, flightSorting);
+//                Collections.sort(filteredFlights, flightSorting);
 
                 if (filteredFlights.size() > 0) {
 
@@ -232,7 +238,7 @@ public class Flight_search extends AppCompatActivity {
             } else {
                 currAdaptor = originAdaptor;
 
-                availableFlights = new ArrayList<>(tripOutbound);
+                availableFlights =  new ArrayList<>(tripOutbound);
             }
 
             checkAdapter(availableFlights);
@@ -242,7 +248,7 @@ public class Flight_search extends AppCompatActivity {
     }
 
 
-    private void checkAdapter(List<List<List<Flight>>> availableFlights) {
+    private void checkAdapter(List<List<List<iFlight>>> availableFlights) {
         if (availableFlights.isEmpty()) {
             noFlightTV.setVisibility(View.VISIBLE);
             showFlightLV.setVisibility(View.GONE);
@@ -286,11 +292,11 @@ public class Flight_search extends AppCompatActivity {
         isDepartureSelected = departureStatus;
     }
 
-    public HashMap<String, List<List<Flight>>> getSelectedFlights() {
+    public HashMap<String, List<List<iFlight>>> getSelectedFlights() {
         return selectedFlights;
     }
 
-    public void setSelectedFlights(HashMap<String, List<List<Flight>>> selectedFlights) {
+    public void setSelectedFlights(HashMap<String, List<List<iFlight>>> selectedFlights) {
         this.selectedFlights = selectedFlights;
     }
 }

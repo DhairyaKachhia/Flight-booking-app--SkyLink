@@ -12,8 +12,9 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.skylink.R;
-import com.example.skylink.business.Session;
-import com.example.skylink.objects.Flight;
+import com.example.skylink.business.Implementations.Session;
+import com.example.skylink.objects.Implementations.Flight;
+import com.example.skylink.objects.Interfaces.iFlight;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -43,20 +44,19 @@ public class SeatSelection extends AppCompatActivity {
         departureTimeTextView = findViewById(R.id.departureTimeTextView);
         arrivalTimeTextView = findViewById(R.id.arrivalTimeTextView);
 
-        HashMap<String, List<List<Flight>>> selectedFlights = Session.getInstance().getSelectedFlights();
+        HashMap<String, List<List<iFlight>>> selectedFlights = Session.getInstance().getSelectedFlights();
 
-//        if (selectedFlights != null && selectedFlights.containsKey("Inbound")) {
-//            List<List<Flight>> inboundFlights = selectedFlights.get("Inbound");
+        if (selectedFlights != null && selectedFlights.containsKey("Inbound")) {
+             List<List<iFlight>> inboundFlights = selectedFlights.get("Inbound");
 
-            // Assuming the first flight contains the necessary information
-//            if (inboundFlights != null && !inboundFlights.isEmpty()) {
-//                Flight firstFlight = inboundFlights.get(0);
+            if (inboundFlights != null && !inboundFlights.isEmpty()) {
+                iFlight firstFlight = inboundFlights.get(0).get(0);
 
                 // Extract relevant information from the Flight object
-                String departAirport = "YYZ";//firstFlight.getDepartureAirport();
-                String arriveAirport = "YUL";//firstFlight.getArrivalAirport();
-                String departureTime = "23:00";//firstFlight.getDepartureTime();
-                String arrivalTime = "15:00";//firstFlight.getArrivalTime();
+                String departAirport = firstFlight.getDeparture_icao();
+                String arriveAirport = firstFlight.getArrival_icao();
+                String departureTime = firstFlight.getFlight_dept_date_time();
+                String arrivalTime = firstFlight.getFlight_arr_date_time();
 
                 // Example: Update the Departing Airport TextView
                 updateTextView(departingAirportTextView, "Departing Airport: " + departAirport);
@@ -66,8 +66,8 @@ public class SeatSelection extends AppCompatActivity {
                 updateTextView(departureTimeTextView, "Departure Time: " + departureTime);
                 // Example: Update the Arrival Time TextView
                 updateTextView(arrivalTimeTextView, "Arrival Time: " + arrivalTime);
-//            }
-//        }
+            }
+        }
 
 
 
@@ -84,19 +84,10 @@ public class SeatSelection extends AppCompatActivity {
         // Add seats to Flight_Layout
         addSeatsToLayout(planeConfigurations[2]);
         Button myButton = findViewById(R.id.myButton);
-        myButton.setOnClickListener(new View.OnClickListener() {
-           @Override
-            public void onClick(View v) {
+        myButton.setOnClickListener(v -> {
 
-                Intent intent = new Intent(SeatSelection.this,CreditCardPaymentActivity.class);
-
-                // You can add extra data to the intent if needed
-                // intent.putExtra("key", "value");
-
-                // Start the new activity
-                startActivity(intent);
-                // Handle button click event
-           }
+             Intent intent = new Intent(SeatSelection.this,CreditCardPaymentActivity.class);
+             startActivity(intent);
         });
     }
 
