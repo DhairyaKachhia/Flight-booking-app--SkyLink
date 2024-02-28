@@ -1,8 +1,8 @@
 //package com.example.skylink;
 //
-//import com.example.skylink.business.AirportPath;
-//import com.example.skylink.business.PassengerDataManager;
-//import com.example.skylink.objects.Flight;
+//import com.example.skylink.business.Implementations.AirportPath;
+//import com.example.skylink.business.Implementations.PassengerDataManager;
+//import com.example.skylink.objects.Implementations.Flight;
 //import org.junit.Before;
 //import org.junit.Test;
 //

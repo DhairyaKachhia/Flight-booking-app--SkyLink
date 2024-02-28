@@ -1,6 +1,6 @@
 package com.example.skylink;
 
-import com.example.skylink.business.PassengerDataManager;
+import com.example.skylink.business.Implementations.PassengerDataManager;
 
 import org.junit.Before;
 import org.junit.Test;

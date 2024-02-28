@@ -42,12 +42,6 @@ public class SeatSelection extends AppCompatActivity {
     HashMap<iPassengerData, String> seatMap = new HashMap<>();
 
 
-    // Declare the TextViews
-    private TextView departingAirportTextView;
-    private TextView arrivingAirportTextView;
-    private TextView departureTimeTextView;
-    private TextView arrivalTimeTextView;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
