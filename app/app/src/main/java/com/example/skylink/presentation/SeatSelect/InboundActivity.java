@@ -36,6 +36,7 @@ public class InboundActivity extends AppCompatActivity {
     private TextView departingAirportTextView, arrivingAirportTextView, departureTimeTextView, arrivalTimeTextView;
     private HashMap<iPassengerData, String> seatMap = new HashMap<>();
 
+    private boolean isOneWay;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,7 +56,7 @@ public class InboundActivity extends AppCompatActivity {
         arrivalTimeTextView = findViewById(R.id.arrivalTimeTextView);
 
         HashMap<String, List<List<iFlight>>> selectedFlights = Session.getInstance().getSelectedFlights();
-
+        isOneWay = Session.getInstance().getFlightSearch().isOneWay();
         if (selectedFlights != null && selectedFlights.containsKey("Inbound")) {
             List<List<iFlight>> inboundFlights = selectedFlights.get("Inbound");
 
@@ -114,30 +115,35 @@ public class InboundActivity extends AppCompatActivity {
     }
 
     private void setupConfirmButton() {
-        boolean returnFlight = true;
-
         Button myButton = findViewById(R.id.myButton);
         myButton.setOnClickListener(v -> {
-            boolean allNotSelected = seatMap.values().stream().allMatch(status -> status.equals("Not Selected"));
-
-            if (!returnFlight) {
-                if (allNotSelected) {
-                    handlePaymentActivity();
-                } else {
-                    showSeatSelectionToast();
+            boolean allSelected = true;
+            for (String seatStatus : seatMap.values()) {
+                if (seatStatus.equals("Not Selected")) {
+                    allSelected = false;
+                    break;
                 }
-            } else {
+            }
+            isOneWay = false;
+
+            if (isOneWay && allSelected) {
+                handlePaymentActivity();
+            } else if (!isOneWay && allSelected) {
                 startOutboundActivity();
+            } else {
+                showSeatSelectionToast();
             }
         });
     }
+
+
 
     private void handlePaymentActivity() {
         Session.getInstance().setSeatMap(seatMap);
         iPayment pay = new Payment();
         Session.getInstance().setPay(pay);
         pay.generateInvoice();
-        startActivity(new Intent(InboundActivity.this, CreditCardPaymentActivity.class));
+        startActivity(new Intent(this, CreditCardPaymentActivity.class));
     }
 
     private void showSeatSelectionToast() {
@@ -146,7 +152,7 @@ public class InboundActivity extends AppCompatActivity {
 
     private void startOutboundActivity() {
         Session.getInstance().setSeatMap(seatMap);
-        startActivity(new Intent(InboundActivity.this, OutboundActivity.class));
+        startActivity(new Intent(this, OutboundActivity.class));
     }
 
 

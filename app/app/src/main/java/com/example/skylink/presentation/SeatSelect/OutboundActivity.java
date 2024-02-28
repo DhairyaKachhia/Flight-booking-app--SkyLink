@@ -132,17 +132,13 @@ public class OutboundActivity extends AppCompatActivity {
         iPayment pay = new Payment();
         Session.getInstance().setPay(pay);
         pay.generateInvoice();
-        startActivity(new Intent(OutboundActivity.this, CreditCardPaymentActivity.class));
+        startActivity(new Intent(this, CreditCardPaymentActivity.class));
     }
 
     private void showSeatSelectionToast() {
         Toast.makeText(OutboundActivity.this, "Please select seats for all passengers", Toast.LENGTH_SHORT).show();
     }
 
-    private void startOutboundActivity() {
-        Session.getInstance().setSeatMap(seatMap);
-        startActivity(new Intent(OutboundActivity.this, OutboundActivity.class));
-    }
 
 
     private void addSeatsToLayout(String[] planeConfig) {
