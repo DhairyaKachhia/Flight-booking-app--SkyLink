@@ -9,7 +9,7 @@
     android:background="#FFFFFF"
     android:paddingRight="16dp"
     android:paddingBottom="16dp"
-    tools:context=".presentation.SeatSelection">
+    tools:context=".presentation.SeatSelect.InboundActivity">
 
     <!-- Use a ConstraintLayout as the direct child of the ScrollView -->
     <androidx.constraintlayout.widget.ConstraintLayout
