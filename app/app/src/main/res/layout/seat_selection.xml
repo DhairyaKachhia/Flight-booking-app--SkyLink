@@ -82,6 +82,16 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="8dp"/>
 
+        <Spinner
+            android:id="@+id/namesSpinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/arrivalTimeTextView"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="16dp" />
+
+
         <!-- Flight Layout -->
         <LinearLayout
             android:id="@+id/Flight_Layout"
