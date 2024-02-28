@@ -9,13 +9,14 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.example.skylink.R;
+import com.example.skylink.objects.Interfaces.iFlightSearch;
 
 public class CustomUserFormAdapter extends BaseAdapter {
 
     private final Context mContext;
-    private final Bundle userInput;
+    private final iFlightSearch userInput;
 
-    public CustomUserFormAdapter(Context mContext, Bundle userInput) {
+    public CustomUserFormAdapter(Context mContext, iFlightSearch userInput) {
         this.mContext = mContext;
         this.userInput = userInput;
     }
@@ -23,7 +24,7 @@ public class CustomUserFormAdapter extends BaseAdapter {
     @Override
     public int getCount() {
         if (userInput != null) {
-            return userInput.getInt("totalPassengers");
+            return userInput.getTotalPassengers();
         }
         return 0;
     }

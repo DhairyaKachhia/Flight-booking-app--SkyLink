@@ -12,6 +12,9 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.skylink.R;
+import com.example.skylink.business.Implementations.Session;
+import com.example.skylink.objects.Implementations.Flight;
+import com.example.skylink.objects.Interfaces.iFlight;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,13 +27,51 @@ public class SeatSelection extends AppCompatActivity {
     private Map<String, SeatStatus> seatStatusMap = new HashMap<>();
     private List<String> selectedSeats = new ArrayList<>();
 
+    // Declare the TextViews
+    private TextView departingAirportTextView;
+    private TextView arrivingAirportTextView;
+    private TextView departureTimeTextView;
+    private TextView arrivalTimeTextView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.seat_selection);
 
-        String[][] planeConfigurations = {
+        departingAirportTextView = findViewById(R.id.departingAirportTextView);
+        arrivingAirportTextView = findViewById(R.id.arrivingAirportTextView);
+        departureTimeTextView = findViewById(R.id.departureTimeTextView);
+        arrivalTimeTextView = findViewById(R.id.arrivalTimeTextView);
+
+        HashMap<String, List<List<iFlight>>> selectedFlights = Session.getInstance().getSelectedFlights();
+
+        if (selectedFlights != null && selectedFlights.containsKey("Inbound")) {
+             List<List<iFlight>> inboundFlights = selectedFlights.get("Inbound");
+
+            if (inboundFlights != null && !inboundFlights.isEmpty()) {
+                iFlight firstFlight = inboundFlights.get(0).get(0);
+
+                // Extract relevant information from the Flight object
+                String departAirport = firstFlight.getDeparture_icao();
+                String arriveAirport = firstFlight.getArrival_icao();
+                String departureTime = firstFlight.getFlight_dept_date_time();
+                String arrivalTime = firstFlight.getFlight_arr_date_time();
+
+                // Example: Update the Departing Airport TextView
+                updateTextView(departingAirportTextView, "Departing Airport: " + departAirport);
+                // Example: Update the Arriving Airport TextView
+                updateTextView(arrivingAirportTextView, "Arriving Airport: " + arriveAirport);
+                // Example: Update the Departure Time TextView
+                updateTextView(departureTimeTextView, "Departure Time: " + departureTime);
+                // Example: Update the Arrival Time TextView
+                updateTextView(arrivalTimeTextView, "Arrival Time: " + arrivalTime);
+            }
+        }
+
+
+
+    String[][] planeConfigurations = {
                 {"Boeing 737", "4", "6", "6", "18"},
                 {"Airbus A320", "4", "7", "6", "14"},
                 {"Embraer E190", "4", "4", "6", "10"},
@@ -43,19 +84,10 @@ public class SeatSelection extends AppCompatActivity {
         // Add seats to Flight_Layout
         addSeatsToLayout(planeConfigurations[2]);
         Button myButton = findViewById(R.id.myButton);
-        myButton.setOnClickListener(new View.OnClickListener() {
-           @Override
-            public void onClick(View v) {
+        myButton.setOnClickListener(v -> {
 
-                Intent intent = new Intent(SeatSelection.this,CreditCardPaymentActivity.class);
-
-                // You can add extra data to the intent if needed
-                // intent.putExtra("key", "value");
-
-                // Start the new activity
-                startActivity(intent);
-                // Handle button click event
-           }
+             Intent intent = new Intent(SeatSelection.this,CreditCardPaymentActivity.class);
+             startActivity(intent);
         });
     }
 
@@ -218,5 +250,8 @@ public class SeatSelection extends AppCompatActivity {
         boolean isTaken() {
             return isTaken;
         }
+    }
+    private void updateTextView(TextView textView, String newText) {
+        textView.setText(newText);
     }
 }

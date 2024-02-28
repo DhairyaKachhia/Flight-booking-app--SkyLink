@@ -1,23 +1,25 @@
-package com.example.skylink.persistence;
+package com.example.skylink.persistence.Implementations.hsqldb;
 
-import com.example.skylink.objects.PassengerData;
+import com.example.skylink.objects.Implementations.PassengerData;
+import com.example.skylink.objects.Interfaces.iPassengerData;
+import com.example.skylink.persistence.Interfaces.iBookingDatabase;
 
 import java.util.ArrayList;
 import java.util.List;
-public class BookingDatabase {
-    private final List<PassengerData> passengerData;
+public class BookingDatabase implements iBookingDatabase {
+    private final List<iPassengerData> passengerData;
 
     public BookingDatabase(){
         this.passengerData = new ArrayList<>();
     }
 
-    public void addBooking(PassengerData passengerData){
+    public void addBooking(iPassengerData passengerData){
         this.passengerData.add(passengerData);
     }
 
-    public boolean findBooking(PassengerData searchPassengerData) {
-        PassengerData result = null;
-        for (PassengerData b : passengerData) {
+    public boolean findBooking(iPassengerData searchPassengerData) {
+        iPassengerData result = null;
+        for (iPassengerData b : passengerData) {
             if (b.getTitle().equals(searchPassengerData.getTitle()) &&
                     b.getFirstName().equals(searchPassengerData.getFirstName()) &&
                     b.getLastName().equals(searchPassengerData.getLastName()) &&

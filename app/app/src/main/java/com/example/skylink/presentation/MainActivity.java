@@ -3,7 +3,6 @@ package com.example.skylink.presentation;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -15,16 +14,19 @@ import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.skylink.R;
-import com.example.skylink.application.Services;
-import com.example.skylink.business.AirportPath;
+import com.example.skylink.business.Implementations.AirportPath;
+import com.example.skylink.business.Interface.iAirportPath;
 import com.example.skylink.business.validations.IValidateSearchInput;
 import com.example.skylink.business.validations.ValidateSearchInput;
-import com.example.skylink.business.Session;
-import com.example.skylink.persistence.CitiesRepository;
-import com.example.skylink.objects.City;
-import com.example.skylink.objects.Flight;
-import com.example.skylink.objects.FlightSearch;
-import com.example.skylink.objects.Flights;
+import com.example.skylink.business.Implementations.Session;
+import com.example.skylink.objects.Interfaces.iCity;
+import com.example.skylink.objects.Interfaces.iFlight;
+import com.example.skylink.objects.Interfaces.iFlightSearch;
+import com.example.skylink.persistence.Implementations.hsqldb.CitiesRepository;
+import com.example.skylink.objects.Implementations.City;
+import com.example.skylink.objects.Implementations.Flight;
+import com.example.skylink.objects.Implementations.FlightSearch;
+import com.example.skylink.objects.Implementations.Flights;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.ArrayList;
@@ -46,10 +48,7 @@ public class MainActivity extends AppCompatActivity {
     private AutoCompleteTextView autoCompleteFrom;
     private AutoCompleteTextView autoCompleteTo;
 
-    private ArrayAdapter<String> adapterItemsFrom;
-    private ArrayAdapter<String> adapterItemsTo;
     private CitiesRepository citiesRepository;
-
 
     private EditText etDeparture, etReturn;
     private DatePickerDialog datePickerDialog;
@@ -71,18 +70,17 @@ public class MainActivity extends AppCompatActivity {
         radioGroupTripType = findViewById(R.id.radioGroupTripType);
 
         citiesRepository = new CitiesRepository();
-        List<City> cities = citiesRepository.getCities();
+        List<iCity> cities = citiesRepository.getCities();
 
-        // Check if a RadioButton is initially selected
         int selectedTripTypeId = radioGroupTripType.getCheckedRadioButtonId();
-        if (selectedTripTypeId != -1) { // -1 means no id is selected
+        if (selectedTripTypeId != -1) {
             RadioButton selectedTripType = findViewById(selectedTripTypeId);
             tripType = selectedTripType.getText().toString();
         }
 
         // Initialize adapters for AutoCompleteTextViews
-        ArrayAdapter<City> adapterItemsFrom = new ArrayAdapter<>(this, R.layout.list_item, cities);
-        ArrayAdapter<City> adapterItemsTo = new ArrayAdapter<>(this, R.layout.list_item, cities);
+        ArrayAdapter<iCity> adapterItemsFrom = new ArrayAdapter<>(this, R.layout.list_item, cities);
+        ArrayAdapter<iCity> adapterItemsTo = new ArrayAdapter<>(this, R.layout.list_item, cities);
 
         autoCompleteFrom.setAdapter(adapterItemsFrom);
         autoCompleteTo.setAdapter(adapterItemsTo);
@@ -92,13 +90,13 @@ public class MainActivity extends AppCompatActivity {
 
         autoCompleteFrom.setOnItemClickListener((parent, view, position, id) -> {
             autoCompleteFrom.setError(null);
-            City selectedFromCity = (City) parent.getItemAtPosition(position);
+            iCity selectedFromCity = (iCity) parent.getItemAtPosition(position);
             updateAdapterItems(autoCompleteTo, selectedFromCity); // This will update the 'To' field
         });
 
         autoCompleteTo.setOnItemClickListener((parent, view, position, id) -> {
             autoCompleteTo.setError(null);
-            City selectedToCity = (City) parent.getItemAtPosition(position);
+            iCity selectedToCity = (iCity) parent.getItemAtPosition(position);
             updateAdapterItems(autoCompleteFrom, selectedToCity); // This will update the 'From' field
         });
 
@@ -117,84 +115,64 @@ public class MainActivity extends AppCompatActivity {
         }
 
         Button swapButton = findViewById(R.id.swapBtn);
-        swapButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                CharSequence fromCity = autoCompleteFrom.getText();
-                CharSequence toCity = autoCompleteTo.getText();
-                autoCompleteFrom.setText(toCity);
-                autoCompleteTo.setText(fromCity);
-            }
+        swapButton.setOnClickListener(v -> {
+            CharSequence fromCity = autoCompleteFrom.getText();
+            CharSequence toCity = autoCompleteTo.getText();
+            autoCompleteFrom.setText(toCity);
+            autoCompleteTo.setText(fromCity);
         });
 
         // Set an OnCheckedChangeListener to the radio group to listen for changes
-        radioGroupTripType.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                // Handle the change
-                RadioButton radioButton = findViewById(checkedId);
-                if (radioButton != null) {
-                    tripType = radioButton.getText().toString();
-                }
+        radioGroupTripType.setOnCheckedChangeListener((group, checkedId) -> {
+            // Handle the change
+            RadioButton radioButton = findViewById(checkedId);
+            if (radioButton != null) {
+                tripType = radioButton.getText().toString();
             }
         });
 
         Button searchBtn = findViewById(R.id.searchBtn);
 
-        searchBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                searchFlights();
-            }
-        });
+        searchBtn.setOnClickListener(v -> searchFlights());
 
         tvTravelerCount = findViewById(R.id.tv_travelerCount);
         btnIncrement = findViewById(R.id.btn_increment);
         btnDecrement = findViewById(R.id.btn_decrement);
 
-        btnIncrement.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                travelerCount++;
+        btnIncrement.setOnClickListener(v -> {
+            travelerCount++;
+            updateTravelerCount();
+        });
+
+        btnDecrement.setOnClickListener(v -> {
+            if (travelerCount > MIN_TRAVELERS) {
+                travelerCount--;
                 updateTravelerCount();
             }
         });
 
-        btnDecrement.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (travelerCount > MIN_TRAVELERS) {
-                    travelerCount--;
-                    updateTravelerCount();
-                }
-            }
-        });
 
+        radioGroupTripType.setOnCheckedChangeListener((group, checkedId) -> {
+            RadioButton radioButton = findViewById(checkedId);
+            tripType = radioButton.getText().toString();
 
-        radioGroupTripType.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                RadioButton radioButton = findViewById(checkedId);
-                tripType = radioButton.getText().toString();
-
-                if ("Round Trip".equals(tripType)) {
-                    textInputLayoutReturn.setVisibility(View.VISIBLE);
-                } else {
-                    textInputLayoutReturn.setVisibility(View.GONE);
-                    etReturn.setText("");
-                }
+            if ("Round Trip".equals(tripType)) {
+                textInputLayoutReturn.setVisibility(View.VISIBLE);
+            } else {
+                textInputLayoutReturn.setVisibility(View.GONE);
+                etReturn.setText("");
             }
         });
 
     }
 
-    private void updateAdapterItems(AutoCompleteTextView autoCompleteTextView, City excludeCity) {
-        List<City> updatedCities = new ArrayList<>(citiesRepository.getCities());
+    private void updateAdapterItems(AutoCompleteTextView autoCompleteTextView, iCity excludeCity) {
+        List<iCity> updatedCities = new ArrayList<>(citiesRepository.getCities());
         if (excludeCity != null) {
             // Remove the excluded city from the list based on the city code comparison
-            updatedCities.removeIf(city -> city.getCode().equals(excludeCity.getCode()));
+            updatedCities.removeIf(icity -> icity.getCode().equals(excludeCity.getCode()));
         }
-        ArrayAdapter<City> adapterItems = new ArrayAdapter<>(this, R.layout.list_item, updatedCities);
+        ArrayAdapter<iCity> adapterItems = new ArrayAdapter<>(this, R.layout.list_item, updatedCities);
         autoCompleteTextView.setAdapter(adapterItems);
     }
 
@@ -226,11 +204,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void checkTravelerCount() {
-
         btnIncrement.setEnabled(travelerCount != MAX_TRAVELERS);
-
         btnDecrement.setEnabled(travelerCount != MIN_TRAVELERS);
-
     }
 
 
@@ -251,15 +226,6 @@ public class MainActivity extends AppCompatActivity {
         String returningDate = etReturn.getText().toString();
         int totalPassengers = travelerCount;
         boolean isOneWay = !tripType.equals("Round Trip");
-
-        Bundle userInfoBundle = new Bundle();
-
-        userInfoBundle.putString("departingCity", departingCity);
-        userInfoBundle.putString("returningCity", returningCity);
-        userInfoBundle.putString("departingDate", departingDate);
-        userInfoBundle.putString("returningDate", returningDate);
-        userInfoBundle.putInt("totalPassengers", totalPassengers);
-        userInfoBundle.putBoolean("isOneWay", isOneWay);
 
         boolean isValid = true;
 
@@ -291,25 +257,18 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if (isValid) {
-            AirportPath path = new AirportPath();
+            iAirportPath path = new AirportPath();
 
-            // Set session data (e.g., during login)
-            Session.getInstance().setEmail("123");
-            Session.getInstance().setUsername("JohnDoe");
+            iFlightSearch flightSearch = new FlightSearch(departingCity, returningCity, departingDate, returningDate, totalPassengers, isOneWay);
 
-            FlightSearch flightSearch = new FlightSearch(departingCity, returningCity, departingDate, returningDate, totalPassengers, isOneWay);
-
-            HashMap<String, List<List<List<Flight>>>> flightPathResults = path.findFlights(flightSearch);
-
-            // Save User Flight Search Information in a session.
             Session.getInstance().setFlightSearch(flightSearch);
 
-            Flights flightData = new Flights(flightPathResults);
+            HashMap<String, List<List<List<iFlight>>>> flightPathResults = path.findFlights(flightSearch);
+
+            // Save User Flight Search Information in a session.
+            Session.getInstance().setFlightPathResults(flightPathResults);
 
             Intent intent = new Intent(MainActivity.this, Flight_search.class);
-            intent.putExtra("flightData", flightData);
-            intent.putExtras(userInfoBundle);
-
             startActivity(intent);
         }
 

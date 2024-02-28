@@ -7,8 +7,11 @@ import android.widget.Button;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.skylink.R;
-import com.example.skylink.business.Session;
-import com.example.skylink.objects.Flight;
+import com.example.skylink.business.Implementations.Session;
+import com.example.skylink.business.Interface.ISession;
+import com.example.skylink.objects.Implementations.Flight;
+import com.example.skylink.objects.Interfaces.iFlight;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,27 +21,24 @@ public class PaymentSuccessfulActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.payment_successful);
-        Session session = Session.getInstance();
+        ISession session = Session.getInstance();
         displaySessionInfo(session);
         Button buttonMainMenu = findViewById(R.id.buttonMainMenu);
-        buttonMainMenu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(PaymentSuccessfulActivity.this, MainActivity.class);
-                startActivity(intent);
-                finish();
-            }
+        buttonMainMenu.setOnClickListener(v -> {
+            Intent intent = new Intent(PaymentSuccessfulActivity.this, MainActivity.class);
+            startActivity(intent);
+            finish();
         });
     }
 
-    private void displaySessionInfo(Session session) {
+    private void displaySessionInfo(ISession session) {
 
         String passengerName = "Yiming";
         String gender = "Male";
         String dob = "01/01/1980";
         String address = "Winnipeg, MB";
 
-        List<Flight> fakeFlights = generateFakeFlights();
+        List<iFlight> fakeFlights = generateFakeFlights();
         String flightDetails = generateFlightDetails(fakeFlights);
         TextView textViewName = findViewById(R.id.textViewName);
         textViewName.setText("Passenger Name: " + passengerName);
@@ -56,16 +56,16 @@ public class PaymentSuccessfulActivity extends AppCompatActivity {
         textViewFlightDetails.setText(flightDetails);
     }
 
-    private List<Flight> generateFakeFlights() {
-        List<Flight> fakeFlights = new ArrayList<>();
+    private List<iFlight> generateFakeFlights() {
+        List<iFlight> fakeFlights = new ArrayList<>();
         // Fake flight info
         fakeFlights.add(new Flight("AC26", "PVG", "YVR", "2024-02-21 09:00", "2024-02-22 12:00","boeing737","1","5",500,1000));
         return fakeFlights;
     }
 
-    private String generateFlightDetails(List<Flight> flights) {
+    private String generateFlightDetails(List<iFlight> flights) {
         StringBuilder sb = new StringBuilder();
-        for (Flight flight : flights) {
+        for (iFlight flight : flights) {
             sb.append("Flight ").append(flight.getFlightNumber()).append("\n")
                     .append("From: ").append(flight.getDeparture_icao()).append("\n")
                     .append("To: ").append(flight.getArrival_icao()).append("\n")

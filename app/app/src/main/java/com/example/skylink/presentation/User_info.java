@@ -11,36 +11,38 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.skylink.R;
-import com.example.skylink.business.Session;
+import com.example.skylink.business.Implementations.Session;
+import com.example.skylink.business.Interface.iPassengerDataManager;
 import com.example.skylink.business.validations.IValidatePassgnData;
-import com.example.skylink.business.PassengerDataManager;
+import com.example.skylink.business.Implementations.PassengerDataManager;
 import com.example.skylink.business.validations.ValidatePassgnData;
-import com.example.skylink.objects.PassengerData;
+import com.example.skylink.objects.Implementations.PassengerData;
+import com.example.skylink.objects.Interfaces.iFlightSearch;
+import com.example.skylink.objects.Interfaces.iPassengerData;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class User_info extends AppCompatActivity {
 
-    private PassengerDataManager passengerDataManager;
+    private iPassengerDataManager passengerDataManager;
     private CustomUserFormAdapter userFormAdapter;
     private ListView userFormList;
     private Button submitBtn;
-    private List<PassengerData> passengers;
+    private List<iPassengerData> passengers;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_info);
 
-        Intent intent = getIntent();
-        Bundle userInput = intent.getExtras();
+        iFlightSearch flightSearch = Session.getInstance().getFlightSearch();
 
         userFormList = findViewById(R.id.lvUserForms);
         submitBtn = findViewById(R.id.submitBtn);
 
         userFormList.setFastScrollEnabled(false);
-        userFormAdapter = new CustomUserFormAdapter(getApplicationContext(), userInput);
+        userFormAdapter = new CustomUserFormAdapter(getApplicationContext(), flightSearch);
         userFormList.setAdapter(userFormAdapter);
 
         passengerDataManager = new PassengerDataManager();
@@ -101,7 +103,7 @@ public class User_info extends AppCompatActivity {
 
                 // Add the booking
                 if (success) {
-                    PassengerData newPassenger = passengerDataManager.addBooking(title, firstname, lastname, phoneNum, email);
+                    iPassengerData newPassenger = passengerDataManager.addBooking(title, firstname, lastname, phoneNum, email);
 
                     passengers.add(newPassenger);
 

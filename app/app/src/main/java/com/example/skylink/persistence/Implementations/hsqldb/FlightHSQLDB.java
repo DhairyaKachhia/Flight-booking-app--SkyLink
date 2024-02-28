@@ -1,13 +1,14 @@
-package com.example.skylink.persistence.hsqldb;
+package com.example.skylink.persistence.Implementations.hsqldb;
 
-import com.example.skylink.objects.Flight;
-import com.example.skylink.persistence.IFlightDatabase;
+import com.example.skylink.objects.Implementations.Flight;
+import com.example.skylink.objects.Interfaces.iFlight;
+import com.example.skylink.persistence.Interfaces.IFlightHSQLDB;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FlightHSQLDB implements IFlightDatabase {
+public class FlightHSQLDB implements IFlightHSQLDB {
     
     private final String dbPath;
 
@@ -45,8 +46,7 @@ public class FlightHSQLDB implements IFlightDatabase {
         return DriverManager.getConnection("jdbc:hsqldb:file:" + dbPath, "SA", "");
     }
 
-    @Override
-    public void addFlight(Flight flight) {
+    public void addFlight(iFlight flight) {
         String sql = "INSERT INTO flights (flightNumber, departure_icao, arrival_icao, flight_dept_date_time, flight_arr_date_time, airCraft_Type, departure_Gate, arr_Gate, econPrice, busnPrice) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = connect();
@@ -115,7 +115,7 @@ public class FlightHSQLDB implements IFlightDatabase {
     }
 
     @Override
-    public IFlightDatabase drop() {
+    public IFlightHSQLDB drop() {
         String sql = "DROP TABLE FLIGHTS";
         try (Connection conn = connect();
              Statement stmt = conn.createStatement()) {

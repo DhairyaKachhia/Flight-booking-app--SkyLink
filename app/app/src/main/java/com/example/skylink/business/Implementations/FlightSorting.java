@@ -1,15 +1,15 @@
-package com.example.skylink.business;
+package com.example.skylink.business.Implementations;
 
-import com.example.skylink.objects.Flight;
+import com.example.skylink.business.Interface.iFlightSorting;
+import com.example.skylink.objects.Implementations.Flight;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
-public class FlightSorting implements Comparator<List<List<Flight>>> {
+public class FlightSorting implements iFlightSorting {
 
     public enum SortingOption {
         PRICE,

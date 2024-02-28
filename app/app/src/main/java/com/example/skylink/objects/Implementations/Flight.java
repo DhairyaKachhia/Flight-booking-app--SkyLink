@@ -1,9 +1,11 @@
-package com.example.skylink.objects;
+package com.example.skylink.objects.Implementations;
+
+import com.example.skylink.objects.Interfaces.iFlight;
 
 import java.io.Serializable;
 import java.util.Random;
 
-public class Flight implements Serializable {
+public class Flight implements iFlight {
     private String flightNumber;
     private String departure_icao;
     private String arrival_icao;

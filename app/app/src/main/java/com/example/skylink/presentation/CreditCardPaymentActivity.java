@@ -15,12 +15,9 @@ public class CreditCardPaymentActivity extends AppCompatActivity {
         setContentView(R.layout.activity_credit_card_payment);
 
         Button btnPay = findViewById(R.id.btnPay);
-        btnPay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(CreditCardPaymentActivity.this, PaymentSuccessfulActivity.class);
-                startActivity(intent);
-            }
+        btnPay.setOnClickListener(v -> {
+            Intent intent = new Intent(CreditCardPaymentActivity.this, PaymentSuccessfulActivity.class);
+            startActivity(intent);
         });
     }
 }
