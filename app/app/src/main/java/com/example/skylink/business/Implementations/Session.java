@@ -1,6 +1,7 @@
 package com.example.skylink.business.Implementations;
 
 import com.example.skylink.business.Interface.ISession;
+import com.example.skylink.business.Interface.iPayment;
 import com.example.skylink.objects.Interfaces.iFlight;
 import com.example.skylink.objects.Interfaces.iFlightSearch;
 import com.example.skylink.objects.Interfaces.iPassengerData;
@@ -17,6 +18,26 @@ public class Session implements ISession {
     // Temporary storage for flights and bookings
     private iFlightSearch flightSearch;
     private List<iPassengerData> passengerData;
+
+    private iPayment pay;
+
+    public iPayment getPay() {
+        return pay;
+    }
+
+    public void setPay(iPayment pay) {
+        this.pay = pay;
+    }
+
+    private HashMap<iPassengerData, String> seatMap;
+
+    public HashMap<iPassengerData, String> getSeatMap() {
+        return seatMap;
+    }
+
+    public void setSeatMap(HashMap<iPassengerData, String> seatMap) {
+        this.seatMap = seatMap;
+    }
 
     private HashMap<String, List<List<iFlight>>> selectedFlights;
 
@@ -36,6 +57,7 @@ public class Session implements ISession {
         }
         return instance;
     }
+
 
 
     public List<iPassengerData> getPassengerData() {
