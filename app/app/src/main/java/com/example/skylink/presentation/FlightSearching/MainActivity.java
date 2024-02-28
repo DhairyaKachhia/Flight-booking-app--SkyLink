@@ -1,4 +1,4 @@
-package com.example.skylink.presentation;
+package com.example.skylink.presentation.FlightSearching;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -23,10 +23,8 @@ import com.example.skylink.objects.Interfaces.iCity;
 import com.example.skylink.objects.Interfaces.iFlight;
 import com.example.skylink.objects.Interfaces.iFlightSearch;
 import com.example.skylink.persistence.Implementations.hsqldb.CitiesRepository;
-import com.example.skylink.objects.Implementations.City;
-import com.example.skylink.objects.Implementations.Flight;
 import com.example.skylink.objects.Implementations.FlightSearch;
-import com.example.skylink.objects.Implementations.Flights;
+import com.example.skylink.presentation.User_Auth.SignInActivity;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package com.example.skylink.presentation;
+package com.example.skylink.presentation.User_Auth;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.widget.Button;
 
 import com.example.skylink.R;
+import com.example.skylink.presentation.FlightSearching.MainActivity;
 
 public class UpdateUserProfileActivity extends AppCompatActivity {
 

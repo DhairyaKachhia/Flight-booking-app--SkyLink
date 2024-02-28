@@ -1,4 +1,4 @@
-package com.example.skylink.presentation;
+package com.example.skylink.presentation.User_Auth;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -15,6 +15,7 @@ import com.example.skylink.business.Implementations.UserHandler;
 import com.example.skylink.business.validations.IValidateUserAuth;
 import com.example.skylink.business.validations.ValidateUserAuth;
 import com.example.skylink.objects.Implementations.UserProperties;
+import com.example.skylink.presentation.FlightSearching.MainActivity;
 
 public class SignInActivity extends AppCompatActivity {
 

@@ -1,8 +1,7 @@
-package com.example.skylink.presentation;
+package com.example.skylink.presentation.Payment;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,6 +10,7 @@ import com.example.skylink.business.Implementations.Session;
 import com.example.skylink.business.Interface.ISession;
 import com.example.skylink.objects.Implementations.Flight;
 import com.example.skylink.objects.Interfaces.iFlight;
+import com.example.skylink.presentation.FlightSearching.MainActivity;
 
 import java.util.ArrayList;
 import java.util.List;

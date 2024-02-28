@@ -1,4 +1,4 @@
-package com.example.skylink.presentation;
+package com.example.skylink.presentation.UserInfo;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -16,9 +16,9 @@ import com.example.skylink.business.Interface.iPassengerDataManager;
 import com.example.skylink.business.validations.IValidatePassgnData;
 import com.example.skylink.business.Implementations.PassengerDataManager;
 import com.example.skylink.business.validations.ValidatePassgnData;
-import com.example.skylink.objects.Implementations.PassengerData;
 import com.example.skylink.objects.Interfaces.iFlightSearch;
 import com.example.skylink.objects.Interfaces.iPassengerData;
+import com.example.skylink.presentation.SeatSelect.InboundActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -121,7 +121,7 @@ public class User_info extends AppCompatActivity {
                 Session.getInstance().setPassengerData(passengers);
 
                 // Pass the list to the next activity
-                Intent nextActivityIntent = new Intent(this, SeatSelection.class);
+                Intent nextActivityIntent = new Intent(this, InboundActivity.class);
                 startActivity(nextActivityIntent);
             } else {
                 // Show error message

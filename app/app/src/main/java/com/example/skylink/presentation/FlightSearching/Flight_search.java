@@ -1,9 +1,8 @@
-package com.example.skylink.presentation;
+package com.example.skylink.presentation.FlightSearching;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -24,7 +23,6 @@ import com.example.skylink.objects.Interfaces.iFlightSearch;
 import com.example.skylink.objects.Interfaces.iFlights;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
