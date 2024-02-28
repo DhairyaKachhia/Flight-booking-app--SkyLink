@@ -1,25 +1,27 @@
-package com.example.skylink.persistence;
+package com.example.skylink.persistence.Interfaces;
 
-import com.example.skylink.objects.Flight;
+import com.example.skylink.objects.Implementations.Flight;
+import com.example.skylink.objects.Interfaces.iFlight;
+
 import java.util.List;
 
-public interface IFlightDatabase {
+public interface IFlightHSQLDB {
 
     /**
      * Initializes the database.
      */
-    IFlightDatabase initialize();
+    IFlightHSQLDB initialize();
 
     /**
      * Drops the database.
      */
-    IFlightDatabase drop();
+    IFlightHSQLDB drop();
 
     /**
      * Adds a new flight to the database.
      * @param flight The flight object to add.
      */
-    void addFlight(Flight flight);
+    void addFlight(iFlight flight);
 
     /**
      * Retrieves all flights from the database.

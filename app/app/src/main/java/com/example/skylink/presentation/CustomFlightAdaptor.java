@@ -11,11 +11,12 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.skylink.R;
-import com.example.skylink.business.Session;
-import com.example.skylink.objects.Flight;
+import com.example.skylink.business.Implementations.Session;
+import com.example.skylink.objects.Implementations.Flight;
+import com.example.skylink.objects.Interfaces.iFlight;
+import com.example.skylink.objects.Interfaces.iFlightSearch;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -27,11 +28,11 @@ public class CustomFlightAdaptor extends BaseAdapter {
 
     private final Context mContext;
     private final Flight_search flightResult;
-    private List<List<List<Flight>>> availableFlights;
+    private List<List<List<iFlight>>> availableFlights;
     private final boolean isOneWay;
-    private final Bundle userInput;
+    private final iFlightSearch userInput;
 
-    public CustomFlightAdaptor(Context context, List<List<List<Flight>>> availableFlights, boolean isOneWay, Bundle userInput) {
+    public CustomFlightAdaptor(Context context, List<List<List<iFlight>>> availableFlights, boolean isOneWay, iFlightSearch userInput) {
         mContext = context;
         this.availableFlights = availableFlights;
         this.isOneWay = isOneWay;
@@ -50,7 +51,7 @@ public class CustomFlightAdaptor extends BaseAdapter {
     }
 
     @Override
-    public List<List<Flight>> getItem(int position) {
+    public List<List<iFlight>> getItem(int position) {
         return availableFlights.get(position);
     }
 
@@ -82,8 +83,8 @@ public class CustomFlightAdaptor extends BaseAdapter {
         Button econBook = listItemView.findViewById(R.id.econPriceBtn);
         Button busnBook = listItemView.findViewById(R.id.busnPriceBtn);
 
-        List<List<Flight>> flightCardView = getItem(position);
-        Flight fromOrigin = flightCardView.get(0).get(0);
+        List<List<iFlight>> flightCardView = getItem(position);
+        iFlight fromOrigin = flightCardView.get(0).get(0);
 
         if (flightCardView.size() > 1) {
             String middleAirports = "";
@@ -91,7 +92,7 @@ public class CustomFlightAdaptor extends BaseAdapter {
             middleAirports += fromOrigin.getArrival_icao() + " ";
             midCode.setText(middleAirports);
 
-            Flight lastFlight = flightCardView.get(1).get(0);
+            iFlight lastFlight = flightCardView.get(1).get(0);
 
             destCode.setText(lastFlight.getArrival_icao());
             String getLandingTime = parseTime(lastFlight.getFlight_arr_date_time());
@@ -124,77 +125,71 @@ public class CustomFlightAdaptor extends BaseAdapter {
             takeoffTime.setText(getTakeOffTime);
         }
 
-        econBook.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                View parentRow = (View) v.getParent();
-                ListView listView = (ListView) parentRow.getParent().getParent().getParent().getParent().getParent();
-                final int position = listView.getPositionForView(parentRow);
+        econBook.setOnClickListener(v -> {
+            View parentRow = (View) v.getParent();
+            ListView listView = (ListView) parentRow.getParent().getParent().getParent().getParent().getParent();
+            final int position1 = listView.getPositionForView(parentRow);
 
-                List<List<Flight>> flightCardView = getItem(position);
+            List<List<iFlight>> flightCardView1 = getItem(position1);
 
-                if (flightResult != null) {
-                    HashMap<String, List<List<Flight>>> selectedFlights = flightResult.getSelectedFlights();
+            if (flightResult != null) {
+                HashMap<String, List<List<iFlight>>> selectedFlights = flightResult.getSelectedFlights();
 
-                    if (isOneWay) {
-                        selectedFlights.put("Outbound", flightCardView);
+                if (isOneWay) {
+                    selectedFlights.put("Outbound", flightCardView1);
+                    flightResult.setSelectedFlights(selectedFlights);
+
+                    toNextActivity();
+
+                } else {
+
+                    if (flightResult.getDepartureStatus()) {
+                        selectedFlights.put("Inbound", flightCardView1);
                         flightResult.setSelectedFlights(selectedFlights);
 
                         toNextActivity();
-
                     } else {
+                        selectedFlights.put("Outbound", flightCardView1);
+                        flightResult.setSelectedFlights(selectedFlights);
 
-                        if (flightResult.getDepartureStatus()) {
-                            selectedFlights.put("Inbound", flightCardView);
-                            flightResult.setSelectedFlights(selectedFlights);
-
-                            toNextActivity();
-                        } else {
-                            selectedFlights.put("Outbound", flightCardView);
-                            flightResult.setSelectedFlights(selectedFlights);
-
-                            flightResult.setDepartureStatus(true);
-                            displayReturnFlight();
-                        }
+                        flightResult.setDepartureStatus(true);
+                        displayReturnFlight();
                     }
-
                 }
+
             }
         });
 
-        busnBook.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        busnBook.setOnClickListener(v -> {
 
-                View parentRow = (View) v.getParent();
-                ListView listView = (ListView) parentRow.getParent().getParent().getParent().getParent().getParent();
-                final int position = listView.getPositionForView(parentRow);
+            View parentRow = (View) v.getParent();
+            ListView listView = (ListView) parentRow.getParent().getParent().getParent().getParent().getParent();
+            final int position12 = listView.getPositionForView(parentRow);
 
-                List<List<Flight>> flightCardView = getItem(position);
+            List<List<iFlight>> flightCardView12 = getItem(position12);
 
-                if (flightResult != null) {
-                    HashMap<String, List<List<Flight>>> selectedFlights = flightResult.getSelectedFlights();
+            if (flightResult != null) {
+                HashMap<String, List<List<iFlight>>> selectedFlights = flightResult.getSelectedFlights();
 
-                    if (isOneWay) {
-                        selectedFlights.put("Outbound", flightCardView);
+                if (isOneWay) {
+                    selectedFlights.put("Outbound", flightCardView12);
+                    flightResult.setSelectedFlights(selectedFlights);
+
+                    toNextActivity();
+
+                } else {
+
+                    if (flightResult.getDepartureStatus()) {
+                        selectedFlights.put("Inbound", flightCardView12);
                         flightResult.setSelectedFlights(selectedFlights);
 
                         toNextActivity();
-
                     } else {
+                        selectedFlights.put("Outbound", flightCardView12);
+                        flightResult.setSelectedFlights(selectedFlights);
 
-                        if (flightResult.getDepartureStatus()) {
-                            selectedFlights.put("Inbound", flightCardView);
-                            flightResult.setSelectedFlights(selectedFlights);
-
-                            toNextActivity();
-                        } else {
-                            selectedFlights.put("Outbound", flightCardView);
-                            flightResult.setSelectedFlights(selectedFlights);
-
-                            flightResult.setDepartureStatus(true);
-                            displayReturnFlight();
-                        }
+                        flightResult.setDepartureStatus(true);
+                        displayReturnFlight();
                     }
                 }
             }
@@ -233,7 +228,7 @@ public class CustomFlightAdaptor extends BaseAdapter {
             Session.getInstance().setSelectedFlights(flightResult.getSelectedFlights());
 
             Intent nextPageIntent = new Intent(flightResult, User_info.class);
-            nextPageIntent.putExtras(userInput);
+//            nextPageIntent.putExtras(userInput);
             flightResult.startActivity(nextPageIntent);
         }
     }
@@ -242,7 +237,7 @@ public class CustomFlightAdaptor extends BaseAdapter {
         flightResult.updateFlights();
     }
 
-    public void setAvailableFlights(List<List<List<Flight>>> availableFlights) {
+    public void setAvailableFlights(List<List<List<iFlight>>> availableFlights) {
         this.availableFlights = availableFlights;
     }
 }

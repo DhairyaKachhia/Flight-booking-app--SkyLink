@@ -1,13 +1,15 @@
-package com.example.skylink.persistence;
+package com.example.skylink.persistence.Implementations.hsqldb;
 
-import com.example.skylink.objects.City;
+import com.example.skylink.objects.Implementations.City;
+import com.example.skylink.objects.Interfaces.iCity;
+import com.example.skylink.persistence.Interfaces.iCitiesRepository;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class CitiesRepository {
-    public List<City> getCities() {
-        List<City> cities = new ArrayList<>();
+public class CitiesRepository implements iCitiesRepository {
+    public List<iCity> getCities() {
+        List<iCity> cities = new ArrayList<>();
         cities.add(new City("Toronto", "YYZ"));
         cities.add(new City("Montreal", "YUL"));
         cities.add(new City("Calgary", "YYC"));

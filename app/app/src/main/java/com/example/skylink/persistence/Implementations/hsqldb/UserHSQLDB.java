@@ -1,9 +1,8 @@
-package com.example.skylink.persistence.hsqldb;
+package com.example.skylink.persistence.Implementations.hsqldb;
 
-import com.example.skylink.objects.Flight;
-import com.example.skylink.objects.UserProperties;
-import com.example.skylink.persistence.IFlightDatabase;
-import com.example.skylink.persistence.IUser;
+import com.example.skylink.objects.Implementations.UserProperties;
+import com.example.skylink.objects.Interfaces.iUserProperties;
+import com.example.skylink.persistence.Interfaces.IUserHSQLDB;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -12,7 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class UserHSQLDB implements IUser {
+public class UserHSQLDB implements IUserHSQLDB {
 
     private final String dbPath;
 
@@ -37,7 +36,7 @@ public class UserHSQLDB implements IUser {
         return DriverManager.getConnection("jdbc:hsqldb:file:" + dbPath, "SA", "");
     }
 
-    public long addUser_Auth(UserProperties user) {
+    public long addUser_Auth(iUserProperties user) {
         String sql = "INSERT INTO USER (full_name, email, password) VALUES (?, ?, ?)";
 
         try (Connection conn = connect();
@@ -61,7 +60,7 @@ public class UserHSQLDB implements IUser {
         return -1;
     }
 
-    public boolean update_user_info(long user_id,UserProperties user){
+    public boolean update_user_info(long user_id, iUserProperties user){
         String sql = "UPDATE USER SET gender=?, address=?, phone=?, date_of_birth=?, country_of_origin=? WHERE user_id=?";
 
         try (Connection conn = connect();

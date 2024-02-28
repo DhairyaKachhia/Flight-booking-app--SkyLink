@@ -1,12 +1,14 @@
-package com.example.skylink.persistence;
+package com.example.skylink.persistence.Implementations.hsqldb;
 
-import com.example.skylink.objects.Flight;
+import com.example.skylink.objects.Implementations.Flight;
+import com.example.skylink.objects.Interfaces.iFlight;
+import com.example.skylink.persistence.Interfaces.iFlightDatabase;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class FlightDatabase {
-    private final List<Flight> flights;
+public class FlightDatabase implements iFlightDatabase {
+    private final List<iFlight> flights;
 
     public FlightDatabase() {
         this.flights = new ArrayList<>();
@@ -113,9 +115,9 @@ public class FlightDatabase {
 
     }
 
-    public List<Flight> findFlight(String departure, String arrival, String dept_time) {
-        List<Flight> results = new ArrayList<>();
-        for (Flight flight : flights) {
+    public List<iFlight> findFlight(String departure, String arrival, String dept_time) {
+        List<iFlight> results = new ArrayList<>();
+        for (iFlight flight : flights) {
             if (flight.getDeparture_icao().equals(departure) && flight.getArrival_icao().equals(arrival) && flight.getFlight_dept_date_time().split(" ")[0].equals(dept_time) ) {  //&& flight.getFlight_dept_date_time().split(" ")[0].equals(dept_time)
                 results.add(flight);
             }

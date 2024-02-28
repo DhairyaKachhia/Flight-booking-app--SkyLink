@@ -5,8 +5,9 @@ import android.content.Context;
 
 import java.io.File;
 
-import com.example.skylink.persistence.hsqldb.FlightHSQLDB;
-import com.example.skylink.persistence.hsqldb.UserHSQLDB;
+import com.example.skylink.application.Main;
+import com.example.skylink.persistence.Implementations.hsqldb.FlightHSQLDB;
+import com.example.skylink.persistence.Implementations.hsqldb.UserHSQLDB;
 
 public class Services {
 
