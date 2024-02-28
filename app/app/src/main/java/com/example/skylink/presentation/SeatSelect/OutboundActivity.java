@@ -39,35 +39,21 @@ public class OutboundActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.seat_selection);
-
-        boolean returnFlight = true;
-
-//        Outbound:
-        initializeTextViews();
-        setupFlightInformation();
-        setupPassengerSpinner();
+        setContentView(R.layout.outbound_layout);
+        // Inbound:
+        setupFlightInformation(); //Done
+        setupPassengerSpinner(); //Done
         setupSeatsLayout();
         setupConfirmButton();
-//        Inbound
-        if(returnFlight){
-            initializeTextViews();
-            setupFlightInformation();
-            setupPassengerSpinner();
-            setupSeatsLayout();
-            setupConfirmButton();
-        }
-
     }
 
-    private void initializeTextViews() {
+
+    private void setupFlightInformation() {
         departingAirportTextView = findViewById(R.id.departingAirportTextView);
         arrivingAirportTextView = findViewById(R.id.arrivingAirportTextView);
         departureTimeTextView = findViewById(R.id.departureTimeTextView);
         arrivalTimeTextView = findViewById(R.id.arrivalTimeTextView);
-    }
 
-    private void setupFlightInformation() {
         HashMap<String, List<List<iFlight>>> selectedFlights = Session.getInstance().getSelectedFlights();
 
         if (selectedFlights != null && selectedFlights.containsKey("Outbound")) {
@@ -128,20 +114,36 @@ public class OutboundActivity extends AppCompatActivity {
     }
 
     private void setupConfirmButton() {
+        boolean returnFlight = true;
+
         Button myButton = findViewById(R.id.myButton);
         myButton.setOnClickListener(v -> {
             boolean allNotSelected = seatMap.values().stream().allMatch(status -> status.equals("Not Selected"));
             if (allNotSelected) {
-                Session.getInstance().setSeatMap(seatMap);
-                iPayment pay = new Payment();
-                Session.getInstance().setPay(pay);
-                pay.generateInvoice();
-                startActivity(new Intent(OutboundActivity.this, CreditCardPaymentActivity.class));
+                handlePaymentActivity();
             } else {
-                Toast.makeText(OutboundActivity.this, "Please select seats for all passengers", Toast.LENGTH_SHORT).show();
+                showSeatSelectionToast();
             }
         });
     }
+
+    private void handlePaymentActivity() {
+        Session.getInstance().setSeatMap(seatMap);
+        iPayment pay = new Payment();
+        Session.getInstance().setPay(pay);
+        pay.generateInvoice();
+        startActivity(new Intent(OutboundActivity.this, CreditCardPaymentActivity.class));
+    }
+
+    private void showSeatSelectionToast() {
+        Toast.makeText(OutboundActivity.this, "Please select seats for all passengers", Toast.LENGTH_SHORT).show();
+    }
+
+    private void startOutboundActivity() {
+        Session.getInstance().setSeatMap(seatMap);
+        startActivity(new Intent(OutboundActivity.this, OutboundActivity.class));
+    }
+
 
     private void addSeatsToLayout(String[] planeConfig) {
         LinearLayout flightLayout = findViewById(R.id.Flight_Layout);
@@ -261,7 +263,6 @@ public class OutboundActivity extends AppCompatActivity {
         }
         seatContainer.setSelected(!isSelected);
         if (isSelected) {
-            // If already selected, set the default seat image with no tint
             seatContainer.setImageResource(seatType);
             seatContainer.setColorFilter(null); // Remove any existing color filter
             seatMap.put(passenger, "Not Selected");

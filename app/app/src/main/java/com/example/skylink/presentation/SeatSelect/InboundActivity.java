@@ -39,10 +39,10 @@ public class InboundActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.seat_selection);
+        setContentView(R.layout.inboundlayout);
         // Inbound:
         setupFlightInformation(); //Done
-        setupPassengerSpinner();
+        setupPassengerSpinner(); //Done
         setupSeatsLayout();
         setupConfirmButton();
     }
@@ -114,20 +114,41 @@ public class InboundActivity extends AppCompatActivity {
     }
 
     private void setupConfirmButton() {
+        boolean returnFlight = true;
+
         Button myButton = findViewById(R.id.myButton);
         myButton.setOnClickListener(v -> {
             boolean allNotSelected = seatMap.values().stream().allMatch(status -> status.equals("Not Selected"));
-            if (allNotSelected) {
-                Session.getInstance().setSeatMap(seatMap);
-                iPayment pay = new Payment();
-                Session.getInstance().setPay(pay);
-                pay.generateInvoice();
-                startActivity(new Intent(InboundActivity.this, CreditCardPaymentActivity.class));
+
+            if (!returnFlight) {
+                if (allNotSelected) {
+                    handlePaymentActivity();
+                } else {
+                    showSeatSelectionToast();
+                }
             } else {
-                Toast.makeText(InboundActivity.this, "Please select seats for all passengers", Toast.LENGTH_SHORT).show();
+                startOutboundActivity();
             }
         });
     }
+
+    private void handlePaymentActivity() {
+        Session.getInstance().setSeatMap(seatMap);
+        iPayment pay = new Payment();
+        Session.getInstance().setPay(pay);
+        pay.generateInvoice();
+        startActivity(new Intent(InboundActivity.this, CreditCardPaymentActivity.class));
+    }
+
+    private void showSeatSelectionToast() {
+        Toast.makeText(InboundActivity.this, "Please select seats for all passengers", Toast.LENGTH_SHORT).show();
+    }
+
+    private void startOutboundActivity() {
+        Session.getInstance().setSeatMap(seatMap);
+        startActivity(new Intent(InboundActivity.this, OutboundActivity.class));
+    }
+
 
     private void addSeatsToLayout(String[] planeConfig) {
         LinearLayout flightLayout = findViewById(R.id.Flight_Layout);
