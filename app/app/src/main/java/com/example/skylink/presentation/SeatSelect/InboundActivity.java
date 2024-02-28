@@ -35,6 +35,7 @@ public class InboundActivity extends AppCompatActivity {
     private iPassengerData selectedPassenger;
     private TextView departingAirportTextView, arrivingAirportTextView, departureTimeTextView, arrivalTimeTextView;
     private HashMap<iPassengerData, String> seatMap = new HashMap<>();
+    iFlight firstFlight;
 
     private boolean isOneWay;
     @Override
@@ -61,7 +62,7 @@ public class InboundActivity extends AppCompatActivity {
             List<List<iFlight>> inboundFlights = selectedFlights.get("Inbound");
 
             if (inboundFlights != null && !inboundFlights.isEmpty()) {
-                iFlight firstFlight = inboundFlights.get(0).get(0);
+                firstFlight = inboundFlights.get(0).get(0);
                 updateTextView(departingAirportTextView, "Departing Airport: " + firstFlight.getDeparture_icao());
                 updateTextView(arrivingAirportTextView, "Arriving Airport: " + firstFlight.getArrival_icao());
                 updateTextView(departureTimeTextView, "Departure Time: " + firstFlight.getFlight_dept_date_time());
@@ -103,6 +104,8 @@ public class InboundActivity extends AppCompatActivity {
     }
 
     private void setupSeatsLayout() {
+//        Get if it is an economy, Shut of all economy.
+//        Get the type of airplane.
         String[][] planeConfigurations = {
                 {"Boeing 737", "4", "6", "6", "18"},
                 {"Airbus A320", "4", "7", "6", "14"},
@@ -114,16 +117,19 @@ public class InboundActivity extends AppCompatActivity {
         addSeatsToLayout(planeConfigurations[2]);
     }
 
+    private boolean areAllSeatsSelected(Map<iPassengerData, String> seatMap) {
+        for (String seatStatus : seatMap.values()) {
+            if (seatStatus.equals("Not Selected")) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     private void setupConfirmButton() {
         Button myButton = findViewById(R.id.myButton);
         myButton.setOnClickListener(v -> {
-            boolean allSelected = true;
-            for (String seatStatus : seatMap.values()) {
-                if (seatStatus.equals("Not Selected")) {
-                    allSelected = false;
-                    break;
-                }
-            }
+            boolean allSelected = areAllSeatsSelected(seatMap);
             isOneWay = false;
 
             if (isOneWay && allSelected) {
@@ -256,7 +262,6 @@ public class InboundActivity extends AppCompatActivity {
 
     private void toggleSeat(ImageView seatContainer, int row, int seatNumber) {
         String seatKey = getSeatKey(row, seatNumber);
-
         SeatStatus seatStatus = seatStatusMap.get(seatKey);
 
         if (seatStatus == null || seatStatus.isTaken()) {
@@ -266,25 +271,29 @@ public class InboundActivity extends AppCompatActivity {
         int seatType = seatStatus.isBusinessClass() ? R.drawable.firstclass_seat : R.drawable.economy_seat;
         boolean isSelected = seatContainer.isSelected();
 
-        // Retrieve the passenger for the selected seat
         iPassengerData passenger = selectedPassenger;
+
+
 
         if (passenger == null) {
             return;
         }
+
         seatContainer.setSelected(!isSelected);
-        if (isSelected) {
+
+        if (isSelected && areAllSeatsSelected(seatMap)) {
             // If already selected, set the default seat image with no tint
             seatContainer.setImageResource(seatType);
             seatContainer.setColorFilter(null); // Remove any existing color filter
             seatMap.put(passenger, "Not Selected");
         } else {
-            // If not selected, set the seat image and apply red tint
+            // If not selected, set the seat image and apply green tint
             seatMap.put(passenger, row + getSeatLetter(seatNumber));
             seatContainer.setImageResource(seatType);
-            seatContainer.setColorFilter(getResources().getColor(R.color.greenColor)); // Replace R.color.redTint with the actual resource ID of your red color
+            seatContainer.setColorFilter(getResources().getColor(R.color.greenColor)); // Replace R.color.greenColor with the actual resource ID of your green color
         }
     }
+
 
     private void addAisleToLayout(LinearLayout flightLayout) {
         View aisleView = new View(this);
