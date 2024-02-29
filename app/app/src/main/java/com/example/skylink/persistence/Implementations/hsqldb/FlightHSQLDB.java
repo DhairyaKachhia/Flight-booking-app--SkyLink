@@ -12,6 +12,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.jgrapht.Graph;
 import org.jgrapht.graph.DefaultWeightedEdge;
+import org.jgrapht.graph.DirectedWeightedMultigraph;
 import org.jgrapht.graph.SimpleWeightedGraph;
 
 import java.io.IOException;
@@ -63,7 +64,7 @@ public class FlightHSQLDB implements IFlightDB {
 
     public FlightHSQLDB(String dbPath) {
         this.dbPath = dbPath;
-        this.airportGraph = new SimpleWeightedGraph<>(DefaultWeightedEdge.class);
+        this.airportGraph = new DirectedWeightedMultigraph<>(DefaultWeightedEdge.class);
         readConfig(Session.getInstance().getContext());
     }
 
