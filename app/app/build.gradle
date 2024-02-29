@@ -29,7 +29,6 @@ android {
 }
 
 dependencies {
-//    implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation group: 'org.hsqldb', name: 'hsqldb', version: '2.4.1'
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.11.0'
@@ -40,4 +39,5 @@ dependencies {
     implementation("com.github.javafaker:javafaker:1.0.2")
     implementation 'org.jgrapht:jgrapht-core:1.5.2'
     implementation 'de.svenkubiak:jBCrypt:0.4.1'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.12.6'
 }

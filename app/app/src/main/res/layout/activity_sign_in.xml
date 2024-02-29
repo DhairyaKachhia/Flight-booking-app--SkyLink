@@ -5,7 +5,7 @@
     tools:ignore="HardCodedText"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presentation.SignInActivity">
+    tools:context=".presentation.User_Auth.SignInActivity">
 
 
     <TextView

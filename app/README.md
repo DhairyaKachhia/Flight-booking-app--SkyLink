@@ -24,14 +24,14 @@ Before you build the project, ensure you have the correct Android SDK and build 
 
 1. Open Android Studio.
 2. Navigate to "Tools" > "SDK Manager".
-![sdk](assets/images/readme/sdk.png)
+![sdk](app/assets/images/readme/sdk.png)
 3. In the "Android SDK" tab, check that the Android SDK Platform for API Level 33 is installed. If it is not, install it.
 5. Click "OK" to install any missing SDKs or tools.
 
 Additionally, ensure that Java 1.8 is set as the source and target compatibility in your project:
 
 - Navigate to "File" > "Project Structure" > "Project" in Android Studio.
-![Java Version](assets/images/readme/java.png)
+![Java Version](app/assets/images/readme/java.png)
 - Under "Project SDK", you should see the JDK version set to 1.8 or similar (this should match the `sourceCompatibility` and `targetCompatibility` specified in your `build.gradle`).
 
 
