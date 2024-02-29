@@ -26,7 +26,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class Flight_search extends AppCompatActivity {
+public class FlightDisplay extends AppCompatActivity {
 
     private ListView showFlightLV;
     private Spinner sortingOptions;
@@ -165,8 +165,8 @@ public class Flight_search extends AppCompatActivity {
 
         isDepartureSelected = false;
 
-        originAdaptor = new CustomFlightAdaptor(Flight_search.this, tripOutbound, isOneWay, flightSearchDetail);
-        returnAdaptor = new CustomFlightAdaptor(Flight_search.this, tripInbound, isOneWay, flightSearchDetail);
+        originAdaptor = new CustomFlightAdaptor(FlightDisplay.this, tripOutbound, isOneWay, flightSearchDetail);
+        returnAdaptor = new CustomFlightAdaptor(FlightDisplay.this, tripInbound, isOneWay, flightSearchDetail);
         currAdaptor = originAdaptor;
 
         availableFlights = new ArrayList<>(tripOutbound);

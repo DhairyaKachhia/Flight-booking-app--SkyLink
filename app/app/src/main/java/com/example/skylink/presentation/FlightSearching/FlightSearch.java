@@ -23,7 +23,6 @@ import com.example.skylink.objects.Interfaces.iCity;
 import com.example.skylink.objects.Interfaces.iFlight;
 import com.example.skylink.objects.Interfaces.iFlightSearch;
 import com.example.skylink.persistence.Implementations.hsqldb.CitiesRepository;
-import com.example.skylink.objects.Implementations.FlightSearch;
 import com.example.skylink.presentation.User_Auth.SignInActivity;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -35,7 +34,7 @@ import java.util.List;
 import android.app.DatePickerDialog;
 import android.widget.EditText;
 
-public class MainActivity extends AppCompatActivity {
+public class FlightSearch extends AppCompatActivity {
 
     private final int MAX_TRAVELERS = 4;
     private final int MIN_TRAVELERS = 1;
@@ -250,16 +249,15 @@ public class MainActivity extends AppCompatActivity {
         if (isValid) {
             iAirportPath path = new AirportPath();
 
-            iFlightSearch flightSearch = new FlightSearch(departingCity, returningCity, departingDate, returningDate, totalPassengers, isOneWay);
+            iFlightSearch flightSearch = new com.example.skylink.objects.Implementations.FlightSearch(departingCity, returningCity, departingDate, returningDate, totalPassengers, isOneWay);
 
             Session.getInstance().setFlightSearch(flightSearch);
 
             HashMap<String, List<List<List<iFlight>>>> flightPathResults = path.findFlights(flightSearch);
 
-            // Save User Flight Search Information in a session.
             Session.getInstance().setFlightPathResults(flightPathResults);
 
-            Intent intent = new Intent(MainActivity.this, Flight_search.class);
+            Intent intent = new Intent(FlightSearch.this, FlightDisplay.class);
             startActivity(intent);
         }
 

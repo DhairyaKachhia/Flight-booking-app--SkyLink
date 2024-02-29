@@ -31,13 +31,16 @@
             android:name=".presentation.UserInfo.User_info"
             android:exported="false" />
         <activity
-            android:name=".presentation.FlightSearching.Flight_search"
+            android:name=".presentation.FlightSearching.FlightDisplay"
             android:exported="false" />
         <activity
             android:name=".presentation.SeatSelect.InboundActivity"
             android:exported="false" />
         <activity
-            android:name=".presentation.FlightSearching.MainActivity"
+            android:name=".presentation.SeatSelect.OutboundActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.FlightSearching.FlightSearch"
             android:exported="true"></activity>
         <activity
             android:name=".presentation.Payment.CreditCardPaymentActivity"

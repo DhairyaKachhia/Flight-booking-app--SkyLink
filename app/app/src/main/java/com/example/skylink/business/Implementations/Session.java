@@ -1,5 +1,7 @@
 package com.example.skylink.business.Implementations;
 
+import android.content.Context;
+
 import com.example.skylink.business.Interface.ISession;
 import com.example.skylink.business.Interface.iPayment;
 import com.example.skylink.objects.Interfaces.iFlight;
@@ -40,6 +42,16 @@ public class Session implements ISession {
     }
 
     private HashMap<String, List<List<iFlight>>> selectedFlights;
+
+    public Context getContext() {
+        return context;
+    }
+
+    public void setContext(Context context) {
+        this.context = context;
+    }
+
+    private Context context;
 
 
     HashMap<String, List<List<List<iFlight>>>> flightPathResults;

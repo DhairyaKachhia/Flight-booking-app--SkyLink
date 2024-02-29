@@ -15,7 +15,6 @@ import com.example.skylink.R;
 import com.example.skylink.business.Implementations.Session;
 import com.example.skylink.objects.Interfaces.iFlight;
 import com.example.skylink.objects.Interfaces.iFlightSearch;
-import com.example.skylink.presentation.FlightSearching.Flight_search;
 import com.example.skylink.presentation.UserInfo.User_info;
 
 import java.text.ParseException;
@@ -27,7 +26,7 @@ import java.util.List;
 public class CustomFlightAdaptor extends BaseAdapter {
 
     private final Context mContext;
-    private final Flight_search flightResult;
+    private final FlightDisplay flightResult;
     private List<List<List<iFlight>>> availableFlights;
     private final boolean isOneWay;
     private final iFlightSearch userInput;
@@ -38,8 +37,8 @@ public class CustomFlightAdaptor extends BaseAdapter {
         this.isOneWay = isOneWay;
         this.userInput = userInput;
 
-        if (context instanceof Flight_search) {
-            flightResult = (Flight_search) context;
+        if (context instanceof FlightDisplay) {
+            flightResult = (FlightDisplay) context;
         } else {
             flightResult = null;
         }
