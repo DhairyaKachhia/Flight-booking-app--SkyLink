@@ -39,8 +39,6 @@ public class SignInActivity extends AppCompatActivity {
 
         Session.getInstance().setContext(this);
 
-        AirportPath airportPath = new AirportPath();
-
         email = findViewById(R.id.etEmail);
         password = findViewById(R.id.etPassword);
 

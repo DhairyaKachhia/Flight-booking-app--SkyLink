@@ -33,6 +33,27 @@ public class Session implements ISession {
 
     private HashMap<iPassengerData, String> seatMap;
 
+
+    private boolean outboundeconmySelected;
+
+    private boolean inboundeconmySelected;
+
+    public boolean isOutboundeconmySelected() {
+        return outboundeconmySelected;
+    }
+
+    public void setOutboundeconmySelected(boolean outboundeconmySelected) {
+        this.outboundeconmySelected = outboundeconmySelected;
+    }
+
+    public boolean isInboundeconmySelected() {
+        return inboundeconmySelected;
+    }
+
+    public void setInboundeconmySelected(boolean inboundeconmySelected) {
+        this.inboundeconmySelected = inboundeconmySelected;
+    }
+
     public HashMap<iPassengerData, String> getSeatMap() {
         return seatMap;
     }
@@ -52,6 +73,8 @@ public class Session implements ISession {
     }
 
     private Context context;
+
+
 
 
     HashMap<String, List<List<List<iFlight>>>> flightPathResults;

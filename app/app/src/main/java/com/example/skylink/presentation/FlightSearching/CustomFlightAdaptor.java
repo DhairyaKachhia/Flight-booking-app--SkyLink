@@ -137,7 +137,7 @@ public class CustomFlightAdaptor extends BaseAdapter {
                 if (isOneWay) {
                     selectedFlights.put("Outbound", flightCardView1);
                     flightResult.setSelectedFlights(selectedFlights);
-
+                    Session.getInstance().setOutboundeconmySelected(true);
                     toNextActivity();
 
                 } else {
@@ -145,12 +145,12 @@ public class CustomFlightAdaptor extends BaseAdapter {
                     if (flightResult.getDepartureStatus()) {
                         selectedFlights.put("Inbound", flightCardView1);
                         flightResult.setSelectedFlights(selectedFlights);
-
+                        Session.getInstance().setInboundeconmySelected(true);
                         toNextActivity();
                     } else {
                         selectedFlights.put("Outbound", flightCardView1);
                         flightResult.setSelectedFlights(selectedFlights);
-
+                        Session.getInstance().setOutboundeconmySelected(true);
                         flightResult.setDepartureStatus(true);
                         displayReturnFlight();
                     }
@@ -173,7 +173,7 @@ public class CustomFlightAdaptor extends BaseAdapter {
                 if (isOneWay) {
                     selectedFlights.put("Outbound", flightCardView12);
                     flightResult.setSelectedFlights(selectedFlights);
-
+                    Session.getInstance().setOutboundeconmySelected(false);
                     toNextActivity();
 
                 } else {
@@ -181,13 +181,13 @@ public class CustomFlightAdaptor extends BaseAdapter {
                     if (flightResult.getDepartureStatus()) {
                         selectedFlights.put("Inbound", flightCardView12);
                         flightResult.setSelectedFlights(selectedFlights);
-
+                        Session.getInstance().setInboundeconmySelected(false);
                         toNextActivity();
                     } else {
                         selectedFlights.put("Outbound", flightCardView12);
                         flightResult.setSelectedFlights(selectedFlights);
-
-                        flightResult.setDepartureStatus(true);
+                        Session.getInstance().setOutboundeconmySelected(false);
+                        flightResult.setDepartureStatus(false);
                         displayReturnFlight();
                     }
                 }

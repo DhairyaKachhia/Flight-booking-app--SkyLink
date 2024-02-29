@@ -17,8 +17,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.skylink.R;
 import com.example.skylink.business.Implementations.Payment;
+import com.example.skylink.business.Implementations.PlaneConfiguration;
 import com.example.skylink.business.Implementations.Session;
 import com.example.skylink.business.Interface.iPayment;
+import com.example.skylink.business.Interface.iPlaneConfiguration;
 import com.example.skylink.objects.Interfaces.iFlight;
 import com.example.skylink.objects.Interfaces.iPassengerData;
 import com.example.skylink.presentation.Payment.CreditCardPaymentActivity;
@@ -104,17 +106,17 @@ public class InboundActivity extends AppCompatActivity {
     }
 
     private void setupSeatsLayout() {
-//        Get if it is an economy, Shut of all economy.
-//        Get the type of airplane.
-        String[][] planeConfigurations = {
-                {"Boeing 737", "4", "6", "6", "18"},
-                {"Airbus A320", "4", "7", "6", "14"},
-                {"Embraer E190", "4", "4", "6", "10"},
-                {"Boeing 777", "4", "8", "6", "120"},
-                {"Bombardier Q400", "4", "4", "6", "8"}
-        };
+        boolean economySelected = Session.getInstance().isInboundeconmySelected();
+        iPlaneConfiguration config = new PlaneConfiguration();
+        String [] plane_config;
+        if(economySelected){
+            plane_config = config.getPlaneConfiguration("Boeing 737","econ");
+            addSeatsToLayout(plane_config,"econ");
+        }else{
+             plane_config = config.getPlaneConfiguration("Boeing 737","bus");
+            addSeatsToLayout(plane_config,"business");
+        }
 
-        addSeatsToLayout(planeConfigurations[2]);
     }
 
     private boolean areAllSeatsSelected(Map<iPassengerData, String> seatMap) {
@@ -130,8 +132,6 @@ public class InboundActivity extends AppCompatActivity {
         Button myButton = findViewById(R.id.myButton);
         myButton.setOnClickListener(v -> {
             boolean allSelected = areAllSeatsSelected(seatMap);
-            isOneWay = false;
-
             if (isOneWay && allSelected) {
                 handlePaymentActivity();
             } else if (!isOneWay && allSelected) {
@@ -162,7 +162,7 @@ public class InboundActivity extends AppCompatActivity {
     }
 
 
-    private void addSeatsToLayout(String[] planeConfig) {
+    private void addSeatsToLayout(String[] planeConfig,String typeOfFlight) {
         LinearLayout flightLayout = findViewById(R.id.Flight_Layout);
 
         String numSeatBusi, numRowBusi, numSeatEcon, numRowEcon;
@@ -171,12 +171,18 @@ public class InboundActivity extends AppCompatActivity {
         numSeatEcon = planeConfig[3];
         numRowEcon = planeConfig[4];
 
-        addClassSeatsToLayout(flightLayout, Integer.parseInt(numRowBusi), Integer.parseInt(numSeatBusi), 1, true);
+        if(typeOfFlight.equals("econ")){
+            addClassSeatsToLayout(flightLayout, Integer.parseInt(numRowBusi), Integer.parseInt(numSeatBusi), 1, true,"full");
+            addClassSeatsToLayout(flightLayout, Integer.parseInt(numRowEcon), Integer.parseInt(numSeatEcon), 6, false,"not-full");
+        }else{
+            addClassSeatsToLayout(flightLayout, Integer.parseInt(numRowBusi), Integer.parseInt(numSeatBusi), 1, true,"full");
+            addClassSeatsToLayout(flightLayout, Integer.parseInt(numRowEcon), Integer.parseInt(numSeatEcon), 6, false,"not-full");
+        }
 
-        addClassSeatsToLayout(flightLayout, Integer.parseInt(numRowEcon), Integer.parseInt(numSeatEcon), 6, false);
+
     }
 
-    private void addClassSeatsToLayout(LinearLayout flightLayout, int numRows, int numSeatsPerRow, int startSeatNumber, boolean isBusinessClass) {
+    private void addClassSeatsToLayout(LinearLayout flightLayout, int numRows, int numSeatsPerRow, int startSeatNumber, boolean isBusinessClass, String seatFillUp) {
         Random random = new Random();
 
         for (int row = startSeatNumber; row < startSeatNumber + numRows; row++) {
@@ -189,26 +195,22 @@ public class InboundActivity extends AppCompatActivity {
 
             int halfNumSeatsPerRow = numSeatsPerRow / 2;
 
-            for (int seatNumber = 1; seatNumber <= halfNumSeatsPerRow; seatNumber++) {
-                boolean isSeatTaken = random.nextBoolean();
+            for (int seatNumber = 1; seatNumber <= halfNumSeatsPerRow * 2; seatNumber++) {
+                boolean isSeatTaken = seatFillUp.equals("full") || random.nextBoolean();
                 addSeatToLayout(rowLayout, row, seatNumber, isBusinessClass, isSeatTaken);
-                // Save the seat status in the Map
                 seatStatusMap.put(getSeatKey(row, seatNumber), new SeatStatus(isBusinessClass, isSeatTaken));
             }
-
-            // Add aisle
             addAisleToLayout(rowLayout);
-
             for (int seatNumber = halfNumSeatsPerRow + 1; seatNumber <= halfNumSeatsPerRow * 2; seatNumber++) {
-                boolean isSeatTaken = random.nextBoolean();
+                boolean isSeatTaken = seatFillUp.equals("full") || random.nextBoolean();
                 addSeatToLayout(rowLayout, row, seatNumber, isBusinessClass, isSeatTaken);
-                // Save the seat status in the Map
                 seatStatusMap.put(getSeatKey(row, seatNumber), new SeatStatus(isBusinessClass, isSeatTaken));
             }
 
             flightLayout.addView(rowLayout);
         }
     }
+
 
     @SuppressLint("SetTextI18n")
     private void addSeatToLayout(LinearLayout flightLayout, int row, int seatNumber, boolean isBusinessClass, boolean isSeatTaken) {
@@ -243,7 +245,7 @@ public class InboundActivity extends AppCompatActivity {
 
         // Check if the seat is taken
         if (isSeatTaken) {
-            seatImage.setColorFilter(getResources().getColor(R.color.redTint)); // Replace R.color.redTint with the actual resource ID of your red color
+            seatImage.setColorFilter(getResources().getColor(R.color.redTint));
         } else {
             seatImage.setColorFilter(null); // Remove any existing color filter
         }
@@ -254,6 +256,7 @@ public class InboundActivity extends AppCompatActivity {
         // Add the vertical linear layout to the main layout (flightLayout)
         flightLayout.addView(seatContainer);
     }
+
 
     // Function to get a unique key for each seat based on row and seatNumber
     private String getSeatKey(int row, int seatNumber) {
