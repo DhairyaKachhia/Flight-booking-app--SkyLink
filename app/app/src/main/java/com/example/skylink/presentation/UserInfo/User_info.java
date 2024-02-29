@@ -22,7 +22,6 @@ import com.example.skylink.presentation.SeatSelect.InboundActivity;
 
 import java.util.ArrayList;
 import java.util.List;
-
 public class User_info extends AppCompatActivity {
 
     private iPassengerDataManager passengerDataManager;
@@ -36,100 +35,121 @@ public class User_info extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_info);
 
-        iFlightSearch flightSearch = Session.getInstance().getFlightSearch();
+        passengerDataManager = new PassengerDataManager();
+        passengers = new ArrayList<>();
 
+        initializeViews();
+        initializeListeners();
+
+    }
+
+    private void initializeViews() {
         userFormList = findViewById(R.id.lvUserForms);
         submitBtn = findViewById(R.id.submitBtn);
 
         userFormList.setFastScrollEnabled(false);
-        userFormAdapter = new CustomUserFormAdapter(getApplicationContext(), flightSearch);
+        userFormAdapter = new CustomUserFormAdapter(getApplicationContext(), Session.getInstance().getFlightSearch());
         userFormList.setAdapter(userFormAdapter);
+    }
 
-        passengerDataManager = new PassengerDataManager();
-        passengers = new ArrayList<>();
+    private void initializeListeners() {
+        submitBtn.setOnClickListener(v -> handleSubmitButtonClick());
+    }
+
+    private void handleSubmitButtonClick() {
+        boolean allValidForm = true;
+
+        for (int i = 0; i < userFormList.getChildCount(); i++) {
+            View innerForm = userFormList.getChildAt(i);
+            if (!handleFormValidation(innerForm)) {
+                allValidForm = false;
+            }
+        }
+
+        if (allValidForm) {
+            processValidForms();
+        } else {
+            Toast.makeText(User_info.this, "Passenger data invalid", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private boolean handleFormValidation(View innerForm) {
+        EditText titleEditText = innerForm.findViewById(R.id.etTitle);
+        EditText firstNameEditText = innerForm.findViewById(R.id.etFirstName);
+        EditText lastNameEditText = innerForm.findViewById(R.id.etLastName);
+        EditText phoneNumberEditText = innerForm.findViewById(R.id.etTelephoneNumber);
+        EditText emailEditText = innerForm.findViewById(R.id.etEmailAddress);
+
+        String title = titleEditText.getText().toString();
+        String firstname = firstNameEditText.getText().toString();
+        String lastname = lastNameEditText.getText().toString();
+        String email = emailEditText.getText().toString();
+        String phoneNum = phoneNumberEditText.getText().toString();
 
         IValidatePassgnData validator = new ValidatePassgnData();
+        boolean success = true;
 
-        submitBtn.setOnClickListener(v -> {
+        String error = validator.validTitle(title);
+        if (!error.isEmpty()) {
+            titleEditText.setError(error);
+            success = false;
+        }
+        error = validator.validFirstname(firstname);
+        if (!error.isEmpty()) {
+            firstNameEditText.setError(error);
+            success = false;
+        }
+        error = validator.validLastname(lastname);
+        if (!error.isEmpty()) {
+            lastNameEditText.setError(error);
+            success = false;
+        }
+        error = validator.validEmail(email);
+        if (!error.isEmpty()) {
+            emailEditText.setError(error);
+            success = false;
+        }
+        error = validator.validPhoneNum(phoneNum);
+        if (!error.isEmpty()) {
+            phoneNumberEditText.setError(error);
+            success = false;
+        }
 
-            boolean allValidForm = true;
+        return success;
+    }
 
-            // Iterate through the form fields and get the values from the EditText fields
-            for (int i = 0; i < userFormList.getChildCount(); i++) {
-                boolean success = true;
+    private void processValidForms() {
+        for (int i = 0; i < userFormList.getChildCount(); i++) {
+            View innerForm = userFormList.getChildAt(i);
 
-                View innerForm = userFormList.getChildAt(i);
-                EditText titleEditText = innerForm.findViewById(R.id.etTitle);
-                EditText firstNameEditText = innerForm.findViewById(R.id.etFirstName);
-                EditText lastNameEditText = innerForm.findViewById(R.id.etLastName);
-                EditText phoneNumberEditText = innerForm.findViewById(R.id.etTelephoneNumber);
-                EditText emailEditText = innerForm.findViewById(R.id.etEmailAddress);
-
-                String title = titleEditText.getText().toString();
-                String firstname = firstNameEditText.getText().toString();
-                String lastname = lastNameEditText.getText().toString();
-                String email = emailEditText.getText().toString();
-                String phoneNum = phoneNumberEditText.getText().toString();
-
-                String error = "";
-
-                error = validator.validTitle(title);
-                if (!error.isEmpty()) {
-                    titleEditText.setError(error);
-                    success = false;
-                }
-                error = validator.validFirstname(firstname);
-                if (!error.isEmpty()) {
-                    firstNameEditText.setError(error);
-                    success = false;
-                }
-                error = validator.validLastname(lastname);
-                if (!error.isEmpty()) {
-                    lastNameEditText.setError(error);
-                    success = false;
-                }
-                error = validator.validEmail(email);
-                if (!error.isEmpty()) {
-                    emailEditText.setError(error);
-                    success = false;
-                }
-                error = validator.validPhoneNum(phoneNum);
-                if (!error.isEmpty()) {
-                    phoneNumberEditText.setError(error);
-                    success = false;
-                }
-
-
-
-                // Add the booking
-                if (success) {
-                    iPassengerData newPassenger = passengerDataManager.addBooking(title, firstname, lastname, phoneNum, email);
-
-                    passengers.add(newPassenger);
-
-                } else {
-                    allValidForm = false;
-                }
-
-
+            iPassengerData newPassenger = processValidForm(innerForm);
+            if (newPassenger != null) {
+                passengers.add(newPassenger);
             }
+        }
 
-            if (allValidForm) {
-                // Show confirmation message
-                Toast.makeText(User_info.this, "Passenger Data Added Successfully", Toast.LENGTH_SHORT).show();
+        Toast.makeText(User_info.this, "Passenger Data Added Successfully", Toast.LENGTH_SHORT).show();
 
-                Session.getInstance().setPassengerData(passengers);
+        Session.getInstance().setPassengerData(passengers);
 
-                // Pass the list to the next activity
-                Intent nextActivityIntent = new Intent(this, InboundActivity.class);
-                startActivity(nextActivityIntent);
-            } else {
-                // Show error message
-                Toast.makeText(User_info.this, "Passenger data invalid", Toast.LENGTH_SHORT).show();
+        // Pass the list to the next activity
+        Intent nextActivityIntent = new Intent(this, InboundActivity.class);
+        startActivity(nextActivityIntent);
+    }
 
-            }
+    private iPassengerData processValidForm(View innerForm) {
+        EditText titleEditText = innerForm.findViewById(R.id.etTitle);
+        EditText firstNameEditText = innerForm.findViewById(R.id.etFirstName);
+        EditText lastNameEditText = innerForm.findViewById(R.id.etLastName);
+        EditText phoneNumberEditText = innerForm.findViewById(R.id.etTelephoneNumber);
+        EditText emailEditText = innerForm.findViewById(R.id.etEmailAddress);
 
+        String title = titleEditText.getText().toString();
+        String firstname = firstNameEditText.getText().toString();
+        String lastname = lastNameEditText.getText().toString();
+        String email = emailEditText.getText().toString();
+        String phoneNum = phoneNumberEditText.getText().toString();
 
-        });
+        return passengerDataManager.addBooking(title, firstname, lastname, phoneNum, email);
     }
 }

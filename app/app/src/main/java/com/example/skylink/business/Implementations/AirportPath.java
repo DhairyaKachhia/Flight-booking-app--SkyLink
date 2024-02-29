@@ -4,6 +4,7 @@ import org.jgrapht.Graph;
 import org.jgrapht.graph.DefaultWeightedEdge;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -43,6 +44,7 @@ public class AirportPath implements iAirportPath {
             for (DefaultWeightedEdge edge : airportGraph.outgoingEdgesOf(current)) {
                 String neighbor = airportGraph.getEdgeTarget(edge);
                 if (!visited.contains(neighbor)) {
+                    // Only add the neighbor to the path if it contributes to the solution
                     path.add(neighbor);
                     findAllPathsDFS(neighbor, destination, visited, path, allPaths);
                     path.remove(path.size() - 1);
@@ -52,6 +54,7 @@ public class AirportPath implements iAirportPath {
 
         visited.remove(current);
     }
+
 
     private List<List<List<iFlight>>> pullFlights(List<List<String>> flightPaths, String date) {
 
@@ -93,10 +96,7 @@ public class AirportPath implements iAirportPath {
 
 
 
-    private List<List<List<iFlight>>> findFlight(String flight_dept, String flight_arrival, String date){
-        // Find All Possible Ways You can Travel from  flight_dept to flight_arrival with a max of just one lay over.
-        List<List<String>> findAllPossiblePathsFromOriginToDestination = findAllPaths(flight_dept, flight_arrival);
-
+    private List<List<List<iFlight>>> findFlight(String flight_dept, String flight_arrival, String date,List<List<String>> findAllPossiblePathsFromOriginToDestination){
         if (findAllPossiblePathsFromOriginToDestination.isEmpty()) {
             return null;
         }
@@ -126,20 +126,34 @@ public class AirportPath implements iAirportPath {
 
     public HashMap< String,List<List<List<iFlight>>>> findFlights(iFlightSearch flightSearch) {
         HashMap<String, List<List<List<iFlight>>>> itinerary = new HashMap<>();
+        List<List<String>> findAllPossiblePathsFromOriginToDestination = findAllPaths(flightSearch.getFlightDept(), flightSearch.getFlightArrival());
         // Get the outbound flights.
-        List<List<List<iFlight>>> outBoundFlights = findFlight(flightSearch.getFlightDept(), flightSearch.getFlightArrival(), flightSearch.getFlightDeptDate());
+        List<List<List<iFlight>>> outBoundFlights = findFlight(flightSearch.getFlightDept(), flightSearch.getFlightArrival(), flightSearch.getFlightDeptDate(),findAllPossiblePathsFromOriginToDestination);
         if (outBoundFlights != null) {
             itinerary.put("Outbound", outBoundFlights);
         }
         // If there is a return and the outbound flight is not null.
         if (!flightSearch.isOneWay() && outBoundFlights != null) {
             // Get the inbound flights.
-            List<List<List<iFlight>>> inBoundFlights = findFlight(flightSearch.getFlightArrival(), flightSearch.getFlightDept(), flightSearch.getFlightReturnDate());
+            List<List<List<iFlight>>> inBoundFlights = findFlight(flightSearch.getFlightArrival(), flightSearch.getFlightDept(), flightSearch.getFlightReturnDate(),reversePaths(findAllPossiblePathsFromOriginToDestination));
             if (inBoundFlights != null) {
-                itinerary.put("Inbound", outBoundFlights);
+                itinerary.put("Inbound", inBoundFlights);
             }
         }
         // return empty hash map or an hash map that has outbound and inbound.
         return itinerary;
     }
+
+    private List<List<String>> reversePaths(List<List<String>> originalPaths) {
+        List<List<String>> reversedPaths = new ArrayList<>();
+
+        for (List<String> path : originalPaths) {
+            List<String> reversedPath = new ArrayList<>(path);
+            Collections.reverse(reversedPath);
+            reversedPaths.add(reversedPath);
+        }
+
+        return reversedPaths;
+    }
+
 }
