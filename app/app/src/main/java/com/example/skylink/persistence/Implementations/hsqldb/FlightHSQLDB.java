@@ -4,7 +4,9 @@ import android.content.Context;
 import android.content.res.AssetManager;
 
 import com.example.skylink.business.Implementations.Session;
+import com.example.skylink.objects.Implementations.Aircraft;
 import com.example.skylink.objects.Implementations.Flight;
+import com.example.skylink.objects.Interfaces.iAircraft;
 import com.example.skylink.objects.Interfaces.iFlight;
 import com.example.skylink.persistence.Interfaces.IFlightDB;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -19,7 +21,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 
@@ -31,6 +36,13 @@ public class FlightHSQLDB implements IFlightDB {
     private final Graph<String, DefaultWeightedEdge> airportGraph;
     private String[] airports;
     private String[] distances;
+
+    private Map<String, iAircraft> aircraftMap =  new HashMap<>();;
+
+    public Map<String, iAircraft> getAircraftMap() {
+        return aircraftMap;
+    }
+
 
     private final String CREATE_TABLE = "CREATE TABLE FLIGHTS("
             + "flightNumber VARCHAR(10) PRIMARY KEY, "
@@ -110,6 +122,23 @@ public class FlightHSQLDB implements IFlightDB {
 
             ObjectMapper objectMapper = new ObjectMapper();
             JsonNode rootNode = objectMapper.readTree(inputStream);
+
+            JsonNode aircraftNode = rootNode.get("Aircraft");
+            if (aircraftNode != null && aircraftNode.isObject()) {
+                Iterator<Map.Entry<String, JsonNode>> aircraftIterator = aircraftNode.fields();
+                while (aircraftIterator.hasNext()) {
+                    Map.Entry<String, JsonNode> entry = aircraftIterator.next();
+                    String aircraftName = entry.getKey();
+                    JsonNode aircraftDetails = entry.getValue();
+
+                    int numSeatPerRowBusiness = aircraftDetails.get("num_seat_per_row_business").asInt();
+                    int numRowsBusiness = aircraftDetails.get("num_rows_business").asInt();
+                    int numSeatPerRowEcon = aircraftDetails.get("num_seat_per_row_econ").asInt();
+                    int numRowsEcon = aircraftDetails.get("num_rows_econ").asInt();
+                    iAircraft aircraft = new Aircraft(aircraftName, numSeatPerRowBusiness, numRowsBusiness, numSeatPerRowEcon, numRowsEcon);
+                    aircraftMap.put(aircraftName, aircraft);
+                }
+            }
 
             JsonNode flightsNode = rootNode.get("Flights");
             if (flightsNode != null && flightsNode.isArray()) {

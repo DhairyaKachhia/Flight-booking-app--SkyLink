@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.AssetManager;
 
 import com.example.skylink.objects.Implementations.Flight;
+import com.example.skylink.objects.Interfaces.iAircraft;
 import com.example.skylink.objects.Interfaces.iFlight;
 import com.example.skylink.persistence.Interfaces.IFlightDB;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -16,6 +17,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 public class FlightStub implements IFlightDB {
@@ -95,6 +97,11 @@ public class FlightStub implements IFlightDB {
 
     @Override
     public Graph<String, DefaultWeightedEdge> getAirportGraph() {
+        return null;
+    }
+
+    @Override
+    public Map<String, iAircraft> getAircraftMap() {
         return null;
     }
 
