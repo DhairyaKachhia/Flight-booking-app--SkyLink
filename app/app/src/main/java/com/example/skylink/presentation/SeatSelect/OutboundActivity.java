@@ -17,7 +17,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.skylink.R;
 import com.example.skylink.business.Implementations.Payment;
-import com.example.skylink.business.Implementations.Session;
+import com.example.skylink.persistence.Implementations.hsqldb.Session;
 import com.example.skylink.business.Interface.iPayment;
 import com.example.skylink.objects.Interfaces.iFlight;
 import com.example.skylink.objects.Interfaces.iPassengerData;

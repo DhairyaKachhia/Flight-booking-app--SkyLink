@@ -1,4 +1,4 @@
-package com.example.skylink.business.Interface;
+package com.example.skylink.persistence.Interfaces;
 
 
 import com.example.skylink.objects.Interfaces.iFlight;

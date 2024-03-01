@@ -21,9 +21,9 @@ public class AirportPath implements iAirportPath {
     IFlightDB flightHSQLDB;
     Graph<String, DefaultWeightedEdge> airportGraph;
 
-    public AirportPath() {
-        flightHSQLDB = Services.getFlightDatabase();
-        airportGraph = flightHSQLDB.getAirportGraph();
+    public AirportPath(IFlightDB flightHSQLDB) {
+        this.flightHSQLDB = flightHSQLDB;
+        this.airportGraph = flightHSQLDB.getAirportGraph();
     }
 
     private List<List<String>> findAllPaths(String source, String destination) {
@@ -64,8 +64,6 @@ public class AirportPath implements iAirportPath {
 
         List<List<List<iFlight>>> flightsFound = new ArrayList<>();
 
-
-
         for (List<String> path : flightPaths) {
             List<List<iFlight>> pathFlights = new ArrayList<>();
 
@@ -96,7 +94,7 @@ public class AirportPath implements iAirportPath {
 
 
 
-    private List<List<List<iFlight>>> findFlight(String flight_dept, String flight_arrival, String date,List<List<String>> findAllPossiblePathsFromOriginToDestination){
+    private List<List<List<iFlight>>> findFlight(String date,List<List<String>> findAllPossiblePathsFromOriginToDestination){
         if (findAllPossiblePathsFromOriginToDestination.isEmpty()) {
             return null;
         }
@@ -124,26 +122,6 @@ public class AirportPath implements iAirportPath {
         return filteredPaths;
     }
 
-    public HashMap< String,List<List<List<iFlight>>>> findFlights(iFlightSearch flightSearch) {
-        HashMap<String, List<List<List<iFlight>>>> itinerary = new HashMap<>();
-        List<List<String>> findAllPossiblePathsFromOriginToDestination = findAllPaths(flightSearch.getFlightDept(), flightSearch.getFlightArrival());
-        // Get the outbound flights.
-        List<List<List<iFlight>>> outBoundFlights = findFlight(flightSearch.getFlightDept(), flightSearch.getFlightArrival(), flightSearch.getFlightDeptDate(),findAllPossiblePathsFromOriginToDestination);
-        if (outBoundFlights != null) {
-            itinerary.put("Outbound", outBoundFlights);
-        }
-        // If there is a return and the outbound flight is not null.
-        if (!flightSearch.isOneWay() && outBoundFlights != null) {
-            // Get the inbound flights.
-            List<List<List<iFlight>>> inBoundFlights = findFlight(flightSearch.getFlightArrival(), flightSearch.getFlightDept(), flightSearch.getFlightReturnDate(),reversePaths(findAllPossiblePathsFromOriginToDestination));
-            if (inBoundFlights != null) {
-                itinerary.put("Inbound", inBoundFlights);
-            }
-        }
-        // return empty hash map or an hash map that has outbound and inbound.
-        return itinerary;
-    }
-
     private List<List<String>> reversePaths(List<List<String>> originalPaths) {
         List<List<String>> reversedPaths = new ArrayList<>();
 
@@ -154,6 +132,26 @@ public class AirportPath implements iAirportPath {
         }
 
         return reversedPaths;
+    }
+
+    public HashMap< String,List<List<List<iFlight>>>> findFlights(iFlightSearch flightSearch) {
+        HashMap<String, List<List<List<iFlight>>>> itinerary = new HashMap<>();
+        List<List<String>> findAllPossiblePathsFromOriginToDestination = findAllPaths(flightSearch.getFlightDept(), flightSearch.getFlightArrival());
+        // Get the outbound flights.
+        List<List<List<iFlight>>> outBoundFlights = findFlight(flightSearch.getFlightDeptDate(),findAllPossiblePathsFromOriginToDestination);
+        if (outBoundFlights != null) {
+            itinerary.put("Outbound", outBoundFlights);
+        }
+        // If there is a return and the outbound flight is not null.
+        if (!flightSearch.isOneWay() && outBoundFlights != null) {
+            // Get the inbound flights.
+            List<List<List<iFlight>>> inBoundFlights = findFlight(flightSearch.getFlightReturnDate(),reversePaths(findAllPossiblePathsFromOriginToDestination));
+            if (inBoundFlights != null) {
+                itinerary.put("Inbound", inBoundFlights);
+            }
+        }
+        // return empty hash map or an hash map that has outbound and inbound.
+        return itinerary;
     }
 
 }

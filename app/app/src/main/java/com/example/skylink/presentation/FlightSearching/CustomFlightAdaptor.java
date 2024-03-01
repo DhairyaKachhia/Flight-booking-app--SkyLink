@@ -12,7 +12,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.skylink.R;
-import com.example.skylink.business.Implementations.Session;
+import com.example.skylink.persistence.Implementations.hsqldb.Session;
 import com.example.skylink.objects.Interfaces.iFlight;
 import com.example.skylink.objects.Interfaces.iFlightSearch;
 import com.example.skylink.presentation.UserInfo.User_info;

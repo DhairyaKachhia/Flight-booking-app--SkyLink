@@ -16,9 +16,10 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.skylink.R;
+import com.example.skylink.application.Services;
 import com.example.skylink.business.Implementations.Payment;
 import com.example.skylink.business.Implementations.PlaneConfiguration;
-import com.example.skylink.business.Implementations.Session;
+import com.example.skylink.persistence.Implementations.hsqldb.Session;
 import com.example.skylink.business.Interface.iPayment;
 import com.example.skylink.business.Interface.iPlaneConfiguration;
 import com.example.skylink.objects.Interfaces.iFlight;
@@ -107,7 +108,7 @@ public class InboundActivity extends AppCompatActivity {
 
     private void setupSeatsLayout() {
         boolean economySelected = Session.getInstance().isInboundeconmySelected();
-        iPlaneConfiguration config = new PlaneConfiguration();
+        iPlaneConfiguration config = new PlaneConfiguration(Services.getFlightDatabase());
         String [] plane_config;
         if(economySelected){
             plane_config = config.getPlaneConfiguration("Boeing 737","econ");

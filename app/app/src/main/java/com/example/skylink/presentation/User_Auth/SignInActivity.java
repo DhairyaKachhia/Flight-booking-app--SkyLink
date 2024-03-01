@@ -11,8 +11,7 @@ import android.widget.Toast;
 
 import com.example.skylink.R;
 import com.example.skylink.application.Services;
-import com.example.skylink.business.Implementations.AirportPath;
-import com.example.skylink.business.Implementations.Session;
+import com.example.skylink.persistence.Implementations.hsqldb.Session;
 import com.example.skylink.business.Implementations.UserHandler;
 import com.example.skylink.business.validations.IValidateUserAuth;
 import com.example.skylink.business.validations.ValidateUserAuth;
@@ -61,7 +60,7 @@ public class SignInActivity extends AppCompatActivity {
                 String userPassword = password.getText().toString();
 
                 UserProperties user = new UserProperties(userEmail,userPassword);
-                UserHandler checkUser = new UserHandler();
+                UserHandler checkUser = new UserHandler(Services.getUserDatabase());
 //               if(checkUser.signinUser(user)){
                 if(true){
                     Intent intent = new Intent(SignInActivity.this, FlightSearch.class);

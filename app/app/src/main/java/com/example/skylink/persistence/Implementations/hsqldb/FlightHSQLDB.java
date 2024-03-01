@@ -3,7 +3,6 @@ package com.example.skylink.persistence.Implementations.hsqldb;
 import android.content.Context;
 import android.content.res.AssetManager;
 
-import com.example.skylink.business.Implementations.Session;
 import com.example.skylink.objects.Implementations.Aircraft;
 import com.example.skylink.objects.Implementations.Flight;
 import com.example.skylink.objects.Interfaces.iAircraft;
@@ -15,7 +14,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.jgrapht.Graph;
 import org.jgrapht.graph.DefaultWeightedEdge;
 import org.jgrapht.graph.DirectedWeightedMultigraph;
-import org.jgrapht.graph.SimpleWeightedGraph;
 
 import java.io.IOException;
 import java.io.InputStream;

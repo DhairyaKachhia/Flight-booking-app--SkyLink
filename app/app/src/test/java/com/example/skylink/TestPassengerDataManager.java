@@ -1,5 +1,6 @@
 package com.example.skylink;
 
+import com.example.skylink.application.Services;
 import com.example.skylink.business.Implementations.PassengerDataManager;
 
 import org.junit.Before;
@@ -12,7 +13,7 @@ public class TestPassengerDataManager {
     @Before
     public void setUp() {
         System.out.println("Starting tests for PassengerDataManager");
-        passengerDataManager = new PassengerDataManager();
+        passengerDataManager = new PassengerDataManager(Services.getBookDatabase());
     }
 
     @Test

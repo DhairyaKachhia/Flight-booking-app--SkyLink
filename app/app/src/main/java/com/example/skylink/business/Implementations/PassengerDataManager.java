@@ -10,8 +10,8 @@ import com.example.skylink.persistence.Interfaces.iBookingDB;
 public class PassengerDataManager implements iPassengerDataManager {
     private iBookingDB bookingDatabase;
 
-    public PassengerDataManager() {
-        bookingDatabase = Services.getBookDatabase();
+    public PassengerDataManager(iBookingDB bookingDatabase) {
+        this.bookingDatabase = bookingDatabase;
     }
 
     public iPassengerData addBooking(String title, String firstName, String lastName, String telephoneNumber, String emailAddress) {
