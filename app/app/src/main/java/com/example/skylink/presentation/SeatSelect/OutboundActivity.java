@@ -1,4 +1,4 @@
-package com.example.skylink.presentation;
+package com.example.skylink.presentation.SeatSelect;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -19,9 +19,9 @@ import com.example.skylink.R;
 import com.example.skylink.business.Implementations.Payment;
 import com.example.skylink.business.Implementations.Session;
 import com.example.skylink.business.Interface.iPayment;
-import com.example.skylink.objects.Implementations.Flight;
 import com.example.skylink.objects.Interfaces.iFlight;
 import com.example.skylink.objects.Interfaces.iPassengerData;
+import com.example.skylink.presentation.Payment.CreditCardPaymentActivity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -29,25 +29,26 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-public class SeatSelection extends AppCompatActivity {
+public class OutboundActivity extends AppCompatActivity {
 
     private Map<String, SeatStatus> seatStatusMap = new HashMap<>();
     private iPassengerData selectedPassenger;
-
-    // Declare the TextViews
-    private TextView departingAirportTextView;
-    private TextView arrivingAirportTextView;
-    private TextView departureTimeTextView;
-    private TextView arrivalTimeTextView;
-    HashMap<iPassengerData, String> seatMap = new HashMap<>();
-
+    private TextView departingAirportTextView, arrivingAirportTextView, departureTimeTextView, arrivalTimeTextView;
+    private HashMap<iPassengerData, String> seatMap = new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.seat_selection);
+        setContentView(R.layout.outbound_layout);
+        // Inbound:
+        setupFlightInformation(); //Done
+        setupPassengerSpinner(); //Done
+        setupSeatsLayout();
+        setupConfirmButton();
+    }
 
+
+    private void setupFlightInformation() {
         departingAirportTextView = findViewById(R.id.departingAirportTextView);
         arrivingAirportTextView = findViewById(R.id.arrivingAirportTextView);
         departureTimeTextView = findViewById(R.id.departureTimeTextView);
@@ -56,95 +57,89 @@ public class SeatSelection extends AppCompatActivity {
         HashMap<String, List<List<iFlight>>> selectedFlights = Session.getInstance().getSelectedFlights();
 
         if (selectedFlights != null && selectedFlights.containsKey("Outbound")) {
-             List<List<iFlight>> inboundFlights = selectedFlights.get("Outbound");
+            List<List<iFlight>> inboundFlights = selectedFlights.get("Outbound");
 
             if (inboundFlights != null && !inboundFlights.isEmpty()) {
                 iFlight firstFlight = inboundFlights.get(0).get(0);
-
-                // Extract relevant information from the Flight object
-                String departAirport = firstFlight.getDeparture_icao();
-                String arriveAirport = firstFlight.getArrival_icao();
-                String departureTime = firstFlight.getFlight_dept_date_time();
-                String arrivalTime = firstFlight.getFlight_arr_date_time();
-
-                // Example: Update the Departing Airport TextView
-                updateTextView(departingAirportTextView, "Departing Airport: " + departAirport);
-                // Example: Update the Arriving Airport TextView
-                updateTextView(arrivingAirportTextView, "Arriving Airport: " + arriveAirport);
-                // Example: Update the Departure Time TextView
-                updateTextView(departureTimeTextView, "Departure Time: " + departureTime);
-                // Example: Update the Arrival Time TextView
-                updateTextView(arrivalTimeTextView, "Arrival Time: " + arrivalTime);
+                updateTextView(departingAirportTextView, "Departing Airport: " + firstFlight.getDeparture_icao());
+                updateTextView(arrivingAirportTextView, "Arriving Airport: " + firstFlight.getArrival_icao());
+                updateTextView(departureTimeTextView, "Departure Time: " + firstFlight.getFlight_dept_date_time());
+                updateTextView(arrivalTimeTextView, "Arrival Time: " + firstFlight.getFlight_arr_date_time());
             }
-
-
-
-            List<iPassengerData> passengers = Session.getInstance().getPassengerData();
-            Spinner namesSpinner = findViewById(R.id.namesSpinner);
-
-            List<String> passengerNames = new ArrayList<>();
-
-            for (iPassengerData passenger : passengers) {
-                seatMap.put(passenger, "Not Selected");
-                passengerNames.add(passenger.getFirstName());
-            }
-
-            ArrayAdapter<String> adapter = new ArrayAdapter<>(
-                    this,
-                    android.R.layout.simple_spinner_item,
-                    passengerNames
-            );
-
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            namesSpinner.setAdapter(adapter);
-
-            namesSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                @Override
-                public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                    // Handle the selected passenger here
-                    selectedPassenger = passengers.get(position);
-                    // You can perform any action with the selected passenger
-                }
-
-                @Override
-                public void onNothingSelected(AdapterView<?> parentView) {
-                    // Do nothing here if nothing is selected
-                }
-            });
-
-
-
-            String[][] planeConfigurations = {
-                    {"Boeing 737", "4", "6", "6", "18"},
-                    {"Airbus A320", "4", "7", "6", "14"},
-                    {"Embraer E190", "4", "4", "6", "10"},
-                    {"Boeing 777", "4", "8", "6", "120"},
-                    {"Bombardier Q400", "4", "4", "6", "8"}
-            };
-
-            addSeatsToLayout(planeConfigurations[2]);
-            Button myButton = findViewById(R.id.myButton);
-            myButton.setOnClickListener(v -> {
-                boolean allNotSelected = true;
-                for (String seatStatus : seatMap.values()) {
-                    if (!seatStatus.equals("Not Selected")) {
-                        allNotSelected = false;
-                        break;
-                    }
-                }
-                if (allNotSelected) {
-                    Session.getInstance().setSeatMap(seatMap);
-                    iPayment pay = new Payment();
-                    Session.getInstance().setPay(pay);
-                    pay.generateInvoice();
-                    Intent intent = new Intent(SeatSelection.this, CreditCardPaymentActivity.class);
-                    startActivity(intent);
-                } else {
-                    Toast.makeText(SeatSelection.this, "Please select seats for all passengers", Toast.LENGTH_SHORT).show();
-                }
-            });
         }
     }
+
+    private void setupPassengerSpinner() {
+        List<iPassengerData> passengers = Session.getInstance().getPassengerData();
+        Spinner namesSpinner = findViewById(R.id.namesSpinner);
+        List<String> passengerNames = new ArrayList<>();
+
+        for (iPassengerData passenger : passengers) {
+            seatMap.put(passenger, "Not Selected");
+            passengerNames.add(passenger.getFirstName());
+        }
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(
+                this,
+                android.R.layout.simple_spinner_item,
+                passengerNames
+        );
+
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        namesSpinner.setAdapter(adapter);
+
+        namesSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                selectedPassenger = passengers.get(position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                // Do nothing here if nothing is selected
+            }
+        });
+    }
+
+    private void setupSeatsLayout() {
+        String[][] planeConfigurations = {
+                {"Boeing 737", "4", "6", "6", "18"},
+                {"Airbus A320", "4", "7", "6", "14"},
+                {"Embraer E190", "4", "4", "6", "10"},
+                {"Boeing 777", "4", "8", "6", "120"},
+                {"Bombardier Q400", "4", "4", "6", "8"}
+        };
+
+        addSeatsToLayout(planeConfigurations[2]);
+    }
+
+    private void setupConfirmButton() {
+        boolean returnFlight = true;
+
+        Button myButton = findViewById(R.id.myButton);
+        myButton.setOnClickListener(v -> {
+            boolean allNotSelected = seatMap.values().stream().allMatch(status -> status.equals("Not Selected"));
+            if (allNotSelected) {
+                handlePaymentActivity();
+            } else {
+                showSeatSelectionToast();
+            }
+        });
+    }
+
+    private void handlePaymentActivity() {
+        Session.getInstance().setSeatMap(seatMap);
+        iPayment pay = new Payment();
+        Session.getInstance().setPay(pay);
+        pay.generateInvoice();
+        startActivity(new Intent(this, CreditCardPaymentActivity.class));
+    }
+
+    private void showSeatSelectionToast() {
+        Toast.makeText(OutboundActivity.this, "Please select seats for all passengers", Toast.LENGTH_SHORT).show();
+    }
+
+
 
     private void addSeatsToLayout(String[] planeConfig) {
         LinearLayout flightLayout = findViewById(R.id.Flight_Layout);
@@ -264,7 +259,6 @@ public class SeatSelection extends AppCompatActivity {
         }
         seatContainer.setSelected(!isSelected);
         if (isSelected) {
-            // If already selected, set the default seat image with no tint
             seatContainer.setImageResource(seatType);
             seatContainer.setColorFilter(null); // Remove any existing color filter
             seatMap.put(passenger, "Not Selected");
@@ -314,5 +308,5 @@ public class SeatSelection extends AppCompatActivity {
     }
     private void updateTextView(TextView textView, String newText) {
         textView.setText(newText);
-    }
-}
+    }}
+

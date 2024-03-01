@@ -1,15 +1,14 @@
 package com.example.skylink.persistence.Implementations.hsqldb;
 
-import com.example.skylink.objects.Implementations.PassengerData;
 import com.example.skylink.objects.Interfaces.iPassengerData;
-import com.example.skylink.persistence.Interfaces.iBookingDatabase;
+import com.example.skylink.persistence.Interfaces.iBookingDB;
 
 import java.util.ArrayList;
 import java.util.List;
-public class BookingDatabase implements iBookingDatabase {
+public class BookingStub implements iBookingDB {
     private final List<iPassengerData> passengerData;
 
-    public BookingDatabase(){
+    public BookingStub(){
         this.passengerData = new ArrayList<>();
     }
 

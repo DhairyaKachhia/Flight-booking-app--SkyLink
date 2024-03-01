@@ -1,4 +1,4 @@
-package com.example.skylink.presentation;
+package com.example.skylink.presentation.User_Auth;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.widget.Button;
 
 import com.example.skylink.R;
+import com.example.skylink.presentation.FlightSearching.FlightSearch;
 
 public class UpdateUserProfileActivity extends AppCompatActivity {
 
@@ -21,7 +22,7 @@ public class UpdateUserProfileActivity extends AppCompatActivity {
 
         submit.setOnClickListener(v -> {
 
-            Intent intent = new Intent(UpdateUserProfileActivity.this, MainActivity.class);
+            Intent intent = new Intent(UpdateUserProfileActivity.this, FlightSearch.class);
             startActivity(intent);
 
         });

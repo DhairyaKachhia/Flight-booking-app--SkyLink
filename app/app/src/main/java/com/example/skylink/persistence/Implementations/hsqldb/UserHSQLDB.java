@@ -1,8 +1,7 @@
 package com.example.skylink.persistence.Implementations.hsqldb;
 
-import com.example.skylink.objects.Implementations.UserProperties;
 import com.example.skylink.objects.Interfaces.iUserProperties;
-import com.example.skylink.persistence.Interfaces.IUserHSQLDB;
+import com.example.skylink.persistence.Interfaces.IUserDB;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -11,7 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class UserHSQLDB implements IUserHSQLDB {
+public class UserHSQLDB implements IUserDB {
 
     private final String dbPath;
 
@@ -105,7 +104,7 @@ public class UserHSQLDB implements IUserHSQLDB {
 
 
     @Override
-    public UserHSQLDB initialize() {
+    public IUserDB initialize() {
         try (Connection conn = connect();
              Statement stmt = conn.createStatement()) {
 

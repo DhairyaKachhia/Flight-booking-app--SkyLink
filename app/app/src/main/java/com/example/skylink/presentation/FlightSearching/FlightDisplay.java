@@ -1,9 +1,8 @@
-package com.example.skylink.presentation;
+package com.example.skylink.presentation.FlightSearching;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -24,11 +23,10 @@ import com.example.skylink.objects.Interfaces.iFlightSearch;
 import com.example.skylink.objects.Interfaces.iFlights;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
-public class Flight_search extends AppCompatActivity {
+public class FlightDisplay extends AppCompatActivity {
 
     private ListView showFlightLV;
     private Spinner sortingOptions;
@@ -167,8 +165,8 @@ public class Flight_search extends AppCompatActivity {
 
         isDepartureSelected = false;
 
-        originAdaptor = new CustomFlightAdaptor(Flight_search.this, tripOutbound, isOneWay, flightSearchDetail);
-        returnAdaptor = new CustomFlightAdaptor(Flight_search.this, tripInbound, isOneWay, flightSearchDetail);
+        originAdaptor = new CustomFlightAdaptor(FlightDisplay.this, tripOutbound, isOneWay, flightSearchDetail);
+        returnAdaptor = new CustomFlightAdaptor(FlightDisplay.this, tripInbound, isOneWay, flightSearchDetail);
         currAdaptor = originAdaptor;
 
         availableFlights = new ArrayList<>(tripOutbound);

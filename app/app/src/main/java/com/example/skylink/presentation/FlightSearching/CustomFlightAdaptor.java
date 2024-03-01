@@ -1,9 +1,8 @@
-package com.example.skylink.presentation;
+package com.example.skylink.presentation.FlightSearching;
 
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,9 +13,9 @@ import android.widget.TextView;
 
 import com.example.skylink.R;
 import com.example.skylink.business.Implementations.Session;
-import com.example.skylink.objects.Implementations.Flight;
 import com.example.skylink.objects.Interfaces.iFlight;
 import com.example.skylink.objects.Interfaces.iFlightSearch;
+import com.example.skylink.presentation.UserInfo.User_info;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -27,7 +26,7 @@ import java.util.List;
 public class CustomFlightAdaptor extends BaseAdapter {
 
     private final Context mContext;
-    private final Flight_search flightResult;
+    private final FlightDisplay flightResult;
     private List<List<List<iFlight>>> availableFlights;
     private final boolean isOneWay;
     private final iFlightSearch userInput;
@@ -38,8 +37,8 @@ public class CustomFlightAdaptor extends BaseAdapter {
         this.isOneWay = isOneWay;
         this.userInput = userInput;
 
-        if (context instanceof Flight_search) {
-            flightResult = (Flight_search) context;
+        if (context instanceof FlightDisplay) {
+            flightResult = (FlightDisplay) context;
         } else {
             flightResult = null;
         }
@@ -138,7 +137,7 @@ public class CustomFlightAdaptor extends BaseAdapter {
                 if (isOneWay) {
                     selectedFlights.put("Outbound", flightCardView1);
                     flightResult.setSelectedFlights(selectedFlights);
-
+                    Session.getInstance().setOutboundeconmySelected(true);
                     toNextActivity();
 
                 } else {
@@ -146,12 +145,12 @@ public class CustomFlightAdaptor extends BaseAdapter {
                     if (flightResult.getDepartureStatus()) {
                         selectedFlights.put("Inbound", flightCardView1);
                         flightResult.setSelectedFlights(selectedFlights);
-
+                        Session.getInstance().setInboundeconmySelected(true);
                         toNextActivity();
                     } else {
                         selectedFlights.put("Outbound", flightCardView1);
                         flightResult.setSelectedFlights(selectedFlights);
-
+                        Session.getInstance().setOutboundeconmySelected(true);
                         flightResult.setDepartureStatus(true);
                         displayReturnFlight();
                     }
@@ -174,7 +173,7 @@ public class CustomFlightAdaptor extends BaseAdapter {
                 if (isOneWay) {
                     selectedFlights.put("Outbound", flightCardView12);
                     flightResult.setSelectedFlights(selectedFlights);
-
+                    Session.getInstance().setOutboundeconmySelected(false);
                     toNextActivity();
 
                 } else {
@@ -182,13 +181,13 @@ public class CustomFlightAdaptor extends BaseAdapter {
                     if (flightResult.getDepartureStatus()) {
                         selectedFlights.put("Inbound", flightCardView12);
                         flightResult.setSelectedFlights(selectedFlights);
-
+                        Session.getInstance().setInboundeconmySelected(false);
                         toNextActivity();
                     } else {
                         selectedFlights.put("Outbound", flightCardView12);
                         flightResult.setSelectedFlights(selectedFlights);
-
-                        flightResult.setDepartureStatus(true);
+                        Session.getInstance().setOutboundeconmySelected(false);
+                        flightResult.setDepartureStatus(false);
                         displayReturnFlight();
                     }
                 }

@@ -13,13 +13,13 @@
         android:theme="@style/Theme.Skylink"
         tools:targetApi="31">
         <activity
-            android:name=".presentation.UpdateUserProfileActivity"
+            android:name=".presentation.User_Auth.UpdateUserProfileActivity"
             android:exported="false" />
         <activity
-            android:name=".presentation.SignUpActivity"
+            android:name=".presentation.User_Auth.SignUpActivity"
             android:exported="false" />
         <activity
-            android:name=".presentation.SignInActivity"
+            android:name=".presentation.User_Auth.SignInActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -28,22 +28,25 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".presentation.User_info"
+            android:name=".presentation.UserInfo.User_info"
             android:exported="false" />
         <activity
-            android:name=".presentation.Flight_search"
+            android:name=".presentation.FlightSearching.FlightDisplay"
             android:exported="false" />
         <activity
-            android:name=".presentation.SeatSelection"
+            android:name=".presentation.SeatSelect.InboundActivity"
             android:exported="false" />
         <activity
-            android:name=".presentation.MainActivity"
+            android:name=".presentation.SeatSelect.OutboundActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.FlightSearching.FlightSearch"
             android:exported="true"></activity>
         <activity
-            android:name=".presentation.CreditCardPaymentActivity"
+            android:name=".presentation.Payment.CreditCardPaymentActivity"
             android:exported="true"></activity>
         <activity
-            android:name=".presentation.PaymentSuccessfulActivity"
+            android:name=".presentation.Payment.PaymentSuccessfulActivity"
             android:exported="true"></activity>
     </application>
 

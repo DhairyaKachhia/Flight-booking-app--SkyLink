@@ -1,16 +1,17 @@
 package com.example.skylink.business.Implementations;
 
+import com.example.skylink.application.Services;
 import com.example.skylink.business.Interface.iPassengerDataManager;
 import com.example.skylink.objects.Interfaces.iPassengerData;
-import com.example.skylink.persistence.Implementations.hsqldb.BookingDatabase;
+import com.example.skylink.persistence.Implementations.hsqldb.BookingStub;
 import com.example.skylink.objects.Implementations.PassengerData;
-import com.example.skylink.persistence.Interfaces.iBookingDatabase;
+import com.example.skylink.persistence.Interfaces.iBookingDB;
 
 public class PassengerDataManager implements iPassengerDataManager {
-    private iBookingDatabase bookingDatabase;
+    private iBookingDB bookingDatabase;
 
     public PassengerDataManager() {
-        this.bookingDatabase = new BookingDatabase();
+        bookingDatabase = Services.getBookDatabase();
     }
 
     public iPassengerData addBooking(String title, String firstName, String lastName, String telephoneNumber, String emailAddress) {

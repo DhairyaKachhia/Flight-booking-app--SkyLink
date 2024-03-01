@@ -1,4 +1,4 @@
-package com.example.skylink.presentation;
+package com.example.skylink.presentation.UserInfo;
 
 import android.content.Context;
 import android.os.Bundle;
