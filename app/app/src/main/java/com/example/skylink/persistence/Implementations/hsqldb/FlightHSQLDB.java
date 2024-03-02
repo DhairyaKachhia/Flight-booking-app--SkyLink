@@ -15,7 +15,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.jgrapht.Graph;
 import org.jgrapht.graph.DefaultWeightedEdge;
 import org.jgrapht.graph.DirectedWeightedMultigraph;
-import org.jgrapht.graph.SimpleWeightedGraph;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -37,7 +36,7 @@ public class FlightHSQLDB implements IFlightDB {
     private String[] airports;
     private String[] distances;
 
-    private Map<String, iAircraft> aircraftMap =  new HashMap<>();;
+    private Map<String, iAircraft> aircraftMap =  new HashMap<>();
 
     public Map<String, iAircraft> getAircraftMap() {
         return aircraftMap;
@@ -229,7 +228,6 @@ public class FlightHSQLDB implements IFlightDB {
     }
 
 
-    @Override
     public FlightHSQLDB initialize() {
         try (Connection conn = connect();
              Statement stmt = conn.createStatement()) {
@@ -242,7 +240,6 @@ public class FlightHSQLDB implements IFlightDB {
         return this;
     }
 
-    @Override
     public IFlightDB drop() {
         String sql = "DROP TABLE FLIGHTS";
         try (Connection conn = connect();
