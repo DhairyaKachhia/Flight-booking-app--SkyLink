@@ -8,6 +8,12 @@
       <entry key="AllIntegratedTest">
         <State />
       </entry>
+      <entry key="SignInActivityTest">
+        <State />
+      </entry>
+      <entry key="UserHandlerIntegratedTest">
+        <State />
+      </entry>
       <entry key="app">
         <State />
       </entry>

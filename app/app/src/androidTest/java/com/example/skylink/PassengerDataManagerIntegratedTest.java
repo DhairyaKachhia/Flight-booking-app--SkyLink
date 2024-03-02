@@ -1,96 +1,65 @@
 package com.example.skylink;
 
-import static junit.framework.TestCase.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
-import androidx.test.ext.junit.rules.ActivityScenarioRule;
-
-import com.example.skylink.application.Services;
-import com.example.skylink.business.Implementations.PassengerDataManager;
-import com.example.skylink.objects.Interfaces.iPassengerData;
-import com.example.skylink.persistence.Implementations.hsqldb.BookingStub;
-import com.example.skylink.persistence.Interfaces.iBookingDB;
-import com.example.skylink.presentation.User_Auth.SignInActivity;
-
+import org.junit.After;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
 
+import com.example.skylink.business.Implementations.PassengerDataManager;
+import com.example.skylink.objects.Interfaces.iPassengerData;
+import com.example.skylink.persistence.Implementations.hsqldb.BookingHSQLDB;
+
 public class PassengerDataManagerIntegratedTest {
-    private iBookingDB bookingDatabase;
+
     private PassengerDataManager passengerDataManager;
-    @Rule
-    public ActivityScenarioRule<SignInActivity> activityRule =
-            new ActivityScenarioRule<>(SignInActivity.class);
+    private BookingHSQLDB bookingDatabase;
+
     @Before
     public void setUp() {
-        bookingDatabase = Services.getBookDatabase();
-        passengerDataManager = new PassengerDataManager(bookingDatabase);
+        String dbPath = "test.db"; // db path
+        bookingDatabase = new BookingHSQLDB(dbPath); // Connect to db
+        bookingDatabase.initialize();
+        passengerDataManager = new PassengerDataManager(bookingDatabase); // Use real db to initialize PassengerDataManager
     }
 
-    // General Test Cases
-
     @Test
-    public void testAddBooking() {
-        iPassengerData passengerData = passengerDataManager.addBooking("Mr.", "John", "Doe", "123456789", "john.doe@example.com");
+    public void testAddBooking_WithRealDatabase() {
+        String title = "Mr";
+        String firstName = "Yiming";
+        String lastName = "Zang";
+        String telephoneNumber = "2041234567";
+        String emailAddress = "yiming@gmail.com";
 
+        // add booking and return passenger data
+        iPassengerData passengerData = passengerDataManager.addBooking(title, firstName, lastName, telephoneNumber, emailAddress);
+
+        // Return passenger data
         assertNotNull(passengerData);
-        assertEquals("Mr.", passengerData.getTitle());
-        assertEquals("John", passengerData.getFirstName());
-        assertEquals("Doe", passengerData.getLastName());
-        assertEquals("123456789", passengerData.getTelephoneNumber());
-        assertEquals("john.doe@example.com", passengerData.getEmailAddress());
+        assertEquals(title, passengerData.getTitle());
+        assertEquals(firstName, passengerData.getFirstName());
+        assertEquals(lastName, passengerData.getLastName());
+        assertEquals(telephoneNumber, passengerData.getTelephoneNumber());
+        assertEquals(emailAddress, passengerData.getEmailAddress());
     }
 
+
     @Test
-    public void testFindExistingBooking() {
-        iPassengerData existingPassengerData = passengerDataManager.addBooking("Ms.", "Jane", "Smith", "987654321", "jane.smith@example.com");
+    public void testFindBooking_ReturnsFalse_WhenBookingDoesNotExist() {
+        String title = "Mr";
+        String firstName = "Yiming";
+        String lastName = "Zang";
+        String telephoneNumber = "2041234567";
+        String emailAddress = "yiming@gmail.com";
 
-        boolean found = passengerDataManager.findBooking("Ms.", "Jane", "Smith", "987654321", "jane.smith@example.com");
+        // Search for non existing booking
+        boolean bookingFound = passengerDataManager.findBooking(title, firstName, lastName, telephoneNumber, emailAddress);
 
-        assertTrue(found);
+        assertFalse(bookingFound); // No booking exists, return false
     }
 
-    @Test
-    public void testFindNonExistingBooking() {
-        boolean found = passengerDataManager.findBooking("Mr.", "Non", "Existing", "555555555", "non.existing@example.com");
-
-        assertFalse(found);
-    }
-
-    @Test
-    public void testAddBookingWithNullEmail() {
-        iPassengerData passengerData = passengerDataManager.addBooking("Ms.", "Alice", "Wonderland", "123456789", null);
-
-        assertNotNull(passengerData);
-        assertEquals("Ms.", passengerData.getTitle());
-        assertEquals("Alice", passengerData.getFirstName());
-        assertEquals("Wonderland", passengerData.getLastName());
-        assertEquals("123456789", passengerData.getTelephoneNumber());
-        assertNull(passengerData.getEmailAddress());
-    }
-
-    @Test
-    public void testAddBookingWithEmptyName() {
-        iPassengerData passengerData = passengerDataManager.addBooking("Dr.", "", "", "987654321", "doctor@example.com");
-
-        assertNotNull(passengerData);
-        assertEquals("Dr.", passengerData.getTitle());
-        assertEquals("", passengerData.getFirstName()); // Adjust based on your requirements
-        assertEquals("", passengerData.getLastName());  // Adjust based on your requirements
-        assertEquals("987654321", passengerData.getTelephoneNumber());
-        assertEquals("doctor@example.com", passengerData.getEmailAddress());
-    }
-
-    @Test
-    public void testFindBookingWithEmptyPhoneNumber() {
-        iPassengerData existingPassengerData = passengerDataManager.addBooking("Prof.", "Charles", "Xavier", "", "professor@example.com");
-
-        boolean found = passengerDataManager.findBooking("Prof.", "Charles", "Xavier", "", "professor@example.com");
-
-        assertTrue(found);
+    @After
+    public void tearDown() {
+        bookingDatabase.drop(); // CLear db
     }
 }

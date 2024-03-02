@@ -65,10 +65,6 @@ public class SignInActivityTest {
         // Alternatively, you can use ApplicationProvider for obtaining the context
         // Context appContext = ApplicationProvider.getApplicationContext();
 
-        // Example of using the context (you can use it for other purposes in your test)
-        String appName = appContext.getString(R.string.app_name);
-        System.out.println("App Name: " + appName);
-
         // Type email
         Espresso.onView(ViewMatchers.withId(R.id.etEmail))
                 .perform(ViewActions.typeText("user@example.com"));

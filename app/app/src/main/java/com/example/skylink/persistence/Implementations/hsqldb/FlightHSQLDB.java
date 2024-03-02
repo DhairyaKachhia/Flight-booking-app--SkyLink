@@ -28,7 +28,7 @@ import java.util.Properties;
 
 
 public class FlightHSQLDB implements IFlightDB {
-    
+
     private final String dbPath;
 
 

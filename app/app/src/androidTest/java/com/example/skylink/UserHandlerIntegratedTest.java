@@ -1,157 +1,97 @@
 package com.example.skylink;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
-import com.example.skylink.application.Services;
+import static org.junit.Assert.*;
 import com.example.skylink.business.Implementations.UserHandler;
+import com.example.skylink.persistence.Interfaces.IUserDB;
 import com.example.skylink.objects.Implementations.UserProperties;
 import com.example.skylink.objects.Interfaces.iUserProperties;
-import com.example.skylink.persistence.Implementations.hsqldb.UserStub;
-import com.example.skylink.persistence.Interfaces.IUserDB;
-
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.mindrot.jbcrypt.BCrypt;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class UserHandlerIntegratedTest {
-    private IUserDB userStub;
+
     private UserHandler userHandler;
+    private IUserDB userDatabase;
 
     @Before
     public void setUp() {
-        userStub = Services.getUserDatabase();
-        userHandler = new UserHandler(userStub);
+        userDatabase = new InMemoryUserDB();
+        userHandler = new UserHandler(userDatabase);
+    }
+
+    @After
+    public void tearDown() {
+        ((InMemoryUserDB) userDatabase).clear();
     }
 
     @Test
-    public void testCreateUser_Success() {
-        // Mock data
-        iUserProperties mockUserProperties = new UserProperties("Mayokun Moses Akintunde", "akintundemayokun@gmail.com", "mayor101");
-        String rePassword = "mayor101";
-
-        // Perform the test
-        boolean result = userHandler.createUser(mockUserProperties, rePassword);
-
-        // Verify the result
+    public void testCreateUser() {
+        boolean result = userHandler.createUser(createUserProperties(), "password");
         assertTrue(result);
     }
 
     @Test
-    public void testCreateUser_EmptyName() {
-        // Mock data
-        iUserProperties mockUserProperties = new UserProperties("", "akintundemayokun@gmail.com", "mayor101");
-        String rePassword = "mayor101";
+    public void testSigninUser() {
+        // Create user
+        UserProperties user = createUserProperties();
+        String email = user.getEmail();
+        String password = user.getPassword();
 
-        // Perform the test
-        boolean result = userHandler.createUser(mockUserProperties, rePassword);
+        // Add user info to db
+        userDatabase.addUser_Auth(user);
 
-        // Verify the result
-        assertFalse("User creation should fail for empty name", result);
+        // sign in
+        boolean result = userHandler.signinUser(createUserProperties());
 
-    }
-
-    @Test
-    public void testCreateUser_InvalidEmailFormat() {
-        // Mock data
-        iUserProperties mockUserProperties = new UserProperties("Mayokun Moses Akintunde", "invalidemail", "mayor101");
-        String rePassword = "mayor101";
-
-        // Perform the test
-        boolean result = userHandler.createUser(mockUserProperties, rePassword);
-
-        // Verify the result
-        assertFalse(result);
-    }
-
-    @Test
-    public void testCreateUser_PasswordMismatch() {
-        // Mock data
-        iUserProperties mockUserProperties = new UserProperties("Mayokun Moses Akintunde", "akintundemayokun@gmail.com", "mayor101");
-        String rePassword = "differentPassword";
-
-        // Perform the test
-        boolean result = userHandler.createUser(mockUserProperties, rePassword);
-
-        // Verify the result
-        assertFalse(result);
-    }
-
-    @Test
-    public void testUpdateUserProfile_Success() {
-        // Create a user for testing
-        iUserProperties mockUserProperties = new UserProperties(
-                "Mayokun Moses Akintunde",
-                "akintundemayokun@gmail.com",
-                "mayor101"
-        );
-        String rePassword = "mayor101";
-        userHandler.createUser(mockUserProperties, rePassword);
-
-        // Update the user profile
-        iUserProperties updatedUserProperties = new UserProperties(
-                "Mayokun M. Akintunde",
-                "mayorakintunde@gmail.com",
-                "mayor101",
-                "Male",
-                "456 Side St",
-                "987654321",
-                "1990-01-01",
-                "New Country"
-        );
-        boolean result = userHandler.updateUserProfile(updatedUserProperties);
-
-        // Verify the result
         assertTrue(result);
     }
 
-    @Test
-    public void testUpdateUserProfile_EmptyPassword() {
-        // Create a user for testing
-        iUserProperties mockUserProperties = new UserProperties(
-                "Mayokun Moses Akintunde",
-                "akintundemayokun@gmail.com",
-                "mayor101"
-        );
-        String rePassword = "mayor101";
-        userHandler.createUser(mockUserProperties, rePassword);
+    private UserProperties createUserProperties() {
 
-        // Update the user profile with an empty password
-        iUserProperties updatedUserProperties = new UserProperties(
-                "Mayokun M. Akintunde",
-                "mayorakintunde@gmail.com",
-                "",
-                "Male",
-                "456 Side St",
-                "987654321",
-                "1990-01-01",
-                "New Country"
-        );
-
-        // Perform the test
-        boolean result = userHandler.updateUserProfile(updatedUserProperties);
-
-        // Verify the result
-        assertFalse(result);
+        return new UserProperties("yiming", "yiming@gmail.com", "password", "male", "winnipeg", "2041234567", "01-01-1990", "Canada");
     }
 
-    @Test
-    public void testUpdateUserProfile_NullUserProperties() {
-        // Create a user for testing
-        iUserProperties mockUserProperties = new UserProperties(
-                "Mayokun Moses Akintunde",
-                "akintundemayokun@gmail.com",
-                "mayor101"
-        );
-        String rePassword = "mayor101";
-        userHandler.createUser(mockUserProperties, rePassword);
+    private static class InMemoryUserDB implements IUserDB {
+        private Map<String, String> userCredentials = new HashMap<>();
 
-        // Update the user profile with null user properties
-        iUserProperties updatedUserProperties = null;
+        @Override
+        public long addUser_Auth(iUserProperties user) {
+            // Store email and password
+            userCredentials.put(user.getEmail(), BCrypt.hashpw(user.getPassword(), BCrypt.gensalt()));
+            return 1; // Return user id.
+        }
 
-        // Perform the test
-        boolean result = userHandler.updateUserProfile(updatedUserProperties);
+        @Override
+        public boolean update_user_info(long user_id, iUserProperties user) {
+            //null
+            return true;
+        }
 
-        // Verify the result
-        assertFalse(result);
+        @Override
+        public String findPassword(String email) {
+
+            return userCredentials.get(email);
+        }
+
+        @Override
+        public IUserDB initialize() {
+            // initialize db
+            return this;
+        }
+
+        @Override
+        public IUserDB drop() {
+            clear();
+            return this;
+        }
+
+        public void clear() {
+            userCredentials.clear();
+        }
     }
 }

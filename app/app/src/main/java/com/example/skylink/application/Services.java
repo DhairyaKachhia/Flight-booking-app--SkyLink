@@ -45,4 +45,8 @@ public class Services {
         }
         return bookDatabase;
     }
+
+    public static void setUserDatabase(IUserDB userDatabase) {
+        Services.userDatabase = userDatabase;
+    }
 }
