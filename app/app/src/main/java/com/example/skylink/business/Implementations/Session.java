@@ -19,6 +19,9 @@ public class Session implements ISession {
 
     // Temporary storage for flights and bookings
     private iFlightSearch flightSearch;
+
+    private int totalPrice;
+
     private List<iPassengerData> passengerData;
 
     private iPayment pay;
@@ -119,6 +122,16 @@ public class Session implements ISession {
         this.flightSearch = flightSearch;
     }
 
+    @Override
+    public void setTotalPrice(int totalPrice) {
+        this.totalPrice = totalPrice;
+    }
+
+    @Override
+    public int getTotalPrice() {
+        return totalPrice;
+    }
+
     public HashMap<String, List<List<List<iFlight>>>> getFlightPathResults() {
         return flightPathResults;
     }
@@ -151,5 +164,63 @@ public class Session implements ISession {
 
     public void setSelectedFlights(HashMap<String, List<List<iFlight>>> selectedFlights) {
         this.selectedFlights = selectedFlights;
+    }
+
+
+    /*
+    *   Storing Payment info:
+    *      cardNum, expiryDate, cvv, cardholderName, billingAddress
+    */
+
+    private String  cardNum, expiryDate, cvv, cardholderName, billingAddress;
+
+    @Override
+    public String getCardNum() {
+        return cardNum;
+    }
+
+    @Override
+    public void setCardNum(String cardNum) {
+        this.cardNum = cardNum;
+    }
+
+    @Override
+    public String getExpiryDate() {
+        return expiryDate;
+    }
+
+    @Override
+    public void setExpiryDate(String expiryDate) {
+        this.expiryDate = expiryDate;
+    }
+
+    @Override
+    public String getCvv() {
+        return cvv;
+    }
+
+    @Override
+    public void setCvv(String cvv) {
+        this.cvv = cvv;
+    }
+
+    @Override
+    public String getCardholderName() {
+        return cardholderName;
+    }
+
+    @Override
+    public void setCardholderName(String cardholderName) {
+        this.cardholderName = cardholderName;
+    }
+
+    @Override
+    public String getBillingAddress() {
+        return billingAddress;
+    }
+
+    @Override
+    public void setBillingAddress(String billingAddress) {
+        this.billingAddress = billingAddress;
     }
 }

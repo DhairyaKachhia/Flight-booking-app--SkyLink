@@ -30,17 +30,14 @@
             android:padding="20dp">
 
             <com.google.android.material.card.MaterialCardView
-                android:id="@+id/cardView1"
+                android:id="@+id/outboundCard"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="0dp"
                 android:layout_marginTop="5dp"
                 app:cardBackgroundColor="#EFEFEF"
                 app:cardCornerRadius="18dp"
-                app:cardElevation="0dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cardView">
+                app:cardElevation="0dp">
 
                 <LinearLayout
                     android:id="@+id/outboundLayout"
@@ -53,7 +50,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Outbound"
-                        android:textSize="25sp"
+                        android:textSize="30sp"
                         android:textStyle="bold"
                         android:textColor="@color/black"/>
 
@@ -176,18 +173,14 @@
 
 
             <com.google.android.material.card.MaterialCardView
-                android:id="@+id/cardView2"
+                android:id="@+id/inboundCard"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="0dp"
                 android:layout_marginTop="20dp"
-                android:layout_marginBottom="50dp"
                 app:cardBackgroundColor="#EFEFEF"
                 app:cardCornerRadius="18dp"
-                app:cardElevation="0dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cardView">
+                app:cardElevation="0dp">
 
                 <LinearLayout
                     android:id="@+id/inboundLayout"
@@ -200,7 +193,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Inbound"
-                        android:textSize="25sp"
+                        android:textSize="30sp"
                         android:textStyle="bold"
                         android:textColor="@color/black"/>
 
@@ -321,6 +314,55 @@
 
             </com.google.android.material.card.MaterialCardView>
 
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/totalPriceCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="0dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="50dp"
+                app:cardBackgroundColor="#EFEFEF"
+                app:cardCornerRadius="18dp"
+                app:cardElevation="0dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:layout_marginVertical="15dp"
+                    android:layout_marginHorizontal="50dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Total"
+                        android:textSize="40sp"
+                        android:textColor="@color/black"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:id="@+id/totalPrice"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="$650"
+                        android:textSize="40sp"
+                        android:textAlignment="textEnd"
+                        android:textColor="@color/black"
+                        android:textStyle="bold"/>
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Payment option"
+                android:textSize="35sp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:layout_marginBottom="20dp"/>
 
             <EditText
                 android:id="@+id/etCreditCardNumber"
@@ -343,9 +385,9 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:hint="Expiry Date (MM/YY)"
+                    android:hint="Expiry Date (MMYY)"
                     android:inputType="number"
-                    android:maxLength="5"
+                    android:maxLength="4"
                     android:textSize="25sp"
                     android:layout_marginEnd="8dp" />
 
@@ -355,7 +397,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:hint="CVV"
-                    android:inputType="numberPassword"
+                    android:inputType="number"
                     android:maxLength="3"
                     android:textSize="25sp"
                     android:layout_marginStart="8dp" />
