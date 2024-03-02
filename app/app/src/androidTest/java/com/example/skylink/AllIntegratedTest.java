@@ -5,12 +5,12 @@ import org.junit.runners.Suite;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
-        AirportPathTest.class,
-        PassengerDataManagerTest.class,
-        PlaneConfigurationTest.class,
-        UserHandlerTest.class
+        AirportPathIntegratedTest.class,
+        PassengerDataManagerIntegratedTest.class,
+        PlaneConfigurationIntegratedTest.class,
+        UserHandlerIntegratedTest.class
 })
-public class AllTests {
+public class  AllIntegratedTest{
     // This class can remain empty
     // It's used only as a container for the suite
 }

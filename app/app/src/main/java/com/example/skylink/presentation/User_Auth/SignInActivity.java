@@ -38,9 +38,7 @@ public class SignInActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sign_in);
 
         copyDatabaseToDevice();
-
         Services.setup(this);
-
         Session.getInstance().setContext(this);
 
         email = findViewById(R.id.etEmail);
