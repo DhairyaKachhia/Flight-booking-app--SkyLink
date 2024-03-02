@@ -14,9 +14,6 @@ public interface IFlightDB {
 
     List<iFlight> findFlight(String departure, String arrival, String dept_time);
 
-    IFlightDB initialize();
-
-    IFlightDB drop();
     Graph<String, DefaultWeightedEdge> getAirportGraph();
     Map<String, iAircraft> getAircraftMap();
 }

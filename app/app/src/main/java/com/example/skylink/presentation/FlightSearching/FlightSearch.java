@@ -14,6 +14,7 @@ import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.skylink.R;
+import com.example.skylink.application.Services;
 import com.example.skylink.business.Implementations.AirportPath;
 import com.example.skylink.business.Interface.iAirportPath;
 import com.example.skylink.business.validations.IValidateSearchInput;
@@ -247,7 +248,7 @@ public class FlightSearch extends AppCompatActivity {
         }
 
         if (isValid) {
-            iAirportPath path = new AirportPath();
+            iAirportPath path = new AirportPath(Services.getFlightDatabase(),Services.getFlightDatabase().getAirportGraph());
 
             iFlightSearch flightSearch = new com.example.skylink.objects.Implementations.FlightSearch(departingCity, returningCity, departingDate, returningDate, totalPassengers, isOneWay);
 

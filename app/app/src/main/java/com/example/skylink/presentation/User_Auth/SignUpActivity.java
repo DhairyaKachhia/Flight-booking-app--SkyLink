@@ -10,6 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.skylink.R;
+import com.example.skylink.application.Services;
 import com.example.skylink.business.Interface.IUserHandler;
 import com.example.skylink.business.Implementations.UserHandler;
 import com.example.skylink.business.validations.IValidateUserAuth;
@@ -53,8 +54,8 @@ public class SignUpActivity extends AppCompatActivity {
                 String userRePassword = retypePassword.getText().toString();
 
 
-               iUserProperties user = new UserProperties(userFullname, userEmail, userPassword);
-               IUserHandler handler = new UserHandler();
+                iUserProperties user = new UserProperties(userFullname, userEmail, userPassword);
+                IUserHandler handler = new UserHandler(Services.getUserDatabase());
 
                 if (handler.createUser(user, userRePassword)) {
                     Intent intent = new Intent(SignUpActivity.this, UpdateUserProfileActivity.class);
