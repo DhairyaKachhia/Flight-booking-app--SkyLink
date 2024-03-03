@@ -67,4 +67,50 @@ public class PlaneConfigurationTest {
         // Verify that the result is null for an invalid seat type
         assertNull(result);
     }
+
+    @Test
+    public void testGetPlaneConfigurationWithEmptyAircraftName() {
+        // Test with empty aircraft name
+        String[] result = planeConfiguration.getPlaneConfiguration("", "bus");
+
+        // Verify that the result is null for an empty aircraft name
+        assertNull(result);
+    }
+
+    @Test
+    public void testGetPlaneConfigurationWithEmptySeatType() {
+        // Mock data
+        iAircraft mockAircraft = new Aircraft("Boeing 777", 6, 6, 6, 19);
+        Map<String, iAircraft> aircraftMap = new HashMap<>();
+        aircraftMap.put("Boeing 777", mockAircraft);
+
+        // Test with empty seat type
+        String[] result = planeConfiguration.getPlaneConfiguration("Boeing 777", "");
+
+        // Verify that the result is null for an empty seat type
+        assertNull(result);
+    }
+
+    @Test
+    public void testGetPlaneConfigurationWithNullAircraftName() {
+        // Test with null aircraft name
+        String[] result = planeConfiguration.getPlaneConfiguration(null, "bus");
+
+        // Verify that the result is null for a null aircraft name
+        assertNull(result);
+    }
+
+    @Test
+    public void testGetPlaneConfigurationWithNullSeatType() {
+        // Mock data
+        iAircraft mockAircraft = new Aircraft("Boeing 777", 6, 6, 6, 19);
+        Map<String, iAircraft> aircraftMap = new HashMap<>();
+        aircraftMap.put("Boeing 777", mockAircraft);
+
+        // Test with null seat type
+        String[] result = planeConfiguration.getPlaneConfiguration("Boeing 777", null);
+
+        // Verify that the result is null for a null seat type
+        assertNull(result);
+    }
 }

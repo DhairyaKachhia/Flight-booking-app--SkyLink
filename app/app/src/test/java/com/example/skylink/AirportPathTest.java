@@ -30,6 +30,7 @@ public class AirportPathTest {
 
     @Test
     public void testFindFlights_OneWay() {
+        // Test with one-way flight search
         iFlightSearch flightSearch = new FlightSearch("YZZ", "YYC", "01/03/2024", "04/03/2024", 2, true);
         HashMap<String, List<List<List<iFlight>>>> itinerary = airportPath.findFlights(flightSearch);
 
@@ -38,6 +39,7 @@ public class AirportPathTest {
 
     @Test
     public void testFindFlights_Return() {
+        // Test with return flight search
         iFlightSearch flightSearch = new FlightSearch("YZZ", "YYC", "2024-03-02", "2024-03-02", 2, true);
         HashMap<String, List<List<List<iFlight>>>> itinerary = airportPath.findFlights(flightSearch);
 
@@ -46,15 +48,66 @@ public class AirportPathTest {
 
     @Test
     public void testFindFlights_NoPaths() {
-        iFlightSearch flightSearch = new FlightSearch("YVR", "YUL", "2024-03-02", "2024-03-02", 2, true);
+        // Test with no paths available
+        iFlightSearch flightSearch = new FlightSearch("YVR", "PVG", "2024-03-02", "2024-03-02", 2, true);
         HashMap<String, List<List<List<iFlight>>>> itinerary = airportPath.findFlights(flightSearch);
+
         assertNotNull(itinerary);
     }
 
     @Test
     public void testFindFlights_EmptyPaths() {
-        iFlightSearch flightSearch = new FlightSearch("YYZ", "YVR", "2024-03-02", "2024-03-02", 2, true);
+        // Test with empty paths available
+        iFlightSearch flightSearch = new FlightSearch("YYZ", "YYT", "2024-03-02", "2024-03-02", 2, true);
         HashMap<String, List<List<List<iFlight>>>> itinerary = airportPath.findFlights(flightSearch);
+
         assertNotNull(itinerary);
+    }
+
+    @Test
+    public void testFindFlights_InvalidDate() {
+        // Test with invalid date format
+        iFlightSearch flightSearch = new FlightSearch("YZZ", "YYC", "2024/01/02", "2024/01/02", 2, true);
+        HashMap<String, List<List<List<iFlight>>>> itinerary = airportPath.findFlights(flightSearch);
+        assertEquals(0, itinerary.size());
+        assertNotNull(itinerary);
+    }
+
+    @Test
+    public void testFindFlights_InvalidPassengerCount() {
+        // Test with invalid passenger count
+        iFlightSearch flightSearch = new FlightSearch("YZZ", "YYC", "2024-03-02", "2024-03-02", -2, true);
+        HashMap<String, List<List<List<iFlight>>>> itinerary = airportPath.findFlights(flightSearch);
+        assertEquals(0, itinerary.size());
+        assertNotNull(itinerary);
+    }
+
+    @Test
+    public void testFindFlights_InvalidFlightType() {
+        // Test with invalid flight type
+        iFlightSearch flightSearch = new FlightSearch("YZZ", "YYC", "2024-03-02", "2024-03-02", 2, false);
+        HashMap<String, List<List<List<iFlight>>>> itinerary = airportPath.findFlights(flightSearch);
+        assertEquals(0, itinerary.size());
+        assertNotNull(itinerary);
+    }
+
+    @Test
+    public void testFindFlights_OneWay_InvalidPath() {
+        // Test with one-way flight search and no valid path
+        iFlightSearch flightSearch = new FlightSearch("YZZ", "YYC", "2024-03-02", null, 2, true);
+        HashMap<String, List<List<List<iFlight>>>> itinerary = airportPath.findFlights(flightSearch);
+
+        assertNotNull(itinerary);
+        assertEquals(0, itinerary.size());
+    }
+
+    @Test
+    public void testFindFlights_Return_InvalidPath() {
+        // Test with return flight search and no valid path
+        iFlightSearch flightSearch = new FlightSearch("YVR", "PVG", "2024-03-02", "2024-03-05", 2, false);
+        HashMap<String, List<List<List<iFlight>>>> itinerary = airportPath.findFlights(flightSearch);
+
+        assertNotNull(itinerary);
+        assertEquals(0, itinerary.size());
     }
 }
