@@ -18,6 +18,10 @@ public interface ISession {
     iFlightSearch getFlightSearch();
     void setFlightSearch(iFlightSearch flightSearch);
 
+    void setTotalPrice(int totalPrice);
+
+    int getTotalPrice();
+
     String getUsername();
     void setUsername(String username);
 
@@ -26,4 +30,28 @@ public interface ISession {
 
     HashMap<String, List<List<iFlight>>> getSelectedFlights();
     void setSelectedFlights(HashMap<String, List<List<iFlight>>> selectedFlights);
+
+
+    /*
+    *   Storing Payment info:
+    *       cardNum, expiryDate, cvv, cardholderName, billingAddress
+    */
+
+    // getters
+    String getCardNum();
+    String getExpiryDate();
+    String getCvv();
+    String getCardholderName();
+    String getBillingAddress();
+
+    // setters
+    void setCardNum(String cardNum);
+
+    void setExpiryDate(String expiryDate);
+
+    void setCvv(String cvv);
+
+    void setCardholderName(String cardholderName);
+
+    void setBillingAddress(String billingAddress);
 }
