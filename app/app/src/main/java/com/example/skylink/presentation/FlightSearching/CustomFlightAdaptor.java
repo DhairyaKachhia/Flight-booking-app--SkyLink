@@ -117,14 +117,16 @@ public class CustomFlightAdaptor extends BaseAdapter {
 
 
         orgCode.setText(fromOrigin.getDeparture_icao());
-        econPrice.setText("$" + fromOrigin.getEconPrice());
-        busnPrice.setText("$" + fromOrigin.getBusnPrice());
+        econPrice.setText("" + fromOrigin.getEconPrice());
+        busnPrice.setText("" + fromOrigin.getBusnPrice());
 
         if (getTakeOffTime != null) {
             takeoffTime.setText(getTakeOffTime);
         }
 
         econBook.setOnClickListener(v -> {
+            Session.getInstance().setTotalPrice(userInput.getTotalPassengers() * Integer.parseInt(econPrice.getText().toString()));
+
             View parentRow = (View) v.getParent();
             ListView listView = (ListView) parentRow.getParent().getParent().getParent().getParent().getParent();
             final int position1 = listView.getPositionForView(parentRow);
@@ -160,6 +162,7 @@ public class CustomFlightAdaptor extends BaseAdapter {
         });
 
         busnBook.setOnClickListener(v -> {
+            Session.getInstance().setTotalPrice(userInput.getTotalPassengers() * Integer.parseInt(busnPrice.getText().toString()));
 
             View parentRow = (View) v.getParent();
             ListView listView = (ListView) parentRow.getParent().getParent().getParent().getParent().getParent();
@@ -227,7 +230,6 @@ public class CustomFlightAdaptor extends BaseAdapter {
             Session.getInstance().setSelectedFlights(flightResult.getSelectedFlights());
 
             Intent nextPageIntent = new Intent(flightResult, User_info.class);
-//            nextPageIntent.putExtras(userInput);
             flightResult.startActivity(nextPageIntent);
         }
     }

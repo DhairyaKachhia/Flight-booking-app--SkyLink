@@ -4,25 +4,36 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.TextView;
+
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.skylink.R;
+import com.example.skylink.business.Implementations.PaymentHandler;
 import com.example.skylink.business.Implementations.Session;
+import com.example.skylink.business.Interface.IPaymentHandler;
 import com.example.skylink.business.Interface.ISession;
-import com.example.skylink.objects.Implementations.Flight;
-import com.example.skylink.objects.Interfaces.iFlight;
+import com.example.skylink.objects.Implementations.TripInvoice;
+import com.example.skylink.objects.Interfaces.ITripInvoice;
 import com.example.skylink.presentation.FlightSearching.FlightSearch;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class PaymentSuccessfulActivity extends AppCompatActivity {
+    private final ISession session = Session.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.payment_successful);
-        ISession session = Session.getInstance();
-        displaySessionInfo(session);
+
+        updateReview();
+
+        IPaymentHandler paymentHandler = new PaymentHandler();
+        ITripInvoice tripInvoice = new TripInvoice(session.getUser_id(), session.getTotalPrice());
+
+        boolean addSuccess = paymentHandler.addPayment(tripInvoice);
+
         Button buttonMainMenu = findViewById(R.id.buttonMainMenu);
         buttonMainMenu.setOnClickListener(v -> {
             Intent intent = new Intent(PaymentSuccessfulActivity.this, FlightSearch.class);
@@ -31,47 +42,27 @@ public class PaymentSuccessfulActivity extends AppCompatActivity {
         });
     }
 
-    private void displaySessionInfo(ISession session) {
+    private void updateReview() {
+        TextView payeeName, transactionDate, totalAmount;
 
-        String passengerName = "Yiming";
-        String gender = "Male";
-        String dob = "01/01/1980";
-        String address = "Winnipeg, MB";
+        payeeName = findViewById(R.id.payeeName);
+        transactionDate = findViewById(R.id.transactionDate);
+        totalAmount = findViewById(R.id.totalAmount);
 
-        List<iFlight> fakeFlights = generateFakeFlights();
-        String flightDetails = generateFlightDetails(fakeFlights);
-        TextView textViewName = findViewById(R.id.textViewName);
-        textViewName.setText("Passenger Name: " + passengerName);
+        payeeName.setText(session.getCardholderName());
 
-        TextView textViewGender = findViewById(R.id.textViewGender);
-        textViewGender.setText("Gender: " + gender);
 
-        TextView textViewDOB = findViewById(R.id.textViewDOB);
-        textViewDOB.setText("Date of Birth: " + dob);
+        // Get the current date
+        Date currentDate = new Date();
 
-        TextView textViewAddress = findViewById(R.id.textViewAddress);
-        textViewAddress.setText("Billing Address: " + address);
+        // Create a formatter for the desired format
+        SimpleDateFormat formatter = new SimpleDateFormat("dd MMMM yyyy");
 
-        TextView textViewFlightDetails = findViewById(R.id.textViewFlightDetails);
-        textViewFlightDetails.setText(flightDetails);
-    }
+        // Format the current date using the formatter
+        transactionDate.setText(formatter.format(currentDate));
 
-    private List<iFlight> generateFakeFlights() {
-        List<iFlight> fakeFlights = new ArrayList<>();
-        // Fake flight info
-        fakeFlights.add(new Flight("AC26", "PVG", "YVR", "2024-02-21 09:00", "2024-02-22 12:00","boeing737","1","5",500,1000));
-        return fakeFlights;
-    }
 
-    private String generateFlightDetails(List<iFlight> flights) {
-        StringBuilder sb = new StringBuilder();
-        for (iFlight flight : flights) {
-            sb.append("Flight ").append(flight.getFlightNumber()).append("\n")
-                    .append("From: ").append(flight.getDeparture_icao()).append("\n")
-                    .append("To: ").append(flight.getArrival_icao()).append("\n")
-                    .append("Departure: ").append(flight.getFlight_dept_date_time()).append("\n")
-                    .append("Arrival: ").append(flight.getFlight_arr_date_time()).append("\n\n");
-        }
-        return sb.toString();
+        totalAmount.setText("" + session.getTotalPrice());
+
     }
 }
