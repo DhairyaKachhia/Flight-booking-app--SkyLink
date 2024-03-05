@@ -31,12 +31,12 @@ public class AirportPathUnit {
         HashMap<String, List<List<List<iFlight>>>> itinerary = airportPath.findFlights(flightSearch);
 
         assertNotNull(itinerary);
-//        assertTrue(itinerary.containsKey("Outbound"));
-//        assertFalse(itinerary.containsKey("Inbound"));
-//
-//        List<List<List<iFlight>>> outboundFlights = itinerary.get("Outbound");
-//        assertNotNull(outboundFlights);
-//        assertFalse(outboundFlights.isEmpty());
+        assertTrue(itinerary.containsKey("Outbound"));
+        assertFalse(itinerary.containsKey("Inbound"));
+
+        List<List<List<iFlight>>> outboundFlights = itinerary.get("Outbound");
+        assertNotNull(outboundFlights);
+        assertFalse(outboundFlights.isEmpty());
     }
 
     @Test

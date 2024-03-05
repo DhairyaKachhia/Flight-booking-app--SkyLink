@@ -70,7 +70,7 @@ public class PaymentHSQLDB implements IPaymentDB {
 
     @Override
     public IPaymentDB drop() {
-        String sql = "DROP TABLE PAYMENT IF EXISTS";
+        String sql = "DROP TABLE PAYMENT";
         try (Connection conn = connect();
              Statement stmt = conn.createStatement()) {
             stmt.executeUpdate(sql);

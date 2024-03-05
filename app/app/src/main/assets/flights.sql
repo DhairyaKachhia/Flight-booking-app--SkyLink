@@ -1,4 +1,3 @@
-
 INSERT INTO FLIGHTS (flightNumber, departure_icao, arrival_icao, flight_dept_date_time, flight_arr_date_time, airCraft_Type, departure_Gate, arr_Gate, econPrice, busnPrice)
 VALUES ('AC111', 'YWG', 'YUL', '06/03/2024 09:42', '09/03/2024 09:42', 'Bombardier Q400', 'Gate9', 'Gate10', 947, 1380);
 
@@ -8,11 +7,11 @@ VALUES ('AC327', 'YYC', 'YHM', '06/03/2024 09:42', '12/03/2024 09:42', 'Embraer 
 
 
 INSERT INTO FLIGHTS (flightNumber, departure_icao, arrival_icao, flight_dept_date_time, flight_arr_date_time, airCraft_Type, departure_Gate, arr_Gate, econPrice, busnPrice)
-VALUES ('AC264', 'YYC', 'YUL', '06/03/2024 09:42', '11/03/2024 09:42', 'Bombardier Q400', 'Gate1', 'Gate7', 1455, 1908);
+VALUES ('AC264', 'YYZ', 'YWG', '06/03/2024 09:42', '11/03/2024 09:42', 'Bombardier Q400', 'Gate1', 'Gate7', 1455, 1908);
 
 
 INSERT INTO FLIGHTS (flightNumber, departure_icao, arrival_icao, flight_dept_date_time, flight_arr_date_time, airCraft_Type, departure_Gate, arr_Gate, econPrice, busnPrice)
-VALUES ('AC979', 'YUL', 'YYC', '08/03/2024 09:42', '09/03/2024 09:42', 'Embraer E190', 'Gate6', 'Gate3', 1328, 1755);
+VALUES ('AC979', 'YWG', 'YYZ', '08/03/2024 09:42', '09/03/2024 09:42', 'Embraer E190', 'Gate6', 'Gate3', 1328, 1755);
 
 
 INSERT INTO FLIGHTS (flightNumber, departure_icao, arrival_icao, flight_dept_date_time, flight_arr_date_time, airCraft_Type, departure_Gate, arr_Gate, econPrice, busnPrice)

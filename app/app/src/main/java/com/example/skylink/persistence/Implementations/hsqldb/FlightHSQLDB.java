@@ -49,11 +49,33 @@ public class FlightHSQLDB implements IFlightDB {
             "YUL-YYZ-2301"
     };
 
-    private Map<String, iAircraft> aircraftMap =  new HashMap<>();
-
     public Map<String, iAircraft> getAircraftMap() {
+        Map<String, iAircraft> aircraftMap = new HashMap<>();
+
+        try (Connection connection = connect()) {
+            String query = "SELECT * FROM AIRCRAFTS";
+
+            try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    while (resultSet.next()) {
+                        String aircraftName = resultSet.getString("aircraftName");
+                        int numSeatPerRowBusiness = resultSet.getInt("numSeatPerRowBusiness");
+                        int numRowsBusiness = resultSet.getInt("numRowsBusiness");
+                        int numSeatPerRowEcon = resultSet.getInt("numSeatPerRowEcon");
+                        int numRowsEcon = resultSet.getInt("numRowsEcon");
+
+                        Aircraft aircraft = new Aircraft(aircraftName, numSeatPerRowBusiness, numRowsBusiness, numSeatPerRowEcon, numRowsEcon);
+                        aircraftMap.put(aircraftName, aircraft);
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
         return aircraftMap;
     }
+
 
 
     private final String CREATE_TABLE = "CREATE TABLE FLIGHTS("
@@ -67,6 +89,14 @@ public class FlightHSQLDB implements IFlightDB {
             + "arr_Gate VARCHAR(10), "
             + "econPrice INT, "
             + "busnPrice INT"
+            + ")";
+
+    private final String CREATE_AIRCRAFT_TABLE = "CREATE TABLE AIRCRAFTS("
+            + "aircraftName VARCHAR(50) PRIMARY KEY, "
+            + "numSeatPerRowBusiness INT, "
+            + "numRowsBusiness INT, "
+            + "numSeatPerRowEcon INT, "
+            + "numRowsEcon INT"
             + ")";
 
     public Graph<String, DefaultWeightedEdge> getAirportGraph() {
@@ -206,9 +236,24 @@ public class FlightHSQLDB implements IFlightDB {
 
     private void addAircraft(String aircraftName, int numSeatPerRowBusiness, int numRowsBusiness,
                              int numSeatPerRowEcon, int numRowsEcon) {
-        Aircraft aircraft = new Aircraft(aircraftName, numSeatPerRowBusiness, numRowsBusiness, numSeatPerRowEcon, numRowsEcon);
-        aircraftMap.put(aircraftName, aircraft);
+        try (Connection connection = connect()) {
+            String query = "INSERT INTO AIRCRAFTS (aircraftName, numSeatPerRowBusiness, numRowsBusiness, numSeatPerRowEcon, numRowsEcon) " +
+                    "VALUES (?, ?, ?, ?, ?)";
+
+            try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+                preparedStatement.setString(1, aircraftName);
+                preparedStatement.setInt(2, numSeatPerRowBusiness);
+                preparedStatement.setInt(3, numRowsBusiness);
+                preparedStatement.setInt(4, numSeatPerRowEcon);
+                preparedStatement.setInt(5, numRowsEcon);
+
+                preparedStatement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // Handle the exception appropriately
+        }
     }
+
 
 
     public FlightHSQLDB initialize() {
@@ -216,6 +261,8 @@ public class FlightHSQLDB implements IFlightDB {
              Statement stmt = conn.createStatement()) {
             this.drop();
             stmt.executeUpdate(CREATE_TABLE);
+            stmt.executeUpdate(CREATE_AIRCRAFT_TABLE);
+
         } catch (SQLException e) {
             e.printStackTrace();
         }

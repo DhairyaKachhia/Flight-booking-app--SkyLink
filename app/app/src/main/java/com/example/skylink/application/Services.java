@@ -51,7 +51,7 @@ public class Services {
             String dbPath = dataDirectory.getAbsolutePath() + "/" + dbName;
             Main.setDBPathName(dbPath);
 
-//            flightDatabase = new FlightHSQLDB(Main.getDBPathName()).initialize();
+            flightDatabase = new FlightHSQLDB(Main.getDBPathName()).initialize();
             userDatabase = new UserHSQLDB(Main.getDBPathName()).initialize();
             bookDatabase = new BookingHSQLDB(Main.getDBPathName()).initialize();
             paymentDatabase = new PaymentHSQLDB(Main.getDBPathName()).initialize();
