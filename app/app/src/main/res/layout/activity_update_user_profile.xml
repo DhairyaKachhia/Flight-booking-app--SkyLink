@@ -91,31 +91,6 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/AptNumTxtLayout"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="50dp"
-                android:layout_marginTop="40dp"
-                android:layout_marginEnd="50dp"
-                android:hint="Apt, Suite, Floor"
-                app:boxStrokeWidth="3sp"
-                app:hintTextAppearance="@style/TextAppearance.AppCompat.Headline"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/addressTxtLayout">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etAptNum"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:inputType="text"
-                    android:paddingStart="25dp"
-                    android:textColor="@color/black"
-                    android:textSize="30sp" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/CityTxtLayout"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
@@ -128,7 +103,7 @@
                 app:hintTextAppearance="@style/TextAppearance.AppCompat.Headline"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/AptNumTxtLayout">
+                app:layout_constraintTop_toBottomOf="@+id/addressTxtLayout">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etCity"
@@ -163,30 +138,6 @@
                     android:textSize="30sp" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/countryTxtLayout"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="50dp"
-                android:layout_marginTop="40dp"
-                android:layout_marginEnd="50dp"
-                android:hint="Country"
-                app:boxStrokeWidth="3sp"
-                app:hintTextAppearance="@style/TextAppearance.AppCompat.Headline"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/provinceTxtLayout">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etCountry"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:inputType="text"
-                    android:paddingHorizontal="25dp"
-                    android:textSize="30sp" />
-            </com.google.android.material.textfield.TextInputLayout>
-
             <TextView
                 android:id="@+id/tvBasicInfoTitle"
                 android:layout_width="match_parent"
@@ -199,7 +150,7 @@
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/countryTxtLayout"/>
+                app:layout_constraintTop_toBottomOf="@+id/provinceTxtLayout"/>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/phoneTxtLayout"
@@ -288,6 +239,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/genderLayout" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 

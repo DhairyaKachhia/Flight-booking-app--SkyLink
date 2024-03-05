@@ -1,21 +1,30 @@
 package com.example.skylink;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
+import androidx.test.ext.junit.rules.ActivityScenarioRule;
 
 import com.example.skylink.application.Services;
 import com.example.skylink.business.Implementations.UserHandler;
 import com.example.skylink.objects.Implementations.UserProperties;
-import com.example.skylink.objects.Interfaces.iUserProperties;
-import com.example.skylink.persistence.Implementations.hsqldb.UserStub;
+import com.example.skylink.objects.Interfaces.IUserProperties;
 import com.example.skylink.persistence.Interfaces.IUserDB;
+import com.example.skylink.presentation.User_Auth.SignInActivity;
 
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 
 public class UserHandlerIntegratedTest {
     private IUserDB userStub;
     private UserHandler userHandler;
+
+    @Rule
+    public ActivityScenarioRule<SignInActivity> activityRule =
+            new ActivityScenarioRule<>(SignInActivity.class);
 
     @Before
     public void setUp() {
@@ -25,70 +34,73 @@ public class UserHandlerIntegratedTest {
 
     @Test
     public void testCreateUser_Success() {
-        // Mock data
-        iUserProperties mockUserProperties = new UserProperties("Mayokun Moses Akintunde", "akintundemayokun@gmail.com", "mayor101");
+        IUserProperties mockUserProperties = new UserProperties("Mayokun Moses Akintunde", "akintundemayokun@gmail.com", "mayor101");
         String rePassword = "mayor101";
 
-        // Perform the test
-        boolean result = userHandler.createUser(mockUserProperties, rePassword);
-
-        // Verify the result
-        assertTrue(result);
+        try {
+            userHandler.createUser(mockUserProperties, rePassword);
+        } catch (UserHandler.UserCreationException e) {
+            fail("Exception should not be thrown");
+        }
     }
 
     @Test
     public void testCreateUser_EmptyName() {
-        // Mock data
-        iUserProperties mockUserProperties = new UserProperties("", "akintundemayokun@gmail.com", "mayor101");
+        IUserProperties mockUserProperties = new UserProperties("", "akintundemayokun@gmail.com", "mayor101");
         String rePassword = "mayor101";
 
-        // Perform the test
-        boolean result = userHandler.createUser(mockUserProperties, rePassword);
-
-        // Verify the result
-        assertFalse("User creation should fail for empty name", result);
-
+        try {
+            userHandler.createUser(mockUserProperties, rePassword);
+            fail("User creation should fail for empty name");
+        } catch (UserHandler.UserCreationException e) {
+            assertEquals("Name cannot be empty", e.getMessage());
+        }
     }
 
     @Test
     public void testCreateUser_InvalidEmailFormat() {
-        // Mock data
-        iUserProperties mockUserProperties = new UserProperties("Mayokun Moses Akintunde", "invalidemail", "mayor101");
+        IUserProperties mockUserProperties = new UserProperties("Mayokun Moses Akintunde", "invalidemail", "mayor101");
         String rePassword = "mayor101";
 
-        // Perform the test
-        boolean result = userHandler.createUser(mockUserProperties, rePassword);
-
-        // Verify the result
-        assertFalse(result);
+        try {
+            userHandler.createUser(mockUserProperties, rePassword);
+            fail("User creation should fail for invalid email format");
+        } catch (UserHandler.UserCreationException e) {
+            assertEquals("Invalid email format", e.getMessage());
+        }
     }
 
     @Test
     public void testCreateUser_PasswordMismatch() {
-        // Mock data
-        iUserProperties mockUserProperties = new UserProperties("Mayokun Moses Akintunde", "akintundemayokun@gmail.com", "mayor101");
+        IUserProperties mockUserProperties = new UserProperties("Mayokun Moses Akintunde", "akintundemayokun@gmail.com", "mayor101");
         String rePassword = "differentPassword";
 
-        // Perform the test
-        boolean result = userHandler.createUser(mockUserProperties, rePassword);
-
-        // Verify the result
-        assertFalse(result);
+        try {
+            userHandler.createUser(mockUserProperties, rePassword);
+            fail("User creation should fail for password mismatch");
+        } catch (UserHandler.UserCreationException e) {
+            assertEquals("Passwords do not match", e.getMessage());
+        }
     }
 
     @Test
     public void testUpdateUserProfile_Success() {
         // Create a user for testing
-        iUserProperties mockUserProperties = new UserProperties(
+        IUserProperties mockUserProperties = new UserProperties(
                 "Mayokun Moses Akintunde",
                 "akintundemayokun@gmail.com",
                 "mayor101"
         );
         String rePassword = "mayor101";
-        userHandler.createUser(mockUserProperties, rePassword);
-
+   
+        try {
+            userHandler.createUser(mockUserProperties, rePassword);
+        } catch (UserHandler.UserCreationException e) {
+            fail("Exception should not be thrown");
+        }
+   
         // Update the user profile
-        iUserProperties updatedUserProperties = new UserProperties(
+        IUserProperties updatedUserProperties = new UserProperties(
                 "Mayokun M. Akintunde",
                 "mayorakintunde@gmail.com",
                 "mayor101",
@@ -107,16 +119,21 @@ public class UserHandlerIntegratedTest {
     @Test
     public void testUpdateUserProfile_EmptyPassword() {
         // Create a user for testing
-        iUserProperties mockUserProperties = new UserProperties(
+        IUserProperties mockUserProperties = new UserProperties(
                 "Mayokun Moses Akintunde",
                 "akintundemayokun@gmail.com",
                 "mayor101"
         );
         String rePassword = "mayor101";
-        userHandler.createUser(mockUserProperties, rePassword);
+        
+        try {
+            userHandler.createUser(mockUserProperties, rePassword);
+        } catch (UserHandler.UserCreationException e) {
+            fail("Exception should not be thrown");
+        }
 
         // Update the user profile with an empty password
-        iUserProperties updatedUserProperties = new UserProperties(
+        IUserProperties updatedUserProperties = new UserProperties(
                 "Mayokun M. Akintunde",
                 "mayorakintunde@gmail.com",
                 "",
@@ -137,16 +154,21 @@ public class UserHandlerIntegratedTest {
     @Test
     public void testUpdateUserProfile_NullUserProperties() {
         // Create a user for testing
-        iUserProperties mockUserProperties = new UserProperties(
+        IUserProperties mockUserProperties = new UserProperties(
                 "Mayokun Moses Akintunde",
                 "akintundemayokun@gmail.com",
                 "mayor101"
         );
         String rePassword = "mayor101";
-        userHandler.createUser(mockUserProperties, rePassword);
+ 
+        try {
+            userHandler.createUser(mockUserProperties, rePassword);
+        } catch (UserHandler.UserCreationException e) {
+            fail("Exception should not be thrown");
+        }
 
         // Update the user profile with null user properties
-        iUserProperties updatedUserProperties = null;
+        IUserProperties updatedUserProperties = null;
 
         // Perform the test
         boolean result = userHandler.updateUserProfile(updatedUserProperties);

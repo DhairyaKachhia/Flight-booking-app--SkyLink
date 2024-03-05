@@ -15,7 +15,7 @@ import com.example.skylink.business.Interface.IUserHandler;
 import com.example.skylink.business.Implementations.UserHandler;
 import com.example.skylink.business.validations.IValidateUserAuth;
 import com.example.skylink.business.validations.ValidateUserAuth;
-import com.example.skylink.objects.Interfaces.iUserProperties;
+import com.example.skylink.objects.Interfaces.IUserProperties;
 import com.example.skylink.objects.Implementations.UserProperties;
 
 public class SignUpActivity extends AppCompatActivity {
@@ -33,8 +33,6 @@ public class SignUpActivity extends AppCompatActivity {
         password = findViewById(R.id.etPassword);
         retypePassword = findViewById(R.id.etRePassword);
 
-
-
         signIn = findViewById(R.id.tvSignInClick);
         signIn.setOnClickListener(v -> {
             Intent intent = new Intent(SignUpActivity.this, SignInActivity.class);
@@ -42,34 +40,30 @@ public class SignUpActivity extends AppCompatActivity {
         });
 
 
-
         signUp = findViewById(R.id.btnSignUp);
         signUp.setOnClickListener(v -> {
-
             if (validInputs()) {
-
                 String userFullname = fullname.getText().toString();
                 String userEmail = email.getText().toString();
                 String userPassword = password.getText().toString();
                 String userRePassword = retypePassword.getText().toString();
 
-
-                iUserProperties user = new UserProperties(userFullname, userEmail, userPassword);
+                IUserProperties user = new UserProperties(userFullname, userEmail, userPassword);
                 IUserHandler handler = new UserHandler(Services.getUserDatabase());
 
-                if (handler.createUser(user, userRePassword)) {
+                try {
+                    handler.createUser(user, userRePassword);
                     Intent intent = new Intent(SignUpActivity.this, UpdateUserProfileActivity.class);
+                    intent.putExtra("email", userEmail);
                     startActivity(intent);
-                } else {
-                    // Handle user creation failure, show an error message, etc.
-                    Toast.makeText(SignUpActivity.this, "Unable to create new user", Toast.LENGTH_SHORT).show();
+                } catch (UserHandler.UserCreationException e) {
+                    Toast.makeText(SignUpActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
-
-
         });
     }
 
+    // client side validation..
     private boolean validInputs() {
         boolean isValid = true;
 

@@ -1,12 +1,14 @@
 package com.example.skylink.business.Interface;
 
-import com.example.skylink.objects.Interfaces.iUserProperties;
+import com.example.skylink.business.Implementations.UserHandler;
+import com.example.skylink.objects.Interfaces.IUserProperties;
 
 public interface IUserHandler {
-    boolean createUser(iUserProperties userProperties, String rePassword);
+    void createUser(IUserProperties userProperties, String rePassword) throws UserHandler.UserCreationException;
 
-    boolean updateUserProfile(iUserProperties userProperties);
-    boolean signinUser(iUserProperties userProperties);
+    boolean updateUserProfile(IUserProperties userProperties);
+    boolean signinUser(IUserProperties userProperties);
 
+    IUserProperties getUserByEmail(String email);
 
 }
