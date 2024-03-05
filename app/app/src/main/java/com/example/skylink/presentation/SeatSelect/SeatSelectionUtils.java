@@ -12,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Space;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -154,7 +155,7 @@ public class SeatSelectionUtils {
 
             seatVal(context, rowLayout, row, 1, (halfNumSeatsPerRow+1), isBusinessClass, randomVal, random, seatStatusMap, seatMap, selectedPassenger);
 
-            addAisleToLayout(context, flightLayout);
+            addAisleToLayout(context, flightLayout, 120); // Adjust the aisle width as needed
 
             seatVal(context, rowLayout, row, halfNumSeatsPerRow, halfNumSeatsPerRow * 2, isBusinessClass, randomVal, random, seatStatusMap, seatMap, selectedPassenger);
 
@@ -171,15 +172,15 @@ public class SeatSelectionUtils {
     }
 
 
-    private static void addAisleToLayout(Context context, LinearLayout flightLayout) {
-        View aisleView = new View(context);
+    private static void addAisleToLayout(Context context, LinearLayout flightLayout, int aisleWidth) {
+        Space aisleSpace = new Space(context);
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-                120, // Aisle width
+                aisleWidth,
                 LinearLayout.LayoutParams.MATCH_PARENT);
-        aisleView.setLayoutParams(layoutParams);
-        aisleView.setBackgroundColor(Color.RED); // Temporary color for debugging
-        flightLayout.addView(aisleView);
+        aisleSpace.setLayoutParams(layoutParams);
+        flightLayout.addView(aisleSpace);
     }
+
 
 
     private static void addSeatToLayout(Context context, LinearLayout flightLayout, int row, int seatNumber, boolean isBusinessClass, boolean isSeatTaken, Map<String, SeatStatus> seatStatusMap, HashMap<iPassengerData, String> seatMap, AtomicReference<iPassengerData> selectedPassenger) {
