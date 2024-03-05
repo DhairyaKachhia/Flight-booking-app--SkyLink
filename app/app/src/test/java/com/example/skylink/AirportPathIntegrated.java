@@ -2,7 +2,9 @@ package com.example.skylink;
 
 
 import static com.example.skylink.application.Services.setupForIntegrationTest;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import com.example.skylink.application.Services;
 import com.example.skylink.business.Implementations.AirportPath;
@@ -42,81 +44,55 @@ public class AirportPathIntegrated {
 
     @Test
     public void testFindFlights_OneWay() {
-        iFlightSearch flightSearch = new FlightSearch("YYC", "YOW", "02/03/2024", "04/03/2024",2,true);
+        iFlightSearch flightSearch = new FlightSearch("YYC", "YOW", "06/03/2024", "09/03/2024", 2, true);
         HashMap<String, List<List<List<iFlight>>>> itinerary = airportPath.findFlights(flightSearch);
 
         assertNotNull(itinerary);
-//        assertTrue(itinerary.containsKey("Outbound"));
-//        assertFalse(itinerary.containsKey("Inbound"));
-//
-//        List<List<List<iFlight>>> outboundFlights = itinerary.get("Outbound");
-//        assertNotNull(outboundFlights);
-//        assertFalse(outboundFlights.isEmpty());
+        assertTrue(itinerary.containsKey("Outbound"));
+        assertFalse(itinerary.containsKey("Inbound"));
+
+        List<List<List<iFlight>>> outboundFlights = itinerary.get("Outbound");
+        assertNotNull(outboundFlights);
+        assertFalse(outboundFlights.isEmpty());
+        // Add more assertions based on your expected behavior
     }
 
     @Test
     public void testFindFlights_Return() {
-        iFlightSearch flightSearch = new FlightSearch("AirportA", "AirportB", "2024-03-02", "2024-03-02",2,true);
-//        HashMap<String, List<List<List<iFlight>>>> itinerary = airportPath.findFlights(flightSearch);
-//
-//        assertNotNull(itinerary);
-//        assertTrue(itinerary.containsKey("Outbound"));
-//        assertTrue(itinerary.containsKey("Inbound"));
-//
-//        List<List<List<iFlight>>> outboundFlights = itinerary.get("Outbound");
-//        List<List<List<iFlight>>> inboundFlights = itinerary.get("Inbound");
-//
-//        assertNotNull(outboundFlights);
-//        assertFalse(outboundFlights.isEmpty());
-//        assertNotNull(inboundFlights);
-//        assertFalse(inboundFlights.isEmpty());
+        iFlightSearch flightSearch = new FlightSearch("YYZ", "YUL", "06/03/2024", "08/03/2024", 2, true);
+        HashMap<String, List<List<List<iFlight>>>> itinerary = airportPath.findFlights(flightSearch);
+
+        assertNotNull(itinerary);
+        assertTrue(itinerary.containsKey("Outbound"));
+        assertTrue(itinerary.containsKey("Inbound"));
+
+        List<List<List<iFlight>>> outboundFlights = itinerary.get("Outbound");
+        List<List<List<iFlight>>> inboundFlights = itinerary.get("Inbound");
+
+        assertNotNull(outboundFlights);
+        assertFalse(outboundFlights.isEmpty());
+        assertNotNull(inboundFlights);
+        assertFalse(inboundFlights.isEmpty());
         // Add more assertions based on your expected behavior
     }
 
     @Test
     public void testFindFlights_NoPaths() {
         // Test when no paths are available between airports
-        iFlightSearch flightSearch = new FlightSearch("NonExistentAirport1", "NonExistentAirport2", "2024-03-02", "2024-03-02",2,true);
-//        HashMap<String, List<List<List<iFlight>>>> itinerary = airportPath.findFlights(flightSearch);
-//
-//        assertNotNull(itinerary);
-//        assertTrue(itinerary.isEmpty());
+        iFlightSearch flightSearch = new FlightSearch("NonExistentAirport1", "NonExistentAirport2", "08/03/2024", "09/03/2024", 2, true);
+        HashMap<String, List<List<List<iFlight>>>> itinerary = airportPath.findFlights(flightSearch);
+
+        assertNotNull(itinerary);
+        assertTrue(itinerary.isEmpty());
     }
 
     @Test
     public void testFindFlights_EmptyPaths() {
         // Test when paths are available, but filtered out
-        iFlightSearch flightSearch = new FlightSearch("AirportA", "AirportB", "2024-03-02", "2024-03-02",2,true);
-//        HashMap<String, List<List<List<iFlight>>>> itinerary = airportPath.findFlights(flightSearch);
-//
-//        assertNotNull(itinerary);
-//        assertTrue(itinerary.isEmpty());
-    }
+        iFlightSearch flightSearch = new FlightSearch("YYC", "YEG", "08/03/2024", "09/03/2024", 2, true);
+        HashMap<String, List<List<List<iFlight>>>> itinerary = airportPath.findFlights(flightSearch);
 
-//    @Test
-//    public void testSignIn() {
-//        // Access the application context using InstrumentationRegistry
-//        Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-//
-//        // Alternatively, you can use ApplicationProvider for obtaining the context
-//        // Context appContext = ApplicationProvider.getApplicationContext();
-//
-//        // Example of using the context (you can use it for other purposes in your test)
-//        String appName = appContext.getString(R.string.app_name);
-//        System.out.println("App Name: " + appName);
-//
-//        // Type email
-//        Espresso.onView(ViewMatchers.withId(R.id.etEmail))
-//                .perform(ViewActions.typeText("user@example.com"));
-//
-//        // Type password
-//        Espresso.onView(ViewMatchers.withId(R.id.etPassword))
-//                .perform(ViewActions.typeText("password"));
-//
-//        // Press the sign-in button
-//        Espresso.onView(ViewMatchers.withId(R.id.btnSignIn))
-//                .perform(ViewActions.click());
-//
-//        // Add any additional verifications/assertions based on your expected behavior
-//    }
+        assertNotNull(itinerary);
+        assertTrue(itinerary.isEmpty());
+    }
 }
