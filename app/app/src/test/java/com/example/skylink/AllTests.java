@@ -8,7 +8,8 @@ import org.junit.runners.Suite;
         AirportPathTest.class,
         PassengerDataManagerTest.class,
         PlaneConfigurationTest.class,
-        UserHandlerTest.class
+        UserHandlerTest.class,
+        FlightSortingTest.class
 })
 public class AllTests {
     // This class can remain empty
