@@ -20,6 +20,7 @@ import com.example.skylink.business.Implementations.UserHandler;
 import com.example.skylink.business.validations.IValidateUserAuth;
 import com.example.skylink.business.validations.ValidateUserAuth;
 import com.example.skylink.objects.Implementations.UserProperties;
+import com.example.skylink.persistence.Interfaces.IFlightDB;
 import com.example.skylink.presentation.FlightSearching.FlightSearch;
 
 import java.io.File;
@@ -40,7 +41,8 @@ public class SignInActivity extends AppCompatActivity {
         copyDatabaseToDevice();
         Services.setup(this);
         Session.getInstance().setContext(this);
-
+        IFlightDB db = Services.getFlightDatabase();
+        db.addFlights();
         email = findViewById(R.id.etEmail);
         password = findViewById(R.id.etPassword);
 

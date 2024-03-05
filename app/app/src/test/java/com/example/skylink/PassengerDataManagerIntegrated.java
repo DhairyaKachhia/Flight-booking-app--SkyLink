@@ -1,28 +1,31 @@
 package com.example.skylink;
 
-
+import static com.example.skylink.application.Services.setupForIntegrationTest;
 import static junit.framework.TestCase.assertEquals;
-
-import com.example.skylink.business.Implementations.PassengerDataManager;
-import com.example.skylink.objects.Interfaces.iPassengerData;
-import com.example.skylink.persistence.Implementations.hsqldb.BookingStub;
-import com.example.skylink.persistence.Interfaces.iBookingDB;
-
-import org.junit.Before;
-import org.junit.Test;
-
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
-public class PassengerDataManagerTest {
+import com.example.skylink.application.Services;
+import com.example.skylink.business.Implementations.PassengerDataManager;
+import com.example.skylink.objects.Interfaces.iPassengerData;
+import com.example.skylink.persistence.Interfaces.iBookingDB;
+import com.example.skylink.presentation.User_Auth.SignInActivity;
+
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
+
+public class PassengerDataManagerIntegrated {
     private iBookingDB bookingDatabase;
     private PassengerDataManager passengerDataManager;
-
     @Before
     public void setUp() {
-        bookingDatabase = new BookingStub();
+        String dbDirectory = "/Users/akintundemayokun/Desktop/db";
+        String dbName = "SC"; // Provide the desired name for your HSQLDB file
+        setupForIntegrationTest(dbDirectory,dbName);
+        bookingDatabase = Services.getBookDatabase();
         passengerDataManager = new PassengerDataManager(bookingDatabase);
     }
 
@@ -88,5 +91,4 @@ public class PassengerDataManagerTest {
 
         assertTrue(found);
     }
-
 }

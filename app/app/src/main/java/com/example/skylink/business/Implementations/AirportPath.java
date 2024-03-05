@@ -10,8 +10,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-
-import com.example.skylink.application.Services;
 import com.example.skylink.business.Interface.iAirportPath;
 import com.example.skylink.objects.Interfaces.iFlight;
 import com.example.skylink.objects.Interfaces.iFlightSearch;
@@ -44,7 +42,6 @@ public class AirportPath implements iAirportPath {
             for (DefaultWeightedEdge edge : airportGraph.outgoingEdgesOf(current)) {
                 String neighbor = airportGraph.getEdgeTarget(edge);
                 if (!visited.contains(neighbor)) {
-                    // Only add the neighbor to the path if it contributes to the solution
                     path.add(neighbor);
                     findAllPathsDFS(neighbor, destination, visited, path, allPaths);
                     path.remove(path.size() - 1);
@@ -72,18 +69,13 @@ public class AirportPath implements iAirportPath {
                 String nextHub = path.get(i + 1);
 
                 List<iFlight> flights = flightHSQLDB.findFlight(currentHub, nextHub, date);
-
-                // Check if flights are found for the current segment
                 if (flights != null && !flights.isEmpty()) {
                     pathFlights.add(flights);
                 } else {
-                    // If no flights are found for a segment, break out of the loop for this path
                     pathFlights.clear();
                     break;
                 }
             }
-
-            // Add the complete path with its segments to the result
             if (!pathFlights.isEmpty()) {
                 flightsFound.add(pathFlights);
             }
@@ -98,15 +90,11 @@ public class AirportPath implements iAirportPath {
         if (findAllPossiblePathsFromOriginToDestination.isEmpty()) {
             return null;
         }
-
-        // This will only give us one layover or a direct flight.
         List<List<String>> pathsFromOriginToDestination = filterPaths(findAllPossiblePathsFromOriginToDestination);
 
         if (pathsFromOriginToDestination.isEmpty()) {
             return null;
         }
-
-        // Find the flights.
         return pullFlights(pathsFromOriginToDestination, date);
     }
 
@@ -137,20 +125,16 @@ public class AirportPath implements iAirportPath {
     public HashMap< String,List<List<List<iFlight>>>> findFlights(iFlightSearch flightSearch) {
         HashMap<String, List<List<List<iFlight>>>> itinerary = new HashMap<>();
         List<List<String>> findAllPossiblePathsFromOriginToDestination = findAllPaths(flightSearch.getFlightDept(), flightSearch.getFlightArrival());
-        // Get the outbound flights.
         List<List<List<iFlight>>> outBoundFlights = findFlight(flightSearch.getFlightDeptDate(),findAllPossiblePathsFromOriginToDestination);
         if (outBoundFlights != null) {
             itinerary.put("Outbound", outBoundFlights);
         }
-        // If there is a return and the outbound flight is not null.
         if (!flightSearch.isOneWay() && outBoundFlights != null) {
-            // Get the inbound flights.
             List<List<List<iFlight>>> inBoundFlights = findFlight(flightSearch.getFlightReturnDate(),reversePaths(findAllPossiblePathsFromOriginToDestination));
             if (inBoundFlights != null) {
                 itinerary.put("Inbound", inBoundFlights);
             }
         }
-        // return empty hash map or an hash map that has outbound and inbound.
         return itinerary;
     }
 

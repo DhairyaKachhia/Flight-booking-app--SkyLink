@@ -1,33 +1,29 @@
 package com.example.skylink;
 
+import static com.example.skylink.application.Services.setupForIntegrationTest;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
-
-import androidx.test.ext.junit.rules.ActivityScenarioRule;
 
 import com.example.skylink.application.Services;
 import com.example.skylink.business.Implementations.UserHandler;
 import com.example.skylink.objects.Implementations.UserProperties;
 import com.example.skylink.objects.Interfaces.IUserProperties;
 import com.example.skylink.persistence.Interfaces.IUserDB;
-import com.example.skylink.presentation.User_Auth.SignInActivity;
 
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
 
-public class UserHandlerIntegratedTest {
+public class UserHandlerIntegrated {
     private IUserDB userStub;
     private UserHandler userHandler;
 
-    @Rule
-    public ActivityScenarioRule<SignInActivity> activityRule =
-            new ActivityScenarioRule<>(SignInActivity.class);
-
     @Before
     public void setUp() {
+        String dbDirectory = "/Users/akintundemayokun/Desktop/db";
+        String dbName = "SC"; // Provide the desired name for your HSQLDB file
+        setupForIntegrationTest(dbDirectory,dbName);
         userStub = Services.getUserDatabase();
         userHandler = new UserHandler(userStub);
     }
@@ -92,13 +88,13 @@ public class UserHandlerIntegratedTest {
                 "mayor101"
         );
         String rePassword = "mayor101";
-   
+
         try {
             userHandler.createUser(mockUserProperties, rePassword);
         } catch (UserHandler.UserCreationException e) {
             fail("Exception should not be thrown");
         }
-   
+
         // Update the user profile
         IUserProperties updatedUserProperties = new UserProperties(
                 "Mayokun M. Akintunde",
@@ -125,7 +121,7 @@ public class UserHandlerIntegratedTest {
                 "mayor101"
         );
         String rePassword = "mayor101";
-        
+
         try {
             userHandler.createUser(mockUserProperties, rePassword);
         } catch (UserHandler.UserCreationException e) {
@@ -160,7 +156,7 @@ public class UserHandlerIntegratedTest {
                 "mayor101"
         );
         String rePassword = "mayor101";
- 
+
         try {
             userHandler.createUser(mockUserProperties, rePassword);
         } catch (UserHandler.UserCreationException e) {

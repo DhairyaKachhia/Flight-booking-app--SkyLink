@@ -6,7 +6,7 @@ import com.example.skylink.business.Implementations.AirportPath;
 import com.example.skylink.objects.Implementations.FlightSearch;
 import com.example.skylink.objects.Interfaces.iFlight;
 import com.example.skylink.objects.Interfaces.iFlightSearch;
-import com.example.skylink.persistence.Implementations.hsqldb.FlightStub;
+import com.example.skylink.persistence.Implementations.stub.FlightStub;
 import com.example.skylink.persistence.Interfaces.IFlightDB;
 
 import java.util.HashMap;
@@ -15,7 +15,7 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-public class AirportPathTest {
+public class AirportPathUnit {
 
     private AirportPath airportPath;
 
@@ -31,12 +31,12 @@ public class AirportPathTest {
         HashMap<String, List<List<List<iFlight>>>> itinerary = airportPath.findFlights(flightSearch);
 
         assertNotNull(itinerary);
-//        assertTrue(itinerary.containsKey("Outbound"));
-//        assertFalse(itinerary.containsKey("Inbound"));
-//
-//        List<List<List<iFlight>>> outboundFlights = itinerary.get("Outbound");
-//        assertNotNull(outboundFlights);
-//        assertFalse(outboundFlights.isEmpty());
+        assertTrue(itinerary.containsKey("Outbound"));
+        assertFalse(itinerary.containsKey("Inbound"));
+
+        List<List<List<iFlight>>> outboundFlights = itinerary.get("Outbound");
+        assertNotNull(outboundFlights);
+        assertFalse(outboundFlights.isEmpty());
     }
 
     @Test

@@ -14,26 +14,17 @@ public class PlaneConfiguration implements iPlaneConfiguration {
     }
     public String[] getPlaneConfiguration(String airCraftName, String econOrBus) {
         Map<String, iAircraft> allFlights = flightHSQLDB.getAircraftMap();
-        if (allFlights.containsKey(airCraftName)) {
+        if (allFlights.containsKey(airCraftName)  && ("Economy".equals(econOrBus) || "Business".equals(econOrBus))) {
             iAircraft aircraft = allFlights.get(airCraftName);
-            int busnumSeatPerRow = aircraft.getNumSeatPerRowBusiness();
-            int busnumRows = aircraft.getNumRowsBusiness();
-            int econnumSeatPerRow = aircraft.getNumSeatPerRowEcon();
-            int econnumRows = aircraft.getNumRowsEcon();
-            if ("econ".equalsIgnoreCase(econOrBus)) {
-                busnumSeatPerRow = aircraft.getNumSeatPerRowEcon();
-                busnumRows = aircraft.getNumRowsEcon();
-            } else if ("bus".equalsIgnoreCase(econOrBus)) {
-                econnumSeatPerRow = aircraft.getNumSeatPerRowBusiness();
-                econnumRows = aircraft.getNumRowsBusiness();
-            } else {
-                // Handle invalid econOrBus parameter
-                return null;
+            if(aircraft != null){
+                int busnumSeatPerRow = aircraft.getNumSeatPerRowBusiness();
+                int busnumRows = aircraft.getNumRowsBusiness();
+                int econnumSeatPerRow = aircraft.getNumSeatPerRowEcon();
+                int econnumRows = aircraft.getNumRowsEcon();
+                return new String[]{airCraftName, String.valueOf(busnumSeatPerRow), String.valueOf(busnumRows),
+                        String.valueOf(econnumSeatPerRow), String.valueOf(econnumRows)};
             }
-            return new String[]{airCraftName, String.valueOf(busnumSeatPerRow), String.valueOf(busnumRows),
-                    String.valueOf(econnumSeatPerRow), String.valueOf(econnumRows)};
         }
         return null;
     }
 }
-

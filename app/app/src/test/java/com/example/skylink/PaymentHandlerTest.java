@@ -6,7 +6,7 @@ import com.example.skylink.business.Implementations.PaymentHandler;
 import com.example.skylink.business.Interface.IPaymentHandler;
 import com.example.skylink.objects.Implementations.TripInvoice;
 import com.example.skylink.objects.Interfaces.ITripInvoice;
-import com.example.skylink.persistence.Implementations.hsqldb.PaymentStub;
+import com.example.skylink.persistence.Implementations.stub.PaymentStub;
 import com.example.skylink.persistence.Interfaces.IPaymentDB;
 
 import org.junit.Before;
