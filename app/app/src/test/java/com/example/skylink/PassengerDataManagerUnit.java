@@ -1,33 +1,28 @@
 package com.example.skylink;
 
+
 import static junit.framework.TestCase.assertEquals;
+
+import com.example.skylink.business.Implementations.PassengerDataManager;
+import com.example.skylink.objects.Interfaces.iPassengerData;
+import com.example.skylink.persistence.Implementations.stub.BookingStub;
+import com.example.skylink.persistence.Interfaces.iBookingDB;
+
+import org.junit.Before;
+import org.junit.Test;
+
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
-import androidx.test.ext.junit.rules.ActivityScenarioRule;
-
-import com.example.skylink.application.Services;
-import com.example.skylink.business.Implementations.PassengerDataManager;
-import com.example.skylink.objects.Interfaces.iPassengerData;
-import com.example.skylink.persistence.Implementations.hsqldb.BookingStub;
-import com.example.skylink.persistence.Interfaces.iBookingDB;
-import com.example.skylink.presentation.User_Auth.SignInActivity;
-
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-
-public class PassengerDataManagerIntegratedTest {
+public class PassengerDataManagerUnit {
     private iBookingDB bookingDatabase;
     private PassengerDataManager passengerDataManager;
-    @Rule
-    public ActivityScenarioRule<SignInActivity> activityRule =
-            new ActivityScenarioRule<>(SignInActivity.class);
+
     @Before
     public void setUp() {
-        bookingDatabase = Services.getBookDatabase();
+        bookingDatabase = new BookingStub();
         passengerDataManager = new PassengerDataManager(bookingDatabase);
     }
 
@@ -93,4 +88,5 @@ public class PassengerDataManagerIntegratedTest {
 
         assertTrue(found);
     }
+
 }

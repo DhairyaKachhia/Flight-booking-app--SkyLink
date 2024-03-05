@@ -1,9 +1,7 @@
 package com.example.skylink.business.Implementations;
 
-import com.example.skylink.application.Services;
 import com.example.skylink.business.Interface.iPassengerDataManager;
 import com.example.skylink.objects.Interfaces.iPassengerData;
-import com.example.skylink.persistence.Implementations.hsqldb.BookingStub;
 import com.example.skylink.objects.Implementations.PassengerData;
 import com.example.skylink.persistence.Interfaces.iBookingDB;
 

@@ -1,4 +1,4 @@
-package com.example.skylink.persistence.Implementations.hsqldb;
+package com.example.skylink.persistence.Implementations.stub;
 
 import com.example.skylink.objects.Interfaces.iPassengerData;
 import com.example.skylink.persistence.Interfaces.iBookingDB;

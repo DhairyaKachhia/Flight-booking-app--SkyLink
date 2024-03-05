@@ -1,37 +1,28 @@
 package com.example.skylink;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertNull;
-
-import androidx.test.ext.junit.rules.ActivityScenarioRule;
-
-import com.example.skylink.application.Services;
 import com.example.skylink.business.Implementations.PlaneConfiguration;
 import com.example.skylink.objects.Implementations.Aircraft;
-import com.example.skylink.objects.Interfaces.iAircraft;
-import com.example.skylink.persistence.Implementations.hsqldb.FlightStub;
+import com.example.skylink.persistence.Implementations.stub.FlightStub;
 import com.example.skylink.persistence.Interfaces.IFlightDB;
-import com.example.skylink.presentation.User_Auth.SignInActivity;
-
+import com.example.skylink.objects.Interfaces.iAircraft;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class PlaneConfigurationIntegratedTest {
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertNull;
+
+public class PlaneConfigurationUnit {
+
     private IFlightDB mockFlightDB;
 
     private PlaneConfiguration planeConfiguration;
 
-    @Rule
-    public ActivityScenarioRule<SignInActivity> activityRule =
-            new ActivityScenarioRule<>(SignInActivity.class);
-
     @Before
     public void setUp() {
-        mockFlightDB = Services.getFlightDatabase();
+        mockFlightDB = new FlightStub();
         planeConfiguration = new PlaneConfiguration(mockFlightDB);
     }
 

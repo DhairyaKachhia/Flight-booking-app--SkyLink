@@ -24,6 +24,7 @@ import com.example.skylink.objects.Interfaces.iCity;
 import com.example.skylink.objects.Interfaces.iFlight;
 import com.example.skylink.objects.Interfaces.iFlightSearch;
 import com.example.skylink.persistence.Implementations.hsqldb.CitiesRepository;
+import com.example.skylink.persistence.Interfaces.IFlightDB;
 import com.example.skylink.presentation.User_Auth.SignInActivity;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -248,7 +249,8 @@ public class FlightSearch extends AppCompatActivity {
         }
 
         if (isValid) {
-            iAirportPath path = new AirportPath(Services.getFlightDatabase(),Services.getFlightDatabase().getAirportGraph());
+            IFlightDB db = Services.getFlightDatabase();
+            iAirportPath path = new AirportPath(db,db.getAirportGraph());
 
             iFlightSearch flightSearch = new com.example.skylink.objects.Implementations.FlightSearch(departingCity, returningCity, departingDate, returningDate, totalPassengers, isOneWay);
 

@@ -16,8 +16,11 @@ import org.jgrapht.Graph;
 import org.jgrapht.graph.DefaultWeightedEdge;
 import org.jgrapht.graph.DirectedWeightedMultigraph;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -33,8 +36,18 @@ public class FlightHSQLDB implements IFlightDB {
 
 
     private final Graph<String, DefaultWeightedEdge> airportGraph;
-    private String[] airports;
-    private String[] distances;
+    private final String[] airports = {"YYZ", "YYC", "YUL", "YOW", "YEG", "YWG", "YVR", "YZZ", "YHM"};
+    private final String[] distances = {
+            "YYZ-YYC-1520", "YYZ-YUL-2645", "YYZ-YOW-153", "YYZ-YEG-179", "YYZ-YWG-1221", "YYZ-YVR-2133", "YYZ-YZZ-1539", "YYZ-YHM-4875",
+            "YYC-YUL-1065", "YYC-YOW-854", "YYC-YEG-4579", "YYC-YWG-3444", "YYC-YVR-514", "YYC-YZZ-4939", "YYC-YHM-2206",
+            "YUL-YOW-4183", "YUL-YEG-1110", "YUL-YWG-2057", "YUL-YVR-3480", "YUL-YZZ-3072", "YUL-YHM-2272",
+            "YOW-YEG-3669", "YOW-YWG-90", "YOW-YVR-3503", "YOW-YZZ-2943", "YOW-YHM-1902",
+            "YEG-YWG-4064", "YEG-YVR-1054", "YEG-YZZ-3622", "YEG-YHM-790",
+            "YWG-YVR-1958", "YWG-YZZ-100", "YWG-YHM-1178",
+            "YVR-YZZ-3025", "YVR-YHM-3485",
+            "YZZ-YHM-2283",
+            "YUL-YYZ-2301"
+    };
 
     private Map<String, iAircraft> aircraftMap =  new HashMap<>();
 
@@ -56,19 +69,6 @@ public class FlightHSQLDB implements IFlightDB {
             + "busnPrice INT"
             + ")";
 
-    private final String[] COLUMNS = {
-            "flightNumber",
-            "departure_icao",
-            "arrival_icao",
-            "flight_dept_date_time",
-            "flight_arr_date_time",
-            "airCraft_Type",
-            "departure_Gate",
-            "arr_Gate",
-            "econPrice",
-            "busnPrice"
-    };
-
     public Graph<String, DefaultWeightedEdge> getAirportGraph() {
         return airportGraph;
     }
@@ -76,33 +76,22 @@ public class FlightHSQLDB implements IFlightDB {
     public FlightHSQLDB(String dbPath) {
         this.dbPath = dbPath;
         this.airportGraph = new DirectedWeightedMultigraph<>(DefaultWeightedEdge.class);
-        readConfig(Session.getInstance().getContext());
+        addAirportsAndDistances();
+        addAircrafts();
     }
 
     private Connection connect() throws SQLException {
         return DriverManager.getConnection("jdbc:hsqldb:file:" + dbPath, "SA", "");
     }
 
-    private void readConfig(Context context) {
-        try {
-            AssetManager assetManager = context.getAssets();
-            InputStream input = assetManager.open("flight-config.properties");
+    private void addAirportsAndDistances() {
+        for (String airport : airports) {
+            addAirport(airport);
+        }
 
-            Properties prop = new Properties();
-            prop.load(input);
-
-            airports = prop.getProperty("airports").split(",");
-            for (String airport : airports) {
-                addAirport(airport);
-            }
-
-            distances = prop.getProperty("distances").split(",");
-            for (String distance : distances) {
-                String[] parts = distance.split("-");
-                addConnection(parts[0], parts[1], Double.parseDouble(parts[2]));
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+        for (String distance : distances) {
+            String[] parts = distance.split("-");
+            addConnection(parts[0], parts[1], Double.parseDouble(parts[2]));
         }
     }
 
@@ -114,59 +103,62 @@ public class FlightHSQLDB implements IFlightDB {
         airportGraph.setEdgeWeight(edge, weight);
     }
 
+    public void addFlightsPC(InputStream inputStream) throws IOException {
+        // Read the contents of the SQL file using a BufferedReader
+        StringBuilder stringBuilder = new StringBuilder();
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                stringBuilder.append(line).append('\n');
+            }
+        }
+
+        String sqlScript = stringBuilder.toString();
+
+        try (Connection conn = connect();
+             Statement stmt = conn.createStatement()) {
+            // Execute the SQL script directly
+            stmt.execute(sqlScript);
+        } catch (SQLException ex) {
+            throw new RuntimeException(ex);
+        }
+
+        // Close the InputStream
+        inputStream.close();
+    }
+
+
+
     public void addFlights() {
         try {
             AssetManager assetManager = Session.getInstance().getContext().getAssets();
-            InputStream inputStream = assetManager.open("flight.json");
+            InputStream inputStream = assetManager.open("flights.sql");
 
-            ObjectMapper objectMapper = new ObjectMapper();
-            JsonNode rootNode = objectMapper.readTree(inputStream);
-
-            JsonNode aircraftNode = rootNode.get("Aircraft");
-            if (aircraftNode != null && aircraftNode.isObject()) {
-                Iterator<Map.Entry<String, JsonNode>> aircraftIterator = aircraftNode.fields();
-                while (aircraftIterator.hasNext()) {
-                    Map.Entry<String, JsonNode> entry = aircraftIterator.next();
-                    String aircraftName = entry.getKey();
-                    JsonNode aircraftDetails = entry.getValue();
-
-                    int numSeatPerRowBusiness = aircraftDetails.get("num_seat_per_row_business").asInt();
-                    int numRowsBusiness = aircraftDetails.get("num_rows_business").asInt();
-                    int numSeatPerRowEcon = aircraftDetails.get("num_seat_per_row_econ").asInt();
-                    int numRowsEcon = aircraftDetails.get("num_rows_econ").asInt();
-                    iAircraft aircraft = new Aircraft(aircraftName, numSeatPerRowBusiness, numRowsBusiness, numSeatPerRowEcon, numRowsEcon);
-                    aircraftMap.put(aircraftName, aircraft);
+            // Read the contents of the SQL file using a BufferedReader
+            StringBuilder stringBuilder = new StringBuilder();
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8))) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    stringBuilder.append(line).append('\n');
                 }
             }
 
-            JsonNode flightsNode = rootNode.get("Flights");
-            if (flightsNode != null && flightsNode.isArray()) {
-                for (JsonNode flight : flightsNode) {
-                    String flightNumber = flight.get("flightNumber").asText();
-                    String departureIcao = flight.get("departure_icao").asText();
-                    String arrivalIcao = flight.get("arrival_icao").asText();
-                    String departureDateTime = flight.get("flight_dept_date_time").asText();
-                    String arrivalDateTime = flight.get("flight_arr_date_time").asText();
-                    String aircraftType = flight.get("airCraft_Type").asText();
-                    String departureGate = flight.get("depature_Gate").asText();
-                    String arrivalGate = flight.get("arr_Gate").asText();
-                    int econPrice = flight.get("econPrice").asInt();
-                    int busPrice = flight.get("busPrice").asInt();
+            String sqlScript = stringBuilder.toString();
 
-                    iFlight flight1 = new Flight(flightNumber, departureIcao, arrivalIcao, departureDateTime, arrivalDateTime,
-                            aircraftType, departureGate, arrivalGate, econPrice, busPrice);
-                    addFlight(flight1);
-                }
-            } else {
-                System.out.println("Flights not found in JSON file.");
+            try (Connection conn = connect();
+                 Statement stmt = conn.createStatement()) {
+                // Execute the SQL script directly
+                stmt.execute(sqlScript);
             }
 
             // Close the InputStream
             inputStream.close();
-        } catch (IOException e) {
+        } catch (IOException | SQLException e) {
             e.printStackTrace();
         }
     }
+
+
 
     @Override
     public List<iFlight> findFlight(String departure, String arrival, String dept_time) {
@@ -204,27 +196,18 @@ public class FlightHSQLDB implements IFlightDB {
     }
 
 
+    private void addAircrafts() {
+        addAircraft("Boeing 737", 5, 7, 7, 13);
+        addAircraft("Airbus A320", 5, 6, 8, 15);
+        addAircraft("Embraer E190", 5, 9, 7, 15);
+        addAircraft("Boeing 777", 6, 6, 6, 19);
+        addAircraft("Bombardier Q400", 4, 9, 7, 12);
+    }
 
-
-    private void addFlight(iFlight flight) {
-        String sql = "INSERT INTO flights (flightNumber, departure_icao, arrival_icao, flight_dept_date_time, flight_arr_date_time, airCraft_Type, departure_Gate, arr_Gate, econPrice, busnPrice) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-
-        try (Connection conn = connect();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setString(1, flight.getFlightNumber());
-            ps.setString(2, flight.getDeparture_icao());
-            ps.setString(3, flight.getArrival_icao());
-            ps.setString(4, flight.getFlight_dept_date_time());
-            ps.setString(5, flight.getFlight_arr_date_time());
-            ps.setString(6, flight.getAirCraft_Type());
-            ps.setString(7, flight.getDepature_Gate());
-            ps.setString(8, flight.getArr_Gate());
-            ps.setInt(9, flight.getEconPrice());
-            ps.setInt(10, flight.getBusnPrice());
-            ps.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+    private void addAircraft(String aircraftName, int numSeatPerRowBusiness, int numRowsBusiness,
+                             int numSeatPerRowEcon, int numRowsEcon) {
+        Aircraft aircraft = new Aircraft(aircraftName, numSeatPerRowBusiness, numRowsBusiness, numSeatPerRowEcon, numRowsEcon);
+        aircraftMap.put(aircraftName, aircraft);
     }
 
 
@@ -233,7 +216,6 @@ public class FlightHSQLDB implements IFlightDB {
              Statement stmt = conn.createStatement()) {
             this.drop();
             stmt.executeUpdate(CREATE_TABLE);
-            addFlights();
         } catch (SQLException e) {
             e.printStackTrace();
         }

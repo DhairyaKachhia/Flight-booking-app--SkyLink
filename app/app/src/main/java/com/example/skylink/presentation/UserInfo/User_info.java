@@ -19,6 +19,7 @@ import com.example.skylink.business.Implementations.PassengerDataManager;
 import com.example.skylink.business.validations.ValidatePassgnData;
 import com.example.skylink.objects.Interfaces.iPassengerData;
 import com.example.skylink.presentation.SeatSelect.InboundActivity;
+import com.example.skylink.presentation.SeatSelect.Out_boundActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -133,7 +134,7 @@ public class User_info extends AppCompatActivity {
         Session.getInstance().setPassengerData(passengers);
 
         // Pass the list to the next activity
-        Intent nextActivityIntent = new Intent(this, InboundActivity.class);
+        Intent nextActivityIntent = new Intent(this, Out_boundActivity.class);
         startActivity(nextActivityIntent);
     }
 
