@@ -8,17 +8,22 @@ import com.example.skylink.objects.Interfaces.ITripInvoice;
 import com.example.skylink.persistence.Interfaces.IPaymentDB;
 
 public class PaymentHandler implements IPaymentHandler {
+
+    private IPaymentDB paymentDB;
+
+    public PaymentHandler(IPaymentDB paymentDB) {
+        this.paymentDB = paymentDB;
+    }
+
     @Override
-    public boolean addPayment(ITripInvoice tripInvoice) {
+    public boolean addPayment(ITripInvoice tripInvoice, long sessionUserID) {
 
         boolean addSuccess = false;
 
         long userID = tripInvoice.getUserID();
 
-        if (Session.getInstance().getUser_id() == userID) {
-            addSuccess = Services.getPaymentDatabase().addPayment(tripInvoice);
-        } else {
-            Log.d("UserID incorrect", "curr userID: " + Session.getInstance().getUser_id() + ", given: " + userID);
+        if (sessionUserID == userID) {
+            addSuccess = paymentDB.addPayment(tripInvoice);
         }
 
         return addSuccess;

@@ -4,5 +4,5 @@ import com.example.skylink.objects.Interfaces.ITripInvoice;
 
 public interface IPaymentHandler {
 
-    boolean addPayment(ITripInvoice tripInvoice);
+    boolean addPayment(ITripInvoice tripInvoice, long sessionUserID);
 }
