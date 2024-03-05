@@ -39,8 +39,6 @@ public class FlightSorting implements iFlightSorting {
 
 
     private int compareByPrice(List<List<Flight>> flightList1, List<List<Flight>> flightList2) {
-        // Create a comparator to compare lists of flights based on their total price
-
         int price1 = getTotalPrice(flightList1);
         int price2 = getTotalPrice(flightList2);
         return Integer.compare(price1, price2);
@@ -48,10 +46,7 @@ public class FlightSorting implements iFlightSorting {
     }
 
     private int getTotalPrice (List<List<Flight>> flightList) {
-
         int totalPrice = 0;
-
-        // get price of main flight
         if (!flightList.isEmpty() && !flightList.get(0).isEmpty()) {
             totalPrice += flightList.get(0).get(0).getEconPrice();
         }
@@ -61,24 +56,19 @@ public class FlightSorting implements iFlightSorting {
     }
 
     private int compareByDirectFlights(List<List<Flight>> flightList1, List<List<Flight>> flightList2) {
-
         boolean hasDirectFlight1 = hasDirectFlight(flightList1);
         boolean hasDirectFlight2 = hasDirectFlight(flightList2);
-
-        // Sort direct flights first, followed by multi-stop flights
         if (hasDirectFlight1 && !hasDirectFlight2) {
             return -1;
         } else if (!hasDirectFlight1 && hasDirectFlight2) {
             return 1;
         } else {
-            // If both flights have direct or multi-stop flights, sort by number of stops
             return Integer.compare(flightList1.size(), flightList2.size());
         }
 
     }
 
     private boolean hasDirectFlight(List<List<Flight>> flightList) {
-        // Check if the flight list contains only one flight (direct flight)
         return flightList.size() == 1;
     }
 
@@ -96,16 +86,10 @@ public class FlightSorting implements iFlightSorting {
             String flightDeparture = flightList.get(0).get(0).getFlight_dept_date_time();
 
             try {
-                // Parse the departure date and time string to Date object
                 Date departureDateTime = dateFormat.parse(flightDeparture);
-
-                // Get the time in milliseconds since epoch
                 long departureTime = departureDateTime.getTime();
-
-                // Update the earliest departure time
                 earliestDeparture = departureTime;
             } catch (ParseException e) {
-                // Empty
             }
         }
 

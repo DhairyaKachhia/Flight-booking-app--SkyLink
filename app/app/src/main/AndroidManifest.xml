@@ -37,7 +37,7 @@
             android:name=".presentation.SeatSelect.InboundActivity"
             android:exported="false" />
         <activity
-            android:name=".presentation.SeatSelect.OutboundActivity"
+            android:name=".presentation.SeatSelect.Out_boundActivity"
             android:exported="false" />
         <activity
             android:name=".presentation.FlightSearching.FlightSearch"

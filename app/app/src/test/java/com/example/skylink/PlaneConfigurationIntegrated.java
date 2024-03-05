@@ -1,28 +1,31 @@
 package com.example.skylink;
 
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertNull;
+
+
+import com.example.skylink.application.Services;
 import com.example.skylink.business.Implementations.PlaneConfiguration;
 import com.example.skylink.objects.Implementations.Aircraft;
-import com.example.skylink.persistence.Implementations.hsqldb.FlightStub;
-import com.example.skylink.persistence.Interfaces.IFlightDB;
 import com.example.skylink.objects.Interfaces.iAircraft;
+import com.example.skylink.persistence.Interfaces.IFlightDB;
+import com.example.skylink.presentation.User_Auth.SignInActivity;
+
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertNull;
-
-public class PlaneConfigurationTest {
-
+public class PlaneConfigurationIntegrated {
     private IFlightDB mockFlightDB;
 
     private PlaneConfiguration planeConfiguration;
 
     @Before
     public void setUp() {
-        mockFlightDB = new FlightStub();
+        mockFlightDB = Services.getFlightDatabase();
         planeConfiguration = new PlaneConfiguration(mockFlightDB);
     }
 

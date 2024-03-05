@@ -1,4 +1,4 @@
-package com.example.skylink.persistence.Implementations.hsqldb;
+package com.example.skylink.persistence.Implementations.stub;
 
 import com.example.skylink.objects.Interfaces.ITripInvoice;
 import com.example.skylink.persistence.Interfaces.IPaymentDB;

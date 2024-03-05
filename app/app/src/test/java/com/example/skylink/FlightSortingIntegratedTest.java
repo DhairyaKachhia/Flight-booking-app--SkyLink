@@ -4,7 +4,7 @@ import static org.junit.Assert.assertTrue;
 
 import com.example.skylink.business.Implementations.FlightSorting;
 import com.example.skylink.objects.Interfaces.iFlight;
-import com.example.skylink.persistence.Implementations.hsqldb.FlightStub;
+import com.example.skylink.persistence.Implementations.stub.FlightStub;
 import com.example.skylink.persistence.Interfaces.IFlightDB;
 
 import org.junit.Test;

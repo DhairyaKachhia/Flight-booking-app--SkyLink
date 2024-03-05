@@ -5,7 +5,7 @@ import com.example.skylink.objects.Implementations.UserProperties;
 import com.example.skylink.objects.Interfaces.IUserProperties;
 import com.example.skylink.persistence.Interfaces.IUserDB;
 import org.junit.Before;
-import com.example.skylink.persistence.Implementations.hsqldb.UserStub;
+import com.example.skylink.persistence.Implementations.stub.UserStub;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -13,7 +13,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-public class UserHandlerTest {
+public class UserHandlerUnit {
     private IUserDB userStub;
     private UserHandler userHandler;
 

@@ -1,4 +1,4 @@
-package com.example.skylink.persistence.Implementations.hsqldb;
+package com.example.skylink.persistence.Implementations.stub;
 
 
 import com.example.skylink.objects.Implementations.Aircraft;
@@ -10,6 +10,8 @@ import com.example.skylink.persistence.Interfaces.IFlightDB;
 import org.jgrapht.Graph;
 import org.jgrapht.graph.DefaultWeightedEdge;
 import org.jgrapht.graph.DirectedWeightedMultigraph;
+
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -95,8 +97,10 @@ public class FlightStub implements IFlightDB {
         addFlight("AC633", "YVR", "YOW", "05/03/2024 11:31", "08/03/2024 11:31", "Airbus A320", "Gate9", "Gate5", 1424, 1699);
     }
 
+    @Override
+    public void addFlightsPC(InputStream inputStream) {
 
-
+    }
 
 
     @Override
