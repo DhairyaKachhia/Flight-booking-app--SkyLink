@@ -1,6 +1,7 @@
 package com.example.skylink.persistence.Implementations.hsqldb;
 
-import com.example.skylink.objects.Interfaces.iUserProperties;
+import com.example.skylink.objects.Implementations.UserProperties;
+import com.example.skylink.objects.Interfaces.IUserProperties;
 import com.example.skylink.persistence.Interfaces.IUserDB;
 
 import java.sql.Connection;
@@ -35,7 +36,7 @@ public class UserHSQLDB implements IUserDB {
         return DriverManager.getConnection("jdbc:hsqldb:file:" + dbPath, "SA", "");
     }
 
-    public long addUser_Auth(iUserProperties user) {
+    public long addUser_Auth(IUserProperties user) {
         String sql = "INSERT INTO USER (full_name, email, password) VALUES (?, ?, ?)";
 
         try (Connection conn = connect();
@@ -59,7 +60,7 @@ public class UserHSQLDB implements IUserDB {
         return -1;
     }
 
-    public boolean update_user_info(long user_id, iUserProperties user){
+    public boolean update_user_info(long user_id, IUserProperties user){
         String sql = "UPDATE USER SET gender=?, address=?, phone=?, date_of_birth=?, country_of_origin=? WHERE user_id=?";
 
         try (Connection conn = connect();
@@ -102,6 +103,28 @@ public class UserHSQLDB implements IUserDB {
         return "";
     }
 
+    @Override
+    public IUserProperties getUserByEmail(String email) {
+        String sql = "SELECT * FROM USER WHERE email = ?";
+        try (Connection conn = connect();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, email);
+            ResultSet rs = ps.executeQuery();
+
+            System.out.println(rs);
+
+            if (rs.next()) {
+                String name = rs.getString("full_name");
+                String password = rs.getString("password");
+                return new UserProperties(name, email, password);
+            }
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
 
     @Override
     public IUserDB initialize() {

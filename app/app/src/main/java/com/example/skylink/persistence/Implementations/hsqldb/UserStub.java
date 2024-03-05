@@ -1,13 +1,13 @@
 package com.example.skylink.persistence.Implementations.hsqldb;
 
-import com.example.skylink.objects.Interfaces.iUserProperties;
+import com.example.skylink.objects.Interfaces.IUserProperties;
 import com.example.skylink.persistence.Interfaces.IUserDB;
 
 
 import java.util.HashMap;
 
 public class UserStub implements IUserDB {
-    private final HashMap<Long, iUserProperties> users;
+    private final HashMap<Long, IUserProperties> users;
     private long idCounter = 1;
 
     public UserStub() {
@@ -15,15 +15,15 @@ public class UserStub implements IUserDB {
     }
 
     @Override
-    public long addUser_Auth(iUserProperties user) {
+    public long addUser_Auth(IUserProperties user) {
         long userId = idCounter++;
         users.put(userId, user);
         return userId;
     }
 
     @Override
-    public boolean update_user_info(long user_id, iUserProperties user) {
-        iUserProperties storedUser = users.get(user_id);
+    public boolean update_user_info(long user_id, IUserProperties user) {
+        IUserProperties storedUser = users.get(user_id);
         if (storedUser != null) {
             // Update user information
             storedUser.setFullName(user.getFullName());
@@ -41,7 +41,7 @@ public class UserStub implements IUserDB {
 
     @Override
     public String findPassword(String email) {
-        for (iUserProperties user : users.values()) {
+        for (IUserProperties user : users.values()) {
             if (user.getEmail().equals(email)) {
                 return user.getPassword();
             }
@@ -62,4 +62,15 @@ public class UserStub implements IUserDB {
         idCounter = 1;
         return this;
     }
+
+    @Override
+    public IUserProperties getUserByEmail(String email) {
+        for (IUserProperties user : users.values()) {
+            if (user.getEmail().equals(email)) {
+                return user;
+            }
+        }
+        return null; // User not found
+    }
+
 }

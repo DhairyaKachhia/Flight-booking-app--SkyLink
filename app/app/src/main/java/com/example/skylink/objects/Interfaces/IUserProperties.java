@@ -1,6 +1,6 @@
 package com.example.skylink.objects.Interfaces;
 
-public interface iUserProperties {
+public interface IUserProperties {
     // Getter methods
     String getFullName();
     String getEmail();
@@ -20,4 +20,12 @@ public interface iUserProperties {
     void setPhone(String phone);
     void setDateOfBirth(String dateOfBirth);
     void setCountryOfOrigin(String countryOfOrigin);
+
+    String isValidFullName();
+    String isValidEmail();
+    String isValidPassword();
+    String isValidAddress();
+    String isValidPhone();
+    String isValidGender();
+    String isValidDateOfBirth();
 }

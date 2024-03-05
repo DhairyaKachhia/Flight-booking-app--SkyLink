@@ -1,12 +1,9 @@
 package com.example.skylink.business.Implementations;
 
 import com.example.skylink.business.Interface.IUserHandler;
-import com.example.skylink.objects.Interfaces.iUserProperties;
+import com.example.skylink.objects.Interfaces.IUserProperties;
 import com.example.skylink.persistence.Interfaces.IUserDB;
 import org.mindrot.jbcrypt.BCrypt;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class UserHandler implements IUserHandler {
     private IUserDB userDB;
@@ -15,95 +12,131 @@ public class UserHandler implements IUserHandler {
         this.userDB = userDB;
     }
 
-    public boolean createUser(iUserProperties userProperties, String rePassword) {
-        // Check if all user properties are valid
-        if (isValidUserProperties(userProperties) && userProperties.getPassword().equals(rePassword)) {
-            // Hash the rePassword using BCrypt
-            String hashedRePassword = BCrypt.hashpw(rePassword, BCrypt.gensalt());
-            userProperties.setPassword(hashedRePassword);
-
-            // Attempt to add the user to the database
-            long userId = userDB.addUser_Auth(userProperties);
-            Session.getInstance().setUser_id(userId);
-
-            // Check if the user was successfully added to the database
-            return userId != -1;
-        } else {
-            // Invalid user properties or mismatched passwords
-            return false;
-        }
-    }
-
-    // Additional method to check the validity of user properties
-    private boolean isValidUserProperties(iUserProperties userProperties) {
-        return userProperties != null &&
-                isValidFullName(userProperties.getFullName()) &&
-                isValidEmail(userProperties.getEmail()) &&
-                isValidPassword(userProperties.getPassword());
-    }
-
-    // Updated validation method for email using Apache Commons Validator
-    private boolean isValidEmail(String email) {
-        if (email == null || email.isEmpty()) {
-            return false;
+    public void createUser(IUserProperties userProperties, String rePassword) throws UserCreationException {
+        
+        String validationMessage = isValidUserPropertiesForCreation(userProperties);
+        if (validationMessage != null) {
+            throw new UserCreationException(validationMessage);
         }
 
-        // Define a simple regular expression for email validation
-        String emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
+        if (!userProperties.getPassword().equals(rePassword)) {
+            throw new UserCreationException("Passwords do not match");
+        }
 
-        // Compile the regular expression
-        Pattern pattern = Pattern.compile(emailRegex);
+        String hashedRePassword = BCrypt.hashpw(rePassword, BCrypt.gensalt());
+        userProperties.setPassword(hashedRePassword);
 
-        // Match the email against the pattern
-        Matcher matcher = pattern.matcher(email);
+        long userId = userDB.addUser_Auth(userProperties);
 
-        // Return true if the email matches the pattern, false otherwise
-        return matcher.matches();
+        if (userId == -1) {
+            throw new UserCreationException("Unable to create new user");
+        }
+
+        Session.getInstance().setUser_id(userId);
     }
 
+    public String isValidUserPropertiesForCreation(IUserProperties userProperties) {
 
-    // Implement validation methods for full name, email, and password as needed
-    private boolean isValidFullName(String fullName) {
-        // Implement validation logic for full name
-        return fullName != null && !fullName.isEmpty();
+        String fullNameValidation = userProperties.isValidFullName();
+        if (fullNameValidation != null) {
+            return fullNameValidation;
+        }
+
+        String emailValidation = userProperties.isValidEmail();
+        if (emailValidation != null) {
+            return emailValidation;
+        }
+
+        String passwordValidation = userProperties.isValidPassword();
+        if (passwordValidation != null) {
+            return passwordValidation;
+        }
+        
+        return null;
     }
 
-    private boolean isValidPassword(String password) {
-        // Implement validation logic for password
-        return password != null && password.length() >= 8; // or any other validation rules
+    public String isValidUserPropertiesForUpdate(IUserProperties userProperties) {
+        String baseUserPropertiesValidation = isValidUserPropertiesForCreation(userProperties);
+        if (baseUserPropertiesValidation != null) {
+            return baseUserPropertiesValidation;
+        }
+
+        // Validate address
+        String addressValidation = userProperties.isValidAddress();
+        if (addressValidation != null) {
+            return addressValidation;
+        }
+
+        // Validate phone
+        String phoneValidation = userProperties.isValidPhone();
+        if (phoneValidation != null) {
+            return phoneValidation;
+        }
+
+        // Validate gender
+        String genderValidation = userProperties.isValidGender();
+        if (genderValidation != null) {
+            return genderValidation;
+        }
+
+        // Validate date of birth
+        String dobValidation = userProperties.isValidDateOfBirth();
+        if (dobValidation != null) {
+            return dobValidation;
+        }
+
+        return null;
     }
 
-    public boolean updateUserProfile(iUserProperties userProperties) {
-        // Validate user properties
-        if (isValidUserProperties(userProperties)) {
-            long user_id = Session.getInstance().getUser_id();
-            try {
-                if (userDB.update_user_info(user_id, userProperties)) {
-                    return true;
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
+    public boolean updateUserProfile(IUserProperties userProperties) {
+        // Already checked but doesn't hurt to validate
+        String validationMessage = isValidUserPropertiesForUpdate(userProperties);
+        if (validationMessage != null) {
+            return false;
+        }
+
+        long user_id = Session.getInstance().getUser_id();
+
+        try {
+            if (userDB.update_user_info(user_id, userProperties)) {
+                return true;
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return false;
     }
 
-    public boolean signinUser(iUserProperties userProperties) {
+    public boolean signinUser(IUserProperties userProperties) {
         // Validate user properties
-        if (isValidUserProperties(userProperties)) {
-            String email = userProperties.getEmail();
-            String providedPassword = userProperties.getPassword();
+        String validationMessage = isValidUserPropertiesForCreation(userProperties);
+        if (validationMessage != null) {
+            return false;
+        }
+        
+        String email = userProperties.getEmail();
+        String providedPassword = userProperties.getPassword();
 
-            try {
-                String password_db = userDB.findPassword(email);
-                if (BCrypt.checkpw(providedPassword, password_db)) {
-                    return true;
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
+        try {
+            String password_db = userDB.findPassword(email);
+            if (BCrypt.checkpw(providedPassword, password_db)) {
+                return true;
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
         return false;
+    }
+
+    @Override
+    public IUserProperties getUserByEmail(String email) {
+        return userDB.getUserByEmail(email);
+    }
+
+    public class UserCreationException extends Exception {
+        public UserCreationException(String message) {
+            super(message);
+        }
     }
 }
