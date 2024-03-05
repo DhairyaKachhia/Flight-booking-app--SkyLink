@@ -3,54 +3,96 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp"
-    android:background="#FFFFFF">
+    android:background="#F5F5F5">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/departingAirportTextView"
-            android:layout_width="wrap_content"
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Departing Airport: XYZ"
-            android:textSize="18sp"
-            android:textColor="@android:color/black"
-            android:layout_marginTop="16dp"/>
+            android:layout_margin="16dp"
+            android:background="@drawable/gradient_background">
 
-        <TextView
-            android:id="@+id/arrivingAirportTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Arriving Airport: ABC"
-            android:textSize="18sp"
-            android:textColor="@android:color/black"
-            android:layout_marginTop="8dp"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="16dp">
 
-        <TextView
-            android:id="@+id/departureTimeTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Departure Time: 12:00 PM"
-            android:textSize="18sp"
-            android:textColor="@android:color/black"
-            android:layout_marginTop="8dp"/>
+                <!-- Add an ImageView for the flight departing image -->
+                <ImageView
+                    android:id="@+id/departingFlightImageView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/travel"
+                    android:layout_marginEnd="16dp"
+                    android:contentDescription="Flight Departing Image"/>
 
-        <TextView
-            android:id="@+id/arrivalTimeTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Arrival Time: 2:00 PM"
-            android:textSize="18sp"
-            android:textColor="@android:color/black"
-            android:layout_marginTop="8dp"/>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <!-- Your existing TextViews -->
+                    <TextView
+                        android:id="@+id/departingAirportTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Departing Airport: XYZ"
+                        android:textSize="18sp"
+                        android:textColor="#333333"
+                        android:layout_marginTop="8dp"/>
+
+                    <TextView
+                        android:id="@+id/arrivingAirportTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Arriving Airport: ABC"
+                        android:textSize="18sp"
+                        android:textColor="#333333"
+                        android:layout_marginTop="8dp"/>
+
+                    <TextView
+                        android:id="@+id/departureTimeTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Departure Time: 12:00 PM"
+                        android:textSize="18sp"
+                        android:textColor="#333333"
+                        android:layout_marginTop="8dp"/>
+
+                    <TextView
+                        android:id="@+id/arrivalTimeTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Arrival Time: 2:00 PM"
+                        android:textSize="18sp"
+                        android:textColor="#333333"
+                        android:layout_marginTop="8dp"/>
+                </LinearLayout>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
 
         <Spinner
             android:id="@+id/namesSpinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"/>
+            android:layout_marginTop="16dp"
+            android:padding="8dp"
+            android:textSize="16sp"
+            android:background="@drawable/rounded_spinner_background"/>
+
+        <!-- Add this TextView where you want to display the selected passenger information -->
+        <TextView
+            android:id="@+id/selectedPassengerTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Selected Passenger: "
+            />
 
         <LinearLayout
             android:id="@+id/Flight_Layout"
@@ -62,11 +104,16 @@
         </LinearLayout>
 
         <Button
-            android:id="@+id/myButton"
+            android:id="@+id/confirmButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="My Button"
-            android:layout_marginTop="16dp"
-            android:backgroundTint="@color/greenColor"/>
+            android:text="Next"
+            android:textSize="20sp"
+            android:textColor="#FFFFFF"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:layout_marginTop="32dp"
+            android:background="@drawable/rounded_button"/>
+
     </LinearLayout>
 </ScrollView>

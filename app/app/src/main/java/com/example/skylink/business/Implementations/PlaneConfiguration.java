@@ -21,11 +21,11 @@ public class PlaneConfiguration implements iPlaneConfiguration {
             int econnumSeatPerRow = aircraft.getNumSeatPerRowEcon();
             int econnumRows = aircraft.getNumRowsEcon();
             if ("econ".equalsIgnoreCase(econOrBus)) {
-                busnumSeatPerRow = aircraft.getNumSeatPerRowEcon();
-                busnumRows = aircraft.getNumRowsEcon();
+                busnumSeatPerRow = aircraft.getNumSeatPerRowBusiness() ;
+                busnumRows = aircraft.getNumRowsBusiness();
             } else if ("bus".equalsIgnoreCase(econOrBus)) {
-                econnumSeatPerRow = aircraft.getNumSeatPerRowBusiness();
-                econnumRows = aircraft.getNumRowsBusiness();
+                econnumSeatPerRow = aircraft.getNumSeatPerRowEcon();
+                econnumRows = aircraft.getNumRowsEcon();
             } else {
                 // Handle invalid econOrBus parameter
                 return null;

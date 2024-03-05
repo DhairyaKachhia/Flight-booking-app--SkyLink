@@ -10,6 +10,7 @@ import com.example.skylink.objects.Interfaces.iPassengerData;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Session implements ISession {
 
@@ -36,26 +37,19 @@ public class Session implements ISession {
 
     private HashMap<iPassengerData, String> seatMap;
 
+    private Map<String, String> priceType;
 
-    private boolean outboundeconmySelected;
-
-    private boolean inboundeconmySelected;
-
-    public boolean isOutboundeconmySelected() {
-        return outboundeconmySelected;
+    public Map<String, String> getpriceType() {
+        return priceType;
     }
 
-    public void setOutboundeconmySelected(boolean outboundeconmySelected) {
-        this.outboundeconmySelected = outboundeconmySelected;
+    public void setpriceType(String key, String value) {
+        if (priceType == null) {
+            priceType = new HashMap<>();
+        }
+        priceType.put(key, value);
     }
 
-    public boolean isInboundeconmySelected() {
-        return inboundeconmySelected;
-    }
-
-    public void setInboundeconmySelected(boolean inboundeconmySelected) {
-        this.inboundeconmySelected = inboundeconmySelected;
-    }
 
     public HashMap<iPassengerData, String> getSeatMap() {
         return seatMap;
