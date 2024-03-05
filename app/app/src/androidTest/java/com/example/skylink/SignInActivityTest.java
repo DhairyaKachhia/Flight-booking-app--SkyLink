@@ -1,42 +1,5 @@
 package com.example.skylink;
 
-//package com.example.skylink;
-//
-//import static org.junit.Assert.assertNotNull;
-//
-//import androidx.test.core.app.ActivityScenario;
-//import androidx.test.ext.junit.rules.ActivityScenarioRule;
-//
-//import com.example.skylink.business.Interface.iAirportPath;
-//import com.example.skylink.objects.Implementations.FlightSearch;
-//import com.example.skylink.objects.Interfaces.iFlight;
-//import com.example.skylink.objects.Interfaces.iFlightSearch;
-//import com.example.skylink.presentation.User_Auth.SignInActivity;
-//
-//import org.junit.Before;
-//import org.junit.Rule;
-//import org.junit.Test;
-//
-//import java.util.HashMap;
-//import java.util.List;
-//
-//public class AirportPathTestIntegration {
-//
-//    private iAirportPath airportPath;
-//
-//    @Rule
-//    public ActivityScenarioRule<SignInActivity> scenarioRule = new ActivityScenarioRule<>(SignInActivity.class);
-//
-//    @Before
-//    public void setUp() {
-//        // Initialize any necessary objects or perform setup tasks here
-//    }
-//
-//    @Test
-//    public void testFindFlightsWithValidSearchReturnsValidResult() {
-//
-//    }
-//}
 import android.content.Context;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.Espresso;
