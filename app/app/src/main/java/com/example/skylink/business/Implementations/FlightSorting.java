@@ -5,7 +5,6 @@ import com.example.skylink.objects.Implementations.Flight;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -110,26 +109,6 @@ public class FlightSorting implements iFlightSorting {
             }
         }
 
-
-//        for (List<Flight> flights : flightList) {
-//            for (Flight flight : flights) {
-//                try {
-//                    // Parse the departure date and time string to Date object
-//                    Date departureDateTime = dateFormat.parse(flight.getDepartureDate());
-//
-//                    // Get the time in milliseconds since epoch
-//                    long departureTime = departureDateTime.getTime();
-//
-//                    // Update the earliest departure time if the current flight's departure time is earlier
-//                    if (departureTime < earliestDeparture) {
-//                        earliestDeparture = departureTime;
-//                    }
-//                } catch (ParseException e) {
-//                    e.printStackTrace();
-//                    // Handle parsing errors if needed
-//                }
-//            }
-//        }
         return earliestDeparture;
     }
 

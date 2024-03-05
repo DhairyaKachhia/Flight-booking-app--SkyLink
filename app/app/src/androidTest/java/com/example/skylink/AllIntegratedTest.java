@@ -7,8 +7,7 @@ import org.junit.runners.Suite;
 @Suite.SuiteClasses({
         AirportPathIntegratedTest.class,
         PassengerDataManagerIntegratedTest.class,
-        PlaneConfigurationIntegratedTest.class,
-        UserHandlerIntegratedTest.class
+        PlaneConfigurationIntegratedTest.class
 })
 public class  AllIntegratedTest{
     // This class can remain empty
