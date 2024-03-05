@@ -8,6 +8,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.skylink.R;
+import com.example.skylink.business.Implementations.Session;
 import com.example.skylink.objects.Interfaces.iPassengerData;
 
 import java.util.HashMap;
@@ -39,6 +40,6 @@ public class Out_boundActivity extends AppCompatActivity {
         seatLayoutContainer.addView(seatLayout);
 
         Button confirmButton = findViewById(R.id.confirmButton);
-        SeatSelectionUtils.setupConfirmButton(this, confirmButton, this, seatMap,true);
+        SeatSelectionUtils.setupConfirmButton(this, confirmButton, this, seatMap,Session.getInstance().getFlightSearch().isOneWay());
     }
 }

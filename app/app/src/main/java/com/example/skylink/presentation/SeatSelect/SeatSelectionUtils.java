@@ -5,6 +5,7 @@ import static androidx.core.content.ContextCompat.startActivity;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -94,7 +95,7 @@ public class SeatSelectionUtils {
         });
     }
 
-    public static LinearLayout setupSeatsLayout(String typeOfFlight, Context context, Map<String, SeatStatus> seatStatusMap, Map<iPassengerData, String> seatMap, AtomicReference<iPassengerData> selectedPassenger) {
+    public static LinearLayout setupSeatsLayout(String typeOfFlight, Context context, Map<String, SeatStatus> seatStatusMap, HashMap<iPassengerData, String> seatMap, AtomicReference<iPassengerData> selectedPassenger) {
         LinearLayout flightLayout = new LinearLayout(context);
         flightLayout.setLayoutParams(new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
@@ -111,10 +112,10 @@ public class SeatSelectionUtils {
                 iFlight firstFlight = outboundFlights.get(0).get(0);
                 if(econOrBus != null && econOrBus.equals("Economy")){
                     plane_config = config.getPlaneConfiguration(firstFlight.getAirCraft_Type(),"Economy");
-                    addSeatsToLayout(context, seatStatusMap, flightLayout, plane_config, seatMap, selectedPassenger);
+                    addSeatsToLayout(context, seatStatusMap, flightLayout, plane_config, seatMap, selectedPassenger,"FillUpBusiness");
                 }else{
                     plane_config = config.getPlaneConfiguration(firstFlight.getAirCraft_Type(),"Business");
-                    addSeatsToLayout(context, seatStatusMap, flightLayout, plane_config, seatMap, selectedPassenger);
+                    addSeatsToLayout(context, seatStatusMap, flightLayout, plane_config, seatMap, selectedPassenger, "FillUpEconomy");
                 }
             }
         }
@@ -122,19 +123,23 @@ public class SeatSelectionUtils {
     }
 
 
-    private static void addSeatsToLayout(Context context, Map<String, SeatStatus> seatStatusMap, LinearLayout flightLayout, String[] planeConfig, Map<iPassengerData, String> seatMap, AtomicReference<iPassengerData> selectedPassenger) {
+    private static void addSeatsToLayout(Context context, Map<String, SeatStatus> seatStatusMap, LinearLayout flightLayout, String[] planeConfig, HashMap<iPassengerData, String> seatMap, AtomicReference<iPassengerData> selectedPassenger, String fillup) {
         String numSeatBusi, numRowBusi, numSeatEcon, numRowEcon;
-        numSeatBusi = planeConfig[1];
-        numRowBusi = planeConfig[2];
+        numSeatBusi  = planeConfig[1];
+        numRowBusi  = planeConfig[2];
         numSeatEcon = planeConfig[3];
         numRowEcon = planeConfig[4];
-        int startSeatNum = Integer.parseInt(numSeatBusi) * Integer.parseInt(numRowBusi);
-        addClassSeatsToLayout(context, seatStatusMap, flightLayout, Integer.parseInt(numRowBusi), Integer.parseInt(numSeatBusi), 1, true, seatMap, selectedPassenger);
-        addClassSeatsToLayout(context, seatStatusMap, flightLayout, Integer.parseInt(numRowEcon), Integer.parseInt(numSeatEcon), startSeatNum, false, seatMap, selectedPassenger);
+
+        if(fillup.equals("FillUpBusiness")){
+            addClassSeatsToLayout(context, seatStatusMap, flightLayout, Integer.parseInt(numRowBusi), Integer.parseInt(numSeatBusi), 1, true, seatMap, selectedPassenger, true);
+            addClassSeatsToLayout(context, seatStatusMap, flightLayout, Integer.parseInt(numRowEcon), Integer.parseInt(numSeatEcon), Integer.parseInt(numRowBusi), false, seatMap, selectedPassenger, false);
+        }else if (fillup.equals("FillUpEconomy")){
+            addClassSeatsToLayout(context, seatStatusMap, flightLayout, Integer.parseInt(numRowBusi), Integer.parseInt(numSeatBusi), 1, true, seatMap, selectedPassenger, false);
+            addClassSeatsToLayout(context, seatStatusMap, flightLayout, Integer.parseInt(numRowEcon), Integer.parseInt(numSeatEcon), Integer.parseInt(numRowBusi), false, seatMap, selectedPassenger, true);
+        }
     }
 
-
-    private static void addClassSeatsToLayout(Context context, Map<String, SeatStatus> seatStatusMap, LinearLayout flightLayout, int numRows, int numSeatsPerRow, int startSeatNumber, boolean isBusinessClass, Map<iPassengerData, String> seatMap, AtomicReference<iPassengerData> selectedPassenger) {
+    private static void addClassSeatsToLayout(Context context, Map<String, SeatStatus> seatStatusMap, LinearLayout flightLayout, int numRows, int numSeatsPerRow, int startSeatNumber, boolean isBusinessClass, HashMap<iPassengerData, String> seatMap, AtomicReference<iPassengerData> selectedPassenger, Boolean randomVal) {
         Random random = new Random();
 
         for (int row = startSeatNumber; row < startSeatNumber + numRows; row++) {
@@ -143,25 +148,25 @@ public class SeatSelectionUtils {
                     LinearLayout.LayoutParams.MATCH_PARENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT));
             rowLayout.setOrientation(LinearLayout.HORIZONTAL);
-            rowLayout.setTag(String.valueOf(row)); // Set the row as a tag
+            rowLayout.setTag(String.valueOf(row));
 
             int halfNumSeatsPerRow = numSeatsPerRow / 2;
 
-            for (int seatNumber = 1; seatNumber <= halfNumSeatsPerRow; seatNumber++) {
-                boolean isSeatTaken = random.nextBoolean();
-                addSeatToLayout(context, rowLayout, row, seatNumber, isBusinessClass, isSeatTaken, seatStatusMap, seatMap, selectedPassenger);
-                seatStatusMap.put(getSeatKey(row, seatNumber), new SeatStatus(isBusinessClass, isSeatTaken));
-            }
+            seatVal(context, rowLayout, row, 1, (halfNumSeatsPerRow+1), isBusinessClass, randomVal, random, seatStatusMap, seatMap, selectedPassenger);
 
             addAisleToLayout(context, flightLayout);
 
-            for (int seatNumber = halfNumSeatsPerRow + 1; seatNumber <= halfNumSeatsPerRow * 2; seatNumber++) {
-                boolean isSeatTaken = random.nextBoolean();
-                addSeatToLayout(context, rowLayout, row, seatNumber, isBusinessClass, isSeatTaken, seatStatusMap, seatMap, selectedPassenger);
-                seatStatusMap.put(getSeatKey(row, seatNumber), new SeatStatus(isBusinessClass, isSeatTaken));
-            }
+            seatVal(context, rowLayout, row, halfNumSeatsPerRow, halfNumSeatsPerRow * 2, isBusinessClass, randomVal, random, seatStatusMap, seatMap, selectedPassenger);
 
             flightLayout.addView(rowLayout);
+        }
+    }
+
+    private static void seatVal(Context context, LinearLayout rowLayout, int row, int start, int end, boolean isBusinessClass, boolean randomVal, Random random, Map<String, SeatStatus> seatStatusMap, HashMap<iPassengerData, String> seatMap, AtomicReference<iPassengerData> selectedPassenger) {
+        for (int seatNumber = start + 1; seatNumber <= end; seatNumber++) {
+            boolean isSeatTaken = randomVal ? true : random.nextBoolean();
+            addSeatToLayout(context, rowLayout, row, seatNumber, isBusinessClass, isSeatTaken, seatStatusMap, seatMap, selectedPassenger);
+            seatStatusMap.put(getSeatKey(row, seatNumber), new SeatStatus(isBusinessClass, isSeatTaken));
         }
     }
 
@@ -169,14 +174,15 @@ public class SeatSelectionUtils {
     private static void addAisleToLayout(Context context, LinearLayout flightLayout) {
         View aisleView = new View(context);
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-                80, // Aisle width
+                120, // Aisle width
                 LinearLayout.LayoutParams.MATCH_PARENT);
         aisleView.setLayoutParams(layoutParams);
-        aisleView.setBackgroundColor(context.getResources().getColor(android.R.color.white));
+        aisleView.setBackgroundColor(Color.RED); // Temporary color for debugging
         flightLayout.addView(aisleView);
     }
 
-    private static void addSeatToLayout(Context context, LinearLayout flightLayout, int row, int seatNumber, boolean isBusinessClass, boolean isSeatTaken, Map<String, SeatStatus> seatStatusMap, Map<iPassengerData, String> seatMap, AtomicReference<iPassengerData> selectedPassenger) {
+
+    private static void addSeatToLayout(Context context, LinearLayout flightLayout, int row, int seatNumber, boolean isBusinessClass, boolean isSeatTaken, Map<String, SeatStatus> seatStatusMap, HashMap<iPassengerData, String> seatMap, AtomicReference<iPassengerData> selectedPassenger) {
         LinearLayout seatContainer = new LinearLayout(context);
         seatContainer.setLayoutParams(new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT,
@@ -214,7 +220,7 @@ public class SeatSelectionUtils {
         flightLayout.addView(seatContainer);
     }
 
-    private static void toggleSeat(ImageView seatContainer, int row, int seatNumber, Map<String, SeatStatus> seatStatusMap, Map<iPassengerData, String> seatMap, AtomicReference<iPassengerData> selectedPassenger, Context context) {
+    private static void toggleSeat(ImageView seatContainer, int row, int seatNumber, Map<String, SeatStatus> seatStatusMap, HashMap<iPassengerData, String> seatMap, AtomicReference<iPassengerData> selectedPassenger, Context context) {
         String seatKey = getSeatKey(row, seatNumber);
 
         SeatStatus seatStatus = seatStatusMap.get(seatKey);
@@ -233,35 +239,47 @@ public class SeatSelectionUtils {
             return;
         }
 
-        if (isSelected) {
-            seatContainer.setImageResource(seatType);
-            seatContainer.setColorFilter(null); // Remove any existing color filter
-            seatMap.put(passenger, "Not Selected");
+        if (!isSelected) {
+            String currentSeat = seatMap.get(passenger);
+
+            // Check if the passenger already has a selected seat
+            if (currentSeat == null || currentSeat.equals("Not Selected")) {
+                seatMap.put(passenger, row + getSeatLetter(seatNumber));
+                seatContainer.setImageResource(seatType);
+                seatContainer.setColorFilter(context.getResources().getColor(R.color.greenColor));
+                seatContainer.setSelected(true);
+            } else {
+                // Passenger already has a selected seat, handle accordingly (maybe show a message)
+                Toast.makeText(context, "Passenger already has a selected seat", Toast.LENGTH_SHORT).show();
+            }
         } else {
-            // If not selected, set the seat image and apply green tint
-            seatMap.put(passenger, row + getSeatLetter(seatNumber));
+            seatMap.put(passenger, "Not Selected");
             seatContainer.setImageResource(seatType);
-            seatContainer.setColorFilter(context.getResources().getColor(R.color.greenColor)); // Replace R.color.greenColor with the actual resource ID of your green color
+            seatContainer.setColorFilter(null);
+            seatContainer.setSelected(false);
         }
 
-        // Toggle the selected state
-        seatContainer.setSelected(!isSelected);
+
     }
 
     public static void setupConfirmButton(Context context, Button myButton, Activity activity, HashMap<iPassengerData, String> seatMap, boolean returnFlight) {
         myButton.setOnClickListener(v -> {
-            boolean allNotSelected = seatMap.values().stream().allMatch(status -> status.equals("Not Selected"));
-            if (allNotSelected) {
-                if (returnFlight) {
+            long notSelectedCount = countNotSelected(seatMap);
+            if (notSelectedCount > 0) {
+                Toast.makeText(context, "Please select seats for all passengers", Toast.LENGTH_SHORT).show();
+            } else {
+                if (!returnFlight) {
                     Intent intent = new Intent(activity, InboundActivity.class);
                     activity.startActivity(intent);
                 } else {
                     handlePaymentActivity(activity, seatMap);
                 }
-            } else {
-                Toast.makeText(context, "Please select seats for all passengers", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private static long countNotSelected(HashMap<iPassengerData, String> seatMap){
+        return seatMap.values().stream().filter(status -> status.equals("Not Selected")).count();
     }
 
     private static void handlePaymentActivity(Activity activity, HashMap<iPassengerData, String> seatMap) {

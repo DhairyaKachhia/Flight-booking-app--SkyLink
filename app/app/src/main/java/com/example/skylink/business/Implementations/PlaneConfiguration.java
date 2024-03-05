@@ -16,24 +16,22 @@ public class PlaneConfiguration implements iPlaneConfiguration {
         Map<String, iAircraft> allFlights = flightHSQLDB.getAircraftMap();
         if (allFlights.containsKey(airCraftName)) {
             iAircraft aircraft = allFlights.get(airCraftName);
-            int busnumSeatPerRow = aircraft.getNumSeatPerRowBusiness();
-            int busnumRows = aircraft.getNumRowsBusiness();
-            int econnumSeatPerRow = aircraft.getNumSeatPerRowEcon();
-            int econnumRows = aircraft.getNumRowsEcon();
-            if ("econ".equalsIgnoreCase(econOrBus)) {
-                busnumSeatPerRow = aircraft.getNumSeatPerRowBusiness() ;
-                busnumRows = aircraft.getNumRowsBusiness();
-            } else if ("bus".equalsIgnoreCase(econOrBus)) {
-                econnumSeatPerRow = aircraft.getNumSeatPerRowEcon();
-                econnumRows = aircraft.getNumRowsEcon();
-            } else {
-                // Handle invalid econOrBus parameter
-                return null;
+            if(aircraft != null){
+                int busnumSeatPerRow = aircraft.getNumSeatPerRowBusiness();
+                int busnumRows = aircraft.getNumRowsBusiness();
+                int econnumSeatPerRow = aircraft.getNumSeatPerRowEcon();
+                int econnumRows = aircraft.getNumRowsEcon();
+                if ("econ".equalsIgnoreCase(econOrBus)) {
+                    busnumSeatPerRow = aircraft.getNumSeatPerRowBusiness() ;
+                    busnumRows = aircraft.getNumRowsBusiness();
+                } else if ("bus".equalsIgnoreCase(econOrBus)) {
+                    econnumSeatPerRow = aircraft.getNumSeatPerRowEcon();
+                    econnumRows = aircraft.getNumRowsEcon();
+                }
+                return new String[]{airCraftName, String.valueOf(busnumSeatPerRow), String.valueOf(busnumRows),
+                        String.valueOf(econnumSeatPerRow), String.valueOf(econnumRows)};
             }
-            return new String[]{airCraftName, String.valueOf(busnumSeatPerRow), String.valueOf(busnumRows),
-                    String.valueOf(econnumSeatPerRow), String.valueOf(econnumRows)};
         }
         return null;
     }
 }
-
