@@ -20,8 +20,9 @@ import com.example.skylink.business.Implementations.UserHandler;
 import com.example.skylink.business.validations.IValidateUserAuth;
 import com.example.skylink.business.validations.ValidateUserAuth;
 import com.example.skylink.objects.Implementations.UserProperties;
+import com.example.skylink.persistence.Implementations.stub.FlightStub;
 import com.example.skylink.persistence.Interfaces.IFlightDB;
-import com.example.skylink.presentation.FlightSearching.FlightSearch;
+import com.example.skylink.presentation.FlightSearching.FlightSearchP;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -39,7 +40,6 @@ public class SignInActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sign_in);
 
         copyDatabaseToDevice();
-//        Services.setup(this);
         Session.getInstance().setContext(this);
         IFlightDB db = Services.getFlightDatabase();
         db.addFlights();
@@ -67,8 +67,7 @@ public class SignInActivity extends AppCompatActivity {
                 UserProperties user = new UserProperties(userEmail,userPassword);
                 UserHandler checkUser = new UserHandler(Services.getUserDatabase());
                if(checkUser.signinUser(user)){
-//                if(true){
-                    Intent intent = new Intent(SignInActivity.this, FlightSearch.class);
+                    Intent intent = new Intent(SignInActivity.this, FlightSearchP.class);
                     Session.getInstance().setEmail(userEmail);
                     startActivity(intent);
                 }else{

@@ -40,7 +40,7 @@
             android:name=".presentation.SeatSelect.Out_boundActivity"
             android:exported="false" />
         <activity
-            android:name=".presentation.FlightSearching.FlightSearch"
+            android:name=".presentation.FlightSearching.FlightSearchP"
             android:exported="true"></activity>
         <activity
             android:name=".presentation.Payment.CreditCardPaymentActivity"
