@@ -3,6 +3,7 @@ package com.example.skylink.presentation.FlightSearching;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -11,7 +12,11 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Button;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.example.skylink.R;
 import com.example.skylink.application.Services;
@@ -25,7 +30,10 @@ import com.example.skylink.objects.Interfaces.iFlight;
 import com.example.skylink.objects.Interfaces.iFlightSearch;
 import com.example.skylink.persistence.Implementations.hsqldb.CitiesRepository;
 import com.example.skylink.presentation.User_Auth.SignInActivity;
+import com.example.skylink.presentation.User_Auth.UpdateUserProfileActivity;
+import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.textfield.TextInputLayout;
+import androidx.appcompat.widget.Toolbar;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -35,7 +43,7 @@ import java.util.List;
 import android.app.DatePickerDialog;
 import android.widget.EditText;
 
-public class FlightSearch extends AppCompatActivity {
+public class FlightSearch extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private final int MAX_TRAVELERS = 4;
     private final int MIN_TRAVELERS = 1;
@@ -50,16 +58,20 @@ public class FlightSearch extends AppCompatActivity {
     private RadioGroup radioGroupTripType;
     private String tripType;
 
-
-
     private TextView tvTravelerCount;
     private Button btnIncrement, btnDecrement;
     private int travelerCount = MIN_TRAVELERS;
+
+    private DrawerLayout drawerLayout;
+    private ActionBarDrawerToggle toggle;
+    private Toolbar toolbar;
+    private NavigationView navigationView;
 
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setupHamburgerMenuNav();
         setContentView(R.layout.activity_main);
         initializeViews();
         setupAutoCompleteListeners();
@@ -69,6 +81,19 @@ public class FlightSearch extends AppCompatActivity {
         setupSearchButton();
         setupTravelerCountButtons();
         setupDefaultTripType();
+    }
+
+    private void setupHamburgerMenuNav() {
+        drawerLayout = findViewById(R.id.drawer_layout);
+        navigationView = findViewById(R.id.nav_view);
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawerLayout, toolbar, R.string.open_nav, R.string.close_nav
+        );
+        drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
+        navigationView.setNavigationItemSelectedListener(this);
     }
 
     private void setupDefaultTripType() {
@@ -176,7 +201,6 @@ public class FlightSearch extends AppCompatActivity {
         updateAdapterItems(autoCompleteFrom, selectedToCity);
     }
 
-
     private void incrementTravelerCount() {
         travelerCount++;
         updateTravelerCount();
@@ -264,11 +288,6 @@ public class FlightSearch extends AppCompatActivity {
 
     }
 
-    public void goToSignInActivity(View view) {
-        Intent intent = new Intent(this, SignInActivity.class);
-        startActivity(intent);
-    }
-
     private void updateAdapterItems(AutoCompleteTextView autoCompleteTextView, iCity excludeCity) {
         List<iCity> updatedCities = new ArrayList<>(citiesRepository.getCities());
         if (excludeCity != null) {
@@ -296,4 +315,22 @@ public class FlightSearch extends AppCompatActivity {
         editText.setError(null);
     }
 
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+
+        int id = menuItem.getItemId();
+
+        if (id == R.id.update_profile) {
+            Intent intent = new Intent(this, UpdateUserProfileActivity.class);
+            String userEmail = Session.getInstance().getEmail();
+            intent.putExtra("email", userEmail);
+            startActivity(intent);
+        } else if (id == R.id.nav_logout) {
+            Intent intent = new Intent(this, SignInActivity.class);
+            startActivity(intent);
+        }
+
+        drawerLayout.closeDrawer(GravityCompat.START);
+        return true;
+    }
 }

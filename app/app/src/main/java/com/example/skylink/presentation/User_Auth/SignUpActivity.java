@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.example.skylink.R;
 import com.example.skylink.application.Services;
+import com.example.skylink.business.Implementations.Session;
 import com.example.skylink.business.Interface.IUserHandler;
 import com.example.skylink.business.Implementations.UserHandler;
 import com.example.skylink.business.validations.IValidateUserAuth;
@@ -53,8 +54,8 @@ public class SignUpActivity extends AppCompatActivity {
 
                 try {
                     handler.createUser(user, userRePassword);
+                    Session.getInstance().setEmail(userEmail);
                     Intent intent = new Intent(SignUpActivity.this, UpdateUserProfileActivity.class);
-                    intent.putExtra("email", userEmail);
                     startActivity(intent);
                 } catch (UserHandler.UserCreationException e) {
                     Toast.makeText(SignUpActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
