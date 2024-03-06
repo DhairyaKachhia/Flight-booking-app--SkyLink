@@ -23,6 +23,7 @@ import com.example.skylink.objects.Interfaces.iFlightSearch;
 import com.example.skylink.objects.Interfaces.iFlights;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -197,7 +198,7 @@ public class FlightDisplay extends AppCompatActivity {
 
                 }
 
-//                Collections.sort(filteredFlights, flightSorting);
+                Collections.sort(filteredFlights, flightSorting);
 
                 if (filteredFlights.size() > 0) {
 
