@@ -34,7 +34,7 @@ public class UserHandlerIntegrated {
 
     @Test
     public void testCreateUser_Success() {
-        IUserProperties mockUserProperties = new UserProperties("Mayokun Moses Akintunde", "akintundemayokun@gmail.com", "mayor101");
+        IUserProperties mockUserProperties = new UserProperties("Mayokun Moses Akintunde", "person1@gmail.com", "mayor101");
         String rePassword = "mayor101";
 
         try {
@@ -53,7 +53,7 @@ public class UserHandlerIntegrated {
             userHandler.createUser(mockUserProperties, rePassword);
             fail("User creation should fail for empty name");
         } catch (UserHandler.UserCreationException e) {
-            assertEquals("Name cannot be empty", e.getMessage());
+            assertEquals("Full name cannot be empty", e.getMessage());
         }
     }
 
@@ -106,7 +106,7 @@ public class UserHandlerIntegrated {
                 "mayor101",
                 "Male",
                 "456 Side St",
-                "987654321",
+                "9876543210",
                 "1990-01-01",
                 "New Country"
         );
@@ -121,7 +121,7 @@ public class UserHandlerIntegrated {
         // Create a user for testing
         IUserProperties mockUserProperties = new UserProperties(
                 "Mayokun Moses Akintunde",
-                "akintundemayokun@gmail.com",
+                "person2@gmail.com",
                 "mayor101"
         );
         String rePassword = "mayor101";
@@ -135,11 +135,11 @@ public class UserHandlerIntegrated {
         // Update the user profile with an empty password
         IUserProperties updatedUserProperties = new UserProperties(
                 "Mayokun M. Akintunde",
-                "mayorakintunde@gmail.com",
+                "person2@gmail.com",
                 "",
                 "Male",
                 "456 Side St",
-                "987654321",
+                "9876543210",
                 "1990-01-01",
                 "New Country"
         );
@@ -156,7 +156,7 @@ public class UserHandlerIntegrated {
         // Create a user for testing
         IUserProperties mockUserProperties = new UserProperties(
                 "Mayokun Moses Akintunde",
-                "akintundemayokun@gmail.com",
+                "person3@gmail.com",
                 "mayor101"
         );
         String rePassword = "mayor101";

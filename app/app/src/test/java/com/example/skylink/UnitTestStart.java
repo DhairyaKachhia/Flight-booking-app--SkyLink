@@ -5,6 +5,11 @@ import com.example.skylink.UnitTest.AirportPathUnit;
 import com.example.skylink.UnitTest.PaymentHandlerUnit;
 import com.example.skylink.UnitTest.PlaneConfigurationUnit;
 import com.example.skylink.UnitTest.FlightSortingUnit;
+import com.example.skylink.UnitTest.UserHandlerUnit;
+import com.example.skylink.UnitTest.ValidatePassgnDataUnit;
+import com.example.skylink.UnitTest.ValidatePaymentUnit;
+import com.example.skylink.UnitTest.ValidateSearchInputUnit;
+import com.example.skylink.UnitTest.ValidateUserAuthUnit;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
@@ -15,7 +20,12 @@ import org.junit.runners.Suite;
         PassengerDataManagerUnit.class,
         PlaneConfigurationUnit.class,
         FlightSortingUnit.class,
-        PaymentHandlerUnit.class
+        PaymentHandlerUnit.class,
+        UserHandlerUnit.class,
+        ValidateUserAuthUnit.class,
+        ValidateSearchInputUnit.class,
+        ValidatePassgnDataUnit.class,
+        ValidatePaymentUnit.class
 })
 public class UnitTestStart {
     // This class can remain empty

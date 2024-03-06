@@ -125,7 +125,8 @@ public class CustomFlightAdaptor extends BaseAdapter {
         }
 
         econBook.setOnClickListener(v -> {
-            Session.getInstance().setTotalPrice(userInput.getTotalPassengers() * Integer.parseInt(econPrice.getText().toString()));
+            int currTotal = Session.getInstance().getTotalPrice();
+            Session.getInstance().setTotalPrice(currTotal + userInput.getTotalPassengers() * Integer.parseInt(econPrice.getText().toString()));
 
             View parentRow = (View) v.getParent();
             ListView listView = (ListView) parentRow.getParent().getParent().getParent().getParent().getParent();
@@ -160,7 +161,8 @@ public class CustomFlightAdaptor extends BaseAdapter {
         });
 
         busnBook.setOnClickListener(v -> {
-            Session.getInstance().setTotalPrice(userInput.getTotalPassengers() * Integer.parseInt(busnPrice.getText().toString()));
+            int currTotal = Session.getInstance().getTotalPrice();
+            Session.getInstance().setTotalPrice(currTotal + userInput.getTotalPassengers() * Integer.parseInt(busnPrice.getText().toString()));
 
             View parentRow = (View) v.getParent();
             ListView listView = (ListView) parentRow.getParent().getParent().getParent().getParent().getParent();

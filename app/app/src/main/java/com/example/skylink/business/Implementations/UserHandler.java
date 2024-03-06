@@ -44,17 +44,17 @@ public class UserHandler implements IUserHandler {
     public String isValidUserPropertiesForCreation(IUserProperties userProperties) {
 
         String fullNameValidation = userProperties.isValidFullName();
-        if (fullNameValidation != null) {
+        if (fullNameValidation != null && !fullNameValidation.isEmpty()) {
             return fullNameValidation;
         }
 
         String emailValidation = userProperties.isValidEmail();
-        if (emailValidation != null) {
+        if (emailValidation != null && !emailValidation.isEmpty()) {
             return emailValidation;
         }
 
         String passwordValidation = userProperties.isValidPassword();
-        if (passwordValidation != null) {
+        if (passwordValidation != null && !passwordValidation.isEmpty()) {
             return passwordValidation;
         }
         

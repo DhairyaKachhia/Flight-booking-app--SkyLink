@@ -1,92 +1,109 @@
 package com.example.skylink.UnitTest;
 
+import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
 import com.example.skylink.business.Implementations.FlightSorting;
+import com.example.skylink.business.Interface.iFlightSorting;
+import com.example.skylink.objects.Implementations.Flight;
 import com.example.skylink.objects.Interfaces.iFlight;
 import com.example.skylink.persistence.Implementations.stub.FlightStub;
 import com.example.skylink.persistence.Interfaces.IFlightDB;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
 public class FlightSortingUnit {
 
-//    @Test
-//    public void testSortByPrice() {
-//        IFlightDB flightDB = new FlightStub();
-//        FlightSorting sorting = new FlightSorting(FlightSorting.SortingOption.PRICE);
-//
-//        // Assuming departure, arrival, and departure time for testing
-//        String departure = "YYZ";
-//        String arrival = "YUL";
-//        String dept_time = "01/03/2024";
-//
-//        List<iFlight> foundFlights = flightDB.findFlight(departure, arrival, dept_time);
-//
-//        // Sort the found flights using a custom Comparator
-//        Collections.sort(foundFlights, new Comparator<iFlight>() {
-//            @Override
-//            public int compare(iFlight f1, iFlight f2) {
-//                return Integer.compare(f1.getEconPrice(), f2.getEconPrice());
-//            }
-//        });
-//
-//        // Add assertions to check if flights are sorted by price correctly
-//        assertTrue(foundFlights.size() > 0);
-//        for (int i = 0; i < foundFlights.size() - 1; i++) {
-//            assertTrue(foundFlights.get(i).getEconPrice() <= foundFlights.get(i+1).getEconPrice());
-//        }
-//    }
+    private List<List<iFlight>> inner1;
+    private List<List<iFlight>> inner2;
+    private List<List<iFlight>> indirectFlight;
 
-    // Add a test method for sorting by earliest departure with empty flight list
-    @Test
-    public void testSortByEarliestDepartureEmptyList() {
-        IFlightDB flightDB = new FlightStub();
-        FlightSorting sorting = new FlightSorting(FlightSorting.SortingOption.EARLIEST_DEPARTURE);
 
-        // Assuming departure, arrival, and departure time for testing
-        String departure = "YUL";
-        String arrival = "YWG";
-        String dept_time = "01/01/2024"; // Assuming no flights on this date
+    @Before
+    public void setup() {
+        iFlight flight1 = new Flight("AC785", "YVR", "YEG", "08/03/2024 18:47", "12/03/2024 18:47", "Boeing 737", "Gate3", "Gate8", 1000, 1200);
+        iFlight flight2 = new Flight("AC489", "YEG", "YVR", "06/03/2024 18:47", "12/03/2024 18:47", "Boeing 777", "Gate1", "Gate8", 900, 1100);
 
-        List<iFlight> foundFlights = flightDB.findFlight(departure, arrival, dept_time);
+        iFlight flight3 = new Flight("AC392", "YEG", "YHM", "13/03/2024 18:47", "14/03/2024 18:47", "Boeing 777", "Gate9", "Gate9", 700, 950);
 
-        // Add assertion to check if the found flights list is empty
-        assertTrue(foundFlights.isEmpty());
+        List<iFlight> in1 = new ArrayList<>();
+        in1.add(flight1);
+
+        List<iFlight> in2 = new ArrayList<>();
+        in2.add(flight2);
+
+        List<iFlight> in3 = new ArrayList<>();
+        in3.add(flight3);
+
+        inner1 = new ArrayList<>();
+        inner1.add(in1);            // this flight has YVR -> YEG flight
+
+        inner2 = new ArrayList<>();
+        inner2.add(in2);            // this flight has YEG -> YER flight
+
+        indirectFlight = new ArrayList<>();
+        indirectFlight.addAll(inner1);
+        indirectFlight.add(in3);     // this flight has YVR -> YEG -> YHM flights
     }
 
-    // Add a test method for sorting by price with duplicate flights
-//    @Test
-//    public void testSortByPriceDuplicateFlights() {
-//        IFlightDB flightDB = new FlightStub();
-//        FlightSorting sorting = new FlightSorting(FlightSorting.SortingOption.PRICE);
-//
-//        // Assuming departure, arrival, and departure time for testing
-//        String departure = "YYZ";
-//        String arrival = "YUL";
-//        String dept_time = "01/03/2024";
-//
-//        List<iFlight> foundFlights = flightDB.findFlight(departure, arrival, dept_time);
-//
-//        // Add a duplicate flight to the found flights list
-//        iFlight duplicateFlight = foundFlights.get(0);
-//        foundFlights.add(duplicateFlight);
-//
-//        // Sort the found flights using a custom Comparator
-//        Collections.sort(foundFlights, new Comparator<iFlight>() {
-//            @Override
-//            public int compare(iFlight f1, iFlight f2) {
-//                return Integer.compare(f1.getEconPrice(), f2.getEconPrice());
-//            }
-//        });
-//
-//        // Add assertions to check if flights are sorted by price correctly
-//        assertTrue(foundFlights.size() > 0);
-//        for (int i = 0; i < foundFlights.size() - 1; i++) {
-//            assertTrue(foundFlights.get(i).getEconPrice() <= foundFlights.get(i+1).getEconPrice());
-//        }
-//    }
+    @Test
+    public void testSortByEarliestDeparture() {
+        iFlightSorting flightSorting = new FlightSorting(FlightSorting.SortingOption.EARLIEST_DEPARTURE);
+
+        List<List<List<iFlight>>> flightToSort = new ArrayList<>();
+        flightToSort.add(inner1);       // late departure flight added first
+        flightToSort.add(inner2);       // early departure flight added last
+
+        // sorted departure flights
+        List<List<List<iFlight>>> sortedFlightList = new ArrayList<>();
+        sortedFlightList.add(inner2);
+        sortedFlightList.add(inner1);
+
+        flightToSort.sort(flightSorting);      // should sort 'flightToSort' by earliest departure
+
+        assertEquals(flightToSort, sortedFlightList);
+    }
+
+    @Test
+    public void testSortByLowestPrice() {
+        iFlightSorting flightSorting = new FlightSorting(FlightSorting.SortingOption.PRICE);
+
+        List<List<List<iFlight>>> flightToSort = new ArrayList<>();
+        flightToSort.add(inner1);       // high price is on top
+        flightToSort.add(inner2);       // low price is on bottom
+
+        // sorted price flights
+        List<List<List<iFlight>>> sortedFlightList = new ArrayList<>();
+        sortedFlightList.add(inner2);
+        sortedFlightList.add(inner1);
+
+        flightToSort.sort(flightSorting);      // should sort 'flightToSort' by lowest price
+
+        assertEquals(flightToSort, sortedFlightList);
+
+    }
+
+    @Test
+    public void testSortByDirectFlightsFirst() {
+        iFlightSorting flightSorting = new FlightSorting(FlightSorting.SortingOption.DIRECT_FLIGHTS);
+
+        List<List<List<iFlight>>> flightToSort = new ArrayList<>();
+        flightToSort.add(indirectFlight);       // indirect flight added first
+        flightToSort.add(inner2);       // direct flight added last
+
+        // sorted direct flight
+        List<List<List<iFlight>>> sortedFlightList = new ArrayList<>();
+        sortedFlightList.add(inner2);
+        sortedFlightList.add(indirectFlight);
+
+        flightToSort.sort(flightSorting);      // should sort 'flightToSort' by direct flight first
+
+        assertEquals(flightToSort, sortedFlightList);
+
+    }
+
 }

@@ -61,7 +61,7 @@ public class UserHSQLDB implements IUserDB {
     }
 
     public boolean update_user_info(long user_id, IUserProperties user){
-        String sql = "UPDATE USER SET gender=?, address=?, phone=?, date_of_birth=?, country_of_origin=? WHERE user_id=?";
+        String sql = "UPDATE USER SET gender=?, address=?, phone=?, date_of_birth=?, country_of_origin=? WHERE id=?";
 
         try (Connection conn = connect();
              PreparedStatement ps = conn.prepareStatement(sql)) {
