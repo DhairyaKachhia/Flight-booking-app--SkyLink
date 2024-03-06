@@ -1,6 +1,7 @@
 package com.example.skylink.business.validations;
 
-import android.util.Patterns;
+import androidx.core.util.PatternsCompat;       // using this android import to validate email format
+import java.util.regex.Pattern;
 
 public class ValidatePassgnData implements IValidatePassgnData {
 
@@ -41,9 +42,13 @@ public class ValidatePassgnData implements IValidatePassgnData {
     public String validPhoneNum(String phoneNum) {
         String error = "";
 
+        String regex = "\\d{10}";   // checks for 10 digit number
+
+        Pattern phonePattern = Pattern.compile(regex);
+
         if (phoneNum == null || phoneNum.isEmpty()) {
             error = "Phone number cannot be empty";
-        } else if (!android.util.Patterns.PHONE.matcher(phoneNum).matches()) {
+        } else if (!phonePattern.matcher(phoneNum).matches()) {
             error = "Invalid phone number";
         }
 
@@ -56,7 +61,7 @@ public class ValidatePassgnData implements IValidatePassgnData {
 
         if (email == null || email.isEmpty()) {
             error = "Email cannot be empty";
-        } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+        } else if (!PatternsCompat.EMAIL_ADDRESS.matcher(email).matches()) {
             error = "Invalid email";
         }
 
