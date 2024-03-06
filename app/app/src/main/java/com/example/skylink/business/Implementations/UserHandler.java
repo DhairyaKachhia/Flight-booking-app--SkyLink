@@ -95,7 +95,12 @@ public class UserHandler implements IUserHandler {
     }
 
     public boolean updateUserProfile(IUserProperties userProperties) {
-        // Already checked but doesn't hurt to validate
+
+        if (userProperties == null) {
+            return false;
+        }
+
+        // Already checked during sign up activity but doesn't hurt to validate
         String validationMessage = isValidUserPropertiesForUpdate(userProperties);
         if (validationMessage != null) {
             return false;
@@ -114,12 +119,7 @@ public class UserHandler implements IUserHandler {
     }
 
     public boolean signinUser(IUserProperties userProperties) {
-        // Validate user properties
-        String validationMessage = isValidUserPropertiesForCreation(userProperties);
-        if (validationMessage != null) {
-            return false;
-        }
-        
+
         String email = userProperties.getEmail();
         String providedPassword = userProperties.getPassword();
 
