@@ -1,32 +1,34 @@
-package com.example.skylink;
+package com.example.skylink.IntegrationTest;
 
-import com.example.skylink.business.Implementations.PlaneConfiguration;
-import com.example.skylink.objects.Implementations.Aircraft;
-import com.example.skylink.persistence.Implementations.stub.FlightStub;
-import com.example.skylink.persistence.Interfaces.IFlightDB;
-import com.example.skylink.objects.Interfaces.iAircraft;
-import org.junit.Before;
-import org.junit.Test;
-
-import java.util.HashMap;
-import java.util.Map;
-
-import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
-public class PlaneConfigurationUnit {
 
-    private IFlightDB mockFlightDB;
+import com.example.skylink.TestUtils;
+import com.example.skylink.business.Implementations.PlaneConfiguration;
+
+import org.junit.Before;
+import org.junit.Test;
+
+import java.io.File;
+import java.io.IOException;
+
+public class PlaneConfigurationIntegrated {
 
     private PlaneConfiguration planeConfiguration;
+    private File tempDB;
 
     @Before
-    public void setUp() {
-        mockFlightDB = new FlightStub();
-        planeConfiguration = new PlaneConfiguration(mockFlightDB);
+    public void setUp() throws IOException {
+        System.out.println("Starting integration test for Passenger Database");
+        this.tempDB = TestUtils.copyDB();
+        this.planeConfiguration = new PlaneConfiguration(true);
+        assertNotNull(planeConfiguration);
     }
+
+
+
     @Test
     public void testGetPlaneConfigurationWithValidInput() {
         // Test with valid aircraft name and seat type

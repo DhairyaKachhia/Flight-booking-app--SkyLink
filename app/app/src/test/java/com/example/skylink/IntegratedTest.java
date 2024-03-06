@@ -1,5 +1,9 @@
 package com.example.skylink;
 
+import com.example.skylink.IntegrationTest.AirportPathIntegrated;
+import com.example.skylink.IntegrationTest.PassengerDataManagerIntegrated;
+import com.example.skylink.IntegrationTest.PlaneConfigurationIntegrated;
+
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 

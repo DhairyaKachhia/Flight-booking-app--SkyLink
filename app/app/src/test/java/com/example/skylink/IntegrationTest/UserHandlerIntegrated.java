@@ -1,36 +1,45 @@
-package com.example.skylink;
+package com.example.skylink.IntegrationTest;
 
-import com.example.skylink.business.Implementations.UserHandler;
-import com.example.skylink.objects.Implementations.UserProperties;
-import com.example.skylink.objects.Interfaces.IUserProperties;
-import com.example.skylink.persistence.Interfaces.IUserDB;
-import org.junit.Before;
-import com.example.skylink.persistence.Implementations.stub.UserStub;
-import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-public class UserHandlerUnit {
-    private IUserDB userStub;
-    private UserHandler userHandler;
+import com.example.skylink.TestUtils;
+import com.example.skylink.application.Services;
+import com.example.skylink.business.Implementations.UserHandler;
+import com.example.skylink.business.Interface.IUserHandler;
+import com.example.skylink.objects.Implementations.UserProperties;
+import com.example.skylink.objects.Interfaces.IUserProperties;
+import com.example.skylink.persistence.Interfaces.IUserDB;
+
+import org.junit.Before;
+import org.junit.Test;
+
+import java.io.File;
+import java.io.IOException;
+
+public class UserHandlerIntegrated {
+    private IUserHandler userHandler;
+    private File tempDB;
 
     @Before
-    public void setUp() {
-        userStub = new UserStub();
-        userHandler = new UserHandler(userStub);
+    public void setUp() throws IOException {
+        System.out.println("Starting integration test for User Handler");
+        this.tempDB = TestUtils.copyDB();
+        this.userHandler = new UserHandler(true);
+        assertNotNull(userHandler);
+
     }
 
     @Test
     public void testCreateUser_Success() {
-        // Mock data
         IUserProperties mockUserProperties = new UserProperties("Mayokun Moses Akintunde", "akintundemayokun@gmail.com", "mayor101");
         String rePassword = "mayor101";
 
         try {
-            // Perform the test
             userHandler.createUser(mockUserProperties, rePassword);
         } catch (UserHandler.UserCreationException e) {
             fail("Exception should not be thrown");
@@ -39,43 +48,32 @@ public class UserHandlerUnit {
 
     @Test
     public void testCreateUser_EmptyName() {
-        // Mock data
         IUserProperties mockUserProperties = new UserProperties("", "akintundemayokun@gmail.com", "mayor101");
         String rePassword = "mayor101";
 
         try {
-            // Perform the test
             userHandler.createUser(mockUserProperties, rePassword);
-
-            // If createUser does not throw an exception, the test should fail
             fail("User creation should fail for empty name");
         } catch (UserHandler.UserCreationException e) {
-            // If createUser throws an exception, the test passes
-            assertEquals("Invalid user properties", e.getMessage());
+            assertEquals("Name cannot be empty", e.getMessage());
         }
     }
 
     @Test
     public void testCreateUser_InvalidEmailFormat() {
-        // Mock data
         IUserProperties mockUserProperties = new UserProperties("Mayokun Moses Akintunde", "invalidemail", "mayor101");
         String rePassword = "mayor101";
 
         try {
-            // Perform the test
             userHandler.createUser(mockUserProperties, rePassword);
-
-            // If createUser does not throw an exception, the test should fail
             fail("User creation should fail for invalid email format");
         } catch (UserHandler.UserCreationException e) {
-            // If createUser throws an exception, the test passes
-            assertEquals("Invalid user properties", e.getMessage());
+            assertEquals("Invalid email format", e.getMessage());
         }
     }
 
     @Test
     public void testCreateUser_PasswordMismatch() {
-        // Mock data
         IUserProperties mockUserProperties = new UserProperties("Mayokun Moses Akintunde", "akintundemayokun@gmail.com", "mayor101");
         String rePassword = "differentPassword";
 
@@ -96,6 +94,7 @@ public class UserHandlerUnit {
                 "mayor101"
         );
         String rePassword = "mayor101";
+
         try {
             userHandler.createUser(mockUserProperties, rePassword);
         } catch (UserHandler.UserCreationException e) {
@@ -128,6 +127,7 @@ public class UserHandlerUnit {
                 "mayor101"
         );
         String rePassword = "mayor101";
+
         try {
             userHandler.createUser(mockUserProperties, rePassword);
         } catch (UserHandler.UserCreationException e) {
@@ -162,6 +162,7 @@ public class UserHandlerUnit {
                 "mayor101"
         );
         String rePassword = "mayor101";
+
         try {
             userHandler.createUser(mockUserProperties, rePassword);
         } catch (UserHandler.UserCreationException e) {

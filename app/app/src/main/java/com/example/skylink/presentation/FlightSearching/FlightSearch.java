@@ -24,7 +24,7 @@ import com.example.skylink.business.Implementations.AirportPath;
 import com.example.skylink.business.Interface.iAirportPath;
 import com.example.skylink.business.validations.IValidateSearchInput;
 import com.example.skylink.business.validations.ValidateSearchInput;
-import com.example.skylink.business.Implementations.Session;
+import com.example.skylink.objects.Session;
 import com.example.skylink.objects.Interfaces.iCity;
 import com.example.skylink.objects.Interfaces.iFlight;
 import com.example.skylink.objects.Interfaces.iFlightSearch;
@@ -72,8 +72,8 @@ public class FlightSearch extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setupHamburgerMenuNav();
         setContentView(R.layout.activity_main);
+        setupHamburgerMenuNav();
         initializeViews();
         setupAutoCompleteListeners();
         setupDatePickers();

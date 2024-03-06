@@ -9,6 +9,9 @@ import java.util.Map;
 
 public class PlaneConfiguration implements iPlaneConfiguration {
     IFlightDB flightHSQLDB;
+    public PlaneConfiguration(boolean forProduction){
+        this.flightHSQLDB = Services.getFlightDatabase();
+    }
     public PlaneConfiguration(IFlightDB flightHSQLDB){
         this.flightHSQLDB = flightHSQLDB;
     }

@@ -8,7 +8,7 @@ import android.widget.Button;
 
 import com.example.skylink.R;
 import com.example.skylink.application.Services;
-import com.example.skylink.business.Implementations.Session;
+import com.example.skylink.objects.Session;
 import com.example.skylink.business.Implementations.UserHandler;
 import com.example.skylink.business.Interface.IUserHandler;
 import com.example.skylink.objects.Interfaces.IUserProperties;

@@ -1,16 +1,13 @@
 package com.example.skylink.persistence.Implementations.hsqldb;
 
-import android.content.Context;
 import android.content.res.AssetManager;
 
-import com.example.skylink.business.Implementations.Session;
+import com.example.skylink.objects.Session;
 import com.example.skylink.objects.Implementations.Aircraft;
 import com.example.skylink.objects.Implementations.Flight;
 import com.example.skylink.objects.Interfaces.iAircraft;
 import com.example.skylink.objects.Interfaces.iFlight;
 import com.example.skylink.persistence.Interfaces.IFlightDB;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.jgrapht.Graph;
 import org.jgrapht.graph.DefaultWeightedEdge;
@@ -24,14 +21,12 @@ import java.nio.charset.StandardCharsets;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 
 
 public class FlightHSQLDB implements IFlightDB {
-    
+
     private final String dbPath;
 
 
@@ -78,7 +73,7 @@ public class FlightHSQLDB implements IFlightDB {
 
 
 
-    private final String CREATE_TABLE = "CREATE TABLE FLIGHTS("
+    private final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS FLIGHTS("
             + "flightNumber VARCHAR(10) PRIMARY KEY, "
             + "departure_icao VARCHAR(4), "
             + "arrival_icao VARCHAR(4), "
@@ -91,7 +86,7 @@ public class FlightHSQLDB implements IFlightDB {
             + "busnPrice INT"
             + ")";
 
-    private final String CREATE_AIRCRAFT_TABLE = "CREATE TABLE AIRCRAFTS("
+    private final String CREATE_AIRCRAFT_TABLE = "CREATE TABLE IF NOT EXISTS AIRCRAFTS("
             + "aircraftName VARCHAR(50) PRIMARY KEY, "
             + "numSeatPerRowBusiness INT, "
             + "numRowsBusiness INT, "
@@ -111,7 +106,7 @@ public class FlightHSQLDB implements IFlightDB {
     }
 
     private Connection connect() throws SQLException {
-        return DriverManager.getConnection("jdbc:hsqldb:file:" + dbPath, "SA", "");
+        return DriverManager.getConnection("jdbc:hsqldb:file:" + dbPath + ";shutdown=true", "SA", "");
     }
 
     private void addAirportsAndDistances() {
@@ -133,67 +128,51 @@ public class FlightHSQLDB implements IFlightDB {
         airportGraph.setEdgeWeight(edge, weight);
     }
 
-    public void addFlightsPC(InputStream inputStream) throws IOException {
-        // Read the contents of the SQL file using a BufferedReader
-        StringBuilder stringBuilder = new StringBuilder();
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                stringBuilder.append(line).append('\n');
-            }
-        }
+    @Override
+    public void addFlights() {
 
-        String sqlScript = stringBuilder.toString();
+    }
+
+
+
+    public List<iFlight> findAllFlights() {
+        List<iFlight> results = new ArrayList<>();
+
+        String sql = "SELECT * FROM FLIGHTS";
 
         try (Connection conn = connect();
-             Statement stmt = conn.createStatement()) {
-            // Execute the SQL script directly
-            stmt.execute(sqlScript);
-        } catch (SQLException ex) {
-            throw new RuntimeException(ex);
-        }
+             Statement statement = conn.createStatement();
+             ResultSet rs = statement.executeQuery(sql)) {
 
-        // Close the InputStream
-        inputStream.close();
-    }
-
-
-
-    public void addFlights() {
-        try {
-            AssetManager assetManager = Session.getInstance().getContext().getAssets();
-            InputStream inputStream = assetManager.open("flights.sql");
-
-            // Read the contents of the SQL file using a BufferedReader
-            StringBuilder stringBuilder = new StringBuilder();
-            try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8))) {
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    stringBuilder.append(line).append('\n');
-                }
+            while (rs.next()) {
+                results.add(new Flight(
+                        rs.getString("flightNumber"),
+                        rs.getString("departure_icao"),
+                        rs.getString("arrival_icao"),
+                        rs.getString("flight_dept_date_time"),
+                        rs.getString("flight_arr_date_time"),
+                        rs.getString("airCraft_Type"),
+                        rs.getString("departure_Gate"),
+                        rs.getString("arr_Gate"),
+                        rs.getInt("econPrice"),
+                        rs.getInt("busnPrice")
+                ));
             }
 
-            String sqlScript = stringBuilder.toString();
-
-            try (Connection conn = connect();
-                 Statement stmt = conn.createStatement()) {
-                // Execute the SQL script directly
-                stmt.execute(sqlScript);
-            }
-
-            // Close the InputStream
-            inputStream.close();
-        } catch (IOException | SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
-    }
 
+        return results;
+    }
 
 
     @Override
     public List<iFlight> findFlight(String departure, String arrival, String dept_time) {
         List<iFlight> results = new ArrayList<>();
 
+        List<iFlight> flights = findAllFlights();
+        System.out.print(flights);
         String sql = "SELECT * FROM FLIGHTS WHERE departure_icao = ? AND arrival_icao = ? AND flight_dept_date_time LIKE ?";
 
         try (Connection conn = connect();
@@ -224,7 +203,6 @@ public class FlightHSQLDB implements IFlightDB {
 
         return results;
     }
-
 
     private void addAircrafts() {
         addAircraft("Boeing 737", 5, 7, 7, 13);
@@ -259,7 +237,6 @@ public class FlightHSQLDB implements IFlightDB {
     public FlightHSQLDB initialize() {
         try (Connection conn = connect();
              Statement stmt = conn.createStatement()) {
-            this.drop();
             stmt.executeUpdate(CREATE_TABLE);
             stmt.executeUpdate(CREATE_AIRCRAFT_TABLE);
 

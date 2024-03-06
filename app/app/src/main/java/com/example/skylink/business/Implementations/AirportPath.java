@@ -10,6 +10,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.example.skylink.application.Services;
 import com.example.skylink.business.Interface.iAirportPath;
 import com.example.skylink.objects.Interfaces.iFlight;
 import com.example.skylink.objects.Interfaces.iFlightSearch;
@@ -18,6 +19,14 @@ import com.example.skylink.persistence.Interfaces.IFlightDB;
 public class AirportPath implements iAirportPath {
     IFlightDB flightHSQLDB;
     Graph<String, DefaultWeightedEdge> airportGraph;
+
+
+
+    public AirportPath(boolean forProduction){
+        this.flightHSQLDB = Services.getFlightDatabase();
+        this.airportGraph = flightHSQLDB.getAirportGraph();
+    }
+
 
     public AirportPath(IFlightDB flightHSQLDB, Graph<String, DefaultWeightedEdge> airportGraph) {
         this.flightHSQLDB = flightHSQLDB;
@@ -122,7 +131,20 @@ public class AirportPath implements iAirportPath {
         return reversedPaths;
     }
 
+    private boolean isValidFlightSearch(iFlightSearch flightSearch) {
+        // Add your validation logic here
+        // For example, check if required fields are not null or empty
+        return flightSearch.getFlightDept() != null && !flightSearch.getFlightDept().isEmpty()
+                && flightSearch.getFlightArrival() != null && !flightSearch.getFlightArrival().isEmpty()
+                && flightSearch.getFlightDeptDate() != null && !flightSearch.getFlightDeptDate().isEmpty()
+                && flightSearch.getTotalPassengers() > 0;  // Add more conditions as needed
+    }
+
+
     public HashMap< String,List<List<List<iFlight>>>> findFlights(iFlightSearch flightSearch) {
+        if (!isValidFlightSearch(flightSearch)) {
+            return null;
+        }
         HashMap<String, List<List<List<iFlight>>>> itinerary = new HashMap<>();
         List<List<String>> findAllPossiblePathsFromOriginToDestination = findAllPaths(flightSearch.getFlightDept(), flightSearch.getFlightArrival());
         List<List<List<iFlight>>> outBoundFlights = findFlight(flightSearch.getFlightDeptDate(),findAllPossiblePathsFromOriginToDestination);

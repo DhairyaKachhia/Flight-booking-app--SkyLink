@@ -1,4 +1,4 @@
-package com.example.skylink.business.Implementations;
+package com.example.skylink.objects;
 
 import android.content.Context;
 
