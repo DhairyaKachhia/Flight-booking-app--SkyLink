@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 import com.example.skylink.R;
 import com.example.skylink.business.Implementations.FlightSorting;
-import com.example.skylink.objects.Session;
+import com.example.skylink.presentation.Session;
 import com.example.skylink.business.Interface.iFlightSorting;
 import com.example.skylink.objects.Implementations.Flights;
 import com.example.skylink.objects.Implementations.Flight;

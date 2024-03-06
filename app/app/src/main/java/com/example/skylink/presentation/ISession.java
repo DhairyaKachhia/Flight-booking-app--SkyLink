@@ -1,4 +1,4 @@
-package com.example.skylink.objects;
+package com.example.skylink.presentation;
 import android.content.Context;
 
 import com.example.skylink.objects.Interfaces.iFlight;

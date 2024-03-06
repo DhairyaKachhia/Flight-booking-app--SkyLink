@@ -3,7 +3,7 @@ package com.example.skylink.business.Implementations;
 import com.example.skylink.application.Services;
 import com.example.skylink.business.Interface.IUserHandler;
 import com.example.skylink.objects.Interfaces.IUserProperties;
-import com.example.skylink.objects.Session;
+import com.example.skylink.presentation.Session;
 import com.example.skylink.persistence.Interfaces.IUserDB;
 import org.mindrot.jbcrypt.BCrypt;
 

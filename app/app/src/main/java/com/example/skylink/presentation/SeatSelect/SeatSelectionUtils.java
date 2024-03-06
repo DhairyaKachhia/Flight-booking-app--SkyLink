@@ -9,14 +9,13 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Space;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.skylink.R;
 import com.example.skylink.application.Services;
 import com.example.skylink.business.Implementations.PlaneConfiguration;
-import com.example.skylink.objects.Session;
+import com.example.skylink.presentation.Session;
 import com.example.skylink.business.Interface.iPlaneConfiguration;
 import com.example.skylink.objects.Interfaces.iFlight;
 import com.example.skylink.objects.Interfaces.iPassengerData;

@@ -1,8 +1,5 @@
 package com.example.skylink.persistence.Implementations.hsqldb;
 
-import android.content.res.AssetManager;
-
-import com.example.skylink.objects.Session;
 import com.example.skylink.objects.Implementations.Aircraft;
 import com.example.skylink.objects.Implementations.Flight;
 import com.example.skylink.objects.Interfaces.iAircraft;
@@ -13,11 +10,6 @@ import org.jgrapht.Graph;
 import org.jgrapht.graph.DefaultWeightedEdge;
 import org.jgrapht.graph.DirectedWeightedMultigraph;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
