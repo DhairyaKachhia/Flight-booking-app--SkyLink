@@ -2,7 +2,6 @@ package com.example.skylink.objects;
 
 import android.content.Context;
 
-import com.example.skylink.business.Interface.iPayment;
 import com.example.skylink.objects.Interfaces.iFlight;
 import com.example.skylink.objects.Interfaces.iFlightSearch;
 import com.example.skylink.objects.Interfaces.iPassengerData;
@@ -16,31 +15,25 @@ public class Session implements ISession {
     private static Session instance;
     private String username;
     private String email;
-
-    // Temporary storage for flights and bookings
     private iFlightSearch flightSearch;
-
     private int totalPrice;
-
     private List<iPassengerData> passengerData;
-
-    private iPayment pay;
-
-    public iPayment getPay() {
-        return pay;
-    }
-
-    public void setPay(iPayment pay) {
-        this.pay = pay;
-    }
-
     private HashMap<iPassengerData, String> seatMap;
-
     private Map<String, String> priceType;
-
     public Map<String, String> getpriceType() {
         return priceType;
     }
+    private Context context;
+    HashMap<String, List<List<List<iFlight>>>> flightPathResults;
+    private String  cardNum, expiryDate, cvv, cardholderName, billingAddress;
+
+
+
+
+
+
+
+
 
     public void setpriceType(String key, String value) {
         if (priceType == null) {
@@ -48,7 +41,6 @@ public class Session implements ISession {
         }
         priceType.put(key, value);
     }
-
 
     public HashMap<iPassengerData, String> getSeatMap() {
         return seatMap;
@@ -68,18 +60,10 @@ public class Session implements ISession {
         this.context = context;
     }
 
-    private Context context;
-
-
-
-
-    HashMap<String, List<List<List<iFlight>>>> flightPathResults;
-
     private long user_id;
 
     private Session() {
         // Private constructor to prevent instantiation
-
     }
 
     public static synchronized Session getInstance() {
@@ -88,8 +72,6 @@ public class Session implements ISession {
         }
         return instance;
     }
-
-
 
     public List<iPassengerData> getPassengerData() {
         return passengerData;
@@ -133,8 +115,6 @@ public class Session implements ISession {
         this.flightPathResults = flightPathResults;
     }
 
-
-
     public String getUsername() {
         return username;
     }
@@ -159,13 +139,10 @@ public class Session implements ISession {
         this.selectedFlights = selectedFlights;
     }
 
-
     /*
     *   Storing Payment info:
     *      cardNum, expiryDate, cvv, cardholderName, billingAddress
     */
-
-    private String  cardNum, expiryDate, cvv, cardholderName, billingAddress;
 
     @Override
     public String getCardNum() {

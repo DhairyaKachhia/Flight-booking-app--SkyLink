@@ -133,8 +133,6 @@ public class FlightHSQLDB implements IFlightDB {
 
     }
 
-
-
     @Override
     public List<iFlight> findFlight(String departure, String arrival, String dept_time) {
         List<iFlight> results = new ArrayList<>();
