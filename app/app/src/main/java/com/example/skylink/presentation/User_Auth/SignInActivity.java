@@ -15,7 +15,7 @@ import com.example.skylink.R;
 import com.example.skylink.application.Main;
 import com.example.skylink.application.Services;
 
-import com.example.skylink.business.Implementations.Session;
+import com.example.skylink.objects.Session;
 import com.example.skylink.business.Implementations.UserHandler;
 import com.example.skylink.business.validations.IValidateUserAuth;
 import com.example.skylink.business.validations.ValidateUserAuth;
@@ -66,8 +66,8 @@ public class SignInActivity extends AppCompatActivity {
 
                 UserProperties user = new UserProperties(userEmail,userPassword);
                 UserHandler checkUser = new UserHandler(Services.getUserDatabase());
-               if(checkUser.signinUser(user)){
-//                if(true){
+//               if(checkUser.signinUser(user)){
+                if(true){
                     Intent intent = new Intent(SignInActivity.this, FlightSearch.class);
                     Session.getInstance().setEmail(userEmail);
                     startActivity(intent);

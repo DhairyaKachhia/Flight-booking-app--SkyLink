@@ -58,8 +58,6 @@ public class PaymentHSQLDB implements IPaymentDB {
     public IPaymentDB initialize() {
         try (Connection conn = connect();
              Statement stmt = conn.createStatement()) {
-
-            this.drop();
             stmt.executeUpdate(CREATE_TABLE);
 
         } catch (SQLException e) {

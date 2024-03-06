@@ -1,19 +1,19 @@
-package com.example.skylink;
+package com.example.skylink.IntegrationTest;
 
-import org.junit.Test;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 import com.example.skylink.business.Implementations.FlightSorting;
 import com.example.skylink.objects.Interfaces.iFlight;
 import com.example.skylink.persistence.Implementations.stub.FlightStub;
 import com.example.skylink.persistence.Interfaces.IFlightDB;
 
+import org.junit.Test;
+
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-public class FlightSortingTest {
-
+public class FlightSortingIntegratedTest {
     @Test
     public void testSortByPrice() {
         IFlightDB flightDB = new FlightStub();
