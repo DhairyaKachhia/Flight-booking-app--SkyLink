@@ -22,64 +22,87 @@ public class UpdateUserProfileActivity extends AppCompatActivity {
 
     private EditText address, city, province, phone, dateOfBirth, gender;
     private Button submit;
+    IUserHandler handler;
+    IUserProperties user;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update_user_profile);
-        
+        initializeViews();
+        handler = new UserHandler(Services.getUserDatabase());
+        fetchUserData();
+        setupSubmitClickListener();
+
+        submit = findViewById(R.id.btnSubmit);
+    }
+
+
+
+    private void setupSubmitClickListener() {
+        submit.setOnClickListener(v -> {
+            handleSubmitClick();
+        });
+    }
+
+
+    private void handleSubmitClick() {
+        String addressText = address.getText().toString();
+        String cityText = city.getText().toString();
+        String provinceText = province.getText().toString();
+        String phoneText = phone.getText().toString();
+        String dobText = dateOfBirth.getText().toString();
+        String genderText = gender.getText().toString();
+
+        if (addressText.isEmpty() || cityText.isEmpty() || provinceText.isEmpty() || phoneText.isEmpty() || dobText.isEmpty() || genderText.isEmpty()) {
+            Toast.makeText(UpdateUserProfileActivity.this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        updateUserProfile(addressText, cityText, provinceText, phoneText, dobText, genderText);
+
+        Toast.makeText(UpdateUserProfileActivity.this, "Profile updated successfully", Toast.LENGTH_SHORT).show();
+
+        Intent flightSearchIntent = new Intent(UpdateUserProfileActivity.this, FlightSearchP.class);
+        startActivity(flightSearchIntent);
+    }
+
+    private void updateUserProfile(String addressText, String cityText, String provinceText, String phoneText, String dobText, String genderText) {
+        user.setAddress(addressText + ", " + cityText + ", " + provinceText);
+        user.setPhone(phoneText);
+        user.setDateOfBirth(dobText);
+        user.setGender(genderText);
+        handler.updateUserProfile(user);
+    }
+
+    private void initializeViews() {
         address = findViewById(R.id.etAddress);
         city = findViewById(R.id.etCity);
         province = findViewById(R.id.etProvince);
         phone = findViewById(R.id.etPhone);
         dateOfBirth = findViewById(R.id.etDoB);
         gender = findViewById(R.id.etGender);
-
         submit = findViewById(R.id.btnSubmit);
-
-        // Get the Intent that started this activity and extract the email
-        Intent intent = getIntent();
-
+    }
+    private void fetchUserData() {
         String userEmail = Session.getInstance().getEmail();
 
-        // Fetch the user from the database
-        IUserHandler handler = new UserHandler(Services.getUserDatabase());
-        IUserProperties user = handler.getUserByEmail(userEmail);
-        
+        user = handler.getUserByEmail(userEmail);
+
         if (user != null) {
-            String userName = user.getFullName();
-            TextView tvWelcomeTitle = findViewById(R.id.tvWelcomeTitle);
-            tvWelcomeTitle.setText("Hello, " + user.getFullName());
+            updateWelcomeMessage(user.getFullName());
         } else {
-            Toast.makeText(this, "User not found", Toast.LENGTH_SHORT).show();
-            Intent fallbackIntent = new Intent(this, SignUpActivity.class);
-            startActivity(fallbackIntent);
+            handleUserNotFound();
         }
-
-        submit.setOnClickListener(v -> {
-
-            String addressText = address.getText().toString();
-            String cityText = city.getText().toString();
-            String provinceText = province.getText().toString();
-            String phoneText = phone.getText().toString();
-            String dobText = dateOfBirth.getText().toString();
-            String genderText = gender.getText().toString();
-
-            if (addressText.isEmpty() || cityText.isEmpty() || provinceText.isEmpty() || phoneText.isEmpty() || dobText.isEmpty() || genderText.isEmpty()) {
-                Toast.makeText(UpdateUserProfileActivity.this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-            user.setAddress(addressText + ", " + cityText + ", " + provinceText);
-            user.setPhone(phoneText);
-            user.setDateOfBirth(dobText);
-            user.setGender(genderText);
-
-            handler.updateUserProfile(user);
-
-            Toast.makeText(UpdateUserProfileActivity.this, "Profile updated successfully", Toast.LENGTH_SHORT).show();
-
-            Intent flightSearchIntent = new Intent(UpdateUserProfileActivity.this, FlightSearchP.class);
-            startActivity(flightSearchIntent);
-        });
     }
+    private void updateWelcomeMessage(String userName) {
+        TextView tvWelcomeTitle = findViewById(R.id.tvWelcomeTitle);
+        tvWelcomeTitle.setText("Hello, " + userName);
+    }
+
+    private void handleUserNotFound() {
+        Toast.makeText(this, "User not found", Toast.LENGTH_SHORT).show();
+        Intent fallbackIntent = new Intent(this, SignUpActivity.class);
+        startActivity(fallbackIntent);
+    }
+
 }
