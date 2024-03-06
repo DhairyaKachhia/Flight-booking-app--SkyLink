@@ -1,7 +1,5 @@
 package com.example.skylink.business.validations;
 
-import android.util.Patterns;
-
 import java.time.LocalDate;
 
 public class ValidatePayment implements IValidatePayment{
@@ -88,7 +86,7 @@ public class ValidatePayment implements IValidatePayment{
         }
 
         // Get the current year and month
-        int currentYear = CURR_YEAR;
+        int currentYear = CURR_YEAR - 2000;     // get last 2 digits of the year
         int currentMonth = CURR_MONTH;
 
         // checks if android version is greater than 24.
