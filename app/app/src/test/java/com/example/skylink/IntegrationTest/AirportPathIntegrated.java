@@ -5,8 +5,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
-import com.example.skylink.TestUtils;
-import com.example.skylink.application.Services;
+import com.example.skylink.TestUtils.TestUtils;
 import com.example.skylink.business.Implementations.AirportPath;
 import com.example.skylink.business.Interface.iAirportPath;
 import com.example.skylink.objects.Implementations.FlightSearch;

@@ -6,16 +6,12 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
-import com.example.skylink.TestUtils;
-import com.example.skylink.application.Services;
-import com.example.skylink.business.Implementations.AirportPath;
+import com.example.skylink.TestUtils.TestUtils;
 import com.example.skylink.business.Implementations.PassengerDataManager;
 import com.example.skylink.objects.Interfaces.iPassengerData;
 import com.example.skylink.persistence.Interfaces.iBookingDB;
-import com.example.skylink.presentation.User_Auth.SignInActivity;
 
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
 
 import java.io.File;

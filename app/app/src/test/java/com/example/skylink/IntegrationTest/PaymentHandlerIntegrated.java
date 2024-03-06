@@ -2,13 +2,10 @@ package com.example.skylink.IntegrationTest;
 
 import static org.junit.Assert.*;
 
-import com.example.skylink.TestUtils;
-import com.example.skylink.application.Services;
-import com.example.skylink.business.Implementations.PassengerDataManager;
+import com.example.skylink.TestUtils.TestUtils;
 import com.example.skylink.business.Implementations.PaymentHandler;
 import com.example.skylink.objects.Implementations.TripInvoice;
-import com.example.skylink.objects.Session;
-import com.example.skylink.persistence.Implementations.stub.PaymentStub;
+
 import org.junit.Before;
 import org.junit.Test;
 

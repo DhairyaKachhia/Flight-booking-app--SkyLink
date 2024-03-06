@@ -1,4 +1,4 @@
-package com.example.skylink;
+package com.example.skylink.TestUtils;
 
 import com.example.skylink.application.Main;
 import com.google.common.io.Files;

@@ -7,13 +7,11 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import com.example.skylink.TestUtils;
-import com.example.skylink.application.Services;
+import com.example.skylink.TestUtils.TestUtils;
 import com.example.skylink.business.Implementations.UserHandler;
 import com.example.skylink.business.Interface.IUserHandler;
 import com.example.skylink.objects.Implementations.UserProperties;
 import com.example.skylink.objects.Interfaces.IUserProperties;
-import com.example.skylink.persistence.Interfaces.IUserDB;
 
 import org.junit.Before;
 import org.junit.Test;
