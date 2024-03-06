@@ -27,14 +27,6 @@ public class Session implements ISession {
     HashMap<String, List<List<List<iFlight>>>> flightPathResults;
     private String  cardNum, expiryDate, cvv, cardholderName, billingAddress;
 
-
-
-
-
-
-
-
-
     public void setpriceType(String key, String value) {
         if (priceType == null) {
             priceType = new HashMap<>();
