@@ -39,7 +39,7 @@ public class SignInActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sign_in);
 
         copyDatabaseToDevice();
-        Services.setup(this);
+//        Services.setup(this);
         Session.getInstance().setContext(this);
         IFlightDB db = Services.getFlightDatabase();
         db.addFlights();
