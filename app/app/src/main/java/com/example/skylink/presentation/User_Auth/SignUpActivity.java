@@ -11,7 +11,7 @@ import android.widget.Toast;
 
 import com.example.skylink.R;
 import com.example.skylink.application.Services;
-import com.example.skylink.objects.Session;
+import com.example.skylink.presentation.Session;
 import com.example.skylink.business.Interface.IUserHandler;
 import com.example.skylink.business.Implementations.UserHandler;
 import com.example.skylink.business.validations.IValidateUserAuth;
@@ -29,39 +29,64 @@ public class SignUpActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
+        initializeViews();
+        setupSignInClickListener();
+        setupSignUpClickListener();
+    }
+
+    private void initializeViews() {
         fullname = findViewById(R.id.etFullname);
         email = findViewById(R.id.etEmail);
         password = findViewById(R.id.etPassword);
         retypePassword = findViewById(R.id.etRePassword);
+    }
 
+    private void setupSignInClickListener() {
         signIn = findViewById(R.id.tvSignInClick);
         signIn.setOnClickListener(v -> {
-            Intent intent = new Intent(SignUpActivity.this, SignInActivity.class);
-            startActivity(intent);
+            navigateToSignInActivity();
         });
+    }
 
+    private void navigateToSignInActivity() {
+        Intent intent = new Intent(SignUpActivity.this, SignInActivity.class);
+        startActivity(intent);
+    }
 
+    private void setupSignUpClickListener() {
         signUp = findViewById(R.id.btnSignUp);
         signUp.setOnClickListener(v -> {
-            if (validInputs()) {
-                String userFullname = fullname.getText().toString();
-                String userEmail = email.getText().toString();
-                String userPassword = password.getText().toString();
-                String userRePassword = retypePassword.getText().toString();
-
-                IUserProperties user = new UserProperties(userFullname, userEmail, userPassword);
-                IUserHandler handler = new UserHandler(Services.getUserDatabase());
-
-                try {
-                    handler.createUser(user, userRePassword);
-                    Session.getInstance().setEmail(userEmail);
-                    Intent intent = new Intent(SignUpActivity.this, UpdateUserProfileActivity.class);
-                    startActivity(intent);
-                } catch (UserHandler.UserCreationException e) {
-                    Toast.makeText(SignUpActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            }
+            attemptSignUp();
         });
+    }
+
+    private void attemptSignUp() {
+        if (validInputs()) {
+            String userFullname = fullname.getText().toString();
+            String userEmail = email.getText().toString();
+            String userPassword = password.getText().toString();
+            String userRePassword = retypePassword.getText().toString();
+
+            IUserProperties user = new UserProperties(userFullname, userEmail, userPassword);
+            IUserHandler handler = new UserHandler(Services.getUserDatabase());
+
+            try {
+                handler.createUser(user, userRePassword);
+                Session.getInstance().setEmail(userEmail);
+                navigateToUpdateUserProfileActivity();
+            } catch (UserHandler.UserCreationException e) {
+                showErrorMessage(e.getMessage());
+            }
+        }
+    }
+
+    private void navigateToUpdateUserProfileActivity() {
+        Intent intent = new Intent(SignUpActivity.this, UpdateUserProfileActivity.class);
+        startActivity(intent);
+    }
+
+    private void showErrorMessage(String message) {
+        Toast.makeText(SignUpActivity.this, message, Toast.LENGTH_SHORT).show();
     }
 
     // client side validation..

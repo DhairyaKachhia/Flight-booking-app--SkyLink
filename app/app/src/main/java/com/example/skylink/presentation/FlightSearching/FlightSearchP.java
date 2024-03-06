@@ -25,7 +25,7 @@ import com.example.skylink.business.Interface.iAirportPath;
 import com.example.skylink.business.validations.IValidateSearchInput;
 import com.example.skylink.business.validations.ValidateSearchInput;
 import com.example.skylink.objects.Implementations.FlightSearch;
-import com.example.skylink.objects.Session;
+import com.example.skylink.presentation.Session;
 import com.example.skylink.objects.Interfaces.iCity;
 import com.example.skylink.objects.Interfaces.iFlight;
 import com.example.skylink.objects.Interfaces.iFlightSearch;

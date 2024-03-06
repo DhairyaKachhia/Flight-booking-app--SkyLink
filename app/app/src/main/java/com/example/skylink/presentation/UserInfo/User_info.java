@@ -12,7 +12,7 @@ import android.widget.Toast;
 
 import com.example.skylink.R;
 import com.example.skylink.application.Services;
-import com.example.skylink.objects.Session;
+import com.example.skylink.presentation.Session;
 import com.example.skylink.business.Interface.iPassengerDataManager;
 import com.example.skylink.business.validations.IValidatePassgnData;
 import com.example.skylink.business.Implementations.PassengerDataManager;
@@ -34,10 +34,8 @@ public class User_info extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_info);
-
         passengerDataManager = new PassengerDataManager(Services.getBookDatabase());
         passengers = new ArrayList<>();
-
         initializeViews();
         initializeListeners();
 

@@ -5,7 +5,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
 
-import com.example.skylink.TestUtils;
+import com.example.skylink.TestUtils.TestUtils;
 import com.example.skylink.business.Implementations.PlaneConfiguration;
 
 import org.junit.Before;

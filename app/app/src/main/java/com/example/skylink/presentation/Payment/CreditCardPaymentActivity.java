@@ -8,8 +8,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.skylink.R;
-import com.example.skylink.objects.Session;
-import com.example.skylink.business.Interface.ISession;
+import com.example.skylink.presentation.Session;
+import com.example.skylink.presentation.ISession;
 import com.example.skylink.business.validations.IValidatePayment;
 import com.example.skylink.business.validations.ValidatePayment;
 import com.example.skylink.objects.Interfaces.iFlight;
@@ -214,6 +214,7 @@ public class CreditCardPaymentActivity extends AppCompatActivity {
 
     }
 
+//    Client Side Validation.
     private boolean isValid(){
         boolean isValid = true;
 

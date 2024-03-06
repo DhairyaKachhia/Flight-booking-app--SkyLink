@@ -13,9 +13,10 @@ import java.util.Map;
 
 public interface IFlightDB {
     void addFlights();
-
     List<iFlight> findFlight(String departure, String arrival, String dept_time);
 
     Graph<String, DefaultWeightedEdge> getAirportGraph();
+
+//    Assuming this are all of the aircraft in the world.
     Map<String, iAircraft> getAircraftMap();
 }

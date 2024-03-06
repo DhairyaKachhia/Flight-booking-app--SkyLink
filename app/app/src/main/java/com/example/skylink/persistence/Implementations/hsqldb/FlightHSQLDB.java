@@ -1,8 +1,5 @@
 package com.example.skylink.persistence.Implementations.hsqldb;
 
-import android.content.res.AssetManager;
-
-import com.example.skylink.objects.Session;
 import com.example.skylink.objects.Implementations.Aircraft;
 import com.example.skylink.objects.Implementations.Flight;
 import com.example.skylink.objects.Interfaces.iAircraft;
@@ -13,11 +10,6 @@ import org.jgrapht.Graph;
 import org.jgrapht.graph.DefaultWeightedEdge;
 import org.jgrapht.graph.DirectedWeightedMultigraph;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -133,11 +125,32 @@ public class FlightHSQLDB implements IFlightDB {
 
     }
 
+//    public List<iFlight> getAllFlights() {
+//        List<iFlight> results = new ArrayList<>();
+//
+//        String sql = "SELECT * FROM USER";
+//
+//        try (Connection conn = connect();
+//             PreparedStatement ps = conn.prepareStatement(sql);
+//             ResultSet rs = ps.executeQuery()) {
+//
+//            while (rs.next()) {
+//                        String id =  rs.getString("id");
+//                        String email = rs.getString("email");
+//                        System.out.printf(email);
+//            }
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//
+//        return results;
+//    }
 
 
     @Override
     public List<iFlight> findFlight(String departure, String arrival, String dept_time) {
         List<iFlight> results = new ArrayList<>();
+//        List<iFlight> flights = getAllFlights();
 
         String sql = "SELECT * FROM FLIGHTS WHERE departure_icao = ? AND arrival_icao = ? AND flight_dept_date_time LIKE ?";
 

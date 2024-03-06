@@ -9,14 +9,13 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Space;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.skylink.R;
 import com.example.skylink.application.Services;
 import com.example.skylink.business.Implementations.PlaneConfiguration;
-import com.example.skylink.objects.Session;
+import com.example.skylink.presentation.Session;
 import com.example.skylink.business.Interface.iPlaneConfiguration;
 import com.example.skylink.objects.Interfaces.iFlight;
 import com.example.skylink.objects.Interfaces.iPassengerData;
@@ -150,8 +149,6 @@ public class SeatSelectionUtils {
 
             seatVal(context, rowLayout, row, 1, (halfNumSeatsPerRow+1), isBusinessClass, randomVal, random, seatStatusMap, seatMap, selectedPassenger);
 
-            addAisleToLayout(context, flightLayout, 120); // Adjust the aisle width as needed
-
             seatVal(context, rowLayout, row, halfNumSeatsPerRow, halfNumSeatsPerRow * 2, isBusinessClass, randomVal, random, seatStatusMap, seatMap, selectedPassenger);
 
             flightLayout.addView(rowLayout);
@@ -165,17 +162,6 @@ public class SeatSelectionUtils {
             seatStatusMap.put(getSeatKey(row, seatNumber), new SeatStatus(isBusinessClass, isSeatTaken));
         }
     }
-
-
-    private static void addAisleToLayout(Context context, LinearLayout flightLayout, int aisleWidth) {
-        Space aisleSpace = new Space(context);
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-                aisleWidth,
-                LinearLayout.LayoutParams.MATCH_PARENT);
-        aisleSpace.setLayoutParams(layoutParams);
-        flightLayout.addView(aisleSpace);
-    }
-
 
 
     private static void addSeatToLayout(Context context, LinearLayout flightLayout, int row, int seatNumber, boolean isBusinessClass, boolean isSeatTaken, Map<String, SeatStatus> seatStatusMap, HashMap<iPassengerData, String> seatMap, AtomicReference<iPassengerData> selectedPassenger) {

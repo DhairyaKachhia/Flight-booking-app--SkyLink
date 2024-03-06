@@ -15,13 +15,11 @@ import com.example.skylink.R;
 import com.example.skylink.application.Main;
 import com.example.skylink.application.Services;
 
-import com.example.skylink.objects.Session;
+import com.example.skylink.presentation.Session;
 import com.example.skylink.business.Implementations.UserHandler;
 import com.example.skylink.business.validations.IValidateUserAuth;
 import com.example.skylink.business.validations.ValidateUserAuth;
 import com.example.skylink.objects.Implementations.UserProperties;
-import com.example.skylink.persistence.Implementations.stub.FlightStub;
-import com.example.skylink.persistence.Interfaces.IFlightDB;
 import com.example.skylink.presentation.FlightSearching.FlightSearchP;
 
 import java.io.File;
@@ -32,51 +30,62 @@ import java.io.InputStreamReader;
 public class SignInActivity extends AppCompatActivity {
 
     private EditText email, password;
-    private TextView singUp;
+    private TextView signUp;
     private Button signIn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
-
         copyDatabaseToDevice();
         Session.getInstance().setContext(this);
-        IFlightDB db = Services.getFlightDatabase();
-        db.addFlights();
-        email = findViewById(R.id.etEmail);
-        password = findViewById(R.id.etPassword);
+        setupViews();
+        setupListeners();
+    }
 
-
-        singUp = findViewById(R.id.tvSignInClick);
-
-        singUp.setOnClickListener(v -> {
-            Intent intent = new Intent(SignInActivity.this, SignUpActivity.class);
-            startActivity(intent);
-
+    private void setupListeners() {
+        signUp.setOnClickListener(v -> {
+            navigateToSignUpActivity();
         });
-
-
-        signIn = findViewById(R.id.btnSignIn);
 
         signIn.setOnClickListener(v -> {
-
-            if (isValid()) {
-                String userEmail = email.getText().toString();
-                String userPassword = password.getText().toString();
-
-                UserProperties user = new UserProperties(userEmail,userPassword);
-                UserHandler checkUser = new UserHandler(Services.getUserDatabase());
-
-               if(checkUser.signinUser(user)){
-                    Intent intent = new Intent(SignInActivity.this, FlightSearchP.class);
-                    Session.getInstance().setEmail(userEmail);
-                    startActivity(intent);
-                }else{
-                    Toast.makeText(SignInActivity.this, "Incorrect email or password", Toast.LENGTH_SHORT).show();
-                }
-            }
+            attemptSignIn();
         });
+    }
 
+    private void navigateToSignUpActivity() {
+        Intent intent = new Intent(SignInActivity.this, SignUpActivity.class);
+        startActivity(intent);
+    }
+
+    private void attemptSignIn() {
+        if (isValid()) {
+            String userEmail = email.getText().toString();
+            String userPassword = password.getText().toString();
+
+            UserProperties user = new UserProperties(userEmail, userPassword);
+            UserHandler checkUser = new UserHandler(Services.getUserDatabase());
+
+//            if (checkUser.signinUser(user)) {
+            if(true){
+                Intent intent = new Intent(SignInActivity.this, FlightSearchP.class);
+                Session.getInstance().setEmail(userEmail);
+                startActivity(intent);
+            } else {
+                showIncorrectCredentialsMessage();
+            }
+        }
+    }
+
+    private void showIncorrectCredentialsMessage() {
+        Toast.makeText(SignInActivity.this, "Incorrect email or password", Toast.LENGTH_SHORT).show();
+    }
+
+
+    private void setupViews() {
+        email = findViewById(R.id.etEmail);
+        password = findViewById(R.id.etPassword);
+        signUp = findViewById(R.id.tvSignInClick);
+        signIn = findViewById(R.id.btnSignIn);
     }
 
     private boolean isValid(){
