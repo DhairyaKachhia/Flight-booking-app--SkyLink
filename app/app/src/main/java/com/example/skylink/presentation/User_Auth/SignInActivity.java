@@ -39,7 +39,6 @@ public class SignInActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sign_in);
 
         copyDatabaseToDevice();
-//        Services.setup(this);
         Session.getInstance().setContext(this);
         IFlightDB db = Services.getFlightDatabase();
         db.addFlights();
@@ -66,8 +65,8 @@ public class SignInActivity extends AppCompatActivity {
 
                 UserProperties user = new UserProperties(userEmail,userPassword);
                 UserHandler checkUser = new UserHandler(Services.getUserDatabase());
+
                if(checkUser.signinUser(user)){
-//                if(true){
                     Intent intent = new Intent(SignInActivity.this, FlightSearch.class);
                     Session.getInstance().setEmail(userEmail);
                     startActivity(intent);
