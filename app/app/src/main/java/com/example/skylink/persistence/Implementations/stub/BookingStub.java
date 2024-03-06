@@ -17,7 +17,6 @@ public class BookingStub implements iBookingDB {
     }
 
     public boolean findBooking(iPassengerData searchPassengerData) {
-        iPassengerData result = null;
         for (iPassengerData b : passengerData) {
             if (b.getTitle().equals(searchPassengerData.getTitle()) &&
                     b.getFirstName().equals(searchPassengerData.getFirstName()) &&
