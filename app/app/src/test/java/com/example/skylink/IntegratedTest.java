@@ -4,6 +4,7 @@ import com.example.skylink.IntegrationTest.AirportPathIntegrated;
 import com.example.skylink.IntegrationTest.PassengerDataManagerIntegrated;
 import com.example.skylink.IntegrationTest.PaymentHandlerIntegrated;
 import com.example.skylink.IntegrationTest.PlaneConfigurationIntegrated;
+import com.example.skylink.IntegrationTest.UserHandlerIntegrated;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
@@ -13,7 +14,8 @@ import org.junit.runners.Suite;
         AirportPathIntegrated.class,
         PassengerDataManagerIntegrated.class,
         PlaneConfigurationIntegrated.class,
-        PaymentHandlerIntegrated.class
+        PaymentHandlerIntegrated.class,
+        UserHandlerIntegrated.class
 })
 public class  IntegratedTest{
     // This class can remain empty
