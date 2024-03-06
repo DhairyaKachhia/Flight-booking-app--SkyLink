@@ -21,7 +21,7 @@ public class Session implements ISession {
     // Temporary storage for flights and bookings
     private iFlightSearch flightSearch;
 
-    private int totalPrice;
+    private int totalPrice = 0;
 
     private List<iPassengerData> passengerData;
 
