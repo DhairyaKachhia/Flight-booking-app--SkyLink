@@ -30,12 +30,10 @@ public class PaymentHandlerIntegrated {
     @Test
     public void testAddPayment_Successful() {
         // Given
-        TripInvoice tripInvoice = new TripInvoice(1L, 100);
-
-        Session.getInstance().setUser_id(1L);
+        TripInvoice tripInvoice = new TripInvoice(1, 100);
 
         // When
-        boolean result = paymentHandler.addPayment(tripInvoice);
+        boolean result = paymentHandler.addPayment(tripInvoice, 1);
 
         // Then
         assertTrue(result);
@@ -43,42 +41,12 @@ public class PaymentHandlerIntegrated {
     }
 
     @Test
-    public void testAddPayment_InvalidUserID() {
-        // Given
-        TripInvoice tripInvoice = new TripInvoice(2L, 150); // Different user ID
-
-        // When
-        boolean result = paymentHandler.addPayment(tripInvoice);
-
-        // Then
-        assertFalse(result);
-        // Add additional assertions or verifications if needed
-    }
-
-    @Test
     public void testAddPayment_InvalidSessionUserID() {
         // Given
-        TripInvoice tripInvoice = new TripInvoice(1L, 200);
-        // Set a different user ID in the session
-        Session.getInstance().setUser_id(2L);
+        TripInvoice tripInvoice = new TripInvoice(2L, 150);
 
         // When
-        boolean result = paymentHandler.addPayment(tripInvoice);
-
-        // Then
-        assertFalse(result);
-        // Add additional assertions or verifications if needed
-    }
-
-    @Test
-    public void testAddPayment_NullSessionUser() {
-        // Given
-        TripInvoice tripInvoice = new TripInvoice(1L, 250);
-        // Set session user to null
-        Session.getInstance().setUser_id(0);
-
-        // When
-        boolean result = paymentHandler.addPayment(tripInvoice);
+        boolean result = paymentHandler.addPayment(tripInvoice, 1L);    // Different session ID
 
         // Then
         assertFalse(result);
@@ -88,14 +56,12 @@ public class PaymentHandlerIntegrated {
     @Test
     public void testAddPayment_NullTripInvoice() {
         // When
-        boolean result = paymentHandler.addPayment(null);
+        boolean result = paymentHandler.addPayment(null, 1L);
 
         // Then
         assertFalse(result);
         // Add additional assertions or verifications if needed
     }
-
-    // Add more test cases for various scenarios and edge cases
 
 }
 

@@ -9,16 +9,20 @@ import com.example.skylink.objects.Session;
 import com.example.skylink.persistence.Interfaces.IPaymentDB;
 
 public class PaymentHandler implements IPaymentHandler {
-    IPaymentDB paymentDB;
+
+    private IPaymentDB paymentDB;
+
+    public PaymentHandler(IPaymentDB paymentDB) {
+        this.paymentDB = paymentDB;
+    }
+
     public PaymentHandler(boolean forProduction){
         this.paymentDB = Services.getPaymentDatabase();
 
     }
-    public PaymentHandler(IPaymentDB paymentDB){
-        this.paymentDB = paymentDB;
-    }
+
     @Override
-    public boolean addPayment(ITripInvoice tripInvoice) {
+    public boolean addPayment(ITripInvoice tripInvoice, long sessionUserID) {
         if (tripInvoice == null) {
             return false;
         }
@@ -26,8 +30,8 @@ public class PaymentHandler implements IPaymentHandler {
 
         long userID = tripInvoice.getUserID();
 
-        if (Session.getInstance().getUser_id() == userID) {
-            addSuccess = this.paymentDB.addPayment(tripInvoice);
+        if (sessionUserID == userID) {
+            addSuccess = paymentDB.addPayment(tripInvoice);
         }
 
         return addSuccess;
