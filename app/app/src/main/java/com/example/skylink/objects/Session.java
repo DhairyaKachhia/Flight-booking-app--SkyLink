@@ -2,7 +2,6 @@ package com.example.skylink.objects;
 
 import android.content.Context;
 
-import com.example.skylink.business.Interface.ISession;
 import com.example.skylink.business.Interface.iPayment;
 import com.example.skylink.objects.Interfaces.iFlight;
 import com.example.skylink.objects.Interfaces.iFlightSearch;

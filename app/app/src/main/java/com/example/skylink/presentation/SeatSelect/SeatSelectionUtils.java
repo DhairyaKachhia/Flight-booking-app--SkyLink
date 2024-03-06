@@ -150,8 +150,6 @@ public class SeatSelectionUtils {
 
             seatVal(context, rowLayout, row, 1, (halfNumSeatsPerRow+1), isBusinessClass, randomVal, random, seatStatusMap, seatMap, selectedPassenger);
 
-            addAisleToLayout(context, flightLayout, 120); // Adjust the aisle width as needed
-
             seatVal(context, rowLayout, row, halfNumSeatsPerRow, halfNumSeatsPerRow * 2, isBusinessClass, randomVal, random, seatStatusMap, seatMap, selectedPassenger);
 
             flightLayout.addView(rowLayout);
@@ -165,17 +163,6 @@ public class SeatSelectionUtils {
             seatStatusMap.put(getSeatKey(row, seatNumber), new SeatStatus(isBusinessClass, isSeatTaken));
         }
     }
-
-
-    private static void addAisleToLayout(Context context, LinearLayout flightLayout, int aisleWidth) {
-        Space aisleSpace = new Space(context);
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-                aisleWidth,
-                LinearLayout.LayoutParams.MATCH_PARENT);
-        aisleSpace.setLayoutParams(layoutParams);
-        flightLayout.addView(aisleSpace);
-    }
-
 
 
     private static void addSeatToLayout(Context context, LinearLayout flightLayout, int row, int seatNumber, boolean isBusinessClass, boolean isSeatTaken, Map<String, SeatStatus> seatStatusMap, HashMap<iPassengerData, String> seatMap, AtomicReference<iPassengerData> selectedPassenger) {

@@ -12,7 +12,7 @@ import com.example.skylink.application.Services;
 import com.example.skylink.business.Implementations.PaymentHandler;
 import com.example.skylink.objects.Session;
 import com.example.skylink.business.Interface.IPaymentHandler;
-import com.example.skylink.business.Interface.ISession;
+import com.example.skylink.objects.ISession;
 import com.example.skylink.objects.Implementations.TripInvoice;
 import com.example.skylink.objects.Interfaces.ITripInvoice;
 import com.example.skylink.presentation.FlightSearching.FlightSearchP;
