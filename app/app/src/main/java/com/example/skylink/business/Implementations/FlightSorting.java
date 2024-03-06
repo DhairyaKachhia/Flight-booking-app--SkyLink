@@ -1,7 +1,7 @@
 package com.example.skylink.business.Implementations;
 
 import com.example.skylink.business.Interface.iFlightSorting;
-import com.example.skylink.objects.Implementations.Flight;
+import com.example.skylink.objects.Interfaces.iFlight;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -24,7 +24,7 @@ public class FlightSorting implements iFlightSorting {
     }
 
     @Override
-    public int compare(List<List<Flight>> flight1, List<List<Flight>> flight2) {
+    public int compare(List<List<iFlight>> flight1, List<List<iFlight>> flight2) {
         switch (sortingOption) {
             case PRICE:
                 return compareByPrice(flight1, flight2);
@@ -38,14 +38,14 @@ public class FlightSorting implements iFlightSorting {
     }
 
 
-    private int compareByPrice(List<List<Flight>> flightList1, List<List<Flight>> flightList2) {
+    private int compareByPrice(List<List<iFlight>> flightList1, List<List<iFlight>> flightList2) {
         int price1 = getTotalPrice(flightList1);
         int price2 = getTotalPrice(flightList2);
         return Integer.compare(price1, price2);
 
     }
 
-    private int getTotalPrice (List<List<Flight>> flightList) {
+    private int getTotalPrice (List<List<iFlight>> flightList) {
         int totalPrice = 0;
         if (!flightList.isEmpty() && !flightList.get(0).isEmpty()) {
             totalPrice += flightList.get(0).get(0).getEconPrice();
@@ -55,7 +55,7 @@ public class FlightSorting implements iFlightSorting {
 
     }
 
-    private int compareByDirectFlights(List<List<Flight>> flightList1, List<List<Flight>> flightList2) {
+    private int compareByDirectFlights(List<List<iFlight>> flightList1, List<List<iFlight>> flightList2) {
         boolean hasDirectFlight1 = hasDirectFlight(flightList1);
         boolean hasDirectFlight2 = hasDirectFlight(flightList2);
         if (hasDirectFlight1 && !hasDirectFlight2) {
@@ -68,17 +68,17 @@ public class FlightSorting implements iFlightSorting {
 
     }
 
-    private boolean hasDirectFlight(List<List<Flight>> flightList) {
+    private boolean hasDirectFlight(List<List<iFlight>> flightList) {
         return flightList.size() == 1;
     }
 
-    private int compareByEarliestDeparture(List<List<Flight>> flightList1, List<List<Flight>> flightList2) {
+    private int compareByEarliestDeparture(List<List<iFlight>> flightList1, List<List<iFlight>> flightList2) {
         long earliestDeparture1 = getEarliestDeparture(flightList1);
         long earliestDeparture2 = getEarliestDeparture(flightList2);
         return Long.compare(earliestDeparture1, earliestDeparture2);
     }
 
-    private long getEarliestDeparture(List<List<Flight>> flightList) {
+    private long getEarliestDeparture(List<List<iFlight>> flightList) {
         long earliestDeparture = Long.MAX_VALUE;
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 
@@ -90,6 +90,9 @@ public class FlightSorting implements iFlightSorting {
                 long departureTime = departureDateTime.getTime();
                 earliestDeparture = departureTime;
             } catch (ParseException e) {
+                // if try fails, earliestDeparture will have Max Value
+                e.printStackTrace();
+                return earliestDeparture;
             }
         }
 
