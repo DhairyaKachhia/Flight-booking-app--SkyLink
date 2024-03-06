@@ -12,13 +12,12 @@ import android.widget.Toast;
 
 import com.example.skylink.R;
 import com.example.skylink.application.Services;
-import com.example.skylink.business.Implementations.Session;
+import com.example.skylink.objects.Session;
 import com.example.skylink.business.Interface.iPassengerDataManager;
 import com.example.skylink.business.validations.IValidatePassgnData;
 import com.example.skylink.business.Implementations.PassengerDataManager;
 import com.example.skylink.business.validations.ValidatePassgnData;
 import com.example.skylink.objects.Interfaces.iPassengerData;
-import com.example.skylink.presentation.SeatSelect.InboundActivity;
 import com.example.skylink.presentation.SeatSelect.Out_boundActivity;
 
 import java.util.ArrayList;

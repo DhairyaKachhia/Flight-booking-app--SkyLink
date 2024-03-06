@@ -10,7 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.skylink.R;
 import com.example.skylink.application.Services;
 import com.example.skylink.business.Implementations.PaymentHandler;
-import com.example.skylink.business.Implementations.Session;
+import com.example.skylink.objects.Session;
 import com.example.skylink.business.Interface.IPaymentHandler;
 import com.example.skylink.business.Interface.ISession;
 import com.example.skylink.objects.Implementations.TripInvoice;

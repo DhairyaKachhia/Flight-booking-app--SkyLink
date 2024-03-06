@@ -1,5 +1,6 @@
 package com.example.skylink.business.Implementations;
 
+import com.example.skylink.application.Services;
 import com.example.skylink.business.Interface.iPassengerDataManager;
 import com.example.skylink.objects.Interfaces.iPassengerData;
 import com.example.skylink.objects.Implementations.PassengerData;
@@ -7,6 +8,10 @@ import com.example.skylink.persistence.Interfaces.iBookingDB;
 
 public class PassengerDataManager implements iPassengerDataManager {
     private iBookingDB bookingDatabase;
+
+    public PassengerDataManager(boolean forProduction){
+        this.bookingDatabase = Services.getBookDatabase();
+    }
 
     public PassengerDataManager(iBookingDB bookingDatabase) {
         this.bookingDatabase = bookingDatabase;

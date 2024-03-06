@@ -1,39 +1,32 @@
-package com.example.skylink;
+package com.example.skylink.UnitTest;
 
-import static com.example.skylink.application.Services.setupForIntegrationTest;
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-
-
-import com.example.skylink.application.Services;
 import com.example.skylink.business.Implementations.PlaneConfiguration;
 import com.example.skylink.objects.Implementations.Aircraft;
-import com.example.skylink.objects.Interfaces.iAircraft;
+import com.example.skylink.persistence.Implementations.stub.FlightStub;
 import com.example.skylink.persistence.Interfaces.IFlightDB;
-import com.example.skylink.presentation.User_Auth.SignInActivity;
-
+import com.example.skylink.objects.Interfaces.iAircraft;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class PlaneConfigurationIntegrated {
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+
+public class PlaneConfigurationUnit {
+
+    private IFlightDB mockFlightDB;
 
     private PlaneConfiguration planeConfiguration;
 
     @Before
     public void setUp() {
-        String dbDirectory = "/Users/akintundemayokun/Desktop/db";
-        String dbName = "SC"; // Provide the desired name for your HSQLDB file
-        setupForIntegrationTest(dbDirectory,dbName);
-        IFlightDB mockFlightDB = Services.getFlightDatabase();
+        mockFlightDB = new FlightStub();
         planeConfiguration = new PlaneConfiguration(mockFlightDB);
     }
-
     @Test
     public void testGetPlaneConfigurationWithValidInput() {
         // Test with valid aircraft name and seat type

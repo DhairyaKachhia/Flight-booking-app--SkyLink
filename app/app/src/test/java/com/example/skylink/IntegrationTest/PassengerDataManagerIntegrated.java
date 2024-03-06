@@ -1,13 +1,14 @@
-package com.example.skylink;
+package com.example.skylink.IntegrationTest;
 
-import static com.example.skylink.application.Services.setupForIntegrationTest;
 import static junit.framework.TestCase.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import com.example.skylink.TestUtils;
 import com.example.skylink.application.Services;
+import com.example.skylink.business.Implementations.AirportPath;
 import com.example.skylink.business.Implementations.PassengerDataManager;
 import com.example.skylink.objects.Interfaces.iPassengerData;
 import com.example.skylink.persistence.Interfaces.iBookingDB;
@@ -17,18 +18,20 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
+import java.io.File;
+import java.io.IOException;
+
 public class PassengerDataManagerIntegrated {
     private iBookingDB bookingDatabase;
     private PassengerDataManager passengerDataManager;
+    private File tempDB;
     @Before
-    public void setUp() {
-        String dbDirectory = "/Users/akintundemayokun/Desktop/db";
-        String dbName = "SC"; // Provide the desired name for your HSQLDB file
-        setupForIntegrationTest(dbDirectory,dbName);
-        bookingDatabase = Services.getBookDatabase();
-        passengerDataManager = new PassengerDataManager(bookingDatabase);
+    public void setUp() throws IOException {
+        System.out.println("Starting integration test for Passenger Database");
+        this.tempDB = TestUtils.copyDB();
+        this.passengerDataManager = new PassengerDataManager(true);
+        assertNotNull(this.passengerDataManager);
     }
-
     // General Test Cases
 
     @Test

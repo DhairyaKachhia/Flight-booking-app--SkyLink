@@ -1,12 +1,18 @@
 package com.example.skylink.business.Implementations;
 
+import com.example.skylink.application.Services;
 import com.example.skylink.business.Interface.IUserHandler;
 import com.example.skylink.objects.Interfaces.IUserProperties;
+import com.example.skylink.objects.Session;
 import com.example.skylink.persistence.Interfaces.IUserDB;
 import org.mindrot.jbcrypt.BCrypt;
 
 public class UserHandler implements IUserHandler {
     private IUserDB userDB;
+
+    public UserHandler(boolean forProduction){
+        this.userDB = Services.getUserDatabase();
+    }
 
     public UserHandler(IUserDB userDB) {
         this.userDB = userDB;

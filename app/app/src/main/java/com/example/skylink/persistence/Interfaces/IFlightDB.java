@@ -14,7 +14,6 @@ import java.util.Map;
 public interface IFlightDB {
     void addFlights();
 
-     void addFlightsPC(InputStream inputStream) throws IOException;
     List<iFlight> findFlight(String departure, String arrival, String dept_time);
 
     Graph<String, DefaultWeightedEdge> getAirportGraph();

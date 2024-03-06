@@ -1,4 +1,4 @@
-package com.example.skylink;
+package com.example.skylink.UnitTest;
 
 
 import static junit.framework.TestCase.assertEquals;

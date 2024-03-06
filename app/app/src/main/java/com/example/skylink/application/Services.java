@@ -37,29 +37,6 @@ public class Services {
         Main.setDBPathName(dataDirectory.getAbsolutePath());
     }
 
-    public static void setupForIntegrationTest(String dbDirectory,String dbName) {
-        // Use a directory on your laptop to store the HSQLDB files
-               File dataDirectory = new File(dbDirectory);
-
-        try {
-            if (!dataDirectory.exists()) {
-                if (!dataDirectory.mkdirs()) {
-                    throw new IllegalStateException("Failed to create data directory: " + dataDirectory.getAbsolutePath());
-                }
-            }
-
-            String dbPath = dataDirectory.getAbsolutePath() + "/" + dbName;
-            Main.setDBPathName(dbPath);
-
-            flightDatabase = new FlightHSQLDB(Main.getDBPathName()).initialize();
-            userDatabase = new UserHSQLDB(Main.getDBPathName()).initialize();
-            bookDatabase = new BookingHSQLDB(Main.getDBPathName()).initialize();
-            paymentDatabase = new PaymentHSQLDB(Main.getDBPathName()).initialize();
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new IllegalStateException("Failed to set up databases for integration test.", e);
-        }
-    }
 
     public static synchronized IFlightDB getFlightDatabase() {
         if (flightDatabase == null) {

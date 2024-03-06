@@ -8,6 +8,7 @@ import android.widget.Button;
 
 import com.example.skylink.R;
 import com.example.skylink.application.Services;
+import com.example.skylink.objects.Session;
 import com.example.skylink.business.Implementations.UserHandler;
 import com.example.skylink.business.Interface.IUserHandler;
 import com.example.skylink.objects.Interfaces.IUserProperties;
@@ -37,7 +38,8 @@ public class UpdateUserProfileActivity extends AppCompatActivity {
 
         // Get the Intent that started this activity and extract the email
         Intent intent = getIntent();
-        String userEmail = intent.getStringExtra("email");
+
+        String userEmail = Session.getInstance().getEmail();
 
         // Fetch the user from the database
         IUserHandler handler = new UserHandler(Services.getUserDatabase());
