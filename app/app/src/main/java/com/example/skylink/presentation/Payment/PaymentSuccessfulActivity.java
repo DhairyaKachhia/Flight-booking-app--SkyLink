@@ -15,7 +15,7 @@ import com.example.skylink.business.Interface.IPaymentHandler;
 import com.example.skylink.business.Interface.ISession;
 import com.example.skylink.objects.Implementations.TripInvoice;
 import com.example.skylink.objects.Interfaces.ITripInvoice;
-import com.example.skylink.presentation.FlightSearching.FlightSearch;
+import com.example.skylink.presentation.FlightSearching.FlightSearchP;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -37,7 +37,7 @@ public class PaymentSuccessfulActivity extends AppCompatActivity {
 
         Button buttonMainMenu = findViewById(R.id.buttonMainMenu);
         buttonMainMenu.setOnClickListener(v -> {
-            Intent intent = new Intent(PaymentSuccessfulActivity.this, FlightSearch.class);
+            Intent intent = new Intent(PaymentSuccessfulActivity.this, FlightSearchP.class);
             startActivity(intent);
             finish();
         });
