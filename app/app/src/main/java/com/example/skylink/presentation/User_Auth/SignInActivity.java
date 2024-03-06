@@ -66,6 +66,7 @@ public class SignInActivity extends AppCompatActivity {
 
                 UserProperties user = new UserProperties(userEmail,userPassword);
                 UserHandler checkUser = new UserHandler(Services.getUserDatabase());
+
                if(checkUser.signinUser(user)){
                     Intent intent = new Intent(SignInActivity.this, FlightSearchP.class);
                     Session.getInstance().setEmail(userEmail);

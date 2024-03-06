@@ -1,6 +1,6 @@
 package com.example.skylink.business.validations;
 
-import android.util.Patterns;
+import androidx.core.util.PatternsCompat;       // using this android import to validate email format
 
 public class ValidateUserAuth implements IValidateUserAuth{
     @Override
@@ -9,7 +9,7 @@ public class ValidateUserAuth implements IValidateUserAuth{
 
         if (email == null || email.isEmpty()) {
             error = "Email cannot be empty";
-        } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+        } else if (!PatternsCompat.EMAIL_ADDRESS.matcher(email).matches()) {
             error = "Invalid email";
         }
 
