@@ -16,7 +16,7 @@ import com.example.skylink.objects.Interfaces.IUserProperties;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.example.skylink.presentation.FlightSearching.FlightSearch;
+import com.example.skylink.presentation.FlightSearching.FlightSearchP;
 
 public class UpdateUserProfileActivity extends AppCompatActivity {
 
@@ -78,7 +78,7 @@ public class UpdateUserProfileActivity extends AppCompatActivity {
 
             Toast.makeText(UpdateUserProfileActivity.this, "Profile updated successfully", Toast.LENGTH_SHORT).show();
 
-            Intent flightSearchIntent = new Intent(UpdateUserProfileActivity.this, FlightSearch.class);
+            Intent flightSearchIntent = new Intent(UpdateUserProfileActivity.this, FlightSearchP.class);
             startActivity(flightSearchIntent);
         });
     }

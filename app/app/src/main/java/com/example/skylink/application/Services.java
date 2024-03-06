@@ -30,14 +30,6 @@ public class Services {
     private static iBookingDB bookDatabase = null;
     private static IPaymentDB paymentDatabase = null;
 
-//    public static void setup(Activity activity) {
-//        final String DB_PATH = "SkyLink";
-//        Context context = activity.getApplicationContext();
-//        File dataDirectory = context.getDir(DB_PATH, Context.MODE_PRIVATE);
-//        Main.setDBPathName(dataDirectory.getAbsolutePath());
-//    }
-
-
     public static synchronized IFlightDB getFlightDatabase() {
         if (flightDatabase == null) {
             flightDatabase = new FlightHSQLDB(Main.getDBPathName()).initialize();
