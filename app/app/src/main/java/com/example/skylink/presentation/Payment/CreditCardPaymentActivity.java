@@ -214,6 +214,7 @@ public class CreditCardPaymentActivity extends AppCompatActivity {
 
     }
 
+//    Client Side Validation.
     private boolean isValid(){
         boolean isValid = true;
 
