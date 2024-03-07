@@ -2,6 +2,8 @@
 
 This is the document of our project, "Skylink."
 
+[Iteration 2 Architecture](https://code.cs.umanitoba.ca/comp3350-winter2024/shadedragon-a02-6/-/blob/main/docs/iteration2_architecture.png)
+
 
 # Iteration 2 functions 
 
@@ -105,7 +107,7 @@ It includes a sign-in page and a sign-up page; if the user already has an accoun
 **UserProperties**
 - This class contains information such as the user's name, email, password, gender, address, phone number, date of birth, and country/region and provides a method to verify this information.
 
-##User Stories
+## Features
 
 Finished:
 - Creating and Managing User Profile
@@ -115,3 +117,45 @@ Finished:
 - Payment System
 
 Add-ons has been moved to iteration 3.
+
+##User stories
+
+**Finished**
+
+- Payment User Story - Credit Card Insert
+
+Description: As a User I want to be able to enter my credit card details.
+
+Cost:  day
+
+- Payment System
+
+Description: As a user, I want to be able to use a credit card to pay in the app.
+
+Cost:  days
+
+- Creating and Managing User Profile
+
+Description: As a user, I want to be able to register an account and store my information for future use.
+
+Cost:
+
+- Creating Econ and Business Seat Distinction
+
+Description: As a user, I want to know what area the seats of different classes are in when choosing seats.
+
+Cost:
+
+- Interactive Seat Map
+
+Description: As a user, I want to view an interactive seat map with available seats I can choose from because I would like to make an informed decision that provides me maximum comfort as I travel.
+
+Cost:
+
+- Prior Seat Selection
+
+Description: As a user, I want to be able to book for my family to have adjacent seats in advance because I need to ensure we are together during the flight.
+
+Cost:
+
+- 
