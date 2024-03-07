@@ -33,7 +33,7 @@ public class UserHSQLDB implements IUserDB {
     }
 
     private Connection connect() throws SQLException {
-        return DriverManager.getConnection("jdbc:hsqldb:file:" + dbPath, "SA", "");
+        return DriverManager.getConnection("jdbc:hsqldb:file:" + dbPath + ";shutdown=true", "SA", "");
     }
 
     public long addUser_Auth(IUserProperties user) {
