@@ -48,9 +48,6 @@ It includes a sign-in page and a sign-up page; if the user already has an accoun
 **AirportPath**
 - Responsible for searching and returning the list of flights based on destination, date, and other parameters the user has selected.
 
-**BookingManager**
-- Takes user information for booking flights.
-
 **FlightSorting**
 - Sorts resulting flights based on the option the user has selected from the spinner.
 
