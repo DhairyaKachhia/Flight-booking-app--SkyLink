@@ -109,6 +109,9 @@ It includes a sign-in page and a sign-up page; if the user already has an accoun
 
 Finished:
 - Creating and Managing User Profile
+
 - Interactive Seat Map
+
 - Payment System
+
 Add-ons has been moved to iteration 3.
