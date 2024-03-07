@@ -125,32 +125,10 @@ public class FlightHSQLDB implements IFlightDB {
 
     }
 
-//    public List<iFlight> getAllFlights() {
-//        List<iFlight> results = new ArrayList<>();
-//
-//        String sql = "SELECT * FROM USER";
-//
-//        try (Connection conn = connect();
-//             PreparedStatement ps = conn.prepareStatement(sql);
-//             ResultSet rs = ps.executeQuery()) {
-//
-//            while (rs.next()) {
-//                        String id =  rs.getString("id");
-//                        String email = rs.getString("email");
-//                        System.out.printf(email);
-//            }
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//
-//        return results;
-//    }
-
 
     @Override
     public List<iFlight> findFlight(String departure, String arrival, String dept_time) {
         List<iFlight> results = new ArrayList<>();
-//        List<iFlight> flights = getAllFlights();
 
         String sql = "SELECT * FROM FLIGHTS WHERE departure_icao = ? AND arrival_icao = ? AND flight_dept_date_time LIKE ?";
 
