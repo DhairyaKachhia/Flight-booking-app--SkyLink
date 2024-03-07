@@ -18,7 +18,7 @@ We now have a fully functional payment system; firstly, after seat selection, th
 It includes a sign-in page and a sign-up page; if the user already has an account, they can enter the email and password and log in to the app. If the user does not have an account, then the sign-up page will enable the user to create an account; it will collect various information about the user, including phone number, billing name, email, and other information needed for account management and user authentication.
 
 
-### Presentation layer:
+## Presentation layer:
 
 **FlightDisplay**
   - The page takes users’ search parameters to display the resulting flights on the next activity.
@@ -60,7 +60,7 @@ It includes a sign-in page and a sign-up page; if the user already has an accoun
 **User Handler**
 - This is used for managing user actions, including creating profiles, verifying user information, and logging in.
 
-### Data:
+## Data Layer:
 
 **FlightHSQLDB**
 - Stores flight routes in the database.
@@ -77,7 +77,7 @@ It includes a sign-in page and a sign-up page; if the user already has an accoun
 **BookingStub, FlightStub,PaymentStub,UserStub**
 - These are all for unit tests and have similar functions to the actual database.
 
-### Domain Specific Object:
+## Domain Specific Object:
 
 **Flight**
 - An object that stores information about a single flight, like origin, destination, time, etc.
