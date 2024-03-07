@@ -122,11 +122,6 @@ Add-ons has been moved to iteration 3.
 
 **Finished**
 
-**Payment User Story - Credit Card Insert**
-
-- Description: As a User I want to be able to enter my credit card details.
-
-
 
 **Payment System**
 
