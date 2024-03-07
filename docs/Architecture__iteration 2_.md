@@ -35,8 +35,7 @@ It includes a sign-in page and a sign-up page; if the user already has an accoun
 - The scrollable view in the Flight_search activity displays the resulting flights.
 
 **Seat Select**
-- After a user has chosen the flight and entered the passenger information, the app will bring the user to the seat selection page. The user can view seats and make selections based on preference.
-
+- After a user has chosen the flight and entered the passenger information, the app will bring the user to the seat selection page. The user can view seats and make selections based on preference. (Includes inbound activity and outbound activity)
 **User_info**
 - The display asks travellers to fill in the information needed for flight booking. It also enables users to create and manage accounts.
 
