@@ -85,9 +85,6 @@ It includes a sign-in page and a sign-up page; if the user already has an accoun
 **Flights**
 - An object that stores the list of flights available based on user input.
 
-**FlightSearch**
-- 
-
 **Aircraft**
 - It contains the aircraft's name and the business and economy class seat configuration information.
 
@@ -110,5 +107,5 @@ It includes a sign-in page and a sign-up page; if the user already has an accoun
 Finished:
 - Creating and Managing User Profile
 - Interactive Seat Map
-Moved to iteration 3:
-- Add-ons
+
+Add-ons has been moved to iteration 3.
