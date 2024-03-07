@@ -61,6 +61,9 @@ It includes a sign-in page and a sign-up page; if the user already has an accoun
 **User Handler**
 - This is used for managing user actions, including creating profiles, verifying user information, and logging in.
 
+**PassengerDataManager**
+- This is used for managing user information.
+
 ## Data Layer:
 
 **FlightHSQLDB**
