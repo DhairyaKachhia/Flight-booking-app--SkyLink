@@ -28,8 +28,10 @@ It includes a sign-in page and a sign-up page; if the user already has an accoun
 
 **CreditCardPaymentActivity and PaymentSuccessfulActivity**
 - These are for the payment system; credit card payment activity will take the user's payment information, and after the payment is successfully made, it will take the user to the payment success page.
+
 **CustomFlightAdaptor**
 - The scrollable view in the Flight_search activity displays the resulting flights.
+
 **Seat Select**
 - After a user has chosen the flight and entered the passenger information, the app will bring the user to the seat selection page. The user can view seats and make selections based on preference.
 
