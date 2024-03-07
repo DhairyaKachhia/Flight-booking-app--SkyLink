@@ -106,6 +106,7 @@ It includes a sign-in page and a sign-up page; if the user already has an accoun
 - This class contains information such as the user's name, email, password, gender, address, phone number, date of birth, and country/region and provides a method to verify this information.
 
 ##User Stories
+
 Finished:
 - Creating and Managing User Profile
 - Interactive Seat Map
