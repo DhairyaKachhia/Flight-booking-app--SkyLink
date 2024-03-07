@@ -16,6 +16,7 @@ import com.example.skylink.presentation.FlightSearching.FlightSearchP;
 import com.example.skylink.presentation.Session;
 import com.example.skylink.presentation.User_Auth.SignInActivity;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -85,6 +86,16 @@ public class PaymentHandlerIntegrated {
         // Then
         assertFalse(result);
         // Add additional assertions or verifications if needed
+    }
+
+    @After
+    public void tearDown() {
+        System.out.println("Reset database.");
+        // reset DB
+        this.tempDB.delete();
+
+        // clear Services
+        Services.clean();
     }
 
 }

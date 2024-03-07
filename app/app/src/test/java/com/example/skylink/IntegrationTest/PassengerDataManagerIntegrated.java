@@ -7,10 +7,12 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import com.example.skylink.TestUtils.TestUtils;
+import com.example.skylink.application.Services;
 import com.example.skylink.business.Implementations.PassengerDataManager;
 import com.example.skylink.objects.Interfaces.iPassengerData;
 import com.example.skylink.persistence.Interfaces.iBookingDB;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -84,5 +86,15 @@ public class PassengerDataManagerIntegrated {
         boolean found = passengerDataManager.findBooking("Prof.", "Charles", "Xavier", "", "professor@example.com");
 
         assertTrue(found);
+    }
+
+    @After
+    public void tearDown() {
+        System.out.println("Reset database.");
+        // reset DB
+        this.tempDB.delete();
+
+        // clear Services
+        Services.clean();
     }
 }

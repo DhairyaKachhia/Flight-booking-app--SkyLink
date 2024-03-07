@@ -11,7 +11,10 @@ import com.example.skylink.business.Interface.iAirportPath;
 import com.example.skylink.objects.Implementations.FlightSearch;
 import com.example.skylink.objects.Interfaces.iFlight;
 import com.example.skylink.objects.Interfaces.iFlightSearch;
+import com.example.skylink.application.Services;
 
+
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -69,5 +72,15 @@ public class AirportPathIntegrated {
         HashMap<String, List<List<List<iFlight>>>> itinerary = airportPath.findFlights(flightSearch);
         assertNull(itinerary);
 
+    }
+
+    @After
+    public void tearDown() {
+        System.out.println("Reset database.");
+        // reset DB
+        this.tempDB.delete();
+
+        // clear Services
+        Services.clean();
     }
 }

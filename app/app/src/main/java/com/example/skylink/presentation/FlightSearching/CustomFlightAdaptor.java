@@ -125,52 +125,50 @@ public class CustomFlightAdaptor extends BaseAdapter {
         }
 
         econBook.setOnClickListener(v -> {
-            bookFlight(econBook, econPrice, "Economy");
+            bookFlight(econBook, econPrice, "Economy", v);
         });
 
         busnBook.setOnClickListener(v -> {
-            bookFlight(busnBook, busnPrice, "Business");
+            bookFlight(busnBook, busnPrice, "Business", v);
         });
 
         return listItemView;
     }
 
-    private void bookFlight(Button bookButton, TextView priceView, String priceType) {
-        bookButton.setOnClickListener(v -> {
-            int currTotal = Session.getInstance().getTotalPrice();
-            Session.getInstance().setTotalPrice(currTotal + userInput.getTotalPassengers() * Integer.parseInt(priceView.getText().toString()));
+    private void bookFlight(Button bookButton, TextView priceView, String priceType, View v) {
+        int currTotal = Session.getInstance().getTotalPrice();
+        Session.getInstance().setTotalPrice(currTotal + userInput.getTotalPassengers() * Integer.parseInt(priceView.getText().toString()));
 
-            View parentRow = (View) v.getParent();
-            ListView listView = (ListView) parentRow.getParent().getParent().getParent().getParent().getParent();
-            final int position = listView.getPositionForView(parentRow);
+        View parentRow = (View) v.getParent();
+        ListView listView = (ListView) parentRow.getParent().getParent().getParent().getParent().getParent();
+        final int position = listView.getPositionForView(parentRow);
 
-            List<List<iFlight>> flightCardView = getItem(position);
+        List<List<iFlight>> flightCardView = getItem(position);
 
-            if (flightResult != null) {
-                HashMap<String, List<List<iFlight>>> selectedFlights = flightResult.getSelectedFlights();
-                Session.getInstance().setpriceType("Price", priceType);
-                if (isOneWay) {
+        if (flightResult != null) {
+            HashMap<String, List<List<iFlight>>> selectedFlights = flightResult.getSelectedFlights();
+            Session.getInstance().setpriceType("Price", priceType);
+            if (isOneWay) {
+                selectedFlights.put("Outbound", flightCardView);
+                flightResult.setSelectedFlights(selectedFlights);
+
+                toNextActivity();
+
+            } else {
+
+                if (flightResult.getDepartureStatus()) {
+                    selectedFlights.put("Inbound", flightCardView);
+                    flightResult.setSelectedFlights(selectedFlights);
+                    toNextActivity();
+                } else {
                     selectedFlights.put("Outbound", flightCardView);
                     flightResult.setSelectedFlights(selectedFlights);
-
-                    toNextActivity();
-
-                } else {
-
-                    if (flightResult.getDepartureStatus()) {
-                        selectedFlights.put("Inbound", flightCardView);
-                        flightResult.setSelectedFlights(selectedFlights);
-                        toNextActivity();
-                    } else {
-                        selectedFlights.put("Outbound", flightCardView);
-                        flightResult.setSelectedFlights(selectedFlights);
-                        flightResult.setDepartureStatus(true);
-                        displayReturnFlight();
-                    }
+                    flightResult.setDepartureStatus(true);
+                    displayReturnFlight();
                 }
-
             }
-        });
+
+        }
     }
 
 

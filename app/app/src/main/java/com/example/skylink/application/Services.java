@@ -57,4 +57,11 @@ public class Services {
         }
         return paymentDatabase;
     }
+
+    public static synchronized void clean() {
+        flightDatabase = null;
+        userDatabase = null;
+        bookDatabase = null;
+        paymentDatabase = null;
+    }
 }
