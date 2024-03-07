@@ -126,26 +126,24 @@ Add-ons has been moved to iteration 3.
 
 - Description: As a User I want to be able to enter my credit card details.
 
-- Cost:  day
+
 
 **Payment System**
 
 - Description: As a user, I want to be able to use a credit card to pay in the app.
 
-- Cost:  days
 
 **Creating and Managing User Profile**
 
 - Description: As a user, I want to be able to register an account and store my information for future use.
 
-- Cost:
+
 
 
  **Creating Econ and Business Seat Distinction**
 
 - Description: As a user, I want to know what area the seats of different classes are in when choosing seats.
 
-- Cost:
 
 
  **Interactive Seat Map**
@@ -153,12 +151,11 @@ Add-ons has been moved to iteration 3.
 
 - Description: As a user, I want to view an interactive seat map with available seats I can choose from because I would like to make an informed decision that provides me maximum comfort as I travel.
 
-- Cost:
+
 
 
  **Prior Seat Selection**
 
 - Description: As a user, I want to be able to book for my family to have adjacent seats in advance because I need to ensure we are together during the flight.
 
-- Cost:
 
