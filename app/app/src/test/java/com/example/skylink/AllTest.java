@@ -1,7 +1,6 @@
 package com.example.skylink;
 
 import com.example.skylink.IntegrationTest.AirportPathIntegrated;
-import com.example.skylink.IntegrationTest.FlightSortingIntegratedTest;
 import com.example.skylink.IntegrationTest.PassengerDataManagerIntegrated;
 import com.example.skylink.IntegrationTest.PaymentHandlerIntegrated;
 import com.example.skylink.IntegrationTest.PlaneConfigurationIntegrated;
@@ -33,7 +32,6 @@ import org.junit.runners.Suite;
         PlaneConfigurationUnit.class,
         FlightSortingUnit.class,
         PaymentHandlerUnit.class,
-        FlightSortingIntegratedTest.class,
         UserHandlerUnit.class,
         ValidatePassgnDataUnit.class,
         ValidatePaymentUnit.class,

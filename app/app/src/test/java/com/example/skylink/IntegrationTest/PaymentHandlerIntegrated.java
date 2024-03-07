@@ -2,9 +2,19 @@ package com.example.skylink.IntegrationTest;
 
 import static org.junit.Assert.*;
 
+import android.content.Intent;
+
 import com.example.skylink.TestUtils.TestUtils;
+import com.example.skylink.application.Services;
 import com.example.skylink.business.Implementations.PaymentHandler;
+import com.example.skylink.business.Implementations.UserHandler;
+import com.example.skylink.business.Interface.IUserHandler;
 import com.example.skylink.objects.Implementations.TripInvoice;
+import com.example.skylink.objects.Implementations.UserProperties;
+import com.example.skylink.objects.Interfaces.IUserProperties;
+import com.example.skylink.presentation.FlightSearching.FlightSearchP;
+import com.example.skylink.presentation.Session;
+import com.example.skylink.presentation.User_Auth.SignInActivity;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -26,11 +36,28 @@ public class PaymentHandlerIntegrated {
 
     @Test
     public void testAddPayment_Successful() {
+
+        String userFullname = "Hello World";
+        String userEmail = "wow@w.com";
+        String userPassword = "password";
+        String userRePassword = "password";
+        long sessionUserID = 0;
+
+        IUserProperties user = new UserProperties(userFullname, userEmail, userPassword);
+        IUserHandler handler = new UserHandler(Services.getUserDatabase());
+
+        try {
+            handler.createUser(user, userRePassword);
+            sessionUserID = Session.getInstance().getUser_id();
+        } catch (UserHandler.UserCreationException e) {
+            fail("Should not fail");
+        }
+
         // Given
-        TripInvoice tripInvoice = new TripInvoice(1, 100);
+        TripInvoice tripInvoice = new TripInvoice(sessionUserID, 100);
 
         // When
-        boolean result = paymentHandler.addPayment(tripInvoice, 1);
+        boolean result = paymentHandler.addPayment(tripInvoice, sessionUserID);
 
         // Then
         assertTrue(result);
