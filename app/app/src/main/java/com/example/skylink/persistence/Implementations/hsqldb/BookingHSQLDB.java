@@ -77,7 +77,7 @@ public class BookingHSQLDB implements iBookingDB {
         try (Connection conn = connect();
              Statement stmt = conn.createStatement()) {
 
-            this.drop();
+//            this.drop();
             stmt.executeUpdate(CREATE_TABLE);
 
         } catch (SQLException e) {

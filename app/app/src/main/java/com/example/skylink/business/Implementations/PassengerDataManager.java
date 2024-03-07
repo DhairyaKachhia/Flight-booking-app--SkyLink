@@ -18,6 +18,9 @@ public class PassengerDataManager implements iPassengerDataManager {
     }
 
     public iPassengerData addBooking(String title, String firstName, String lastName, String telephoneNumber, String emailAddress) {
+        if (title == null || firstName == null || lastName == null || telephoneNumber == null || emailAddress == null) {
+            return null;
+        }
         iPassengerData newPassengerData = new PassengerData(title, firstName, lastName, telephoneNumber, emailAddress);
         bookingDatabase.addBooking(newPassengerData);
 

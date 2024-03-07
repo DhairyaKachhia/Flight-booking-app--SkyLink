@@ -62,12 +62,7 @@ public class PassengerDataManagerIntegrated {
     public void testAddBookingWithNullEmail() {
         iPassengerData passengerData = passengerDataManager.addBooking("Ms.", "Alice", "Wonderland", "123456789", null);
 
-        assertNotNull(passengerData);
-        assertEquals("Ms.", passengerData.getTitle());
-        assertEquals("Alice", passengerData.getFirstName());
-        assertEquals("Wonderland", passengerData.getLastName());
-        assertEquals("123456789", passengerData.getTelephoneNumber());
-        assertNull(passengerData.getEmailAddress());
+        assertNull(passengerData);
     }
 
     @Test
