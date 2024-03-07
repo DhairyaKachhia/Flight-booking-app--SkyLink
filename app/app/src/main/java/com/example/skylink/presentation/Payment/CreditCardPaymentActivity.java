@@ -96,89 +96,54 @@ public class CreditCardPaymentActivity extends AppCompatActivity {
         MaterialCardView inboundCard = findViewById(R.id.inboundCard);
         HashMap<String, List<List<iFlight>>> selectedFlight = session.getSelectedFlights();
 
-        // setup outbound card view
-        if (selectedFlight != null && selectedFlight.containsKey("Outbound")) {
-            List<List<iFlight>> outboundFlights = selectedFlight.get("Outbound");
-
-            if (outboundFlights != null) {
-
-                iFlight firstFlight = outboundFlights.get(0).get(0);
-
-                departOriginCode.setText(firstFlight.getDeparture_icao());
-                departTakeoffTime.setText(parseTime(firstFlight.getFlight_dept_date_time()));
-
-                if (outboundFlights.size() > 1) {
-                    String middleAirports = "";
-
-                    middleAirports += firstFlight.getArrival_icao();
-                    departMidCode.setText(middleAirports);
-
-                    iFlight lastFlight = outboundFlights.get(1).get(0);
-
-                    departDestCode.setText(lastFlight.getArrival_icao());
-                    String getLandingTime = parseTime(lastFlight.getFlight_arr_date_time());
-
-                    if (getLandingTime != null) {
-                        departLandingTime.setText(getLandingTime);
-                    }
-
-                } else {
-                    departMidCode.setText("");
-
-                    departDestCode.setText(firstFlight.getArrival_icao());
-
-                    String getLandingTime = parseTime(firstFlight.getFlight_arr_date_time());
-                    if (getLandingTime != null) {
-                        departLandingTime.setText(getLandingTime);
-                    }
-                }
-            }
-
+        setupCardView(departOriginCode, departTakeoffTime, departMidCode, departDestCode, departLandingTime, "Outbound");
+        if (inboundCard.getVisibility() == View.VISIBLE) {
+            setupCardView(returnOriginCode, returnTakeoffTime, returnMidCode, returnDestCode, returnLandingTime, "Inbound");
         }
-
-        // setup inbound card view
-        if (selectedFlight != null && (inboundCard.getVisibility() == View.VISIBLE) && selectedFlight.containsKey("Inbound")) {
-            List<List<iFlight>> inboundFlights = selectedFlight.get("Inbound");
-
-            if (inboundFlights != null) {
-
-                iFlight firstFlight = inboundFlights.get(0).get(0);
-
-                returnOriginCode.setText(firstFlight.getDeparture_icao());
-                returnTakeoffTime.setText(parseTime(firstFlight.getFlight_dept_date_time()));
-
-                if (inboundFlights.size() > 1) {
-                    String middleAirports = "";
-
-                    middleAirports += firstFlight.getArrival_icao();
-                    returnMidCode.setText(middleAirports);
-
-                    iFlight lastFlight = inboundFlights.get(1).get(0);
-
-                    returnDestCode.setText(lastFlight.getArrival_icao());
-                    String getLandingTime = parseTime(lastFlight.getFlight_arr_date_time());
-
-                    if (getLandingTime != null) {
-                        returnLandingTime.setText(getLandingTime);
-                    }
-
-                } else {
-                    returnMidCode.setText("");
-
-                    returnDestCode.setText(firstFlight.getArrival_icao());
-
-                    String getLandingTime = parseTime(firstFlight.getFlight_arr_date_time());
-                    if (getLandingTime != null) {
-                        returnLandingTime.setText(getLandingTime);
-                    }
-                }
-            }
-
-        }
-
 
         totalPrice.setText("$" + session.getTotalPrice());
     }
+
+    private void setupCardView(TextView originCode, TextView takeoffTime, TextView midCode, TextView destCode, TextView landingTime, String key) {
+        HashMap<String, List<List<iFlight>>> selectedFlight = session.getSelectedFlights();
+        if (selectedFlight != null && selectedFlight.containsKey(key)) {
+            List<List<iFlight>> flights = selectedFlight.get(key);
+
+            if (flights != null) {
+                iFlight firstFlight = flights.get(0).get(0);
+
+                originCode.setText(firstFlight.getDeparture_icao());
+                takeoffTime.setText(parseTime(firstFlight.getFlight_dept_date_time()));
+
+                if (flights.size() > 1) {
+                    String middleAirports = "";
+
+                    middleAirports += firstFlight.getArrival_icao();
+                    midCode.setText(middleAirports);
+
+                    iFlight lastFlight = flights.get(1).get(0);
+
+                    destCode.setText(lastFlight.getArrival_icao());
+                    String getLandingTime = parseTime(lastFlight.getFlight_arr_date_time());
+
+                    if (getLandingTime != null) {
+                        landingTime.setText(getLandingTime);
+                    }
+
+                } else {
+                    midCode.setText("");
+
+                    destCode.setText(firstFlight.getArrival_icao());
+
+                    String getLandingTime = parseTime(firstFlight.getFlight_arr_date_time());
+                    if (getLandingTime != null) {
+                        landingTime.setText(getLandingTime);
+                    }
+                }
+            }
+        }
+    }
+
 
     private String parseTime (String dateTime) {
         String timeOnly = null;

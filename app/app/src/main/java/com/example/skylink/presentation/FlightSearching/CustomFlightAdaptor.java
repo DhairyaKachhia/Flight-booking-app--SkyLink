@@ -125,20 +125,32 @@ public class CustomFlightAdaptor extends BaseAdapter {
         }
 
         econBook.setOnClickListener(v -> {
+            bookFlight(econBook, econPrice, "Economy");
+        });
+
+        busnBook.setOnClickListener(v -> {
+            bookFlight(busnBook, busnPrice, "Business");
+        });
+
+        return listItemView;
+    }
+
+    private void bookFlight(Button bookButton, TextView priceView, String priceType) {
+        bookButton.setOnClickListener(v -> {
             int currTotal = Session.getInstance().getTotalPrice();
-            Session.getInstance().setTotalPrice(currTotal + userInput.getTotalPassengers() * Integer.parseInt(econPrice.getText().toString()));
+            Session.getInstance().setTotalPrice(currTotal + userInput.getTotalPassengers() * Integer.parseInt(priceView.getText().toString()));
 
             View parentRow = (View) v.getParent();
             ListView listView = (ListView) parentRow.getParent().getParent().getParent().getParent().getParent();
-            final int position1 = listView.getPositionForView(parentRow);
+            final int position = listView.getPositionForView(parentRow);
 
-            List<List<iFlight>> flightCardView1 = getItem(position1);
+            List<List<iFlight>> flightCardView = getItem(position);
 
             if (flightResult != null) {
                 HashMap<String, List<List<iFlight>>> selectedFlights = flightResult.getSelectedFlights();
-                Session.getInstance().setpriceType("Price","Economy");
+                Session.getInstance().setpriceType("Price", priceType);
                 if (isOneWay) {
-                    selectedFlights.put("Outbound", flightCardView1);
+                    selectedFlights.put("Outbound", flightCardView);
                     flightResult.setSelectedFlights(selectedFlights);
 
                     toNextActivity();
@@ -146,11 +158,11 @@ public class CustomFlightAdaptor extends BaseAdapter {
                 } else {
 
                     if (flightResult.getDepartureStatus()) {
-                        selectedFlights.put("Inbound", flightCardView1);
+                        selectedFlights.put("Inbound", flightCardView);
                         flightResult.setSelectedFlights(selectedFlights);
                         toNextActivity();
                     } else {
-                        selectedFlights.put("Outbound", flightCardView1);
+                        selectedFlights.put("Outbound", flightCardView);
                         flightResult.setSelectedFlights(selectedFlights);
                         flightResult.setDepartureStatus(true);
                         displayReturnFlight();
@@ -159,43 +171,8 @@ public class CustomFlightAdaptor extends BaseAdapter {
 
             }
         });
-
-        busnBook.setOnClickListener(v -> {
-            int currTotal = Session.getInstance().getTotalPrice();
-            Session.getInstance().setTotalPrice(currTotal + userInput.getTotalPassengers() * Integer.parseInt(busnPrice.getText().toString()));
-
-            View parentRow = (View) v.getParent();
-            ListView listView = (ListView) parentRow.getParent().getParent().getParent().getParent().getParent();
-            final int position12 = listView.getPositionForView(parentRow);
-
-            List<List<iFlight>> flightCardView12 = getItem(position12);
-
-            if (flightResult != null) {
-                HashMap<String, List<List<iFlight>>> selectedFlights = flightResult.getSelectedFlights();
-                Session.getInstance().setpriceType("Price","Business");
-                if (isOneWay) {
-                    selectedFlights.put("Outbound", flightCardView12);
-                    flightResult.setSelectedFlights(selectedFlights);
-                    toNextActivity();
-
-                } else {
-
-                    if (flightResult.getDepartureStatus()) {
-                        selectedFlights.put("Inbound", flightCardView12);
-                        flightResult.setSelectedFlights(selectedFlights);
-                        toNextActivity();
-                    } else {
-                        selectedFlights.put("Outbound", flightCardView12);
-                        flightResult.setSelectedFlights(selectedFlights);
-                        flightResult.setDepartureStatus(false);
-                        displayReturnFlight();
-                    }
-                }
-            }
-        });
-
-        return listItemView;
     }
+
 
     private String parseTime (String dateTime) {
         String timeOnly = null;

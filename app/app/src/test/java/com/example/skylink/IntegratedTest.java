@@ -11,11 +11,11 @@ import org.junit.runners.Suite;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
+        UserHandlerIntegrated.class,
         AirportPathIntegrated.class,
         PassengerDataManagerIntegrated.class,
         PlaneConfigurationIntegrated.class,
-        PaymentHandlerIntegrated.class,
-        UserHandlerIntegrated.class
+        PaymentHandlerIntegrated.class
 })
 public class  IntegratedTest{
     // This class can remain empty
