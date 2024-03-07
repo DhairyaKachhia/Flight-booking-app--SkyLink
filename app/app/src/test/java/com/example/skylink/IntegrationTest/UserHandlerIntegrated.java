@@ -8,11 +8,13 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import com.example.skylink.TestUtils.TestUtils;
+import com.example.skylink.application.Services;
 import com.example.skylink.business.Implementations.UserHandler;
 import com.example.skylink.business.Interface.IUserHandler;
 import com.example.skylink.objects.Implementations.UserProperties;
 import com.example.skylink.objects.Interfaces.IUserProperties;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -175,5 +177,15 @@ public class UserHandlerIntegrated {
 
         // Verify the result
         assertFalse(result);
+    }
+
+    @After
+    public void tearDown() {
+        System.out.println("Reset database.");
+        // reset DB
+        this.tempDB.delete();
+
+        // clear Services
+        Services.clean();
     }
 }

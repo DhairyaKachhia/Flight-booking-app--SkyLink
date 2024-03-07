@@ -18,13 +18,14 @@ public class PassengerDataManager implements iPassengerDataManager {
     }
 
     public iPassengerData addBooking(String title, String firstName, String lastName, String telephoneNumber, String emailAddress) {
-        if (title == null || firstName == null || lastName == null || telephoneNumber == null || emailAddress == null) {
-            return null;
-        }
-        iPassengerData newPassengerData = new PassengerData(title, firstName, lastName, telephoneNumber, emailAddress);
-        bookingDatabase.addBooking(newPassengerData);
+        if (title != null && firstName != null && lastName != null && telephoneNumber != null && emailAddress != null) {
+            iPassengerData newPassengerData = new PassengerData(title, firstName, lastName, telephoneNumber, emailAddress);
+            bookingDatabase.addBooking(newPassengerData);
 
-        return newPassengerData;
+            return newPassengerData;
+        }
+
+        return null;
     }
 
     public boolean findBooking(String title, String firstName, String lastName, String telephoneNumber, String emailAddress) {

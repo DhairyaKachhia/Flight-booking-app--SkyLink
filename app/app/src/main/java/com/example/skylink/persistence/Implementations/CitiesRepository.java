@@ -1,4 +1,4 @@
-package com.example.skylink.persistence.Implementations.hsqldb;
+package com.example.skylink.persistence.Implementations;
 
 import com.example.skylink.objects.Implementations.City;
 import com.example.skylink.objects.Interfaces.iCity;

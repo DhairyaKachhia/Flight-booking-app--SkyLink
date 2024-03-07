@@ -87,7 +87,7 @@ public class BookingHSQLDB implements iBookingDB {
     }
 
     public iBookingDB drop() {
-        String sql = "DROP TABLE USER";
+        String sql = "DROP TABLE BOOKINGS";
         try (Connection conn = connect();
              Statement stmt = conn.createStatement()) {
             stmt.executeUpdate(sql);

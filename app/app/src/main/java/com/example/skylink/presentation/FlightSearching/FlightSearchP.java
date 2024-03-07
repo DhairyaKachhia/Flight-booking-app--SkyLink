@@ -29,7 +29,7 @@ import com.example.skylink.presentation.Session;
 import com.example.skylink.objects.Interfaces.iCity;
 import com.example.skylink.objects.Interfaces.iFlight;
 import com.example.skylink.objects.Interfaces.iFlightSearch;
-import com.example.skylink.persistence.Implementations.hsqldb.CitiesRepository;
+import com.example.skylink.persistence.Implementations.CitiesRepository;
 import com.example.skylink.persistence.Interfaces.IFlightDB;
 import com.example.skylink.presentation.User_Auth.SignInActivity;
 import com.example.skylink.presentation.User_Auth.UpdateUserProfileActivity;

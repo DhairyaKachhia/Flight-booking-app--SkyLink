@@ -6,8 +6,10 @@ import static org.junit.Assert.assertNull;
 
 
 import com.example.skylink.TestUtils.TestUtils;
+import com.example.skylink.application.Services;
 import com.example.skylink.business.Implementations.PlaneConfiguration;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -84,4 +86,13 @@ public class PlaneConfigurationIntegrated {
         assertNull("Result should be null for an invalid seat type and aircraft name", result);
     }
 
+    @After
+    public void tearDown() {
+        System.out.println("Reset database.");
+        // reset DB
+        this.tempDB.delete();
+
+        // clear Services
+        Services.clean();
+    }
 }
