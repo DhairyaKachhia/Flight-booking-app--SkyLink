@@ -118,7 +118,7 @@ Finished:
 
 Add-ons has been moved to iteration 3.
 
-##User stories
+## User stories
 
 **Finished**
 
@@ -158,4 +158,3 @@ Description: As a user, I want to be able to book for my family to have adjacent
 
 Cost:
 
-- 
