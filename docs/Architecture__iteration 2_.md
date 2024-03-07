@@ -23,10 +23,10 @@ It includes a sign-in page and a sign-up page; if the user already has an accoun
 ## Presentation layer:
 
 **FlightDisplay**
-  - The page takes users’ search parameters to display the resulting flights on the next activity.
+- It displays resulting flights based on users’ input on a ListView using CustomFlightAdaptor. It also displays sorting filters that the user can select to update the flight result list.
 
 **FlightSearch**
-- It displays resulting flights based on users’ input on a ListView using CustomFlightAdaptor. It also displays sorting filters that the user can select to update the flight result list.
+  - The page takes users’ search parameters to display the resulting flights on the next activity.
 
 **CreditCardPaymentActivity and PaymentSuccessfulActivity**
 - These are for the payment system; credit card payment activity will take the user's payment information, and after the payment is successfully made, it will take the user to the payment success page.
