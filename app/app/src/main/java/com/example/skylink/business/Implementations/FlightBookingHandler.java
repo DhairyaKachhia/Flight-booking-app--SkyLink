@@ -34,11 +34,10 @@ public class FlightBookingHandler implements iFlightBookingHandler {
                     for (Map.Entry<iPassengerData, String> entry :flight_Info.getSeatSelected().entrySet()) {
                         iPassengerData passengerData = entry.getKey();
                         String seatNumber = entry.getValue();
-
-                        // Call your insertIntoTravellers method or perform other logic here
                         travelDB.insertIntoTravellers(booking_id, passengerData, seatNumber);
                     }
                 }
+                return true;
             }
             if(flightInfo.get("Inbound") != null && flightInfo.get("Inbound").equals("Inbound")){
                 iFlightInfo flight_Info = flightInfo.get("Outbound");
@@ -48,15 +47,12 @@ public class FlightBookingHandler implements iFlightBookingHandler {
                     for (Map.Entry<iPassengerData, String> entry :flight_Info.getSeatSelected().entrySet()) {
                         iPassengerData passengerData = entry.getKey();
                         String seatNumber = entry.getValue();
-
-                        // Call your insertIntoTravellers method or perform other logic here
                         travelDB.insertIntoTravellers(booking_id, passengerData, seatNumber);
                     }
                 }
+                return true;
             }
         }
-
-
         return false;
     }
 
@@ -68,7 +64,6 @@ public class FlightBookingHandler implements iFlightBookingHandler {
             price = flightInfo.getSeatSelected().size() * flightInfo.getFlight().getBusnPrice();
         }
         return price;
-
     }
 
 }
