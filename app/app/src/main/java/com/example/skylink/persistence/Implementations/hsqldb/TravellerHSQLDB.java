@@ -28,7 +28,7 @@ public class TravellerHSQLDB implements iTravellerDB {
     }
 
     public void insertIntoTravellers(long booking_id, iPassengerData passenger, String seatNumber) {
-        String sql = "INSERT INTO PUBLIC.TRAVELLER (traveller_name, seat_number, booking_id) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO TRAVELLER (traveller_name, seat_number, booking_id) VALUES (?, ?, ?)";
 
         try (Connection conn = connect();
              PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -56,7 +56,7 @@ public class TravellerHSQLDB implements iTravellerDB {
     }
 
     public iTravellerDB drop() {
-        String sql = "DROP TABLE BOOKINGS";
+        String sql = "DROP TABLE TRAVELLER";
         try (Connection conn = connect();
              Statement stmt = conn.createStatement()) {
             stmt.executeUpdate(sql);

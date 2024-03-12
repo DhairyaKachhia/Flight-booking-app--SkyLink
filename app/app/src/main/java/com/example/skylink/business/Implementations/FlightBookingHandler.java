@@ -26,7 +26,7 @@ public class FlightBookingHandler implements iFlightBookingHandler {
 
     public boolean addConfirmBooking(long user_id, HashMap<String, iFlightInfo> flightInfo) {
         if(flightInfo != null){
-            if(flightInfo.get("Outbound") != null && flightInfo.get("Outbound").equals("Outbound")){
+            if(flightInfo.get("Outbound") != null && flightInfo.containsKey("Outbound")){
                 iFlightInfo flight_Info = flightInfo.get("Outbound");
                 if(flight_Info != null){
                     int price = calculateTotalPrice(flight_Info);
@@ -39,7 +39,7 @@ public class FlightBookingHandler implements iFlightBookingHandler {
                 }
                 return true;
             }
-            if(flightInfo.get("Inbound") != null && flightInfo.get("Inbound").equals("Inbound")){
+            if(flightInfo.get("Inbound") != null && flightInfo.containsKey("Inbound")){
                 iFlightInfo flight_Info = flightInfo.get("Outbound");
                 if(flight_Info != null) {
                     int price = calculateTotalPrice(flight_Info);

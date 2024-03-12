@@ -32,7 +32,7 @@ public class FlightBookingHSQLDB implements iFlightBookingDB {
     }
 
     public long addFlightBooking(long user_id, String bound, iFlightInfo flightInfo, int price) {
-        String sql = "INSERT INTO PUBLIC.FLIGHTBOOKINGS (flightID, userID, direction, price, paid) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO FLIGHTBOOKINGS (flightID, userID, direction, price, paid) VALUES (?, ?, ?, ?, ?)";
         try (Connection conn = connect();
              PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
@@ -75,7 +75,7 @@ public class FlightBookingHSQLDB implements iFlightBookingDB {
         }
 
     public iFlightBookingDB drop() {
-        String sql = "DROP TABLE BOOKINGS";
+        String sql = "DROP TABLE FLIGHTBOOKINGS";
         try (Connection conn = connect();
              Statement stmt = conn.createStatement()) {
             stmt.executeUpdate(sql);

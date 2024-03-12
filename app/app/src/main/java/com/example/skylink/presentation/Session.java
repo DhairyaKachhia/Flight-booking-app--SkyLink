@@ -131,8 +131,12 @@ public class Session implements ISession {
     }
 
     public void setFlightInfoCompleted(String flightType, iFlightInfo flightInfoCompleted) {
+        if (this.flightInfoCompleted == null) {
+            this.flightInfoCompleted = new HashMap<>();
+        }
         this.flightInfoCompleted.put(flightType, flightInfoCompleted);
     }
+
 
 
 
