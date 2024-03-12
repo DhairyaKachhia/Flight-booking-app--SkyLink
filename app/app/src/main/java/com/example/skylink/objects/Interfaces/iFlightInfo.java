@@ -1,6 +1,7 @@
 package com.example.skylink.objects.Interfaces;
 
 import java.util.HashMap;
+import java.util.List;
 
 public interface iFlightInfo {
     String getEconOrBus();
@@ -11,6 +12,6 @@ public interface iFlightInfo {
 
     void setSeatSelected(HashMap<iPassengerData, String> seatSelected);
 
-    iFlight getFlight();
-    void setFlight(iFlight flight);
+    List<iFlight> getFlight();
+    void setFlight(List<iFlight> flight);
 }

@@ -4,6 +4,7 @@ import com.example.skylink.objects.Interfaces.iPassengerData;
 import com.example.skylink.persistence.Interfaces.iBookingDB;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 public class BookingStub implements iBookingDB {
     private final List<iPassengerData> passengerData;
@@ -32,6 +33,11 @@ public class BookingStub implements iBookingDB {
     @Override
     public void updateBookingInformation(String emailAddress, long userId, String bookingNumber, String seatNumber) {
 
+    }
+
+    @Override
+    public HashMap<iPassengerData, String> getPassengersWithSeatNumbers(String bookingNumber) {
+        return null;
     }
 
 

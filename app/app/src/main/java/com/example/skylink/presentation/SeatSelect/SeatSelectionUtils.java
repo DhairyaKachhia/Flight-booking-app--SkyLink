@@ -267,12 +267,12 @@ public class SeatSelectionUtils {
     }
 
     private static void handlePaymentActivity(Activity activity, HashMap<iPassengerData, String> seatMap, String bound) {
+        List<iFlight> selectedFlight = Session.getInstance().getSelectedFlights().get(bound).get(0);;
         String econOrBus =  Session.getInstance().getpriceType().get("Price");
         HashMap<iPassengerData, String> seatSelected = seatMap;
-        iFlight flight =  Session.getInstance().getSelectedFlights().get(bound).get(0).get(0);
 
-        if(flight != null){
-            iFlightInfo flightInfo = new FlightInfo(econOrBus,seatSelected, flight);
+        if(selectedFlight != null && !selectedFlight.isEmpty()){
+            iFlightInfo flightInfo = new FlightInfo(econOrBus,seatSelected, selectedFlight);
             Session.getInstance().setFlightInfoCompleted(bound,flightInfo);
 
             Intent intent = new Intent(activity, CreditCardPaymentActivity.class);

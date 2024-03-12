@@ -105,7 +105,6 @@ public class CreditCardPaymentActivity extends AppCompatActivity {
         totalPrice = findViewById(R.id.totalPrice);
 
         MaterialCardView inboundCard = findViewById(R.id.inboundCard);
-        HashMap<String, List<List<iFlight>>> selectedFlight = session.getSelectedFlights();
 
         setupCardView(departOriginCode, departTakeoffTime, departMidCode, departDestCode, departLandingTime, "Outbound");
         if (inboundCard.getVisibility() == View.VISIBLE) {

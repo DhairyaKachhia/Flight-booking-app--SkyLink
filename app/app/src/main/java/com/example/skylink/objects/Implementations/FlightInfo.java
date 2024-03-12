@@ -1,6 +1,7 @@
 package com.example.skylink.objects.Implementations;
 
 import java.util.HashMap;
+import java.util.List;
 
 import com.example.skylink.objects.Interfaces.iFlight;
 import com.example.skylink.objects.Interfaces.iPassengerData;
@@ -9,9 +10,12 @@ import com.example.skylink.objects.Interfaces.iFlightInfo;
 public class FlightInfo implements iFlightInfo{
     private String econOrBus;
     private HashMap<iPassengerData, String> seatSelected;
-    private iFlight flight;
+    private List<iFlight> flight;
+    public FlightInfo(){
 
-    public FlightInfo(String econOrBus, HashMap<iPassengerData, String> seatSelected, iFlight flight) {
+    }
+
+    public FlightInfo(String econOrBus, HashMap<iPassengerData, String> seatSelected, List<iFlight> flight) {
         this.econOrBus = econOrBus;
         this.seatSelected = seatSelected;
         this.flight = flight;
@@ -35,11 +39,11 @@ public class FlightInfo implements iFlightInfo{
         this.seatSelected = seatSelected;
     }
 
-    public iFlight getFlight() {
+    public List<iFlight> getFlight() {
         return flight;
     }
 
-    public void setFlight(iFlight flight) {
+    public void setFlight(List<iFlight> flight) {
         this.flight = flight;
     }
 }

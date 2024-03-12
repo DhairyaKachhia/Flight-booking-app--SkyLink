@@ -1,5 +1,6 @@
 package com.example.skylink.persistence.Implementations.hsqldb;
 
+import com.example.skylink.objects.Interfaces.iFlight;
 import com.example.skylink.objects.Interfaces.iFlightInfo;
 import com.example.skylink.persistence.Interfaces.iFlightBookingDB;
 
@@ -34,16 +35,17 @@ public class FlightBookingHSQLDB implements iFlightBookingDB {
         return DriverManager.getConnection("jdbc:hsqldb:file:" + dbPath + ";shutdown=true", "SA", "");
     }
 
-    public void addFlightBooking(long user_id, String bound, iFlightInfo flightInfo, int price, String bookingNumber) {
-        String sql = "INSERT INTO FLIGHTBOOKINGS (flightID, userID, direction, price, paid, bookingNumber) VALUES (?, ?, ?, ?, ?, ?)";
+    public void addFlightBooking(long user_id, String bound, iFlight flight , int price, String bookingNumber, String econBusiness) {
+        String sql = "INSERT INTO FLIGHTBOOKINGS (flightID, userID, direction, price, paid, econBus, bookingNumber) VALUES (?, ?, ?, ?, ?, ?, ?)";
         try (Connection conn = connect();
              PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
-            ps.setString(1, flightInfo.getFlight().getFlightNumber());
+            ps.setString(1, flight.getFlightNumber());
             ps.setLong(2, user_id);
             ps.setString(3, bound);
             ps.setInt(4, price);
             ps.setBoolean(5, true);
+            ps.setString(5,econBusiness);
             ps.setString(6, bookingNumber);
 
             int affectedRows = ps.executeUpdate();
@@ -62,10 +64,10 @@ public class FlightBookingHSQLDB implements iFlightBookingDB {
         }
     }
 
-    public List<String> getFlightIdsByUserId(long userId) {
-        List<String> flightIds = new ArrayList<>();
+    public List<String> getBookingNumberByUserId(long userId) {
+        List<String> bookingNumbers = new ArrayList<>();
 
-        String sql = "SELECT flightID FROM FLIGHTBOOKINGS WHERE userID = ?";
+        String sql = "SELECT bookingNumber FROM FLIGHTBOOKINGS WHERE userID = ?";
 
         try (Connection conn = connect();
              PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -74,7 +76,8 @@ public class FlightBookingHSQLDB implements iFlightBookingDB {
 
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
-                    flightIds.add(rs.getString("flightID"));
+                    String bookingNumber = rs.getString("bookingNumber");
+                    bookingNumbers.add(bookingNumber);
                 }
             }
 
@@ -82,8 +85,34 @@ public class FlightBookingHSQLDB implements iFlightBookingDB {
             throw new RuntimeException(e);
         }
 
-        return flightIds;
+        return bookingNumbers;
     }
+
+
+    public List<String> getFlightsByUserId(String bound, String bookingNumberByUserId) {
+        List<String> flightIDs = new ArrayList<>();
+        String sql = "SELECT flightID FROM FLIGHTBOOKINGS WHERE direction = ? AND bookingNumber = ?";
+
+        try (Connection conn = connect();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, bound);
+            ps.setString(2, bookingNumberByUserId);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    String flightID = rs.getString("flightID");
+                    flightIDs.add(flightID);
+                }
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return flightIDs;
+    }
+
 
 
         public iFlightBookingDB initialize() {
