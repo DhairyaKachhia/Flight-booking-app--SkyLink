@@ -58,10 +58,7 @@ public class FlightBookingHSQLDB implements iFlightBookingDB {
             throw new RuntimeException(e);
         }
     }
-
-
-
-
+    
         public iFlightBookingDB initialize() {
             try (Connection conn = connect();
                  Statement stmt = conn.createStatement()) {

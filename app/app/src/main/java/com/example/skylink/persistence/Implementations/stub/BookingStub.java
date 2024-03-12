@@ -12,11 +12,11 @@ public class BookingStub implements iBookingDB {
         this.passengerData = new ArrayList<>();
     }
 
-    public void addBooking(iPassengerData passengerData){
+    public void addBooking(iPassengerData passengerData,long userId){
         this.passengerData.add(passengerData);
     }
 
-    public boolean findBooking(iPassengerData searchPassengerData) {
+    public boolean findBooking(iPassengerData searchPassengerData,long userId) {
         for (iPassengerData b : passengerData) {
             if (b.getTitle().equals(searchPassengerData.getTitle()) &&
                     b.getFirstName().equals(searchPassengerData.getFirstName()) &&
@@ -27,6 +27,11 @@ public class BookingStub implements iBookingDB {
             }
         }
         return false;
+    }
+
+    @Override
+    public void updateBookingNumber(String emailAddress, long userId, String bookingNumber) {
+
     }
 
 }

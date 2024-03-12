@@ -32,17 +32,43 @@ public class BookingHSQLDB implements iBookingDB {
     }
 
     @Override
-    public void addBooking(iPassengerData passengerData) {
-        String sql = "INSERT INTO BOOKINGS (title, first_name, last_name, telephone_number, email_address) VALUES (?, ?, ?, ?, ?)";
+    public void addBooking(iPassengerData passengerData, long userId) {
+        String sql = "INSERT INTO BOOKINGS (title, first_name, last_name, telephone_number, email_address, user_id) VALUES (?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = connect();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+             PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
             ps.setString(1, passengerData.getTitle());
             ps.setString(2, passengerData.getFirstName());
             ps.setString(3, passengerData.getLastName());
             ps.setString(4, passengerData.getTelephoneNumber());
             ps.setString(5, passengerData.getEmailAddress());
+            ps.setLong(6, userId);
+
+            int affectedRows = ps.executeUpdate();
+
+            if (affectedRows > 0) {
+                ResultSet generatedKeys = ps.getGeneratedKeys();
+                if (generatedKeys.next()) {
+                    int bookingId = generatedKeys.getInt(1);
+                    // You can store the generated bookingId for future use if needed
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void updateBookingNumber(String emailAddress, long userId, String bookingNumber) {
+        String sql = "UPDATE BOOKINGS SET bookingNumber = ? WHERE email_address = ? AND user_id = ?";
+
+        try (Connection conn = connect();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, bookingNumber);
+            ps.setString(2, emailAddress);
+            ps.setLong(3, userId);
 
             ps.executeUpdate();
 
@@ -51,8 +77,10 @@ public class BookingHSQLDB implements iBookingDB {
         }
     }
 
+
+
     @Override
-    public boolean findBooking(iPassengerData searchPassengerData) {
+    public boolean findBooking(iPassengerData searchPassengerData, long userId) {
         String sql = "SELECT * FROM BOOKINGS WHERE title=? AND first_name=? AND last_name=? AND telephone_number=? AND email_address=?";
 
         try (Connection conn = connect();
