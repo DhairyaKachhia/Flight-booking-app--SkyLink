@@ -18,8 +18,10 @@ public class Session implements ISession {
     private iFlightSearch flightSearch;
     private int totalPrice;
     private List<iPassengerData> passengerData;
-    private HashMap<iPassengerData, String> seatMap;
+    private HashMap<iPassengerData, String> seatMapOutbound;
+    private HashMap<iPassengerData, String> seatMapInbound;
     private Map<String, String> priceType;
+
     public Map<String, String> getpriceType() {
         return priceType;
     }
@@ -32,14 +34,6 @@ public class Session implements ISession {
             priceType = new HashMap<>();
         }
         priceType.put(key, value);
-    }
-
-    public HashMap<iPassengerData, String> getSeatMap() {
-        return seatMap;
-    }
-
-    public void setSeatMap(HashMap<iPassengerData, String> seatMap) {
-        this.seatMap = seatMap;
     }
 
     private HashMap<String, List<List<iFlight>>> selectedFlights;
@@ -129,6 +123,21 @@ public class Session implements ISession {
 
     public void setSelectedFlights(HashMap<String, List<List<iFlight>>> selectedFlights) {
         this.selectedFlights = selectedFlights;
+    }
+    public HashMap<iPassengerData, String> getSeatMapOutbound() {
+        return seatMapOutbound;
+    }
+
+    public void setSeatMapOutbound(HashMap<iPassengerData, String> seatMapOutbound) {
+        this.seatMapOutbound = seatMapOutbound;
+    }
+
+    public HashMap<iPassengerData, String> getSeatMapInbound() {
+        return seatMapInbound;
+    }
+
+    public void setSeatMapInbound(HashMap<iPassengerData, String> seatMapInbound) {
+        this.seatMapInbound = seatMapInbound;
     }
 
     /*

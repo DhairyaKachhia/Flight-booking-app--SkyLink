@@ -58,25 +58,16 @@ public class CreditCardPaymentActivity extends AppCompatActivity {
                 // Insert Into Booking: id,  Flight ID, User ID,  Outbound/Inbound, All passengers, Passenger Seats, Price, Paid, Forign key  UserID to User ID in USER, Flight ID to FLight
 
                 iFlightBookingHandler flightHandler = new FlightBookingHandler(Services.getFlightBookingDB());
-                flightHandler.addConfirmBooking();
 
-                Intent intent = new Intent(CreditCardPaymentActivity.this, PaymentSuccessfulActivity.class);
-                startActivity(intent);
+
+                boolean flightBooked = flightHandler.addConfirmBooking(Session.getInstance().getSelectedFlights(),Session.getInstance().getUser_id(),Session.getInstance().getSeatMapOutbound(), Session.getInstance().getSeatMapInbound());
+                if(flightBooked){
+                    Intent intent = new Intent(CreditCardPaymentActivity.this, PaymentSuccessfulActivity.class);
+                    startActivity(intent);
+                }
+
             }
         });
-    }
-
-    private void confirmBooking(){
-//      Insert Into Booking: id,  Flight ID, User ID,  Outbound/Inbound, All passengers, Passenger Seats, Price, Paid, Forign key  UserID to User ID in USER, Flight ID to FLight
-        iFlightSearch flightSearch =  Session.getInstance().getFlightSearch();
-        long user_id = Session.getInstance().getUser_id();
-        HashMap<iPassengerData, String> seatMap = Session.getInstance().getSeatMap();
-
-        if(flightSearch.isOneWay()){
-
-        }else{
-
-        }
     }
 
     private void checkTripWay() {

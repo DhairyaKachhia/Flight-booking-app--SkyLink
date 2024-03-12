@@ -40,6 +40,6 @@ public class Out_boundActivity extends AppCompatActivity {
         seatLayoutContainer.addView(seatLayout);
 
         Button confirmButton = findViewById(R.id.confirmButton);
-        SeatSelectionUtils.setupConfirmButton(this, confirmButton, this, seatMap,Session.getInstance().getFlightSearch().isOneWay());
+        SeatSelectionUtils.setupConfirmButton(this, confirmButton, this, seatMap,Session.getInstance().getFlightSearch().isOneWay(), "Outbound");
     }
 }

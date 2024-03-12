@@ -19,9 +19,10 @@ public interface ISession {
 
     void setpriceType(String key, String value);
 
-    HashMap<iPassengerData, String> getSeatMap();
-
-    void setSeatMap(HashMap<iPassengerData, String> seatMap);
+    HashMap<iPassengerData, String> getSeatMapOutbound();
+    void setSeatMapOutbound(HashMap<iPassengerData, String> seatMapOutbound);
+    HashMap<iPassengerData, String> getSeatMapInbound();
+    void setSeatMapInbound(HashMap<iPassengerData, String> seatMapInbound);
 
     Context getContext();
 

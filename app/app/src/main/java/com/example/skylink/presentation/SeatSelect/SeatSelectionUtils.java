@@ -244,7 +244,7 @@ public class SeatSelectionUtils {
 
     }
 
-    public static void setupConfirmButton(Context context, Button myButton, Activity activity, HashMap<iPassengerData, String> seatMap, boolean returnFlight) {
+    public static void setupConfirmButton(Context context, Button myButton, Activity activity, HashMap<iPassengerData, String> seatMap, boolean returnFlight, String bound) {
         myButton.setOnClickListener(v -> {
             long notSelectedCount = countNotSelected(seatMap);
             if (notSelectedCount > 0) {
@@ -254,7 +254,7 @@ public class SeatSelectionUtils {
                     Intent intent = new Intent(activity, InboundActivity.class);
                     activity.startActivity(intent);
                 } else {
-                    handlePaymentActivity(activity, seatMap);
+                    handlePaymentActivity(activity, seatMap, bound);
                 }
             }
         });
@@ -264,8 +264,12 @@ public class SeatSelectionUtils {
         return seatMap.values().stream().filter(status -> status.equals("Not Selected")).count();
     }
 
-    private static void handlePaymentActivity(Activity activity, HashMap<iPassengerData, String> seatMap) {
-        Session.getInstance().setSeatMap(seatMap);
+    private static void handlePaymentActivity(Activity activity, HashMap<iPassengerData, String> seatMap, String bound) {
+        if(bound.equals("Outbound")){
+            Session.getInstance().setSeatMapOutbound(seatMap);
+        }else if (bound.equals("Inbound")) {
+            Session.getInstance().setSeatMapInbound(seatMap);
+        }
         Intent intent = new Intent(activity, CreditCardPaymentActivity.class);
         activity.startActivity(intent);
     }
