@@ -6,7 +6,6 @@ import com.example.skylink.IntegrationTest.PaymentHandlerIntegrated;
 import com.example.skylink.IntegrationTest.PlaneConfigurationIntegrated;
 import com.example.skylink.IntegrationTest.UserHandlerIntegrated;
 import com.example.skylink.UnitTest.PassengerDataManagerUnit;
-import com.example.skylink.UnitTest.AirportPathUnit;
 import com.example.skylink.UnitTest.PaymentHandlerUnit;
 import com.example.skylink.UnitTest.PlaneConfigurationUnit;
 import com.example.skylink.UnitTest.FlightSortingUnit;
@@ -27,7 +26,7 @@ import org.junit.runners.Suite;
         PlaneConfigurationIntegrated.class,
         PaymentHandlerIntegrated.class,
         UserHandlerIntegrated.class,
-        AirportPathUnit.class,
+        AirportPathMockito.class,
         PassengerDataManagerUnit.class,
         PlaneConfigurationUnit.class,
         FlightSortingUnit.class,

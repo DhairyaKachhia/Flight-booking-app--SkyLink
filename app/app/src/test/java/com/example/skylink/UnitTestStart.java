@@ -1,7 +1,6 @@
 package com.example.skylink;
 
 import com.example.skylink.UnitTest.PassengerDataManagerUnit;
-import com.example.skylink.UnitTest.AirportPathUnit;
 import com.example.skylink.UnitTest.PaymentHandlerUnit;
 import com.example.skylink.UnitTest.PlaneConfigurationUnit;
 import com.example.skylink.UnitTest.FlightSortingUnit;
@@ -16,7 +15,7 @@ import org.junit.runners.Suite;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
-        AirportPathUnit.class,
+        AirportPathMockito.class,
         PassengerDataManagerUnit.class,
         PlaneConfigurationUnit.class,
         FlightSortingUnit.class,
