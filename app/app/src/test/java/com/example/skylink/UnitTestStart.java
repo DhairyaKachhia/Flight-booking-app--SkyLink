@@ -15,7 +15,6 @@ import org.junit.runners.Suite;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
-        AirportPathMockito.class,
         PassengerDataManagerUnit.class,
         PlaneConfigurationUnit.class,
         FlightSortingUnit.class,

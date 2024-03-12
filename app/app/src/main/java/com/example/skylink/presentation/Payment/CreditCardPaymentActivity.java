@@ -8,6 +8,12 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.skylink.R;
+import com.example.skylink.application.Services;
+import com.example.skylink.business.Implementations.FlightBookingHandler;
+import com.example.skylink.business.Interface.iFlightBookingHandler;
+import com.example.skylink.objects.Interfaces.iPassengerData;
+import com.example.skylink.persistence.Implementations.hsqldb.FlightBookingHSQLDB;
+import com.example.skylink.persistence.Interfaces.iFlightBookingDB;
 import com.example.skylink.presentation.Session;
 import com.example.skylink.presentation.ISession;
 import com.example.skylink.business.validations.IValidatePayment;
@@ -49,11 +55,28 @@ public class CreditCardPaymentActivity extends AppCompatActivity {
 
             if (isValid()) {
                 addToSession();
+                // Insert Into Booking: id,  Flight ID, User ID,  Outbound/Inbound, All passengers, Passenger Seats, Price, Paid, Forign key  UserID to User ID in USER, Flight ID to FLight
+
+                iFlightBookingHandler flightHandler = new FlightBookingHandler(Services.getFlightBookingDB());
+                flightHandler.addConfirmBooking();
 
                 Intent intent = new Intent(CreditCardPaymentActivity.this, PaymentSuccessfulActivity.class);
                 startActivity(intent);
             }
         });
+    }
+
+    private void confirmBooking(){
+//      Insert Into Booking: id,  Flight ID, User ID,  Outbound/Inbound, All passengers, Passenger Seats, Price, Paid, Forign key  UserID to User ID in USER, Flight ID to FLight
+        iFlightSearch flightSearch =  Session.getInstance().getFlightSearch();
+        long user_id = Session.getInstance().getUser_id();
+        HashMap<iPassengerData, String> seatMap = Session.getInstance().getSeatMap();
+
+        if(flightSearch.isOneWay()){
+
+        }else{
+
+        }
     }
 
     private void checkTripWay() {

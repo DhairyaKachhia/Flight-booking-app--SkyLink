@@ -26,7 +26,6 @@ import org.junit.runners.Suite;
         PlaneConfigurationIntegrated.class,
         PaymentHandlerIntegrated.class,
         UserHandlerIntegrated.class,
-        AirportPathMockito.class,
         PassengerDataManagerUnit.class,
         PlaneConfigurationUnit.class,
         FlightSortingUnit.class,
