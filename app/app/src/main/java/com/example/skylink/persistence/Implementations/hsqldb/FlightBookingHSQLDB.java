@@ -1,13 +1,16 @@
 package com.example.skylink.persistence.Implementations.hsqldb;
 
+import com.example.skylink.objects.Interfaces.iFlightInfo;
 import com.example.skylink.objects.Interfaces.iPassengerData;
 import com.example.skylink.persistence.Interfaces.iFlightBookingDB;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.HashMap;
 
 public class FlightBookingHSQLDB implements iFlightBookingDB {
     private final String dbPath;
@@ -16,13 +19,12 @@ public class FlightBookingHSQLDB implements iFlightBookingDB {
             + "flightID VARCHAR(10) NOT NULL, "
             + "userID INT NOT NULL, "
             + "direction VARCHAR(10) NOT NULL, "
-            + "passengers INT NOT NULL, "
-            + "passengerSeats INT NOT NULL, "
             + "price INT NOT NULL, "
             + "paid BOOLEAN NOT NULL, "
             + "FOREIGN KEY (userID) REFERENCES PUBLIC.USER (id), "
             + "FOREIGN KEY (flightID) REFERENCES PUBLIC.FLIGHTS (flightNumber)"
             + ")";
+
     public FlightBookingHSQLDB(String dbPath) {
         this.dbPath = dbPath;
     }
@@ -31,60 +33,79 @@ public class FlightBookingHSQLDB implements iFlightBookingDB {
         return DriverManager.getConnection("jdbc:hsqldb:file:" + dbPath + ";shutdown=true", "SA", "");
     }
 
-    public void addBooking(iPassengerData passengerData) {
-        String sql = "INSERT INTO PUBLIC.BOOKINGS (flightID, userID, direction, passengers, passengerSeats, price, paid) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    public void addFlightBooking(long user_id, String bound, iFlightInfo flightInfo, int price) {
+        try (Connection conn = connect()) {
+            conn.setAutoCommit(false);
 
-        try (Connection conn = connect();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-
-            // Set the parameter values based on your data
-            ps.setString(1, "yourFlightID");
-            ps.setInt(2, 123); // Replace with the actual userID
-            ps.setString(3, "Outbound"); // Replace with the actual direction
-            ps.setInt(4, 2); // Replace with the actual number of passengers
-            ps.setInt(5, 2); // Replace with the actual number of passenger seats
-            ps.setInt(6, 200); // Replace with the actual price
-            ps.setBoolean(7, true); // Replace with the actual payment status
-
-            // Execute the SQL query
-            ps.executeUpdate();
-
+            try {
+                long booking_id = registerBooking(conn, user_id, bound, flightInfo, price);
+                registerFlyers(conn, booking_id, flightInfo);
+                conn.commit();
+            } catch (SQLException e) {
+                conn.rollback();
+                e.printStackTrace();
+            } finally {
+                conn.setAutoCommit(true);
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-//    public Booking getBookingByFlightAndUser(String flightID, int userID) {
-//        String sql = "SELECT * FROM PUBLIC.BOOKINGS WHERE flightID = ? AND userID = ?";
-//        Booking booking = null;
-//
-//        try (Connection conn = connect();
-//             PreparedStatement ps = conn.prepareStatement(sql)) {
-//
-//            ps.setString(1, flightID);
-//            ps.setInt(2, userID);
-//
-//            try (ResultSet rs = ps.executeQuery()) {
-//                if (rs.next()) {
-//                    // Create a Booking object and populate it with the retrieved data
-//                    booking = new Booking();
-//                    booking.setId(rs.getInt("id"));
-//                    booking.setFlightID(rs.getString("flightID"));
-//                    booking.setUserID(rs.getInt("userID"));
-//                    booking.setDirection(rs.getString("direction"));
-//                    booking.setPassengers(rs.getInt("passengers"));
-//                    booking.setPassengerSeats(rs.getInt("passengerSeats"));
-//                    booking.setPrice(rs.getInt("price"));
-//                    booking.setPaid(rs.getBoolean("paid"));
-//                }
-//            }
-//
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//
-//        return booking;
-//    }
+    private long registerBooking(Connection conn, long user_id, String bound, iFlightInfo flightInfo, int price) throws SQLException {
+        String sql = "INSERT INTO PUBLIC.BOOKINGS (flightID, userID, direction, passengers, passengerSeats, price, paid) VALUES (?, ?, ?, ?, ?, ?, ?)";
+
+        try (PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+            // Set the parameter values based on your data
+            ps.setString(1, flightInfo.getFlight().getFlightNumber());
+            ps.setLong(2, user_id);
+            ps.setString(3, bound);
+            ps.setInt(6, price);
+            ps.setBoolean(7, true);
+
+            // Execute the SQL query and retrieve generated keys
+            int affectedRows = ps.executeUpdate();
+
+            if (affectedRows == 0) {
+                throw new SQLException("Creating booking failed, no rows affected.");
+            }
+
+            // Retrieve the generated keys
+            try (ResultSet generatedKeys = ps.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    return generatedKeys.getLong(1);
+                } else {
+                    throw new SQLException("Creating booking failed, no ID obtained.");
+                }
+            }
+        }
+    }
+
+
+    private void registerFlyers(Connection connect, long booking_id, iFlightInfo flightInfo) throws SQLException {
+         flightInfo.getSeatSelected().forEach((passengerData, seatNumber) -> {
+             try {
+                 insertIntoTravellers(connect, booking_id, passengerData, seatNumber);
+             } catch (SQLException e) {
+                 throw new RuntimeException(e);
+             }
+         });
+    }
+
+    private void insertIntoTravellers(Connection conn, long booking_id, iPassengerData passenger, String seatNumber) throws SQLException {
+        String sql = "INSERT INTO PUBLIC.TRAVELLER (traveller_name, seat_number, booking_id) VALUES (?, ?, ?)";
+
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            String travellerName = passenger.getFirstName() + " " + passenger.getLastName();
+            ps.setString(1, travellerName);
+            ps.setString(2, seatNumber);
+            ps.setLong(3, booking_id);
+            ps.executeUpdate();
+        }
+    }
+
+
+
 
 
 

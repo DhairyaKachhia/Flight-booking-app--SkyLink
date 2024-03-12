@@ -59,8 +59,7 @@ public class CreditCardPaymentActivity extends AppCompatActivity {
 
                 iFlightBookingHandler flightHandler = new FlightBookingHandler(Services.getFlightBookingDB());
 
-
-                boolean flightBooked = flightHandler.addConfirmBooking(Session.getInstance().getSelectedFlights(),Session.getInstance().getUser_id(),Session.getInstance().getSeatMapOutbound(), Session.getInstance().getSeatMapInbound());
+                boolean flightBooked = flightHandler.addConfirmBooking(Session.getInstance().getUser_id(), Session.getInstance().getFlightInfoCompleted());
                 if(flightBooked){
                     Intent intent = new Intent(CreditCardPaymentActivity.this, PaymentSuccessfulActivity.class);
                     startActivity(intent);

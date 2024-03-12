@@ -3,6 +3,7 @@ package com.example.skylink.presentation;
 import android.content.Context;
 
 import com.example.skylink.objects.Interfaces.iFlight;
+import com.example.skylink.objects.Interfaces.iFlightInfo;
 import com.example.skylink.objects.Interfaces.iFlightSearch;
 import com.example.skylink.objects.Interfaces.iPassengerData;
 
@@ -18,8 +19,8 @@ public class Session implements ISession {
     private iFlightSearch flightSearch;
     private int totalPrice;
     private List<iPassengerData> passengerData;
-    private HashMap<iPassengerData, String> seatMapOutbound;
-    private HashMap<iPassengerData, String> seatMapInbound;
+
+    private HashMap<String, iFlightInfo> flightInfoCompleted;
     private Map<String, String> priceType;
 
     public Map<String, String> getpriceType() {
@@ -124,21 +125,16 @@ public class Session implements ISession {
     public void setSelectedFlights(HashMap<String, List<List<iFlight>>> selectedFlights) {
         this.selectedFlights = selectedFlights;
     }
-    public HashMap<iPassengerData, String> getSeatMapOutbound() {
-        return seatMapOutbound;
+
+    public HashMap<String, iFlightInfo> getFlightInfoCompleted() {
+        return flightInfoCompleted;
     }
 
-    public void setSeatMapOutbound(HashMap<iPassengerData, String> seatMapOutbound) {
-        this.seatMapOutbound = seatMapOutbound;
+    public void setFlightInfoCompleted(String flightType, iFlightInfo flightInfoCompleted) {
+        this.flightInfoCompleted.put(flightType, flightInfoCompleted);
     }
 
-    public HashMap<iPassengerData, String> getSeatMapInbound() {
-        return seatMapInbound;
-    }
 
-    public void setSeatMapInbound(HashMap<iPassengerData, String> seatMapInbound) {
-        this.seatMapInbound = seatMapInbound;
-    }
 
     /*
     *   Storing Payment info:

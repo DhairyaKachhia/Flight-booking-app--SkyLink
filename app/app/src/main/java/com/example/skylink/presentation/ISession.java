@@ -2,6 +2,7 @@ package com.example.skylink.presentation;
 import android.content.Context;
 
 import com.example.skylink.objects.Interfaces.iFlight;
+import com.example.skylink.objects.Interfaces.iFlightInfo;
 import com.example.skylink.objects.Interfaces.iFlightSearch;
 import com.example.skylink.objects.Interfaces.iPassengerData;
 
@@ -19,10 +20,8 @@ public interface ISession {
 
     void setpriceType(String key, String value);
 
-    HashMap<iPassengerData, String> getSeatMapOutbound();
-    void setSeatMapOutbound(HashMap<iPassengerData, String> seatMapOutbound);
-    HashMap<iPassengerData, String> getSeatMapInbound();
-    void setSeatMapInbound(HashMap<iPassengerData, String> seatMapInbound);
+    HashMap<String, iFlightInfo> getFlightInfoCompleted();
+    void setFlightInfoCompleted(String flightType, iFlightInfo flightInfoCompleted);
 
     Context getContext();
 

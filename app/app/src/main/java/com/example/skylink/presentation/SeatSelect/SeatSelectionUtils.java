@@ -15,6 +15,8 @@ import android.widget.TextView;
 import com.example.skylink.R;
 import com.example.skylink.application.Services;
 import com.example.skylink.business.Implementations.PlaneConfiguration;
+import com.example.skylink.objects.Implementations.FlightInfo;
+import com.example.skylink.objects.Interfaces.iFlightInfo;
 import com.example.skylink.presentation.Session;
 import com.example.skylink.business.Interface.iPlaneConfiguration;
 import com.example.skylink.objects.Interfaces.iFlight;
@@ -265,13 +267,19 @@ public class SeatSelectionUtils {
     }
 
     private static void handlePaymentActivity(Activity activity, HashMap<iPassengerData, String> seatMap, String bound) {
-        if(bound.equals("Outbound")){
-            Session.getInstance().setSeatMapOutbound(seatMap);
-        }else if (bound.equals("Inbound")) {
-            Session.getInstance().setSeatMapInbound(seatMap);
+        String econOrBus =  Session.getInstance().getpriceType().get("Price");
+        HashMap<iPassengerData, String> seatSelected = seatMap;
+        iFlight flight =  Session.getInstance().getSelectedFlights().get(bound).get(0).get(0);
+
+        if(flight != null){
+            iFlightInfo flightInfo = new FlightInfo(econOrBus,seatSelected, flight);
+            Session.getInstance().setFlightInfoCompleted(bound,flightInfo);
+
+            Intent intent = new Intent(activity, CreditCardPaymentActivity.class);
+            activity.startActivity(intent);
         }
-        Intent intent = new Intent(activity, CreditCardPaymentActivity.class);
-        activity.startActivity(intent);
+
+
     }
 
 
