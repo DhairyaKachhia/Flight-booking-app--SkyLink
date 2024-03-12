@@ -33,93 +33,48 @@ public class FlightBookingHSQLDB implements iFlightBookingDB {
         return DriverManager.getConnection("jdbc:hsqldb:file:" + dbPath + ";shutdown=true", "SA", "");
     }
 
-    public void addFlightBooking(long user_id, String bound, iFlightInfo flightInfo, int price) {
-        try (Connection conn = connect()) {
-            conn.setAutoCommit(false);
+    public long addFlightBooking(long user_id, String bound, iFlightInfo flightInfo, int price) {
+        String sql = "INSERT INTO PUBLIC.FLIGHTBOOKINGS (flightID, userID, direction, price, paid) VALUES (?, ?, ?, ?, ?)";
+        try (Connection conn = connect();
+             PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
-            try {
-                long booking_id = registerBooking(conn, user_id, bound, flightInfo, price);
-                registerFlyers(conn, booking_id, flightInfo);
-                conn.commit();
-            } catch (SQLException e) {
-                conn.rollback();
-                e.printStackTrace();
-            } finally {
-                conn.setAutoCommit(true);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private long registerBooking(Connection conn, long user_id, String bound, iFlightInfo flightInfo, int price) throws SQLException {
-        String sql = "INSERT INTO PUBLIC.BOOKINGS (flightID, userID, direction, passengers, passengerSeats, price, paid) VALUES (?, ?, ?, ?, ?, ?, ?)";
-
-        try (PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-            // Set the parameter values based on your data
             ps.setString(1, flightInfo.getFlight().getFlightNumber());
             ps.setLong(2, user_id);
             ps.setString(3, bound);
-            ps.setInt(6, price);
-            ps.setBoolean(7, true);
+            ps.setInt(4, price);
+            ps.setBoolean(5, true);
 
-            // Execute the SQL query and retrieve generated keys
             int affectedRows = ps.executeUpdate();
 
             if (affectedRows == 0) {
-                throw new SQLException("Creating booking failed, no rows affected.");
+                throw new SQLException("Creating flight booking failed, no rows affected.");
             }
 
-            // Retrieve the generated keys
             try (ResultSet generatedKeys = ps.getGeneratedKeys()) {
                 if (generatedKeys.next()) {
                     return generatedKeys.getLong(1);
                 } else {
-                    throw new SQLException("Creating booking failed, no ID obtained.");
+                    throw new SQLException("Creating flight booking failed, no ID obtained.");
                 }
             }
-        }
-    }
-
-
-    private void registerFlyers(Connection connect, long booking_id, iFlightInfo flightInfo) throws SQLException {
-         flightInfo.getSeatSelected().forEach((passengerData, seatNumber) -> {
-             try {
-                 insertIntoTravellers(connect, booking_id, passengerData, seatNumber);
-             } catch (SQLException e) {
-                 throw new RuntimeException(e);
-             }
-         });
-    }
-
-    private void insertIntoTravellers(Connection conn, long booking_id, iPassengerData passenger, String seatNumber) throws SQLException {
-        String sql = "INSERT INTO PUBLIC.TRAVELLER (traveller_name, seat_number, booking_id) VALUES (?, ?, ?)";
-
-        try (PreparedStatement ps = conn.prepareStatement(sql)) {
-            String travellerName = passenger.getFirstName() + " " + passenger.getLastName();
-            ps.setString(1, travellerName);
-            ps.setString(2, seatNumber);
-            ps.setLong(3, booking_id);
-            ps.executeUpdate();
-        }
-    }
-
-
-
-
-
-
-    public iFlightBookingDB initialize() {
-        try (Connection conn = connect();
-             Statement stmt = conn.createStatement()) {
-
-            stmt.executeUpdate(CREATE_TABLE);
-
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
-        return this;
     }
+
+
+
+        public iFlightBookingDB initialize() {
+            try (Connection conn = connect();
+                 Statement stmt = conn.createStatement()) {
+
+                stmt.executeUpdate(CREATE_TABLE);
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            return this;
+        }
 
     public iFlightBookingDB drop() {
         String sql = "DROP TABLE BOOKINGS";

@@ -9,8 +9,8 @@ import java.util.HashMap;
 public class FlightBookingStub implements iFlightBookingDB {
 
     @Override
-    public void addFlightBooking(long user_id, String bound, iFlightInfo flightInfo, int price) {
-
+    public long addFlightBooking(long user_id, String bound, iFlightInfo flightInfo, int price) {
+        return 0;
     }
 
     @Override

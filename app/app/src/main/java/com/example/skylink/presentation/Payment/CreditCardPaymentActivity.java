@@ -55,9 +55,7 @@ public class CreditCardPaymentActivity extends AppCompatActivity {
 
             if (isValid()) {
                 addToSession();
-                // Insert Into Booking: id,  Flight ID, User ID,  Outbound/Inbound, All passengers, Passenger Seats, Price, Paid, Forign key  UserID to User ID in USER, Flight ID to FLight
-
-                iFlightBookingHandler flightHandler = new FlightBookingHandler(Services.getFlightBookingDB());
+                iFlightBookingHandler flightHandler = new FlightBookingHandler(Services.getFlightBookingDB(),Services.getTravellerDB());
 
                 boolean flightBooked = flightHandler.addConfirmBooking(Session.getInstance().getUser_id(), Session.getInstance().getFlightInfoCompleted());
                 if(flightBooked){

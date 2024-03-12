@@ -1,29 +1,17 @@
 package com.example.skylink.application;
 
-import android.app.Activity;
-import android.content.Context;
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
-
 import com.example.skylink.persistence.Implementations.hsqldb.BookingHSQLDB;
 import com.example.skylink.persistence.Implementations.hsqldb.FlightBookingHSQLDB;
 import com.example.skylink.persistence.Implementations.hsqldb.FlightHSQLDB;
 import com.example.skylink.persistence.Implementations.hsqldb.PaymentHSQLDB;
+import com.example.skylink.persistence.Implementations.hsqldb.TravellerHSQLDB;
 import com.example.skylink.persistence.Implementations.hsqldb.UserHSQLDB;
 import com.example.skylink.persistence.Interfaces.IFlightDB;
 import com.example.skylink.persistence.Interfaces.IPaymentDB;
 import com.example.skylink.persistence.Interfaces.IUserDB;
 import com.example.skylink.persistence.Interfaces.iBookingDB;
 import com.example.skylink.persistence.Interfaces.iFlightBookingDB;
+import com.example.skylink.persistence.Interfaces.iTravellerDB;
 
 public class Services {
 
@@ -32,6 +20,7 @@ public class Services {
     private static iBookingDB bookDatabase = null;
     private static IPaymentDB paymentDatabase = null;
     private static iFlightBookingDB flightBookingDatabase = null;
+    private static iTravellerDB travellerDB = null;
 
     public static synchronized IFlightDB getFlightDatabase() {
         if (flightDatabase == null) {
@@ -66,6 +55,13 @@ public class Services {
             flightBookingDatabase = new FlightBookingHSQLDB(Main.getDBPathName()).initialize();
         }
         return flightBookingDatabase;
+    }
+
+    public static synchronized iTravellerDB getTravellerDB() {
+        if (travellerDB == null) {
+            travellerDB = new TravellerHSQLDB(Main.getDBPathName()).initialize();
+        }
+        return travellerDB;
     }
 
     public static synchronized void clean() {
