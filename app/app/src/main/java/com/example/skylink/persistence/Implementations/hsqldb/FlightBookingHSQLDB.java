@@ -31,8 +31,8 @@ public class FlightBookingHSQLDB implements iFlightBookingDB {
         return DriverManager.getConnection("jdbc:hsqldb:file:" + dbPath + ";shutdown=true", "SA", "");
     }
 
-    public long addFlightBooking(long user_id, String bound, iFlightInfo flightInfo, int price) {
-        String sql = "INSERT INTO FLIGHTBOOKINGS (flightID, userID, direction, price, paid) VALUES (?, ?, ?, ?, ?)";
+    public void addFlightBooking(long user_id, String bound, iFlightInfo flightInfo, int price, String bookingNumber) {
+        String sql = "INSERT INTO FLIGHTBOOKINGS (flightID, userID, direction, price, paid, bookingNumber) VALUES (?, ?, ?, ?, ?, ?)";
         try (Connection conn = connect();
              PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
@@ -41,6 +41,7 @@ public class FlightBookingHSQLDB implements iFlightBookingDB {
             ps.setString(3, bound);
             ps.setInt(4, price);
             ps.setBoolean(5, true);
+            ps.setString(6, bookingNumber);
 
             int affectedRows = ps.executeUpdate();
 
@@ -49,9 +50,7 @@ public class FlightBookingHSQLDB implements iFlightBookingDB {
             }
 
             try (ResultSet generatedKeys = ps.getGeneratedKeys()) {
-                if (generatedKeys.next()) {
-                    return generatedKeys.getLong(1);
-                } else {
+                if (!generatedKeys.next()) {
                     throw new SQLException("Creating flight booking failed, no ID obtained.");
                 }
             }
@@ -59,6 +58,7 @@ public class FlightBookingHSQLDB implements iFlightBookingDB {
             throw new RuntimeException(e);
         }
     }
+
 
 
 

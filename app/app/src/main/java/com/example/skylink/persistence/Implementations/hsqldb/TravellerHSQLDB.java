@@ -27,8 +27,8 @@ public class TravellerHSQLDB implements iTravellerDB {
         return DriverManager.getConnection("jdbc:hsqldb:file:" + dbPath + ";shutdown=true", "SA", "");
     }
 
-    public void insertIntoTravellers(long booking_id, iPassengerData passenger, String seatNumber) {
-        String sql = "INSERT INTO TRAVELLER (traveller_name, seat_number, booking_id) VALUES (?, ?, ?)";
+    public void insertIntoTravellers(String bookingNumber, iPassengerData passenger, String seatNumber) {
+        String sql = "INSERT INTO TRAVELLER (traveller_name, seat_number, bookingNumber) VALUES (?, ?, ?)";
 
         try (Connection conn = connect();
              PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -36,13 +36,14 @@ public class TravellerHSQLDB implements iTravellerDB {
             String travellerName = passenger.getFirstName() + " " + passenger.getLastName();
             ps.setString(1, travellerName);
             ps.setString(2, seatNumber);
-            ps.setLong(3, booking_id);
+            ps.setString(3, bookingNumber);
             ps.executeUpdate();
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
+
     public iTravellerDB initialize() {
         try (Connection conn = connect();
              Statement stmt = conn.createStatement()) {

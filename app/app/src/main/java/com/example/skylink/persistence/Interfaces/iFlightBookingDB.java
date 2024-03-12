@@ -6,7 +6,7 @@ import com.example.skylink.objects.Interfaces.iPassengerData;
 import java.util.HashMap;
 
 public interface iFlightBookingDB {
-    long addFlightBooking(long user_id, String bound,  iFlightInfo flightInfo, int price);
+    void addFlightBooking(long user_id, String bound,  iFlightInfo flightInfo, int price, String bookingNumber);
     iFlightBookingDB initialize();
     iFlightBookingDB drop();
 }
