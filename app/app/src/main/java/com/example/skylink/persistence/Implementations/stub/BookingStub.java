@@ -30,8 +30,9 @@ public class BookingStub implements iBookingDB {
     }
 
     @Override
-    public void updateBookingNumber(String emailAddress, long userId, String bookingNumber) {
+    public void updateBookingInformation(String emailAddress, long userId, String bookingNumber, String seatNumber) {
 
     }
+
 
 }

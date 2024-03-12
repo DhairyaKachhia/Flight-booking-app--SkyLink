@@ -8,7 +8,6 @@ public interface iBookingDB {
 
     boolean findBooking(iPassengerData searchPassengerData, long userId);
 
-    void updateBookingNumber(String emailAddress, long userId, String bookingNumber);
-
+    void updateBookingInformation(String emailAddress, long userId, String bookingNumber, String seatNumber);
 
 }

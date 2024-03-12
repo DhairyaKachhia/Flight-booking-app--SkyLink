@@ -4,20 +4,21 @@ import com.example.skylink.application.Services;
 import com.example.skylink.business.Interface.iFlightBookingHandler;
 import com.example.skylink.objects.Interfaces.iFlightInfo;
 import com.example.skylink.objects.Interfaces.iPassengerData;
+import com.example.skylink.persistence.Interfaces.iBookingDB;
 import com.example.skylink.persistence.Interfaces.iFlightBookingDB;
-import com.example.skylink.persistence.Interfaces.iTravellerDB;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
 public class FlightBookingHandler implements iFlightBookingHandler {
     private iFlightBookingDB flightBookingDB;
-    private iTravellerDB travelDB;
+    private iBookingDB bookingDB;
 
-    public FlightBookingHandler(iFlightBookingDB flightBookingDB, iTravellerDB travelDB) {
+    public FlightBookingHandler(iFlightBookingDB flightBookingDB, iBookingDB bookingDB) {
         this.flightBookingDB = flightBookingDB;
-        this.travelDB = travelDB;
+        this.bookingDB = bookingDB;
     }
 
     public FlightBookingHandler(boolean forProduction) {
@@ -44,12 +45,18 @@ public class FlightBookingHandler implements iFlightBookingHandler {
             }
 
             for (Map.Entry<iPassengerData, String> entry :flightInfo.get("Outbound").getSeatSelected().entrySet()) {
-                iPassengerData passengerData = entry.getKey();
-                String seatNumber = entry.getValue();
-                travelDB.insertIntoTravellers(bookingNumber, passengerData, seatNumber);
+                bookingDB.updateBookingInformation(entry.getKey().getEmailAddress(),user_id,bookingNumber,entry.getValue());
             }
         }
         return bookingNumber;
+    }
+
+    public Map<String, Object> getBookingDetails(long userID) {
+        List<String> flights = flightBookingDB.getFlightIdsByUserId(userID);
+//        From FLIGHTBOOKINGS select * from FLIGHTBOOKINGS where userID = userID
+//        From Flights, Select * from FLIGHT
+//        Finding booking that match bookingNumber
+        return null;
     }
 
     private String generateBookingNumber() {
@@ -63,7 +70,7 @@ public class FlightBookingHandler implements iFlightBookingHandler {
     }
 
 
-    public int calculateTotalPrice(iFlightInfo flightInfo){
+    private int calculateTotalPrice(iFlightInfo flightInfo){
         int price = 0;
         if(flightInfo.getEconOrBus().equals("Economy")){
             price = flightInfo.getSeatSelected().size() * flightInfo.getFlight().getEconPrice();
