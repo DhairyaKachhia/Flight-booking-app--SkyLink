@@ -6,6 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 
 public interface iFlightBookingHandler {
-    String addConfirmBooking(long user_id, HashMap<String, iFlightInfo> flightInfo);
+    List<String> addConfirmBookings(long user_id, HashMap<String, iFlightInfo> flightInfo);
     List<HashMap<String, HashMap<String, iFlightInfo>>> getBookingDetails(long userID);
 }

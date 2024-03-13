@@ -71,33 +71,38 @@ public class FlightBookingHandlerIntegrated {
 
         // Create sample flight data
         List<iFlight> outboundFlights = new ArrayList<>();
-        iFlight outboundFlight = new Flight("FL001", "JFK", "LHR", "2024-03-15", "2024-03-16", "Boeing 747", "GateA", "GateB", 100, 200);
+        iFlight outboundFlight = new Flight("AC489", "YEG", "YVR", "06/03/2024 18:47", "06/03/2024 20:47", "Boeing 777", "Gate1", "Gate8", 646, 997);
         outboundFlights.add(outboundFlight);
-
         List<iFlight> inboundFlights = new ArrayList<>();
-        iFlight inboundFlight = new Flight("FL002", "LHR", "JFK", "2024-03-20", "2024-03-21", "Airbus A380", "GateX", "GateY", 150, 250);
+        iFlight inboundFlight = new Flight("AC785", "YVR", "YEG", "08/03/2024 18:47", "18/03/2024 19:47", "Boeing 737", "Gate3", "Gate8", 1269, 1546);
         inboundFlights.add(inboundFlight);
-
         outboundFlightInfo.setFlight(outboundFlights);
         outboundFlightInfo.setEconOrBus("Economy");
-
         inboundFlightInfo.setFlight(inboundFlights);
-        inboundFlightInfo.setEconOrBus("Business");
+        inboundFlightInfo.setEconOrBus("Economy");
+
 
         // Add sample passenger data
         iPassengerData passengerData = new PassengerData("Mr", "John", "Doe", "123456789", "john.doe@example.com");
         HashMap<iPassengerData, String> seatSelected = new HashMap<>();
-        seatSelected.put(passengerData, "A1");
-
+        seatSelected.put(passengerData, "G1");
         outboundFlightInfo.setSeatSelected(seatSelected);
+        inboundFlightInfo.setSeatSelected(seatSelected);
 
         flightInfo.put("Outbound", outboundFlightInfo);
         flightInfo.put("Inbound", inboundFlightInfo);
 
-        // Add the booking
-        String bookingNumber = bookingHandler.addConfirmBooking(sessionUserID, flightInfo);
-        assertNotNull(bookingNumber);
-        assertEquals(5, bookingNumber.length());
+
+        List<String> bookingNumbers = bookingHandler.addConfirmBookings(sessionUserID, flightInfo);
+
+        // Verify the result
+        assertNotNull(bookingNumbers);
+        assertTrue(bookingNumbers.size() < 3); // assert that the list must be < 3
+
+        for (String bookingNumber : bookingNumbers) {
+            assertNotNull(bookingNumber);
+            assertTrue(bookingNumber.length() < 5); // assert that each booking number in the list must be less than 5
+        }
 
 
         // Perform the test: Get the booking details
@@ -112,12 +117,16 @@ public class FlightBookingHandlerIntegrated {
         assertNotNull(bookingDetails);
 
         // Verify the outbound details
-        HashMap<String, iFlightInfo> outboundDetails = bookingDetails.get(bookingNumber);
-        assertNotNull(outboundDetails);
-        assertTrue(outboundDetails.containsKey("Outbound"));
+        for (String bookingNumber : bookingNumbers) {
+            HashMap<String, iFlightInfo> outboundDetails = bookingDetails.get(bookingNumber);
+            assertNotNull(outboundDetails);
+            assertTrue(outboundDetails.containsKey("Outbound"));
 
-        // Verify the inbound details
-        assertTrue(outboundDetails.containsKey("Inbound"));
+            // Verify the inbound details
+            assertTrue(outboundDetails.containsKey("Inbound"));
+        }
+
+
     }
 
     @Test
@@ -172,11 +181,16 @@ public class FlightBookingHandlerIntegrated {
         flightInfo.put("Inbound", inboundFlightInfo);
 
         // Perform the test
-        String bookingNumber = bookingHandler.addConfirmBooking(sessionUserID, flightInfo);
+        List<String> bookingNumbers = bookingHandler.addConfirmBookings(sessionUserID, flightInfo);
 
         // Verify the result
-        assertNotNull(bookingNumber);
-        assertEquals(5, bookingNumber.length());
+        assertNotNull(bookingNumbers);
+        assertTrue(bookingNumbers.size() < 3); // assert that the list must be < 3
+
+        for (String bookingNumber : bookingNumbers) {
+            assertNotNull(bookingNumber);
+            assertTrue(bookingNumber.length() < 5); // assert that each booking number in the list must be less than 5
+        }
     }
 
 

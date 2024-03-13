@@ -71,7 +71,6 @@ public class UserHSQLDB implements IUserDB {
             ps.setString(2, user.getEmail());
             ps.setString(3, user.getPassword());
             int rowsAffected = ps.executeUpdate();
-            boolean  car  = getAllUsers();
             if (rowsAffected == 1) {
                 try (ResultSet generatedKeys = ps.getGeneratedKeys()) {
                     if (generatedKeys.next()) {

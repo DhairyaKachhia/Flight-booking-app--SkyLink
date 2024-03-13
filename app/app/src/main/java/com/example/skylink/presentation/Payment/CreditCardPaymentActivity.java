@@ -11,6 +11,7 @@ import com.example.skylink.R;
 import com.example.skylink.application.Services;
 import com.example.skylink.business.Implementations.FlightBookingHandler;
 import com.example.skylink.business.Interface.iFlightBookingHandler;
+import com.example.skylink.objects.Interfaces.iFlightInfo;
 import com.example.skylink.objects.Interfaces.iPassengerData;
 import com.example.skylink.persistence.Implementations.hsqldb.FlightBookingHSQLDB;
 import com.example.skylink.persistence.Interfaces.iFlightBookingDB;
@@ -56,8 +57,7 @@ public class CreditCardPaymentActivity extends AppCompatActivity {
             if (isValid()) {
                 addToSession();
                 iFlightBookingHandler flightHandler = new FlightBookingHandler(Services.getFlightBookingDB(),Services.getBookDatabase(),Services.getFlightDatabase());
-
-                String flightBooked = flightHandler.addConfirmBooking(Session.getInstance().getUser_id(), Session.getInstance().getFlightInfoCompleted());
+                List<String> flightBooked = flightHandler.addConfirmBookings(Session.getInstance().getUser_id(), Session.getInstance().getFlightInfoCompleted());
                 if(!flightBooked.isEmpty()){
                     Intent intent = new Intent(CreditCardPaymentActivity.this, PaymentSuccessfulActivity.class);
                     startActivity(intent);

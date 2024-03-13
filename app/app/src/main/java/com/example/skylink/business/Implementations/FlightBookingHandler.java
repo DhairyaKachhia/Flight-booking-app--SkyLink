@@ -35,38 +35,40 @@ public class FlightBookingHandler implements iFlightBookingHandler {
 
     }
 
-    public String addConfirmBooking(long user_id, HashMap<String, iFlightInfo> flightInfo) {
-        String bookingNumber = generateBookingNumber();
-        if(flightInfo != null){
-            if(flightInfo.get("Outbound") != null && flightInfo.containsKey("Outbound")){
-                iFlightInfo flight_Info = flightInfo.get("Outbound");
+    public List<String> addConfirmBookings(long user_id, HashMap<String, iFlightInfo> flightInfo) {
+        List<String> bookingNumbers = new ArrayList<>();
 
-                if(flight_Info != null){
-                    int price = calculateTotalPrice(flight_Info);
-                    for (iFlight flight : flight_Info.getFlight()) {
-                        flightBookingDB.addFlightBooking(user_id, "Outbound",flight,price, bookingNumber, flight_Info.getEconOrBus());
-                    }
-                }
-            }
-            if(flightInfo.get("Inbound") != null && flightInfo.containsKey("Inbound")){
-                iFlightInfo flight_Info = flightInfo.get("Inbound");
-                if(flight_Info != null) {
-                    int price = calculateTotalPrice(flight_Info);
-                    for (iFlight flight : flight_Info.getFlight()) {
-                        flightBookingDB.addFlightBooking(user_id, "Inbound",flight,price, bookingNumber, flight_Info.getEconOrBus());
-                    }
-                }
-            }
+        if (flightInfo != null) {
+            for (Map.Entry<String, iFlightInfo> entry : flightInfo.entrySet()) {
+                String direction = entry.getKey();
+                iFlightInfo flightInfoEntry = entry.getValue();
 
-            iFlightInfo flightInfoMap = flightInfo.get("Outbound");
-            if (flightInfoMap != null) {
-                for (Map.Entry<iPassengerData, String> entry : flightInfoMap.getSeatSelected().entrySet()) {
-                    bookingDB.updateBookingInformation(entry.getKey().getEmailAddress(), user_id, bookingNumber, entry.getValue());
+                if (flightInfoEntry != null) {
+                    String bookingNumber = generateBookingNumber();
+                    int price = calculateTotalPrice(flightInfoEntry);
+
+                    // Check if the direction is valid
+                    if (isValidDirection(direction)) {
+                        for (iFlight flight : flightInfoEntry.getFlight()) {
+                            flightBookingDB.addFlightBooking(user_id, direction, flight, price, bookingNumber, flightInfoEntry.getEconOrBus());
+                        }
+
+                        for (Map.Entry<iPassengerData, String> passengerEntry : flightInfoEntry.getSeatSelected().entrySet()) {
+                            bookingDB.updateBookingInformation(passengerEntry.getKey().getEmailAddress(), user_id, bookingNumber, passengerEntry.getValue());
+                        }
+
+                        bookingNumbers.add(bookingNumber);
+                    }
                 }
             }
         }
-        return bookingNumber;
+        return bookingNumbers;
     }
+
+    private boolean isValidDirection(String direction) {
+        return "Outbound".equals(direction) || "Inbound".equals(direction);
+    }
+
 
     public List<HashMap<String, HashMap<String, iFlightInfo>>> getBookingDetails(long userID) {
         List<HashMap<String, HashMap<String, iFlightInfo>>> bookingDetailsList = new ArrayList<>();
