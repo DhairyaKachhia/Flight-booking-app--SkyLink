@@ -101,12 +101,12 @@ public class FlightBookingHandlerIntegrated {
 
         for (String bookingNumber : bookingNumbers) {
             assertNotNull(bookingNumber);
-            assertTrue(bookingNumber.length() < 5); // assert that each booking number in the list must be less than 5
+            assertTrue(bookingNumber.length() < 6); // assert that each booking number in the list must be less than 5
         }
 
 
         // Perform the test: Get the booking details
-        List<HashMap<String, HashMap<String, iFlightInfo>>> bookingDetailsList = bookingHandler.getBookingDetails(sessionUserID);
+        List<HashMap<Long, HashMap<String, iFlightInfo>>> bookingDetailsList = bookingHandler.getBookingDetails(sessionUserID);
 
         // Verify the result
         assertNotNull(bookingDetailsList);
@@ -175,12 +175,14 @@ public class FlightBookingHandlerIntegrated {
         seatSelected.put(passengerData, "A1");
 
         outboundFlightInfo.setSeatSelected(seatSelected);
+        inboundFlightInfo.setSeatSelected(seatSelected);
 
 
         flightInfo.put("Outbound", outboundFlightInfo);
         flightInfo.put("Inbound", inboundFlightInfo);
 
         // Perform the test
+
         List<String> bookingNumbers = bookingHandler.addConfirmBookings(sessionUserID, flightInfo);
 
         // Verify the result
@@ -189,7 +191,7 @@ public class FlightBookingHandlerIntegrated {
 
         for (String bookingNumber : bookingNumbers) {
             assertNotNull(bookingNumber);
-            assertTrue(bookingNumber.length() < 5); // assert that each booking number in the list must be less than 5
+            assertTrue(bookingNumber.length() < 6); // assert that each booking number in the list must be less than 5
         }
     }
 

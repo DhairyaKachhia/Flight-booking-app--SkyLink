@@ -50,13 +50,11 @@ public class FlightBookingHandler implements iFlightBookingHandler {
                     // Check if the direction is valid
                     if (isValidDirection(direction)) {
                         for (iFlight flight : flightInfoEntry.getFlight()) {
-                            flightBookingDB.addFlightBooking(user_id, direction, flight, price, bookingNumber, flightInfoEntry.getEconOrBus());
+                            long flight_num = flightBookingDB.addFlightBooking(user_id, direction, flight, price, bookingNumber, flightInfoEntry.getEconOrBus());
+                            for (Map.Entry<iPassengerData, String> passengerEntry : flightInfoEntry.getSeatSelected().entrySet()) {
+                                bookingDB.updateBookingInformation(passengerEntry.getKey().getEmailAddress(), user_id, flight_num, passengerEntry.getValue());
+                            }
                         }
-
-                        for (Map.Entry<iPassengerData, String> passengerEntry : flightInfoEntry.getSeatSelected().entrySet()) {
-                            bookingDB.updateBookingInformation(passengerEntry.getKey().getEmailAddress(), user_id, bookingNumber, passengerEntry.getValue());
-                        }
-
                         bookingNumbers.add(bookingNumber);
                     }
                 }
@@ -70,13 +68,13 @@ public class FlightBookingHandler implements iFlightBookingHandler {
     }
 
 
-    public List<HashMap<String, HashMap<String, iFlightInfo>>> getBookingDetails(long userID) {
-        List<HashMap<String, HashMap<String, iFlightInfo>>> bookingDetailsList = new ArrayList<>();
+    public List<HashMap<Long, HashMap<String, iFlightInfo>>> getBookingDetails(long userID) {
+        List<HashMap<Long, HashMap<String, iFlightInfo>>> bookingDetailsList = new ArrayList<>();
 
         // Get all booking numbers for the user
-        List<String> bookingNumbers = flightBookingDB.getBookingNumberByUserId(userID);
+        List<Long> bookingNumbers = flightBookingDB.getBookingNumberByUserId(userID);
 
-        for (String bookingNumber : bookingNumbers) {
+        for (long bookingNumber : bookingNumbers) {
             HashMap<String, iFlightInfo> boundBookingDetails = new HashMap<>();
 
             // Outbound Booking
@@ -92,7 +90,7 @@ public class FlightBookingHandler implements iFlightBookingHandler {
             }
 
             if (!boundBookingDetails.isEmpty()) {
-                HashMap<String, HashMap<String, iFlightInfo>> bookingDetails = new HashMap<>();
+                HashMap<Long, HashMap<String, iFlightInfo>> bookingDetails = new HashMap<>();
                 bookingDetails.put(bookingNumber, boundBookingDetails);
                 bookingDetailsList.add(bookingDetails);
             }
@@ -102,7 +100,7 @@ public class FlightBookingHandler implements iFlightBookingHandler {
     }
 
 
-    private iFlightInfo prepareFlightInfo(String direction, String bookingNumber) {
+    private iFlightInfo prepareFlightInfo(String direction, long bookingNumber) {
         String econOrBus = "Economy";
 
         List<String> flightBookingBound = flightBookingDB.getFlightsByUserId(direction, bookingNumber);
@@ -112,12 +110,12 @@ public class FlightBookingHandler implements iFlightBookingHandler {
         }
 
         List<iFlight> flightBound = flightDB.getFlightsByFlightNumbers(flightBookingBound);
-        HashMap<iPassengerData, String> passengers = bookingDB.getPassengersWithSeatNumbers(bookingNumber);
+//        HashMap<iPassengerData, String> passengers = bookingDB.getPassengersWithSeatNumbers(bookingNumber);
 
         iFlightInfo flightInfo = new FlightInfo();
         flightInfo.setFlight(flightBound);
         flightInfo.setEconOrBus(econOrBus);
-        flightInfo.setSeatSelected(passengers);
+//        flightInfo.setSeatSelected(passengers);
 
         return flightInfo;
     }

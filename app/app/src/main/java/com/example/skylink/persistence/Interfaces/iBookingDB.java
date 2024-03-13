@@ -10,7 +10,7 @@ public interface iBookingDB {
 
     boolean findBooking(iPassengerData searchPassengerData, long userId);
 
-    void updateBookingInformation(String emailAddress, long userId, String bookingNumber, String seatNumber);
+    void updateBookingInformation(String emailAddress, long userId, long bookingNumber, String seatNumber);
     HashMap<iPassengerData, String> getPassengersWithSeatNumbers(String bookingNumber);
 
 }

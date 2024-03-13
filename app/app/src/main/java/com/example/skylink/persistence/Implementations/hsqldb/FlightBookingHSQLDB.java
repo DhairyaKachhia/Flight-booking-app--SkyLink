@@ -35,8 +35,9 @@ public class FlightBookingHSQLDB implements iFlightBookingDB {
         return DriverManager.getConnection("jdbc:hsqldb:file:" + dbPath + ";shutdown=true", "SA", "");
     }
 
-    public void addFlightBooking(long user_id, String bound, iFlight flight , int price, String bookingNumber, String econBusiness) {
+    public long addFlightBooking(long user_id, String bound, iFlight flight, int price, String bookingNumber, String econBusiness) {
         String sql = "INSERT INTO FLIGHTBOOKINGS (flightID, userID, direction, price, paid, econBus, bookingNumber) VALUES (?, ?, ?, ?, ?, ?, ?)";
+
         try (Connection conn = connect();
              PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
@@ -45,7 +46,7 @@ public class FlightBookingHSQLDB implements iFlightBookingDB {
             ps.setString(3, bound);
             ps.setInt(4, price);
             ps.setBoolean(5, true);
-            ps.setString(6,econBusiness);
+            ps.setString(6, econBusiness);
             ps.setString(7, bookingNumber);
 
             int affectedRows = ps.executeUpdate();
@@ -55,7 +56,9 @@ public class FlightBookingHSQLDB implements iFlightBookingDB {
             }
 
             try (ResultSet generatedKeys = ps.getGeneratedKeys()) {
-                if (!generatedKeys.next()) {
+                if (generatedKeys.next()) {
+                    return generatedKeys.getLong(1); // Return the generated ID
+                } else {
                     throw new SQLException("Creating flight booking failed, no ID obtained.");
                 }
             }
@@ -64,10 +67,11 @@ public class FlightBookingHSQLDB implements iFlightBookingDB {
         }
     }
 
-    public List<String> getBookingNumberByUserId(long userId) {
-        List<String> bookingNumbers = new ArrayList<>();
 
-        String sql = "SELECT bookingNumber FROM FLIGHTBOOKINGS WHERE userID = ?";
+    public List<Long> getBookingNumberByUserId(long userId) {
+        List<Long> bookingNumbers = new ArrayList<>();
+
+        String sql = "SELECT id FROM FLIGHTBOOKINGS WHERE userID = ?";
 
         try (Connection conn = connect();
              PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -76,7 +80,7 @@ public class FlightBookingHSQLDB implements iFlightBookingDB {
 
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
-                    String bookingNumber = rs.getString("bookingNumber");
+                    long bookingNumber = rs.getLong("id");
                     bookingNumbers.add(bookingNumber);
                 }
             }
@@ -87,6 +91,7 @@ public class FlightBookingHSQLDB implements iFlightBookingDB {
 
         return bookingNumbers;
     }
+
 
 
     public List<String> getFlightsByUserId(String bound, String bookingNumberByUserId) {
