@@ -52,7 +52,7 @@ public class Addons extends AppCompatActivity {
     private int wifiSelected = 0;
     private int wheelChairSelected = 0;
     private int addonTotalFee = 0;
-    private int flightTotolFee = session.getTotalPrice();
+    private int flightTotalFee = session.getFlightTotalPrice();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -125,7 +125,7 @@ public class Addons extends AppCompatActivity {
         totalBagTV.setText("" + currentBagCount);
 
         totalBagFeeTV.setText("$" + (currentBagCount-1) * BAG_FEE);
-        totalPriceTV.setText("$" + (flightTotolFee + addonTotalFee));
+        totalPriceTV.setText("$" + (flightTotalFee + addonTotalFee));
 
         bagIncrementBtn.setEnabled(currentBagCount != MAX_BAG_COUNT);
         bagDecrementBtn.setEnabled(currentBagCount != MIN_BAG_COUNT);
@@ -153,7 +153,7 @@ public class Addons extends AppCompatActivity {
         totalPetSeatTV.setText("" + currentPetSeatCount);
 
         totalPetSeatFeeTV.setText("$" + (currentPetSeatCount * PET_FEE));
-        totalPriceTV.setText("$" + (flightTotolFee + addonTotalFee));
+        totalPriceTV.setText("$" + (flightTotalFee + addonTotalFee));
 
         petSeatIncrementBtn.setEnabled(currentPetSeatCount != MAX_PET_SEAT_COUNT);
         petSeatDecrementBtn.setEnabled(currentPetSeatCount != MIN_PET_SEAT_COUNT);
@@ -177,7 +177,7 @@ public class Addons extends AppCompatActivity {
                 }
             }
 
-            totalPriceTV.setText("$" + (flightTotolFee + addonTotalFee));
+            totalPriceTV.setText("$" + (flightTotalFee + addonTotalFee));
 
         }));
     }
@@ -205,6 +205,8 @@ public class Addons extends AppCompatActivity {
         confirmBtn = findViewById(R.id.btnConfirmExtra);
 
         confirmBtn.setOnClickListener(v -> {
+            session.setAddonsPrice(addonTotalFee);
+
             Intent intent = new Intent(Addons.this, CreditCardPaymentActivity.class);
             startActivity(intent);
         });
@@ -261,7 +263,7 @@ public class Addons extends AppCompatActivity {
             setupCardView(returnOriginCode, returnTakeoffTime, returnMidCode, returnDestCode, returnLandingTime, "Inbound");
         }
 
-        totalPrice.setText("$" + session.getTotalPrice());
+        totalPrice.setText("$" + flightTotalFee);
     }
 
 
