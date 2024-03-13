@@ -15,6 +15,9 @@ import com.example.skylink.R;
 import com.example.skylink.application.Main;
 import com.example.skylink.application.Services;
 
+import com.example.skylink.business.Implementations.FlightBookingHandler;
+import com.example.skylink.business.Interface.iFlightBookingHandler;
+import com.example.skylink.objects.Interfaces.iFlightInfo;
 import com.example.skylink.presentation.Session;
 import com.example.skylink.business.Implementations.UserHandler;
 import com.example.skylink.business.validations.IValidateUserAuth;
@@ -26,6 +29,8 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.HashMap;
+import java.util.List;
 
 public class SignInActivity extends AppCompatActivity {
 

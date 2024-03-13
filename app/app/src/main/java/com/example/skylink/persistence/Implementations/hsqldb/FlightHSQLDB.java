@@ -189,8 +189,8 @@ public class FlightHSQLDB implements IFlightDB {
         }
     }
 
-    public List<Flight> getFlightsByFlightNumbers(List<String> flightNumbers) {
-        List<Flight> flights = new ArrayList<>();
+    public List<iFlight> getFlightsByFlightNumbers(List<String> flightNumbers) {
+        List<iFlight> flights = new ArrayList<>();
         String sql = "SELECT * FROM FLIGHTS WHERE flightNumber = ?";
 
         try (Connection conn = connect();

@@ -30,6 +30,8 @@ public class FlightBookingHandler implements iFlightBookingHandler {
 
     public FlightBookingHandler(boolean forProduction) {
         this.flightBookingDB = Services.getFlightBookingDB();
+        this.bookingDB = Services.getBookDatabase();
+        this.flightDB = Services.getFlightDatabase();
 
     }
 

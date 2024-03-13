@@ -45,8 +45,8 @@ public class FlightBookingHSQLDB implements iFlightBookingDB {
             ps.setString(3, bound);
             ps.setInt(4, price);
             ps.setBoolean(5, true);
-            ps.setString(5,econBusiness);
-            ps.setString(6, bookingNumber);
+            ps.setString(6,econBusiness);
+            ps.setString(7, bookingNumber);
 
             int affectedRows = ps.executeUpdate();
 
