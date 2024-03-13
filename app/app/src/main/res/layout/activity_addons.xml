@@ -666,7 +666,7 @@
                         android:textStyle="bold"/>
 
                     <TextView
-                        android:id="@+id/totalPrice"
+                        android:id="@+id/totalPriceTV"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"

@@ -15,11 +15,11 @@ import android.widget.TextView;
 import com.example.skylink.R;
 import com.example.skylink.application.Services;
 import com.example.skylink.business.Implementations.PlaneConfiguration;
+import com.example.skylink.presentation.Addons.Addons;
 import com.example.skylink.presentation.Session;
 import com.example.skylink.business.Interface.iPlaneConfiguration;
 import com.example.skylink.objects.Interfaces.iFlight;
 import com.example.skylink.objects.Interfaces.iPassengerData;
-import com.example.skylink.presentation.Payment.CreditCardPaymentActivity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -266,7 +266,7 @@ public class SeatSelectionUtils {
 
     private static void handlePaymentActivity(Activity activity, HashMap<iPassengerData, String> seatMap) {
         Session.getInstance().setSeatMap(seatMap);
-        Intent intent = new Intent(activity, CreditCardPaymentActivity.class);
+        Intent intent = new Intent(activity, Addons.class);
         activity.startActivity(intent);
     }
 
