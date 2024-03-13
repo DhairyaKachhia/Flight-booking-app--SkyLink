@@ -16,7 +16,8 @@ public class Session implements ISession {
     private String username;
     private String email;
     private iFlightSearch flightSearch;
-    private int totalPrice;
+    private int outboundPrice, inboundPrice, addonsPrice = 0;
+    private int totalPrice, flightTotalPrice = 0;
     private List<iPassengerData> passengerData;
     private HashMap<iPassengerData, String> seatMap;
     private Map<String, String> priceType;
@@ -90,13 +91,50 @@ public class Session implements ISession {
     }
 
     @Override
+    public int getOutboundPrice() {
+        return outboundPrice;
+    }
+
+    @Override
+    public void setOutboundPrice(int outboundPrice) {
+        this.outboundPrice = outboundPrice;
+    }
+
+    @Override
+    public int getInboundPrice() {
+        return inboundPrice;
+    }
+
+    @Override
+    public void setInboundPrice(int inboundPrice) {
+        this.inboundPrice = inboundPrice;
+    }
+
+    @Override
+    public int getAddonsPrice() {
+        return addonsPrice;
+    }
+
+    @Override
+    public void setAddonsPrice(int addonsPrice) {
+        this.addonsPrice = addonsPrice;
+    }
+
+    @Override
     public void setTotalPrice(int totalPrice) {
         this.totalPrice = totalPrice;
     }
 
     @Override
     public int getTotalPrice() {
+        totalPrice = outboundPrice + inboundPrice + addonsPrice;
         return totalPrice;
+    }
+
+    @Override
+    public int getFlightTotalPrice() {
+        flightTotalPrice = outboundPrice + inboundPrice;
+        return flightTotalPrice;
     }
 
     public HashMap<String, List<List<List<iFlight>>>> getFlightPathResults() {

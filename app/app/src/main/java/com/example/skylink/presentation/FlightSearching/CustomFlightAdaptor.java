@@ -136,8 +136,10 @@ public class CustomFlightAdaptor extends BaseAdapter {
     }
 
     private void bookFlight(Button bookButton, TextView priceView, String priceType, View v) {
-        int currTotal = Session.getInstance().getTotalPrice();
-        Session.getInstance().setTotalPrice(currTotal + userInput.getTotalPassengers() * Integer.parseInt(priceView.getText().toString()));
+//        int currTotal = Session.getInstance().getTotalPrice();
+//        Session.getInstance().setTotalPrice(currTotal + userInput.getTotalPassengers() * Integer.parseInt(priceView.getText().toString()));
+
+        int selectedFlightPrice = userInput.getTotalPassengers() * Integer.parseInt(priceView.getText().toString());
 
         View parentRow = (View) v.getParent();
         ListView listView = (ListView) parentRow.getParent().getParent().getParent().getParent().getParent();
@@ -152,6 +154,8 @@ public class CustomFlightAdaptor extends BaseAdapter {
                 selectedFlights.put("Outbound", flightCardView);
                 flightResult.setSelectedFlights(selectedFlights);
 
+                Session.getInstance().setOutboundPrice(selectedFlightPrice);
+
                 toNextActivity();
 
             } else {
@@ -159,11 +163,17 @@ public class CustomFlightAdaptor extends BaseAdapter {
                 if (flightResult.getDepartureStatus()) {
                     selectedFlights.put("Inbound", flightCardView);
                     flightResult.setSelectedFlights(selectedFlights);
+
+                    Session.getInstance().setInboundPrice(selectedFlightPrice);
+
                     toNextActivity();
                 } else {
                     selectedFlights.put("Outbound", flightCardView);
                     flightResult.setSelectedFlights(selectedFlights);
                     flightResult.setDepartureStatus(true);
+
+                    Session.getInstance().setOutboundPrice(selectedFlightPrice);
+
                     displayReturnFlight();
                 }
             }

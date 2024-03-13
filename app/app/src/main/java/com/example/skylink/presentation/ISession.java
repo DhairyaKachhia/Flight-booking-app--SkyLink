@@ -15,6 +15,20 @@ public interface ISession {
 
     int getTotalPrice();
 
+    int getFlightTotalPrice();
+
+    int getOutboundPrice();
+
+    void setOutboundPrice(int outboundPrice);
+
+    int getInboundPrice();
+
+    void setInboundPrice(int inboundPrice);
+
+    int getAddonsPrice();
+
+    void setAddonsPrice(int addonsPrice);
+
     Map<String, String> getpriceType();
 
     void setpriceType(String key, String value);
