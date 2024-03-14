@@ -1,5 +1,4 @@
 package com.example.skylink.UnitTestStub;
-
 import com.example.skylink.business.Implementations.UserHandler;
 import com.example.skylink.objects.Implementations.UserProperties;
 import com.example.skylink.objects.Interfaces.IUserProperties;
@@ -13,26 +12,34 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import static org.mockito.Mockito.*;
+
 public class UserHandlerUnit {
     private IUserDB userStub;
     private UserHandler userHandler;
 
     @Before
     public void setUp() {
-        userStub = new UserStub();
+        System.out.println("Starting test for UserHandler");
+        userStub = mock(IUserDB.class);
         userHandler = new UserHandler(userStub);
     }
 
     @Test
     public void testCreateUser_Success() {
+        // Arrange
         IUserProperties mockUserProperties = new UserProperties("Mayokun Moses Akintunde", "akintundemayokun@gmail.com", "mayor101");
         String rePassword = "mayor101";
+        when(userStub.addUser_Auth(mockUserProperties)).thenReturn(1L);
 
+        // Act
         try {
             userHandler.createUser(mockUserProperties, rePassword);
         } catch (UserHandler.UserCreationException e) {
             fail("Exception should not be thrown");
         }
+
+        verify(userStub, times(1)).addUser_Auth(mockUserProperties);
     }
 
     @Test
