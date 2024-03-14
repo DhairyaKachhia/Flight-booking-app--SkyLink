@@ -83,6 +83,9 @@ public class FlightSearchP extends AppCompatActivity implements NavigationView.O
         setupSearchButton();
         setupTravelerCountButtons();
         setupDefaultTripType();
+    //        iFlightBookingHandler flight = new FlightBookingHandler(Services.getFlightBookingDB(),Services.getBookDatabase(),Services.getFlightDatabase());
+    //        List<HashMap<String, HashMap<String, iFlightInfo>>> f = flight.getBookingDetails(0);
+    //        System.out.println(f);
     }
 
     private void setupHamburgerMenuNav() {

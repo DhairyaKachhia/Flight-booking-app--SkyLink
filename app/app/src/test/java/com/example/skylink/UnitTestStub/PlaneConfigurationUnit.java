@@ -1,15 +1,11 @@
-package com.example.skylink.UnitTest;
+package com.example.skylink.UnitTestStub;
 
 import com.example.skylink.business.Implementations.PlaneConfiguration;
-import com.example.skylink.objects.Implementations.Aircraft;
 import com.example.skylink.persistence.Implementations.stub.FlightStub;
 import com.example.skylink.persistence.Interfaces.IFlightDB;
-import com.example.skylink.objects.Interfaces.iAircraft;
+
 import org.junit.Before;
 import org.junit.Test;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;

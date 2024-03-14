@@ -1,4 +1,4 @@
-package com.example.skylink.UnitTest;
+package com.example.skylink.UnitTestStub;
 
 import static org.junit.Assert.*;
 

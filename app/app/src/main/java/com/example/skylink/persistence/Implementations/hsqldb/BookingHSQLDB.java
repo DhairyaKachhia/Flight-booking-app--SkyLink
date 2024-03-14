@@ -1,7 +1,13 @@
 package com.example.skylink.persistence.Implementations.hsqldb;
 
+import com.example.skylink.objects.Implementations.PassengerData;
 import com.example.skylink.objects.Interfaces.iPassengerData;
 import com.example.skylink.persistence.Interfaces.iBookingDB;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -20,7 +26,12 @@ public class BookingHSQLDB implements iBookingDB {
             + "first_name VARCHAR(100) NOT NULL,"
             + "last_name VARCHAR(100) NOT NULL,"
             + "telephone_number VARCHAR(20) NOT NULL,"
-            + "email_address VARCHAR(100) NOT NULL"
+            + "email_address VARCHAR(100) NOT NULL,"
+            + "user_id INT NOT NULL,"
+            + "bookingNumber VARCHAR(5),"
+            + "seatNumber VARCHAR(10),"
+            + "FOREIGN KEY (user_id) REFERENCES PUBLIC.USER (id),"
+            + "FOREIGN KEY (bookingNumber) REFERENCES FLIGHTBOOKINGS (bookingNumber)"
             + ")";
 
     public BookingHSQLDB(String dbPath) {
@@ -32,17 +43,44 @@ public class BookingHSQLDB implements iBookingDB {
     }
 
     @Override
-    public void addBooking(iPassengerData passengerData) {
-        String sql = "INSERT INTO BOOKINGS (title, first_name, last_name, telephone_number, email_address) VALUES (?, ?, ?, ?, ?)";
+    public void addBooking(iPassengerData passengerData, long userId) {
+        String sql = "INSERT INTO BOOKINGS (title, first_name, last_name, telephone_number, email_address, user_id) VALUES (?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = connect();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+             PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
             ps.setString(1, passengerData.getTitle());
             ps.setString(2, passengerData.getFirstName());
             ps.setString(3, passengerData.getLastName());
             ps.setString(4, passengerData.getTelephoneNumber());
             ps.setString(5, passengerData.getEmailAddress());
+            ps.setLong(6, userId);
+
+            int affectedRows = ps.executeUpdate();
+
+            if (affectedRows > 0) {
+                ResultSet generatedKeys = ps.getGeneratedKeys();
+                if (generatedKeys.next()) {
+                    int bookingId = generatedKeys.getInt(1);
+                    // You can store the generated bookingId for future use if needed
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void updateBookingInformation(String emailAddress, long userId, String bookingNumber, String seatNumber) {
+        String sql = "UPDATE BOOKINGS SET bookingNumber = ?, seatNumber = ? WHERE email_address = ? AND user_id = ?";
+
+        try (Connection conn = connect();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, bookingNumber);
+            ps.setString(2, seatNumber);
+            ps.setString(3, emailAddress);
+            ps.setLong(4, userId);
 
             ps.executeUpdate();
 
@@ -50,9 +88,68 @@ public class BookingHSQLDB implements iBookingDB {
             e.printStackTrace();
         }
     }
+    public List<String> getAllRows() {
+        List<String> resultRows = new ArrayList<>();
+        String sql = "SELECT * FROM BOOKINGS";
+
+        try (Connection conn = connect();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+
+            while (rs.next()) {
+                StringBuilder rowStringBuilder = new StringBuilder();
+                rowStringBuilder.append("ID: ").append(rs.getLong("id")).append(", ");
+                rowStringBuilder.append("Title: ").append(rs.getString("title")).append(", ");
+                rowStringBuilder.append("First Name: ").append(rs.getString("first_name")).append(", ");
+                rowStringBuilder.append("Last Name: ").append(rs.getString("last_name")).append(", ");
+                rowStringBuilder.append("Telephone Number: ").append(rs.getString("telephone_number")).append(", ");
+                rowStringBuilder.append("Email Address: ").append(rs.getString("email_address")).append(", ");
+                rowStringBuilder.append("Seat Number: ").append(rs.getString("seatNumber"));
+
+                resultRows.add(rowStringBuilder.toString());
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return resultRows;
+    }
+
+    public HashMap<iPassengerData, String> getPassengersWithSeatNumbers(String flightBookingNumber) {
+        HashMap<iPassengerData, String> passengerSeatMap = new HashMap<>();
+
+        String sql = "SELECT * FROM BOOKINGS WHERE bookingNumber = ?";
+
+        try (Connection conn = connect();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, flightBookingNumber);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    iPassengerData passengerData = new PassengerData(
+                            rs.getString("title"),
+                            rs.getString("first_name"),
+                            rs.getString("last_name"),
+                            rs.getString("telephone_number"),
+                            rs.getString("email_address")
+                    );
+
+                    String seatNumber = rs.getString("seatNumber");
+                    passengerSeatMap.put(passengerData, seatNumber);
+                }
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return passengerSeatMap;
+    }
 
     @Override
-    public boolean findBooking(iPassengerData searchPassengerData) {
+    public boolean findBooking(iPassengerData searchPassengerData, long userId) {
         String sql = "SELECT * FROM BOOKINGS WHERE title=? AND first_name=? AND last_name=? AND telephone_number=? AND email_address=?";
 
         try (Connection conn = connect();

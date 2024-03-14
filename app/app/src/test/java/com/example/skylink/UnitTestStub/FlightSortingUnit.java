@@ -1,4 +1,4 @@
-package com.example.skylink.UnitTest;
+package com.example.skylink.UnitTestStub;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -8,12 +8,8 @@ import com.example.skylink.business.Implementations.FlightSorting;
 import com.example.skylink.business.Interface.iFlightSorting;
 import com.example.skylink.objects.Implementations.Flight;
 import com.example.skylink.objects.Interfaces.iFlight;
-import com.example.skylink.persistence.Implementations.stub.FlightStub;
-import com.example.skylink.persistence.Interfaces.IFlightDB;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 public class FlightSortingUnit {

@@ -88,6 +88,11 @@ public class FlightStub implements IFlightDB {
         return aircraftMap;
     }
 
+    @Override
+    public List<iFlight> getFlightsByFlightNumbers(List<String> flightNumbers) {
+        return null;
+    }
+
     private void readConfig() {
         addAirport("YYZ");
         addAirport("YYC");
