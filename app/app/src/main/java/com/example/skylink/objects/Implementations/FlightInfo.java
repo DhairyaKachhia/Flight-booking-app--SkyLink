@@ -13,6 +13,8 @@ public class FlightInfo implements iFlightInfo{
     private String bookingNum;
     private HashMap<iPassengerData, String> seatSelected;
     private List<iFlight> flight;
+
+
     public FlightInfo(){
 
     }

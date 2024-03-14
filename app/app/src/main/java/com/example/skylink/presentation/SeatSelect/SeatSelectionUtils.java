@@ -17,6 +17,7 @@ import com.example.skylink.application.Services;
 import com.example.skylink.business.Implementations.PlaneConfiguration;
 import com.example.skylink.objects.Implementations.FlightInfo;
 import com.example.skylink.objects.Interfaces.iFlightInfo;
+import com.example.skylink.presentation.Addons.Addons;
 import com.example.skylink.presentation.Session;
 import com.example.skylink.business.Interface.iPlaneConfiguration;
 import com.example.skylink.objects.Interfaces.iFlight;
@@ -275,7 +276,7 @@ public class SeatSelectionUtils {
             flightInfo.setBound(bound);
             Session.getInstance().setFlightInfoCompleted(flightInfo);
 
-            Intent intent = new Intent(activity, CreditCardPaymentActivity.class);
+            Intent intent = new Intent(activity, Addons.class);
             activity.startActivity(intent);
         }
 
