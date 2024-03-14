@@ -1,35 +1,30 @@
-package com.example.skylink.IntegrationTest;
+package com.example.skylink.UnitTestStub;
+
 
 import static junit.framework.TestCase.assertEquals;
+
+import com.example.skylink.business.Implementations.PassengerDataManager;
+import com.example.skylink.persistence.Implementations.stub.BookingStub;
+import com.example.skylink.persistence.Interfaces.iBookingDB;
+
+import org.junit.Before;
+import org.junit.Test;
+
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
-import com.example.skylink.TestUtils.TestUtils;
-import com.example.skylink.application.Services;
-import com.example.skylink.business.Implementations.PassengerDataManager;
-import com.example.skylink.objects.Interfaces.iPassengerData;
-import com.example.skylink.persistence.Interfaces.iBookingDB;
-
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-
-import java.io.File;
-import java.io.IOException;
-
-public class PassengerDataManagerIntegrated {
+public class PassengerDataManagerUnit {
     private iBookingDB bookingDatabase;
     private PassengerDataManager passengerDataManager;
-    private File tempDB;
+
     @Before
-    public void setUp() throws IOException {
-        System.out.println("Starting integration test for Passenger Database");
-        this.tempDB = TestUtils.copyDB();
-        this.passengerDataManager = new PassengerDataManager(true);
-        assertNotNull(this.passengerDataManager);
+    public void setUp() {
+        bookingDatabase = new BookingStub();
+        passengerDataManager = new PassengerDataManager(bookingDatabase);
     }
+
     // General Test Cases
 
     @Test
@@ -88,13 +83,4 @@ public class PassengerDataManagerIntegrated {
 //        assertTrue(found);
     }
 
-    @After
-    public void tearDown() {
-        System.out.println("Reset database.");
-        // reset DB
-        this.tempDB.delete();
-
-        // clear Services
-        Services.clean();
-    }
 }

@@ -17,10 +17,10 @@ public class PassengerDataManager implements iPassengerDataManager {
         this.bookingDatabase = bookingDatabase;
     }
 
-    public iPassengerData addBooking(String title, String firstName, String lastName, String telephoneNumber, String emailAddress) {
+    public iPassengerData addBooking(String title, String firstName, String lastName, String telephoneNumber, String emailAddress, long userId) {
         if (title != null && firstName != null && lastName != null && telephoneNumber != null && emailAddress != null) {
             iPassengerData newPassengerData = new PassengerData(title, firstName, lastName, telephoneNumber, emailAddress);
-            bookingDatabase.addBooking(newPassengerData);
+            bookingDatabase.addBooking(newPassengerData,userId);
 
             return newPassengerData;
         }
@@ -28,9 +28,9 @@ public class PassengerDataManager implements iPassengerDataManager {
         return null;
     }
 
-    public boolean findBooking(String title, String firstName, String lastName, String telephoneNumber, String emailAddress) {
+    public boolean findBooking(String title, String firstName, String lastName, String telephoneNumber, String emailAddress, long userId) {
         iPassengerData searchPassengerData = new PassengerData(title, firstName, lastName, telephoneNumber, emailAddress);
-        if (bookingDatabase.findBooking(searchPassengerData)){
+        if (bookingDatabase.findBooking(searchPassengerData,userId)){
             return true;
         }
         return false;

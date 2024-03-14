@@ -1,4 +1,4 @@
-package com.example.skylink.UnitTest;
+package com.example.skylink.UnitTestStub;
 
 import com.example.skylink.business.Implementations.UserHandler;
 import com.example.skylink.objects.Implementations.UserProperties;

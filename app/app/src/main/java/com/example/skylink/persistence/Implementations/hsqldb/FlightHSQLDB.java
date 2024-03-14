@@ -189,6 +189,42 @@ public class FlightHSQLDB implements IFlightDB {
         }
     }
 
+    public List<iFlight> getFlightsByFlightNumbers(List<String> flightNumbers) {
+        List<iFlight> flights = new ArrayList<>();
+        String sql = "SELECT * FROM FLIGHTS WHERE flightNumber = ?";
+
+        try (Connection conn = connect();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            for (String flightNumber : flightNumbers) {
+                ps.setString(1, flightNumber);
+
+                try (ResultSet rs = ps.executeQuery()) {
+                    if (rs.next()) {
+                        Flight flight = new Flight(
+                                rs.getString("flightNumber"),
+                                rs.getString("departure_icao"),
+                                rs.getString("arrival_icao"),
+                                rs.getString("flight_dept_date_time"),
+                                rs.getString("flight_arr_date_time"),
+                                rs.getString("airCraft_Type"),
+                                rs.getString("departure_Gate"),
+                                rs.getString("arr_Gate"),
+                                rs.getInt("econPrice"),
+                                rs.getInt("busnPrice")
+                        );
+                        flights.add(flight);
+                    }
+                }
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return flights;
+    }
+
 
 
     public FlightHSQLDB initialize() {

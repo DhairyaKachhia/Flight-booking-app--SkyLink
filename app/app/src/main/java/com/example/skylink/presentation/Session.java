@@ -3,9 +3,11 @@ package com.example.skylink.presentation;
 import android.content.Context;
 
 import com.example.skylink.objects.Interfaces.iFlight;
+import com.example.skylink.objects.Interfaces.iFlightInfo;
 import com.example.skylink.objects.Interfaces.iFlightSearch;
 import com.example.skylink.objects.Interfaces.iPassengerData;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,8 +21,10 @@ public class Session implements ISession {
     private int outboundPrice, inboundPrice, addonsPrice = 0;
     private int totalPrice, flightTotalPrice = 0;
     private List<iPassengerData> passengerData;
-    private HashMap<iPassengerData, String> seatMap;
+
+
     private Map<String, String> priceType;
+
     public Map<String, String> getpriceType() {
         return priceType;
     }
@@ -33,14 +37,6 @@ public class Session implements ISession {
             priceType = new HashMap<>();
         }
         priceType.put(key, value);
-    }
-
-    public HashMap<iPassengerData, String> getSeatMap() {
-        return seatMap;
-    }
-
-    public void setSeatMap(HashMap<iPassengerData, String> seatMap) {
-        this.seatMap = seatMap;
     }
 
     private HashMap<String, List<List<iFlight>>> selectedFlights;
@@ -168,6 +164,23 @@ public class Session implements ISession {
     public void setSelectedFlights(HashMap<String, List<List<iFlight>>> selectedFlights) {
         this.selectedFlights = selectedFlights;
     }
+
+    private List<iFlightInfo> flightInfoCompleted;
+
+    public List<iFlightInfo> getFlightInfoCompleted() {
+        return flightInfoCompleted;
+    }
+
+    public void setFlightInfoCompleted(iFlightInfo flightInfoCompleted) {
+        if (this.flightInfoCompleted == null) {
+            this.flightInfoCompleted = new ArrayList<>();
+        }
+        this.flightInfoCompleted.add(flightInfoCompleted);
+    }
+
+
+
+
 
     /*
     *   Storing Payment info:

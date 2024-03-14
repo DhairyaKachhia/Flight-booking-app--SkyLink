@@ -1,5 +1,6 @@
 package com.example.skylink.persistence.Interfaces;
 
+import com.example.skylink.objects.Implementations.Flight;
 import com.example.skylink.objects.Interfaces.iAircraft;
 import com.example.skylink.objects.Interfaces.iFlight;
 
@@ -19,4 +20,5 @@ public interface IFlightDB {
 
 //    Assuming this are all of the aircraft in the world.
     Map<String, iAircraft> getAircraftMap();
+    List<iFlight> getFlightsByFlightNumbers(List<String> flightNumbers);
 }

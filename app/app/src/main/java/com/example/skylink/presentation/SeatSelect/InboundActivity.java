@@ -40,10 +40,9 @@ public class InboundActivity extends AppCompatActivity {
         LinearLayout seatLayoutContainer = findViewById(R.id.Flight_Layout);
         seatLayoutContainer.addView(seatLayout);
 
-
-
         Button confirmButton = findViewById(R.id.confirmButton);
-        SeatSelectionUtils.setupConfirmButton(this, confirmButton, this, seatMap,true);
+
+        SeatSelectionUtils.setupConfirmButton(this, confirmButton, this, seatMap,true, "Inbound");
 
 
 

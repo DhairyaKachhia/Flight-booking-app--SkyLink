@@ -148,6 +148,6 @@ public class User_info extends AppCompatActivity {
         String email = emailEditText.getText().toString();
         String phoneNum = phoneNumberEditText.getText().toString();
 
-        return passengerDataManager.addBooking(title, firstname, lastname, phoneNum, email);
+        return passengerDataManager.addBooking(title, firstname, lastname, phoneNum, email,Session.getInstance().getUser_id());
     }
 }
