@@ -28,8 +28,8 @@ public class SignInActivityTest {
     @Test
     public void signInWithValidCredentials() {
         // Type valid email and password
-        String validEmail = "akintundemayokun@gmail.com";
-        String validPassword = "ooooooo";
+        String validEmail = "johndoe@example.com";
+        String validPassword = "password";
         Espresso.onView(ViewMatchers.withId(R.id.etEmail)).perform(ViewActions.typeText(validEmail));
         Espresso.onView(ViewMatchers.withId(R.id.etPassword)).perform(ViewActions.typeText(validPassword));
 
