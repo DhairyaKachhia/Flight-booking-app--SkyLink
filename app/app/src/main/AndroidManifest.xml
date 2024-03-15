@@ -51,6 +51,9 @@
         <activity
             android:name=".presentation.Payment.PaymentSuccessfulActivity"
             android:exported="true" />
+        <activity android:name=".presentation.Bookings.BookingsDisplay"
+            android:exported="true" />
+
     </application>
 
 </manifest>
