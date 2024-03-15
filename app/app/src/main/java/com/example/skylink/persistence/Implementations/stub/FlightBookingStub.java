@@ -12,7 +12,7 @@ import java.util.List;
 public class FlightBookingStub implements iFlightBookingDB {
 
     @Override
-    public long addFlightBooking(long user_id, String bound, iFlight flight , int price, String bookingNumber, String econBusiness) {
+    public long addFlightBooking(long user_id, String bound, iFlight flight , int price, String bookingNumber, String econBusiness, int bagCount, int petCount, int wifiOption, int wheelchairOption) {
         return 0;
     }
 

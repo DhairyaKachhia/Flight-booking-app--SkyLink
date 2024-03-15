@@ -115,6 +115,10 @@ public class FlightBookingHandlerIntegrated {
         flightInfo.setFlight(outboundFlights);
         flightInfo.setEconOrBus("Economy");
         flightInfo.setBound("Outbound");
+        flightInfo.setBagCount(1);
+        flightInfo.setPetCount(0);
+        flightInfo.setWifiOption(1);
+        flightInfo.setWheelchairOption(0);
 
         // Add sample passenger data
         iPassengerData passengerData = new PassengerData("Mr", "John", "Doe", "123456789", "john.doe@example.com");
@@ -140,6 +144,10 @@ public class FlightBookingHandlerIntegrated {
         flightInfo1.setFlight(outboundFlights1);
         flightInfo1.setEconOrBus("Economy");
         flightInfo1.setBound("Outbound");
+        flightInfo1.setBagCount(1);
+        flightInfo1.setPetCount(0);
+        flightInfo1.setWifiOption(1);
+        flightInfo1.setWheelchairOption(0);
 
         // Add sample passenger data
         iPassengerData passengerData1 = new PassengerData("Mr", "Ken", "Ferems", "123456489", "ken.doe@example.com");
@@ -192,12 +200,12 @@ public class FlightBookingHandlerIntegrated {
 
         iFlightInfo outboundFlightInfo = new FlightInfo();
         outboundFlightInfo.setFlight(outboundFlights);
-        outboundFlightInfo.setEconOrBus("Economy");
+        outboundFlightInfo.setEconOrBus("Business");
         outboundFlightInfo.setBound("Outbound");
 
         iFlightInfo inboundFlightInfo = new FlightInfo();
         inboundFlightInfo.setFlight(inboundFlights);
-        inboundFlightInfo.setEconOrBus("Economy");
+        inboundFlightInfo.setEconOrBus("Business");
         inboundFlightInfo.setBound("Inbound");
 
         // Add sample passenger data
@@ -474,9 +482,9 @@ public class FlightBookingHandlerIntegrated {
         iFlight inboundFlight = new Flight("AC785", "YVR", "YEG", "08/03/2024 18:47", "18/03/2024 19:47", "Boeing 737", "Gate3", "Gate8", 1269, 1546);
         inboundFlights.add(inboundFlight);
         outboundFlightInfo.setFlight(outboundFlights);
-        outboundFlightInfo.setEconOrBus("Economy");
+        outboundFlightInfo.setEconOrBus("Business");
         inboundFlightInfo.setFlight(inboundFlights);
-        inboundFlightInfo.setEconOrBus("Economy");
+        inboundFlightInfo.setEconOrBus("Business");
 
 
         // Add sample passenger data
