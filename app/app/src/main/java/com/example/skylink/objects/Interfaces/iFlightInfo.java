@@ -18,4 +18,20 @@ public interface iFlightInfo {
 
     List<iFlight> getFlight();
     void setFlight(List<iFlight> flight);
+
+    int getBagCount();
+
+    void setBagCount(int bagNumber);
+
+    int getPetCount();
+
+    void setPetCount(int petNumber);
+
+    int getWifiOption();
+
+    void setWifiOption(int wifiOption);
+
+    int getWheelchairOption();
+
+    void setWheelchairOption(int wheelchairOption);
 }

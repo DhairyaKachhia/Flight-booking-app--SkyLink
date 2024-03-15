@@ -136,9 +136,6 @@ public class CustomFlightAdaptor extends BaseAdapter {
     }
 
     private void bookFlight(Button bookButton, TextView priceView, String priceType, View v) {
-//        int currTotal = Session.getInstance().getTotalPrice();
-//        Session.getInstance().setTotalPrice(currTotal + userInput.getTotalPassengers() * Integer.parseInt(priceView.getText().toString()));
-
         int selectedFlightPrice = userInput.getTotalPassengers() * Integer.parseInt(priceView.getText().toString());
 
         View parentRow = (View) v.getParent();
