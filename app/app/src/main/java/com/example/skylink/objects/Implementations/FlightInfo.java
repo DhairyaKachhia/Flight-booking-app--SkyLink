@@ -13,7 +13,7 @@ public class FlightInfo implements iFlightInfo{
     private String bookingNum;
     private HashMap<iPassengerData, String> seatSelected;
     private List<iFlight> flight;
-
+    private int bagCount, petCount, wifiOption, wheelchairOption;
 
     public FlightInfo(){
 
@@ -65,5 +65,45 @@ public class FlightInfo implements iFlightInfo{
 
     public void setFlight(List<iFlight> flight) {
         this.flight = flight;
+    }
+
+    @Override
+    public int getBagCount() {
+        return bagCount;
+    }
+
+    @Override
+    public void setBagCount(int bagNumber) {
+        this.bagCount = bagNumber;
+    }
+
+    @Override
+    public int getPetCount() {
+        return petCount;
+    }
+
+    @Override
+    public void setPetCount(int petNumber) {
+        this.petCount = petNumber;
+    }
+
+    @Override
+    public int getWifiOption() {
+        return wifiOption;
+    }
+
+    @Override
+    public void setWifiOption(int wifiOption) {
+        this.wifiOption = wifiOption;
+    }
+
+    @Override
+    public int getWheelchairOption() {
+        return wheelchairOption;
+    }
+
+    @Override
+    public void setWheelchairOption(int wheelchairOption) {
+        this.wheelchairOption = wheelchairOption;
     }
 }

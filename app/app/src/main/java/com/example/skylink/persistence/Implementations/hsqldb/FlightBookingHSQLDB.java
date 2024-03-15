@@ -25,6 +25,10 @@ public class FlightBookingHSQLDB implements iFlightBookingDB {
             + "price INT NOT NULL,"
             + "paid BOOLEAN NOT NULL,"
             + "bookingNumber VARCHAR(5) NOT NULL,"
+            + "bagCount INT,"
+            + "petCount INT,"
+            + "wifiOption INT,"
+            + "wheelchairOption INT,"
             + "FOREIGN KEY (userID) REFERENCES USER (id)"
             + ")";
 
@@ -37,8 +41,8 @@ public class FlightBookingHSQLDB implements iFlightBookingDB {
         return DriverManager.getConnection("jdbc:hsqldb:file:" + dbPath + ";shutdown=true", "SA", "");
     }
 
-    public long addFlightBooking(long user_id, String bound, iFlight flight, int price, String bookingNumber, String econBusiness) {
-        String sql = "INSERT INTO FLIGHTBOOKINGS (flightID, userID, direction, price, paid, econBus, bookingNumber) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    public long addFlightBooking(long user_id, String bound, iFlight flight, int price, String bookingNumber, String econBusiness, int bagCount, int petCount, int wifiOption, int wheelchairOption) {
+        String sql = "INSERT INTO FLIGHTBOOKINGS (flightID, userID, direction, price, paid, econBus, bookingNumber, bagCount, petCount, wifiOption, wheelchairOption) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = connect();
              PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
@@ -50,6 +54,10 @@ public class FlightBookingHSQLDB implements iFlightBookingDB {
             ps.setBoolean(5, true);
             ps.setString(6, econBusiness);
             ps.setString(7, bookingNumber);
+            ps.setInt(8, bagCount);
+            ps.setInt(9, petCount);
+            ps.setInt(10, wifiOption);
+            ps.setInt(11, wheelchairOption);
 
             int affectedRows = ps.executeUpdate();
 
@@ -73,7 +81,7 @@ public class FlightBookingHSQLDB implements iFlightBookingDB {
     public List<iBookingInfo> getBookingInfoByUserId(long userId) {
         List<iBookingInfo> bookingInfoList = new ArrayList<>();
 
-        String sql = "SELECT id, bookingNumber, econBus, direction FROM FLIGHTBOOKINGS WHERE userID = ?";
+        String sql = "SELECT id, bookingNumber, econBus, direction, bagCount, petCount, wifiOption, wheelchairOption FROM FLIGHTBOOKINGS WHERE userID = ?";
 
         try (Connection conn = connect();
              PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -86,9 +94,13 @@ public class FlightBookingHSQLDB implements iFlightBookingDB {
                     String flightID = rs.getString("bookingNumber");
                     String econBus = rs.getString("econBus");
                     String direction = rs.getString("direction");
+                    int bagCount = rs.getInt("bagCount");
+                    int petCount = rs.getInt("petCount");
+                    int wifiOption = rs.getInt("wifiOption");
+                    int wheelchairOption = rs.getInt("wheelchairOption");
 
                     // Create a BookingInfo object and add it to the main list
-                    iBookingInfo bookingInfo = new BookingInfo(id, flightID,econBus,direction);
+                    iBookingInfo bookingInfo = new BookingInfo(id, flightID,econBus,direction, bagCount, petCount, wifiOption, wheelchairOption);
                     bookingInfoList.add(bookingInfo);
                 }
             }
@@ -127,17 +139,17 @@ public class FlightBookingHSQLDB implements iFlightBookingDB {
 
 
 
-        public iFlightBookingDB initialize() {
-            try (Connection conn = connect();
-                 Statement stmt = conn.createStatement()) {
+    public iFlightBookingDB initialize() {
+        try (Connection conn = connect();
+             Statement stmt = conn.createStatement()) {
 
-                stmt.executeUpdate(CREATE_TABLE);
+            stmt.executeUpdate(CREATE_TABLE);
 
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            return this;
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
+        return this;
+    }
 
     public iFlightBookingDB drop() {
         String sql = "DROP TABLE FLIGHTBOOKINGS";

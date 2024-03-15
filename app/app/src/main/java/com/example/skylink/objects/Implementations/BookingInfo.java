@@ -7,11 +7,17 @@ public class BookingInfo implements iBookingInfo {
     private String bookingNumber;
     private String econBus;
     private String direction;
-    public BookingInfo(long id, String flightID, String econBus, String direction) {
+    private int bagCount, petCount, wifiOption, wheelchairOption;
+
+    public BookingInfo(long id, String flightID, String econBus, String direction, int bagCount, int petCount, int wifiOption, int wheelchairOption) {
         this.id = id;
         this.bookingNumber = flightID;
         this.econBus = econBus;
         this.direction = direction;
+        this.bagCount = bagCount;
+        this.petCount = petCount;
+        this.wifiOption = wifiOption;
+        this.wheelchairOption = wheelchairOption;
     }
 
     @Override
@@ -50,5 +56,37 @@ public class BookingInfo implements iBookingInfo {
     @Override
     public void setDirection(String direction) {
         this.direction = direction;
+    }
+
+    public int getBagCount() {
+        return bagCount;
+    }
+
+    public void setBagCount(int bagCount) {
+        this.bagCount = bagCount;
+    }
+
+    public int getPetCount() {
+        return petCount;
+    }
+
+    public void setPetCount(int petCount) {
+        this.petCount = petCount;
+    }
+
+    public int getWifiOption() {
+        return wifiOption;
+    }
+
+    public void setWifiOption(int wifiOption) {
+        this.wifiOption = wifiOption;
+    }
+
+    public int getWheelchairOption() {
+        return wheelchairOption;
+    }
+
+    public void setWheelchairOption(int wheelchairOption) {
+        this.wheelchairOption = wheelchairOption;
     }
 }

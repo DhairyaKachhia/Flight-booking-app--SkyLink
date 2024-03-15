@@ -46,7 +46,7 @@ public class FlightBookingHandler implements iFlightBookingHandler {
                     int price = calculateTotalPrice(flightInfoEntry);
                     if(isValidDirection(flightInfoEntry.getBound())){
                         for (iFlight flight : flightInfoEntry.getFlight()) {
-                            flightBookingDB.addFlightBooking(user_id, flightInfoEntry.getBound(), flight, price, bookingNumber, flightInfoEntry.getEconOrBus());
+                            flightBookingDB.addFlightBooking(user_id, flightInfoEntry.getBound(), flight, price, bookingNumber, flightInfoEntry.getEconOrBus(), flightInfoEntry.getBagCount(), flightInfoEntry.getPetCount(), flightInfoEntry.getWifiOption(), flightInfoEntry.getWheelchairOption());
                         }
                     }
                 }
@@ -106,6 +106,11 @@ public class FlightBookingHandler implements iFlightBookingHandler {
             return null;
         }
         flightInfo.setSeatSelected(passengers);
+
+        flightInfo.setBagCount(bookingInfo.getBagCount());
+        flightInfo.setPetCount(bookingInfo.getPetCount());
+        flightInfo.setWifiOption(bookingInfo.getWifiOption());
+        flightInfo.setWheelchairOption(bookingInfo.getWheelchairOption());
 
         return flightInfo;
     }
