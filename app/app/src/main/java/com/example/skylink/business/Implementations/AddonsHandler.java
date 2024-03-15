@@ -8,21 +8,10 @@ import java.util.List;
 
 public class AddonsHandler implements IAddonsHandler {
 
-    private int bagNumber, petNumber, wifiOption, wheelchairOption;
-
-    public AddonsHandler() {
-        bagNumber = 0;
-        petNumber = 0;
-        wifiOption = 0;
-        wheelchairOption = 0;
-    }
+    public AddonsHandler() { }
 
     @Override
     public void storeAddons(int bagNumber, int petNumber, int wifiOption, int wheelchairOption) {
-        this.bagNumber = bagNumber;
-        this.petNumber = petNumber;
-        this.wifiOption = wifiOption;
-        this.wheelchairOption = wheelchairOption;
 
         List<iFlightInfo> flightInfoList = Session.getInstance().getFlightInfoCompleted();
 
