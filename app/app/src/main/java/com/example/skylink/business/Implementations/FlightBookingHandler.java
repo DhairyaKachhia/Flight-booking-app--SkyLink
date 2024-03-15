@@ -107,6 +107,11 @@ public class FlightBookingHandler implements iFlightBookingHandler {
         }
         flightInfo.setSeatSelected(passengers);
 
+        flightInfo.setBagCount(bookingInfo.getBagCount());
+        flightInfo.setPetCount(bookingInfo.getPetCount());
+        flightInfo.setWifiOption(bookingInfo.getWifiOption());
+        flightInfo.setWheelchairOption(bookingInfo.getWheelchairOption());
+
         return flightInfo;
     }
 

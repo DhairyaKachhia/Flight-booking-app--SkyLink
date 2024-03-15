@@ -24,4 +24,19 @@ public interface iBookingInfo {
 
     // Set the direction of the flight
     void setDirection(String direction);
+
+    int getBagCount();
+
+    void setBagCount(int bagCount);
+
+    int getPetCount();
+
+    void setPetCount(int petCount);
+
+    int getWifiOption();
+    void setWifiOption(int wifiOption);
+
+    int getWheelchairOption();
+
+    void setWheelchairOption(int wheelchairOption);
 }

@@ -81,7 +81,7 @@ public class FlightBookingHSQLDB implements iFlightBookingDB {
     public List<iBookingInfo> getBookingInfoByUserId(long userId) {
         List<iBookingInfo> bookingInfoList = new ArrayList<>();
 
-        String sql = "SELECT id, bookingNumber, econBus, direction FROM FLIGHTBOOKINGS WHERE userID = ?";
+        String sql = "SELECT id, bookingNumber, econBus, direction, bagCount, petCount, wifiOption, wheelchairOption FROM FLIGHTBOOKINGS WHERE userID = ?";
 
         try (Connection conn = connect();
              PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -94,9 +94,13 @@ public class FlightBookingHSQLDB implements iFlightBookingDB {
                     String flightID = rs.getString("bookingNumber");
                     String econBus = rs.getString("econBus");
                     String direction = rs.getString("direction");
+                    int bagCount = rs.getInt("bagCount");
+                    int petCount = rs.getInt("petCount");
+                    int wifiOption = rs.getInt("wifiOption");
+                    int wheelchairOption = rs.getInt("wheelchairOption");
 
                     // Create a BookingInfo object and add it to the main list
-                    iBookingInfo bookingInfo = new BookingInfo(id, flightID,econBus,direction);
+                    iBookingInfo bookingInfo = new BookingInfo(id, flightID,econBus,direction, bagCount, petCount, wifiOption, wheelchairOption);
                     bookingInfoList.add(bookingInfo);
                 }
             }
