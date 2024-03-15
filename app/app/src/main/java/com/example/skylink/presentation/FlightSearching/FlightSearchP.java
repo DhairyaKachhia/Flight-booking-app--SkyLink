@@ -25,6 +25,7 @@ import com.example.skylink.business.Interface.iAirportPath;
 import com.example.skylink.business.validations.IValidateSearchInput;
 import com.example.skylink.business.validations.ValidateSearchInput;
 import com.example.skylink.objects.Implementations.FlightSearch;
+import com.example.skylink.presentation.Bookings.BookingsDisplay;
 import com.example.skylink.presentation.Session;
 import com.example.skylink.objects.Interfaces.iCity;
 import com.example.skylink.objects.Interfaces.iFlight;
@@ -83,9 +84,6 @@ public class FlightSearchP extends AppCompatActivity implements NavigationView.O
         setupSearchButton();
         setupTravelerCountButtons();
         setupDefaultTripType();
-    //        iFlightBookingHandler flight = new FlightBookingHandler(Services.getFlightBookingDB(),Services.getBookDatabase(),Services.getFlightDatabase());
-    //        List<HashMap<String, HashMap<String, iFlightInfo>>> f = flight.getBookingDetails(0);
-    //        System.out.println(f);
     }
 
     private void setupHamburgerMenuNav() {
@@ -333,6 +331,9 @@ public class FlightSearchP extends AppCompatActivity implements NavigationView.O
             startActivity(intent);
         } else if (id == R.id.nav_logout) {
             Intent intent = new Intent(this, SignInActivity.class);
+            startActivity(intent);
+        } else if (id == R.id.bookings) {
+            Intent intent = new Intent(this, BookingsDisplay.class);
             startActivity(intent);
         }
 
