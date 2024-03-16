@@ -26,11 +26,7 @@ public class AddonsHandler implements IAddonsHandler {
                     flightInfo.setWheelchairOption(wheelchairOption);
 
                 }
-
-
             }
         }
-
-
     }
 }

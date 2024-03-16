@@ -136,6 +136,19 @@ public class UserHandler implements IUserHandler {
     }
 
     @Override
+    public long getUserIdByEmail(String email) {
+
+        try {
+            long userId = userDB.getUserId(email);
+            return userId;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return -1;
+    }
+
+    @Override
     public IUserProperties getUserByEmail(String email) {
         return userDB.getUserByEmail(email);
     }
