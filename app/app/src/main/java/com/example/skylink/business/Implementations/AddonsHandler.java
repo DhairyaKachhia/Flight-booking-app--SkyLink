@@ -8,12 +8,19 @@ import java.util.List;
 
 public class AddonsHandler implements IAddonsHandler {
 
-    public AddonsHandler() { }
+    private Session session;
+    public AddonsHandler() {
+        session = Session.getInstance();
+    }
+
+    public AddonsHandler(Session session) {
+        this.session = session;
+    }
 
     @Override
     public void storeAddons(int bagNumber, int petNumber, int wifiOption, int wheelchairOption) {
 
-        List<iFlightInfo> flightInfoList = Session.getInstance().getFlightInfoCompleted();
+        List<iFlightInfo> flightInfoList = session.getFlightInfoCompleted();
 
         if (flightInfoList != null && !flightInfoList.isEmpty()) {
             for (iFlightInfo flightInfo : flightInfoList) {

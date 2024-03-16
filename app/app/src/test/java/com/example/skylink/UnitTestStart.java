@@ -1,5 +1,7 @@
 package com.example.skylink;
 
+import com.example.skylink.UnitTestStub.AddonsHandlerUnit;
+import com.example.skylink.UnitTestStub.AirportPathUnit;
 import com.example.skylink.UnitTestStub.PassengerDataManagerUnit;
 import com.example.skylink.UnitTestStub.PaymentHandlerUnit;
 import com.example.skylink.UnitTestStub.PlaneConfigurationUnit;
@@ -20,6 +22,8 @@ import org.junit.runners.Suite;
         FlightSortingUnit.class,
         PaymentHandlerUnit.class,
         UserHandlerUnit.class,
+        AddonsHandlerUnit.class,
+        AirportPathUnit.class,
         ValidateUserAuthUnit.class,
         ValidateSearchInputUnit.class,
         ValidatePassgnDataUnit.class,
