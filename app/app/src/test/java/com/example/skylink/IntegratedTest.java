@@ -1,6 +1,7 @@
 package com.example.skylink;
 
 import com.example.skylink.IntegrationTest.AirportPathIntegrated;
+import com.example.skylink.IntegrationTest.FlightBookingHandlerIntegrated;
 import com.example.skylink.IntegrationTest.PassengerDataManagerIntegrated;
 import com.example.skylink.IntegrationTest.PaymentHandlerIntegrated;
 import com.example.skylink.IntegrationTest.PlaneConfigurationIntegrated;
@@ -13,6 +14,7 @@ import org.junit.runners.Suite;
 @Suite.SuiteClasses({
         UserHandlerIntegrated.class,
         AirportPathIntegrated.class,
+        FlightBookingHandlerIntegrated.class,
         PassengerDataManagerIntegrated.class,
         PlaneConfigurationIntegrated.class,
         PaymentHandlerIntegrated.class

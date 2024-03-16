@@ -7,6 +7,7 @@ import static org.mockito.Mockito.*;
 
 import com.example.skylink.business.Implementations.AddonsHandler;
 import com.example.skylink.business.Interface.IAddonsHandler;
+import com.example.skylink.objects.Implementations.FlightInfo;
 import com.example.skylink.objects.Interfaces.iFlightInfo;
 import com.example.skylink.presentation.Session;
 
@@ -22,16 +23,12 @@ public class AddonsHandlerUnit {
     @Before
     public void setUp() {
         sessionMock = mock(Session.class);
-        flightInfoMock = mock(iFlightInfo.class);
-
-        flightInfoMock.setEconOrBus("");
-        flightInfoMock.setSeatSelected(null);
-        flightInfoMock.setFlight(null);
+        flightInfoMock = mock(FlightInfo.class);
 
     }
 
     @Test
-    public void testStoreAddons() {
+    public void testStoreAddonsSuccess() {
         // Mock flightInfoList
         List<iFlightInfo> flightInfoListMock = new ArrayList<>();
         flightInfoListMock.add(flightInfoMock);
@@ -39,17 +36,38 @@ public class AddonsHandlerUnit {
         // Mock Session
         when(sessionMock.getFlightInfoCompleted()).thenReturn(flightInfoListMock);
 
-        // Create an instance of your class
-        IAddonsHandler addonsHandler = new AddonsHandler();
+        // Create an instance of addonsHandler with mock session
+        IAddonsHandler addonsHandler = new AddonsHandler(sessionMock);
 
 
         // Call the method
-        addonsHandler.storeAddons(1, 2, 1, 0); // Pass sample values for bagNumber, petNumber, wifiOption, wheelchairOption
+        addonsHandler.storeAddons(1, 2, 1, 0);
 
         // Verify that the method sets the attributes of flightInfo
         verify(flightInfoMock).setBagCount(1);
         verify(flightInfoMock).setPetCount(2);
         verify(flightInfoMock).setWifiOption(1);
         verify(flightInfoMock).setWheelchairOption(0);
+
+    }
+
+    @Test
+    public void testStoreAddonsFail() {
+        // Mock flightInfoList
+        List<iFlightInfo> flightInfoListMock = null;
+
+        // Mock Session
+        when(sessionMock.getFlightInfoCompleted()).thenReturn(flightInfoListMock);
+
+        // Create an instance of addonsHandler with mock session
+        IAddonsHandler addonsHandler = new AddonsHandler(sessionMock);
+
+
+        // Call the method
+        addonsHandler.storeAddons(1, 2, 1, 0);
+
+        // verify set methods are not executed since flightInfo list is null
+        verifyNoMoreInteractions(flightInfoMock);
+
     }
 }
