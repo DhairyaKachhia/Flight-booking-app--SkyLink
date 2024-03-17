@@ -1,28 +1,27 @@
 package com.example.skylink.UnitTestStub;
 
-import org.junit.Before;
-import org.junit.Test;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
 
-import com.example.skylink.business.Implementations.AddonsHandler;
-import com.example.skylink.business.Interface.IAddonsHandler;
+import com.example.skylink.business.Implementations.FlightBookingHandler;
+import com.example.skylink.business.Interface.iFlightBookingHandler;
 import com.example.skylink.objects.Implementations.FlightInfo;
 import com.example.skylink.objects.Interfaces.iFlightInfo;
-import com.example.skylink.presentation.Session;
+
+import org.junit.Before;
+import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class AddonsHandlerUnit {
+public class FlightBookingHandlerUnit {
 
-
-    private Session sessionMock;
     private iFlightInfo flightInfoMock;
 
     @Before
     public void setUp() {
-        sessionMock = mock(Session.class);
         flightInfoMock = mock(FlightInfo.class);
 
     }
@@ -33,15 +32,10 @@ public class AddonsHandlerUnit {
         List<iFlightInfo> flightInfoListMock = new ArrayList<>();
         flightInfoListMock.add(flightInfoMock);
 
-        // Mock Session
-        when(sessionMock.getFlightInfoCompleted()).thenReturn(flightInfoListMock);
-
-        // Create an instance of addonsHandler with mock session
-        IAddonsHandler addonsHandler = new AddonsHandler(sessionMock);
-
+        iFlightBookingHandler flightBookingHandler = new FlightBookingHandler();
 
         // Call the method
-        addonsHandler.storeAddons(1, 2, 1, 0);
+        flightBookingHandler.storeAddons(1, 2, 1, 0, flightInfoListMock);
 
         // Verify that the method sets the attributes of flightInfo
         verify(flightInfoMock).setBagCount(1);
@@ -56,18 +50,14 @@ public class AddonsHandlerUnit {
         // Mock flightInfoList
         List<iFlightInfo> flightInfoListMock = null;
 
-        // Mock Session
-        when(sessionMock.getFlightInfoCompleted()).thenReturn(flightInfoListMock);
-
-        // Create an instance of addonsHandler with mock session
-        IAddonsHandler addonsHandler = new AddonsHandler(sessionMock);
-
+        iFlightBookingHandler flightBookingHandler = new FlightBookingHandler();
 
         // Call the method
-        addonsHandler.storeAddons(1, 2, 1, 0);
+        flightBookingHandler.storeAddons(1, 2, 1, 0, flightInfoListMock);
 
         // verify set methods are not executed since flightInfo list is null
         verifyNoMoreInteractions(flightInfoMock);
 
     }
+
 }
