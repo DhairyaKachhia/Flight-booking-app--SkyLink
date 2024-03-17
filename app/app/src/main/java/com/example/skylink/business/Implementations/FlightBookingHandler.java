@@ -2,8 +2,6 @@ package com.example.skylink.business.Implementations;
 
 import com.example.skylink.application.Services;
 import com.example.skylink.business.Interface.iFlightBookingHandler;
-import com.example.skylink.objects.Implementations.BookingInfo;
-import com.example.skylink.objects.Implementations.Flight;
 import com.example.skylink.objects.Implementations.FlightInfo;
 import com.example.skylink.objects.Interfaces.iBookingInfo;
 import com.example.skylink.objects.Interfaces.iFlight;
@@ -34,6 +32,28 @@ public class FlightBookingHandler implements iFlightBookingHandler {
         this.flightBookingDB = Services.getFlightBookingDB();
         this.bookingDB = Services.getBookDatabase();
         this.flightDB = Services.getFlightDatabase();
+
+    }
+
+    public FlightBookingHandler() { }
+
+    @Override
+    public void storeAddons(int bagNumber, int petNumber, int wifiOption, int wheelchairOption, List<iFlightInfo> flightInfoList) {
+
+        if (flightInfoList != null && !flightInfoList.isEmpty()) {
+            for (iFlightInfo flightInfo : flightInfoList) {
+
+                if (flightInfo != null) {
+
+                    flightInfo.setBagCount(bagNumber);
+                    flightInfo.setPetCount(petNumber);
+                    flightInfo.setWifiOption(wifiOption);
+                    flightInfo.setWheelchairOption(wheelchairOption);
+
+                }
+
+            }
+        }
 
     }
 

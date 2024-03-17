@@ -11,9 +11,10 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.example.skylink.R;
-import com.example.skylink.business.Implementations.AddonsHandler;
-import com.example.skylink.business.Interface.IAddonsHandler;
+import com.example.skylink.business.Implementations.FlightBookingHandler;
+import com.example.skylink.business.Interface.iFlightBookingHandler;
 import com.example.skylink.objects.Interfaces.iFlight;
+import com.example.skylink.objects.Interfaces.iFlightInfo;
 import com.example.skylink.objects.Interfaces.iFlightSearch;
 import com.example.skylink.presentation.ISession;
 import com.example.skylink.presentation.Payment.CreditCardPaymentActivity;
@@ -205,12 +206,14 @@ public class Addons extends AppCompatActivity {
 
     private void setupConfirmButton() {
         confirmBtn = findViewById(R.id.btnConfirmExtra);
-        IAddonsHandler addonsHandler = new AddonsHandler();
+        iFlightBookingHandler flightBookingHandler = new FlightBookingHandler();
 
         confirmBtn.setOnClickListener(v -> {
             session.setAddonsPrice(addonTotalFee);
 
-            addonsHandler.storeAddons(currentBagCount, currentPetSeatCount, wifiSelected, wheelChairSelected);
+            List<iFlightInfo> flightInfoList = session.getFlightInfoCompleted();
+
+            flightBookingHandler.storeAddons(currentBagCount, currentPetSeatCount, wifiSelected, wheelChairSelected, flightInfoList);
 
             Intent intent = new Intent(Addons.this, CreditCardPaymentActivity.class);
             startActivity(intent);
