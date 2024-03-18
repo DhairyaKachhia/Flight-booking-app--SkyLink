@@ -2,22 +2,22 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
-      <entry key="CreditCardPaymentActivityTest">
+      <entry key="AddonsActivityTest">
+        <State />
+      </entry>
+      <entry key="SignInActivityTest">
+        <State />
+      </entry>
+      <entry key="SignUpActivityTest">
         <State />
       </entry>
       <entry key="app">
         <State />
       </entry>
-      <entry key="signInWithInvalidCredentials()">
+      <entry key="testAddExtraBag()">
         <State />
       </entry>
-      <entry key="signInWithValidCredentials()">
-        <State />
-      </entry>
-      <entry key="signUpWithInvalidInputs()">
-        <State />
-      </entry>
-      <entry key="signUpWithValidInputs()">
+      <entry key="testAddExtraPet()">
         <State />
       </entry>
     </value>
