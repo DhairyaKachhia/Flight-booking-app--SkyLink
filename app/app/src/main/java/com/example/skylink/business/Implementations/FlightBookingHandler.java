@@ -95,10 +95,8 @@ public class FlightBookingHandler implements iFlightBookingHandler {
         List<iBookingInfo> bookingNumbers = flightBookingDB.getBookingInfoByUserId(userID);
 
         for (iBookingInfo bookingInfo : bookingNumbers) {
-            // Preapare information about the flight for the user.
             iFlightInfo flightInfo = prepareFlightInfo(bookingInfo);
             if(flightInfo != null){
-//                Add the booking number
                 flightInfo.setBookingNum(bookingInfo.getBookingNumber());
                 bookingDetailsList.add(flightInfo);
             }

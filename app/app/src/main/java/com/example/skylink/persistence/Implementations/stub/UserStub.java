@@ -73,4 +73,10 @@ public class UserStub implements IUserDB {
         return null; // User not found
     }
 
+    @Override
+    public long getUserId(String email) {
+        // TODO add implemention for getting user id by email
+        return -1;
+    }
+
 }

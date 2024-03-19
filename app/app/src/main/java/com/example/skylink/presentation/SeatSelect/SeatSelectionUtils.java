@@ -252,11 +252,13 @@ public class SeatSelectionUtils {
             if (notSelectedCount > 0) {
                 Toast.makeText(context, "Please select seats for all passengers", Toast.LENGTH_SHORT).show();
             } else {
+                handleAddonsActivity(seatMap, bound);
                 if (!returnFlight) {
                     Intent intent = new Intent(activity, InboundActivity.class);
                     activity.startActivity(intent);
                 } else {
-                    handleAddonsActivity(activity, seatMap, bound);
+                    Intent intent = new Intent(activity, Addons.class);
+                    activity.startActivity(intent);
                 }
             }
         });
@@ -266,7 +268,7 @@ public class SeatSelectionUtils {
         return seatMap.values().stream().filter(status -> status.equals("Not Selected")).count();
     }
 
-    private static void handleAddonsActivity(Activity activity, HashMap<iPassengerData, String> seatMap, String bound) {
+    private static void handleAddonsActivity(HashMap<iPassengerData, String> seatMap, String bound) {
         List<iFlight> selectedFlight = Session.getInstance().getSelectedFlights().get(bound).get(0);;
         String econOrBus =  Session.getInstance().getpriceType().get("Price");
         HashMap<iPassengerData, String> seatSelected = seatMap;
@@ -275,9 +277,6 @@ public class SeatSelectionUtils {
             iFlightInfo flightInfo = new FlightInfo(econOrBus,seatSelected, selectedFlight);
             flightInfo.setBound(bound);
             Session.getInstance().setFlightInfoCompleted(flightInfo);
-
-            Intent intent = new Intent(activity, Addons.class);
-            activity.startActivity(intent);
         }
 
 
