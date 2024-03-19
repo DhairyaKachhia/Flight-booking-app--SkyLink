@@ -13,9 +13,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import com.example.skylink.TestUtils.TestUtils;
 import com.example.skylink.objects.Implementations.Flight;
 import com.example.skylink.objects.Implementations.FlightInfo;
 import com.example.skylink.objects.Implementations.PassengerData;
@@ -87,7 +85,7 @@ public class FlightBookingHandlerIntegrated {
         flightInfos.add(flightInfo);
 
         // Add flight booking
-        String bookingNumber = bookingHandler.addConfirmBookings(sessionUserID, flightInfos);
+        String bookingNumber = bookingHandler.addConfirmBookings(sessionUserID, flightInfos, 0);
         assertNotNull(bookingNumber);
         assertTrue(bookingNumber.length() < 6);
     }
@@ -130,7 +128,7 @@ public class FlightBookingHandlerIntegrated {
 
         flightInfos.add(flightInfo);
 
-        String bookingNumber = bookingHandler.addConfirmBookings(sessionUserID, flightInfos);
+        String bookingNumber = bookingHandler.addConfirmBookings(sessionUserID, flightInfos, 100);
         assertNotNull(bookingNumber);
         assertTrue(bookingNumber.length() < 6);
 
@@ -159,7 +157,7 @@ public class FlightBookingHandlerIntegrated {
 
         flightInfos1.add(flightInfo1);
 
-        String bookingNumber1 = bookingHandler.addConfirmBookings(sessionUserID, flightInfos1);
+        String bookingNumber1 = bookingHandler.addConfirmBookings(sessionUserID, flightInfos1, 100);
         assertNotNull(bookingNumber1);
         assertTrue(bookingNumber1.length() < 6);
 
@@ -225,7 +223,7 @@ public class FlightBookingHandlerIntegrated {
         flightInfos.add(inboundFlightInfo);
 
         // Add flight booking
-        String bookingNumber = bookingHandler.addConfirmBookings(sessionUserID, flightInfos);
+        String bookingNumber = bookingHandler.addConfirmBookings(sessionUserID, flightInfos, 0);
         assertNotNull(bookingNumber);
         assertTrue(bookingNumber.length() < 6);
 
@@ -287,7 +285,7 @@ public class FlightBookingHandlerIntegrated {
         flightInfos.add(inboundFlightInfo);
 
         // Add flight booking
-        String bookingNumber = bookingHandler.addConfirmBookings(sessionUserID, flightInfos);
+        String bookingNumber = bookingHandler.addConfirmBookings(sessionUserID, flightInfos, 0);
         assertNotNull(bookingNumber);
         assertTrue(bookingNumber.length() < 6);
 
@@ -351,7 +349,7 @@ public class FlightBookingHandlerIntegrated {
         flightInfos.add(outboundFlightInfo);
         flightInfos.add(inboundFlightInfo);
 
-        String bookingNumbers = bookingHandler.addConfirmBookings(sessionUserID, flightInfos);
+        String bookingNumbers = bookingHandler.addConfirmBookings(sessionUserID, flightInfos, 0);
 
         assertNotNull(bookingNumbers);
         assertTrue(bookingNumbers.length() < 6);
@@ -360,26 +358,6 @@ public class FlightBookingHandlerIntegrated {
 
         assertNotNull(bookingDetailsList);
         assertFalse(bookingDetailsList.isEmpty());
-
-
-
-
-
-//
-//        // Assuming there is one booking in the list
-//        HashMap<String, HashMap<String, iFlightInfo>> bookingDetails = bookingDetailsList.get(0);
-//        assertNotNull(bookingDetails);
-//
-//        // Verify the outbound details
-//        for (String bookingNumber : bookingNumbers) {
-//            HashMap<String, iFlightInfo> outboundDetails = bookingDetails.get(bookingNumber);
-//            assertNotNull(outboundDetails);
-//            assertTrue(outboundDetails.containsKey("Outbound"));
-//
-//            // Verify the inbound details
-//            assertTrue(outboundDetails.containsKey("Inbound"));
-//        }
-
 
     }
 
@@ -440,7 +418,7 @@ public class FlightBookingHandlerIntegrated {
         flightInfos.add(outboundFlightInfo);
         flightInfos.add(inboundFlightInfo);
 
-        String bookingNumbers = bookingHandler.addConfirmBookings(sessionUserID, flightInfos);
+        String bookingNumbers = bookingHandler.addConfirmBookings(sessionUserID, flightInfos, 0);
 
         assertNotNull(bookingNumbers);
         assertTrue(bookingNumbers.length() < 6);
@@ -504,7 +482,7 @@ public class FlightBookingHandlerIntegrated {
         flightInfos.add(outboundFlightInfo);
         flightInfos.add(inboundFlightInfo);
 
-        String bookingNumbers = bookingHandler.addConfirmBookings(sessionUserID, flightInfos);
+        String bookingNumbers = bookingHandler.addConfirmBookings(sessionUserID, flightInfos, 0);
 
         assertNotNull(bookingNumbers);
         assertTrue(bookingNumbers.length() < 6);
