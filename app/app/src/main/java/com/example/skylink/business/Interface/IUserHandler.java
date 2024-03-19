@@ -9,6 +9,8 @@ public interface IUserHandler {
     boolean updateUserProfile(IUserProperties userProperties);
     boolean signinUser(IUserProperties userProperties);
 
+    long getUserIdByEmail(String email);
+
     IUserProperties getUserByEmail(String email);
 
 }

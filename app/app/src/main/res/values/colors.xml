@@ -10,4 +10,6 @@
     <color name="redTint">#FF0000</color>
     <color name="greenColor">#00FF00</color>
     <color name="lavender">#8692f7</color>
+    <color name="cream">#f8f7f4</color>
+    <color name="creamdark">#dbcca4</color>
 </resources>

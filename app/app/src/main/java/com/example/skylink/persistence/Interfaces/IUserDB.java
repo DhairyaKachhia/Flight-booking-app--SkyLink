@@ -14,5 +14,7 @@ public interface IUserDB {
 
     IUserProperties getUserByEmail(String email);
 
+    long getUserId(String email);
+
     IUserDB drop();
 }

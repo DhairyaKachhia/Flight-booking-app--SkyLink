@@ -127,6 +127,25 @@ public class UserHSQLDB implements IUserDB {
         return "";
     }
 
+    public long getUserIdByEmail(String email) {
+        String sql = "SELECT id FROM USER WHERE email=?";
+
+        try (Connection conn = connect();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, email);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getLong("id");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return -1;
+    }
+
     @Override
     public IUserProperties getUserByEmail(String email) {
         String sql = "SELECT * FROM USER WHERE email = ?";
@@ -172,6 +191,28 @@ public class UserHSQLDB implements IUserDB {
             e.printStackTrace();
         }
         return this;
+    }
+
+    @Override
+    public long getUserId(String email) {
+        String sql = "SELECT id FROM USER WHERE email = ?";
+        try (Connection conn = connect();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, email);
+            ResultSet rs = ps.executeQuery();
+
+            System.out.println(rs);
+
+            if (rs.next()) {
+                long userId = rs.getLong("id");
+                return userId;
+            }
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return -1;
     }
 
 }
