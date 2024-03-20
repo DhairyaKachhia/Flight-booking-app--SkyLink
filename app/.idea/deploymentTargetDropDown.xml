@@ -2,19 +2,19 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
-      <entry key="AddonsActivityTest">
+      <entry key="FlightSearchActivityTest">
+        <State />
+      </entry>
+      <entry key="FlightSortingActivityTest">
         <State />
       </entry>
       <entry key="PaymentSystemTest">
         <State />
       </entry>
+      <entry key="SignUpActivityTest">
+        <State />
+      </entry>
       <entry key="app">
-        <State />
-      </entry>
-      <entry key="testAddExtraBag()">
-        <State />
-      </entry>
-      <entry key="testAllAddons()">
         <State />
       </entry>
     </value>
