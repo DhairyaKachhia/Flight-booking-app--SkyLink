@@ -5,16 +5,19 @@
       <entry key="AddonsActivityTest">
         <State />
       </entry>
-      <entry key="PaymentSystemTest">
+      <entry key="CreditCardPaymentActivityTest">
         <State />
       </entry>
       <entry key="app">
         <State />
       </entry>
-      <entry key="testAddExtraBag()">
+      <entry key="completeWorkflow()">
         <State />
       </entry>
-      <entry key="testAllAddons()">
+      <entry key="signInWithInvalidCredentials_displaysToast()">
+        <State />
+      </entry>
+      <entry key="signUp()">
         <State />
       </entry>
     </value>
