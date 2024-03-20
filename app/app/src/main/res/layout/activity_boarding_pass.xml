@@ -15,10 +15,12 @@
     <ImageView
         android:id="@+id/imageViewBarcode"
         android:layout_width="395dp"
-        android:layout_height="227dp"
+        android:layout_height="463dp"
+        android:layout_centerHorizontal="true"
         android:layout_below="@id/textViewFlightDetails"
         android:layout_marginTop="40dp"
         android:src="@drawable/barcode" />
+
 
     <Button
         android:id="@+id/buttonReturn"
