@@ -193,5 +193,22 @@
         </LinearLayout>
 
 
+        <!--  Check-in  -->
+        <Button
+            android:id="@+id/buttonOnlineCheckIn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Online Check-in"
+            android:layout_marginTop="5dp"/>
+
+        <!-- Change booking -->
+        <Button
+            android:id="@+id/buttonChangeBooking"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Change Booking"
+            android:layout_marginTop="5dp"/>
+
+
     </LinearLayout>
 </androidx.cardview.widget.CardView>
