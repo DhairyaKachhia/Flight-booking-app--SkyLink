@@ -8,58 +8,136 @@ import androidx.test.filters.LargeTest;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.example.skylink.R;
+import com.example.skylink.presentation.User_Auth.SignInActivity;
 import com.example.skylink.presentation.User_Auth.SignUpActivity;
 
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
+
+import java.util.Random;
 
 @RunWith(AndroidJUnit4.class)
 @LargeTest
 public class SignUpActivityTest {
 
     @Rule
-    public ActivityScenarioRule<SignUpActivity> activityScenarioRule = new ActivityScenarioRule<>(SignUpActivity.class);
+    public ActivityScenarioRule<SignInActivity> activityScenarioRule = new ActivityScenarioRule<>(SignInActivity.class);
+
 
     @Test
-    public void signUpWithValidInputs() {
-        // Type valid input values
-        Espresso.onView(ViewMatchers.withId(R.id.etFullname)).perform(ViewActions.typeText("John Doe"));
-        Espresso.onView(ViewMatchers.withId(R.id.etEmail)).perform(ViewActions.typeText("johndoe@example.com"));
-        Espresso.onView(ViewMatchers.withId(R.id.etPassword)).perform(ViewActions.typeText("password"));
-        Espresso.onView(ViewMatchers.withId(R.id.etRePassword)).perform(ViewActions.typeText("password"));
+    public void signUp(){
+
+//        Open Sign Up Screen.
+        Espresso.onView(withId(R.id.tvSignInClick)).perform(click());
+
+        // Generate random values for each field
+        String fullName = generateRandomString(10);
+        String email = generateRandomEmail();
+        String password = generateRandomString(12);
+        String address = generateRandomString(20);
+        String city = generateRandomString(10);
+        String province = generateRandomString(2);
+        String phone = generateRandomPhoneNumber();
+        String dob = generateRandomDateOfBirth();
+        String gender = generateRandomGender();
+
+        // Fill in the form with random values
+        Espresso.onView(ViewMatchers.withId(R.id.etFullname))
+                .perform(ViewActions.typeText(fullName), ViewActions.closeSoftKeyboard());
+
+        Espresso.onView(ViewMatchers.withId(R.id.etEmail))
+                .perform(ViewActions.typeText(email), ViewActions.closeSoftKeyboard());
+
+        Espresso.onView(ViewMatchers.withId(R.id.etPassword))
+                .perform(ViewActions.typeText(password), ViewActions.closeSoftKeyboard());
+
+        Espresso.onView(ViewMatchers.withId(R.id.etRePassword))
+                .perform(ViewActions.typeText(password), ViewActions.closeSoftKeyboard());
+
 
         // Close soft keyboard
         Espresso.closeSoftKeyboard();
 
         // Click sign up button
-        Espresso.onView(ViewMatchers.withId(R.id.btnSignUp)).perform(ViewActions.click());
+        Espresso.onView(ViewMatchers.withId(R.id.btnSignUp)).perform(click());
 
-        // Check if navigation to next screen occurs
-        // Replace R.id.nextScreenId with the ID of the view on the next screen
-//        Espresso.onView(ViewMatchers.withId(R.id.nextScreenId)).check(matches(isDisplayed()));
+        // Enter Address
+        Espresso.onView(ViewMatchers.withId(R.id.etAddress))
+                .perform(ViewActions.typeText(address), ViewActions.closeSoftKeyboard());
+
+        // Enter City
+        Espresso.onView(ViewMatchers.withId(R.id.etCity))
+                .perform(ViewActions.typeText(city), ViewActions.closeSoftKeyboard());
+
+        // Enter Province
+        Espresso.onView(ViewMatchers.withId(R.id.etProvince))
+                .perform(ViewActions.typeText(province), ViewActions.closeSoftKeyboard());
+
+        // Enter Phone
+        Espresso.onView(ViewMatchers.withId(R.id.etPhone))
+                .perform(ViewActions.typeText(phone), ViewActions.closeSoftKeyboard());
+
+        // Enter Dob
+        Espresso.onView(ViewMatchers.withId(R.id.etDoB))
+                .perform(ViewActions.typeText(dob), ViewActions.closeSoftKeyboard());
+
+        // Enter Gender
+        Espresso.onView(ViewMatchers.withId(R.id.etGender))
+                .perform(ViewActions.typeText(gender), ViewActions.closeSoftKeyboard());
+
+        // Verify if the form is completely filled
+        Espresso.onView(ViewMatchers.withId(R.id.btnSubmit)).perform(ViewActions.click());
     }
 
-    @Test
-    public void signUpWithInvalidInputs() {
-        // Type invalid input values
-        Espresso.onView(ViewMatchers.withId(R.id.etFullname)).perform(ViewActions.typeText(""));
-        Espresso.onView(ViewMatchers.withId(R.id.etEmail)).perform(ViewActions.typeText("invalidemail")); // Invalid email format
-        Espresso.onView(ViewMatchers.withId(R.id.etPassword)).perform(ViewActions.typeText("password"));
-        Espresso.onView(ViewMatchers.withId(R.id.etRePassword)).perform(ViewActions.typeText("differentpassword"));
+    private String generateRandomString(int length) {
+        String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        StringBuilder randomString = new StringBuilder();
+        Random random = new Random();
+        for (int i = 0; i < length; i++) {
+            randomString.append(characters.charAt(random.nextInt(characters.length())));
+        }
+        return randomString.toString();
+    }
 
-        // Close soft keyboard
-        Espresso.closeSoftKeyboard();
+    private String generateRandomEmail() {
+        return generateRandomString(10) + "@" + generateRandomString(5) + ".com";
+    }
 
-        // Click sign up button
-        Espresso.onView(ViewMatchers.withId(R.id.btnSignUp)).perform(ViewActions.click());
+    private String generateRandomPhoneNumber() {
+        return "1" + generateRandomNumericString(10); // Assuming the phone number starts with 1
+    }
 
-        // Check if error message is displayed
-        Espresso.onView(withText("Error message")).check(matches(isDisplayed())); // Replace "Error message" with the actual error message displayed
+    private String generateRandomNumericString(int length) {
+        String digits = "0123456789";
+        StringBuilder randomNumericString = new StringBuilder();
+        Random random = new Random();
+        for (int i = 0; i < length; i++) {
+            randomNumericString.append(digits.charAt(random.nextInt(digits.length())));
+        }
+        return randomNumericString.toString();
+    }
+
+    private String generateRandomDateOfBirth() {
+        // Generate random date of birth between 01/01/1950 and 01/01/2005
+        int minYear = 1950;
+        int maxYear = 2005;
+        Random random = new Random();
+        int year = random.nextInt(maxYear - minYear + 1) + minYear;
+        int month = random.nextInt(12) + 1;
+        int day = random.nextInt(28) + 1; // Assuming all months have 28 days
+        return String.format("%02d/%02d/%04d", day, month, year);
+    }
+
+    private String generateRandomGender() {
+        String[] genders = {"M", "F", "Other"}; // Add more options if needed
+        Random random = new Random();
+        return genders[random.nextInt(genders.length)];
     }
 }
