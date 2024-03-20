@@ -34,7 +34,7 @@ public class SignUpActivityTest {
     @Test
     public void signUp(){
 
-//        Open Sign Up Screen.
+        //        Open Sign Up Screen.
         Espresso.onView(withId(R.id.tvSignInClick)).perform(click());
 
         // Generate random values for each field
