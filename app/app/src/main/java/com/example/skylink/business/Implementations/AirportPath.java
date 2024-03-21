@@ -1,7 +1,5 @@
 package com.example.skylink.business.Implementations;
 
-import android.util.Log;
-
 import org.jgrapht.Graph;
 import org.jgrapht.graph.DefaultWeightedEdge;
 
@@ -80,7 +78,6 @@ public class AirportPath implements iAirportPath {
                 String nextHub = path.get(i + 1);
 
                 List<iFlight> flights = flightHSQLDB.findFlight(currentHub, nextHub, date);
-
                 if (flights != null && !flights.isEmpty()) {
                     pathFlights.add(flights);
                 } else {
@@ -107,7 +104,6 @@ public class AirportPath implements iAirportPath {
         if (pathsFromOriginToDestination.isEmpty()) {
             return null;
         }
-
         return pullFlights(pathsFromOriginToDestination, date);
     }
 
@@ -146,14 +142,9 @@ public class AirportPath implements iAirportPath {
 
 
     public HashMap< String,List<List<List<iFlight>>>> findFlights(iFlightSearch flightSearch) {
-
         if (!isValidFlightSearch(flightSearch)) {
             return null;
         }
-
-        Log.d("FlightSearchP", "Searching flights for: " + flightSearch.getFlightDept());
-
-
         HashMap<String, List<List<List<iFlight>>>> itinerary = new HashMap<>();
         List<List<String>> findAllPossiblePathsFromOriginToDestination = findAllPaths(flightSearch.getFlightDept(), flightSearch.getFlightArrival());
         List<List<List<iFlight>>> outBoundFlights = findFlight(flightSearch.getFlightDeptDate(),findAllPossiblePathsFromOriginToDestination);
