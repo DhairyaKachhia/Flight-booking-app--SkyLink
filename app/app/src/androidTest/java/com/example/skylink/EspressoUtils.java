@@ -144,4 +144,20 @@ public class EspressoUtils {
         // Click on the desired dropdown item
         onView(withText(itemText)).perform(click());
     }
+
+    public static void performUserInfo(String title, String firstname, String lastname, String telephone, String email) {
+
+        // Fill in passenger information
+        onView(withId(R.id.etTitle)).perform(typeText(title));
+        onView(withId(R.id.etFirstName)).perform(typeText(firstname));
+        onView(withId(R.id.etLastName)).perform(typeText(lastname));
+        onView(withId(R.id.etTelephoneNumber)).perform(typeText(telephone));
+        onView(withId(R.id.etEmailAddress)).perform(typeText(email));
+
+        // Close soft keyboard
+        Espresso.closeSoftKeyboard();
+
+        // Click submit
+        onView(withId(R.id.submitBtn)).perform(ViewActions.click());
+    }
 }
