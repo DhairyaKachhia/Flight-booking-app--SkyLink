@@ -4,8 +4,6 @@ import static com.example.skylink.R.*;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -39,13 +37,5 @@ public class BookingsDisplay extends AppCompatActivity {
             System.out.println("No bookings found");
         }
 
-        Button viewBoardingPassButton = findViewById(id.viewBoardingPassButton);
-        viewBoardingPassButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(BookingsDisplay.this, ActivityViewBoardingPass.class);
-                startActivity(intent);
-            }
-        });
     }
 }
