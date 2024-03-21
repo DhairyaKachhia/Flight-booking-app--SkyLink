@@ -3,6 +3,7 @@ package com.example.skylink.presentation.FlightSearching;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -42,6 +43,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 import android.app.DatePickerDialog;
 import android.widget.EditText;
@@ -237,7 +239,6 @@ public class FlightSearchP extends AppCompatActivity implements NavigationView.O
     }
 
     private void searchFlights() {
-
         String departingCity = extractCityCode(autoCompleteFrom.getText().toString());;
         String returningCity = extractCityCode(autoCompleteTo.getText().toString());
         String departingDate =  etDeparture.getText().toString();
@@ -282,7 +283,26 @@ public class FlightSearchP extends AppCompatActivity implements NavigationView.O
 
             Session.getInstance().setFlightSearch(flightSearch);
 
+
+            Log.d("FlightSearchP", "Search parameters: Departure City: " + departingCity + ", Return City: " + returningCity +
+                    ", Departure Date: " + departingDate + ", Return Date: " + returningDate +
+                    ", Total Passengers: " + totalPassengers + ", Is One Way: " + isOneWay);
+
+
             HashMap<String, List<List<List<iFlight>>>> flightPathResults = path.findFlights(flightSearch);
+
+// Get the keys of the flightPathResults
+            Set<String> keys = flightPathResults.keySet();
+
+// Check if the HashMap is empty
+            if (keys.isEmpty()) {
+                Log.d("FlightSearchP", "No flight paths found.");
+            } else {
+                // Iterate through the keys and print them
+                for (String key : keys) {
+                    Log.d("FlightSearchP", "Flight Path: " + key);
+                }
+            }
 
             Session.getInstance().setFlightPathResults(flightPathResults);
 
