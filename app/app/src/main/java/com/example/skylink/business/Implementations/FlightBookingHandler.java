@@ -57,13 +57,13 @@ public class FlightBookingHandler implements iFlightBookingHandler {
 
     }
 
-    public String addConfirmBookings(long user_id, List<iFlightInfo> flightInfo) {
+    public String addConfirmBookings(long user_id, List<iFlightInfo> flightInfo, int addonsPrice) {
         String bookingNumber = generateBookingNumber();
 
         if (flightInfo != null) {
             for(iFlightInfo flightInfoEntry : flightInfo){
                 if(flightInfoEntry != null){
-                    int price = calculateTotalPrice(flightInfoEntry);
+                    int price = calculateTotalPrice(flightInfoEntry, addonsPrice);
                     if(isValidDirection(flightInfoEntry.getBound())){
                         for (iFlight flight : flightInfoEntry.getFlight()) {
                             flightBookingDB.addFlightBooking(user_id, flightInfoEntry.getBound(), flight, price, bookingNumber, flightInfoEntry.getEconOrBus(), flightInfoEntry.getBagCount(), flightInfoEntry.getPetCount(), flightInfoEntry.getWifiOption(), flightInfoEntry.getWheelchairOption());
@@ -142,7 +142,7 @@ public class FlightBookingHandler implements iFlightBookingHandler {
         return bookingNumber;
     }
 
-    private int calculateTotalPrice(iFlightInfo flightInfo) {
+    private int calculateTotalPrice(iFlightInfo flightInfo, int addonsPrice) {
         int price = 0;
         int unitCost = 0;
 
@@ -150,11 +150,14 @@ public class FlightBookingHandler implements iFlightBookingHandler {
             for (iFlight flight : flightInfo.getFlight()) {
                 unitCost += flight.getEconPrice();
             }
+            unitCost += addonsPrice;
             price = flightInfo.getSeatSelected().size() * unitCost;
+
         } else if (flightInfo.getEconOrBus().equals("Business")) {
             for (iFlight flight : flightInfo.getFlight()) {
                 unitCost += flight.getBusnPrice();
             }
+            unitCost += addonsPrice;
             price = flightInfo.getSeatSelected().size() * unitCost;
         }
 
