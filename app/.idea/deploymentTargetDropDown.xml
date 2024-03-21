@@ -2,22 +2,16 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
-      <entry key="CreditCardPaymentActivityTest">
-        <State />
-      </entry>
-      <entry key="FlightSearch()">
-        <State />
-      </entry>
       <entry key="app">
         <State />
       </entry>
       <entry key="signIn()">
         <State />
       </entry>
-      <entry key="signInWithInvalidCredentials_displaysToast()">
+      <entry key="testFlightSearch()">
         <State />
       </entry>
-      <entry key="signUp()">
+      <entry key="testSignUP()">
         <State />
       </entry>
     </value>
