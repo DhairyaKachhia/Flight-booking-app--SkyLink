@@ -1,5 +1,7 @@
 package com.example.skylink.objects.Interfaces;
 
+import java.util.Map;
+
 public interface iBookingInfo {
     // Get the unique identifier of the booking
     long getId();
@@ -39,4 +41,10 @@ public interface iBookingInfo {
     int getWheelchairOption();
 
     void setWheelchairOption(int wheelchairOption);
+    void setpriceType(String key, String value);
+    Map<String, String> getpriceType();
+    int getOutboundPrice();
+    void setOutboundPrice(int outboundPrice);
+    int getInboundPrice();
+    void setInboundPrice(int inboundPrice);
 }

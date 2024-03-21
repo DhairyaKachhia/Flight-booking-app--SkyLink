@@ -345,8 +345,6 @@ public class FlightSearchP extends AppCompatActivity implements NavigationView.O
 
         if (id == R.id.update_profile) {
             Intent intent = new Intent(this, UpdateUserProfileActivity.class);
-            String userEmail = Session.getInstance().getEmail();
-            intent.putExtra("email", userEmail);
             startActivity(intent);
         } else if (id == R.id.nav_logout) {
             Intent intent = new Intent(this, SignInActivity.class);
@@ -355,7 +353,6 @@ public class FlightSearchP extends AppCompatActivity implements NavigationView.O
             Intent intent = new Intent(this, BookingsDisplay.class);
             startActivity(intent);
         }
-
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }

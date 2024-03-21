@@ -11,6 +11,8 @@ import com.example.skylink.objects.Interfaces.iFlightSearch;
 import com.example.skylink.objects.Interfaces.iPassengerData;
 import com.example.skylink.objects.Interfaces.ITripInvoice;
 import com.example.skylink.objects.Interfaces.IUserProperties;
+
+import java.util.HashMap;
 import java.util.List;
 import java.util.List;
 
@@ -31,7 +33,7 @@ public class Session implements ISession {
     private iFlightSearch flightSearch;
     private List<iPassengerData> passengerData;
     private ITripInvoice tripInvoice;
-
+    HashMap<String, List<List<List<iFlight>>>> flightPathResults;
     private Session() {
         // Private constructor to prevent instantiation
     }
@@ -169,5 +171,12 @@ public class Session implements ISession {
     @Override
     public void setTripInvoice(ITripInvoice tripInvoice) {
         this.tripInvoice = tripInvoice;
+    }
+    public void setFlightPathResults(HashMap<String, List<List<List<iFlight>>>> flightPathResults) {
+        this.flightPathResults = flightPathResults;
+    }
+
+    public HashMap<String, List<List<List<iFlight>>>> getFlightPathResults() {
+        return flightPathResults;
     }
 }

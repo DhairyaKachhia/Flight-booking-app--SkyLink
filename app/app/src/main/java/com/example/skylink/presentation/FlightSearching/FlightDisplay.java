@@ -54,8 +54,8 @@ public class FlightDisplay extends AppCompatActivity {
         noFlightTV = findViewById(R.id.noFlightTextV);
         showFlightLV = findViewById(R.id.flightListView);
 
-        HashMap<String, List<List<List<iFlight>>>> flightPath = Session.getInstance().getFlightPathResults();
-        iFlights flightData = new Flights(flightPath);
+
+        iFlights flightData = new Flights( Session.getInstance().getFlightPathResults());
 
         HashMap<String, List<List<List<iFlight>>>> receivedData = null;
 

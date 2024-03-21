@@ -11,6 +11,8 @@ import com.example.skylink.objects.Interfaces.iFlights;
 import com.example.skylink.objects.Interfaces.iPassengerData;
 import com.example.skylink.objects.Interfaces.ITripInvoice;
 import com.example.skylink.objects.Interfaces.IUserProperties;
+
+import java.util.HashMap;
 import java.util.List;
 
 public interface ISession {
@@ -55,4 +57,6 @@ public interface ISession {
 
     ITripInvoice getTripInvoice();
     void setTripInvoice(ITripInvoice tripInvoice);
+    void setFlightPathResults(HashMap<String, List<List<List<iFlight>>>> flightPathResults);
+    HashMap<String, List<List<List<iFlight>>>> getFlightPathResults();
 }

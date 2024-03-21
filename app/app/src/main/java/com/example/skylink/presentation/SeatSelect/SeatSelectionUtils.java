@@ -99,7 +99,7 @@ public class SeatSelectionUtils {
                 LinearLayout.LayoutParams.MATCH_PARENT));
         flightLayout.setOrientation(LinearLayout.VERTICAL);
 
-        String econOrBus =  Session.getInstance().getpriceType().get("Price");
+        String econOrBus =  Session.getInstance().getBookingInfo().getpriceType().get("Price");
         iPlaneConfiguration config = new PlaneConfiguration(Services.getFlightDatabase());
         String [] plane_config;
         HashMap<String, List<List<iFlight>>> selectedFlight = Session.getInstance().getSelectedFlights();
@@ -270,7 +270,7 @@ public class SeatSelectionUtils {
 
     private static void handleAddonsActivity(HashMap<iPassengerData, String> seatMap, String bound) {
         List<iFlight> selectedFlight = Session.getInstance().getSelectedFlights().get(bound).get(0);;
-        String econOrBus =  Session.getInstance().getpriceType().get("Price");
+        String econOrBus =  Session.getInstance().getBookingInfo().getpriceType().get("Price");
         HashMap<iPassengerData, String> seatSelected = seatMap;
 
         if(selectedFlight != null && !selectedFlight.isEmpty()){

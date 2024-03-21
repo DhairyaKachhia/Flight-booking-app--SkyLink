@@ -1,12 +1,16 @@
 package com.example.skylink.objects.Implementations;
 
 import com.example.skylink.objects.Interfaces.iBookingInfo;
-import com.github.javafaker.Book;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class BookingInfo implements iBookingInfo {
     private long id;
     private String bookingNumber;
     private String econBus;
+    private Map<String, String> priceType;
+    private int outboundPrice, inboundPrice;
     private String direction;
     private int bagCount, petCount, wifiOption, wheelchairOption;
 
@@ -93,4 +97,37 @@ public class BookingInfo implements iBookingInfo {
     public void setWheelchairOption(int wheelchairOption) {
         this.wheelchairOption = wheelchairOption;
     }
+    public void setpriceType(String key, String value) {
+        if (priceType == null) {
+            priceType = new HashMap<>();
+        }
+        priceType.put(key, value);
+    }
+
+    public Map<String, String> getpriceType() {
+        return priceType;
+    }
+
+    public int getOutboundPrice() {
+        return outboundPrice;
+    }
+
+    @Override
+    public void setOutboundPrice(int outboundPrice) {
+        this.outboundPrice = outboundPrice;
+    }
+
+    @Override
+    public int getInboundPrice() {
+        return inboundPrice;
+    }
+
+    @Override
+    public void setInboundPrice(int inboundPrice) {
+        this.inboundPrice = inboundPrice;
+    }
+
+
+
+
 }
