@@ -2,13 +2,13 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
-      <entry key="FlightSearchActivityTest">
-        <State />
-      </entry>
       <entry key="FlightSortingActivityTest">
         <State />
       </entry>
       <entry key="SignUpActivityTest">
+        <State />
+      </entry>
+      <entry key="UserInfoActivityTest">
         <State />
       </entry>
       <entry key="app">
