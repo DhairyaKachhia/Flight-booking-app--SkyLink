@@ -161,6 +161,8 @@ public class FlightHSQLDB implements IFlightDB {
         return results;
     }
 
+
+
     private void addAircrafts() {
         addAircraft("Boeing 737", 5, 7, 7, 13);
         addAircraft("Airbus A320", 5, 6, 8, 15);

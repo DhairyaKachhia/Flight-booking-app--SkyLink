@@ -1,88 +1,88 @@
 package com.example.skylink;
-
-import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.Espresso;
 import androidx.test.espresso.action.ViewActions;
+import androidx.test.espresso.contrib.DrawerActions;
 import androidx.test.espresso.contrib.PickerActions;
+import androidx.test.espresso.matcher.RootMatchers;
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
+import androidx.test.filters.LargeTest;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
+import com.example.skylink.presentation.FlightSearching.FlightSearchP;
+import com.example.skylink.presentation.User_Auth.SignInActivity;
+import com.example.skylink.presentation.User_Auth.UpdateUserProfileActivity;
+
 import org.hamcrest.Matchers;
-import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import android.widget.DatePicker;
-
-import com.example.skylink.objects.Implementations.City;
-import com.example.skylink.persistence.Implementations.hsqldb.FlightHSQLDB;
-import com.example.skylink.presentation.FlightSearching.FlightSearchP;
-
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
-import static androidx.test.espresso.assertion.ViewAssertions.matches;
+
+import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
+import static androidx.test.espresso.action.ViewActions.scrollTo;
+import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
-import static org.hamcrest.Matchers.containsString;
+import static net.bytebuddy.matcher.ElementMatchers.is;
 
-import java.util.ArrayList;
-import java.util.List;
-//Please add YUL to YYC to the flight database.
+import org.hamcrest.Matcher;
+
+import static org.hamcrest.Matchers.anything;
+import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.instanceOf;
+import static org.hamcrest.Matchers.anything;
+
+import static java.util.regex.Pattern.matches;
+
+import android.app.DatePickerDialog;
+import android.widget.DatePicker;
+
+import java.util.Calendar;
+import java.util.Random;
+
+
+
+
+@LargeTest
 @RunWith(AndroidJUnit4.class)
 public class FlightSearchActivityTest {
 
     @Rule
-    public ActivityScenarioRule<FlightSearchP> activityScenarioRule = new ActivityScenarioRule<>(FlightSearchP.class);
-
+    public ActivityScenarioRule<SignInActivity> activityScenarioRule = new ActivityScenarioRule<>(SignInActivity.class);
 
     @Test
-    public void completeWorkflow() {
-// Search flights from Montreal to Brampton
+    public void testFlightSearch() {
+        String fromLocation = "Toronto - YYZ";
+        String toLocation = "Vancouver - YVR";
+        int year = 2024;
+        int monthOfYear = 4;
+        int dayOfMonth = 7;
 
-        onView(withId(R.id.autoComplete_from)).perform(click());
+        // Fix the logic here.
 
-        onView(withId(R.id.autoComplete_to)).perform(click());
+//        String[] userInfo = UserInfoGenerator.generateUserInfo();
+//
+//        EspressoUtils.signUp(userInfo[0], userInfo[1], userInfo[2]);
+//
+//        EspressoUtils.verifyActivity(UpdateUserProfileActivity.class);
+//
+//        EspressoUtils.updateUserInfo(userInfo[3], userInfo[4], userInfo[5], userInfo[6], userInfo[7], userInfo[8]);
+//
+//        EspressoUtils.verifyActivity(FlightSearchP.class);
+//
+//        EspressoUtils.clickLogOut();
 
+        EspressoUtils.signIn("akintundemayokun@gmail.com","22ChancellorCircle");
 
-        onView(withId(R.id.autoComplete_to)).perform(click());
+        EspressoUtils.verifyActivity(FlightSearchP.class);
 
-        onView(withId(R.id.swapBtn)).perform(click());
-
-
-        // Click the departure date EditText
-        onView(withId(R.id.et_departure)).perform(click());
-        // Set the date in the DatePicker
-        onView(withClassName(Matchers.equalTo(DatePicker.class.getName())))
-                .perform(PickerActions.setDate(2024, 4, 10));
-        // Confirm the date selection
-        onView(withText("OK")).perform(click());
-
-
-        // Increase passenger number
-        onView(withId(R.id.btn_increment)).perform(click());
-
-        onView(withId(R.id.btn_decrement)).perform(click());
-
-        onView(withId(R.id.swapBtn));
-
-        onView(withId(R.id.swapBtn));
-
-        // Click flight searching button
-        onView(withId(R.id.searchBtn)).perform(click());
-
-        // Click the button for economy class
-        onView(withId(R.id.econPriceBtn)).perform(click());
-
-        Espresso.pressBack();
-
-        onView(withId(R.id.searchBtn));
-        // Click the button for business class
-        onView(withId(R.id.busnPriceBtn)).perform(click());
-
+        EspressoUtils.performFlightSearch(fromLocation, toLocation, year, monthOfYear, dayOfMonth);
     }
+
 }
