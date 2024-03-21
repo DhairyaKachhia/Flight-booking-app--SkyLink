@@ -280,7 +280,6 @@ public class FlightSearchP extends AppCompatActivity implements NavigationView.O
             iAirportPath path = new AirportPath(db,db.getAirportGraph());
 
             iFlightSearch flightSearch = new FlightSearch(departingCity, returningCity, departingDate, returningDate, totalPassengers, isOneWay);
-
             Session.getInstance().setFlightSearch(flightSearch);
 
 
@@ -291,10 +290,10 @@ public class FlightSearchP extends AppCompatActivity implements NavigationView.O
 
             HashMap<String, List<List<List<iFlight>>>> flightPathResults = path.findFlights(flightSearch);
 
-// Get the keys of the flightPathResults
+            // Get the keys of the flightPathResults
             Set<String> keys = flightPathResults.keySet();
 
-// Check if the HashMap is empty
+            // Check if the HashMap is empty
             if (keys.isEmpty()) {
                 Log.d("FlightSearchP", "No flight paths found.");
             } else {
