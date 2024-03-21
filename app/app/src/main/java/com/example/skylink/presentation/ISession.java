@@ -1,90 +1,58 @@
 package com.example.skylink.presentation;
-import android.content.Context;
 
+import android.content.Context;
+import com.example.skylink.objects.Interfaces.iAircraft;
+import com.example.skylink.objects.Interfaces.iBookingInfo;
+import com.example.skylink.objects.Interfaces.iCity;
 import com.example.skylink.objects.Interfaces.iFlight;
 import com.example.skylink.objects.Interfaces.iFlightInfo;
 import com.example.skylink.objects.Interfaces.iFlightSearch;
+import com.example.skylink.objects.Interfaces.iFlights;
 import com.example.skylink.objects.Interfaces.iPassengerData;
-
-import java.util.HashMap;
+import com.example.skylink.objects.Interfaces.ITripInvoice;
+import com.example.skylink.objects.Interfaces.IUserProperties;
 import java.util.List;
-import java.util.Map;
 
 public interface ISession {
+    iAircraft getAircraft();
+    void setAircraft(iAircraft aircraft);
 
-    void setTotalPrice(int totalPrice);
+    iCity getCity();
+    void setCity(iCity city);
 
-    int getTotalPrice();
+    iFlight getFlight();
+    void setFlight(iFlight flight);
 
-    int getFlightTotalPrice();
+    iFlightInfo getFlightInfo();
+    void setFlightInfo(iFlightInfo flightInfo);
 
-    int getOutboundPrice();
+    iFlights getFlights();
+    void setFlights(iFlights flights);
 
-    void setOutboundPrice(int outboundPrice);
-
-    int getInboundPrice();
-
-    void setInboundPrice(int inboundPrice);
-
-    int getAddonsPrice();
-
-    void setAddonsPrice(int addonsPrice);
-
-    Map<String, String> getpriceType();
-
-    void setpriceType(String key, String value);
-
-    List<iFlightInfo> getFlightInfoCompleted();
-    void setFlightInfoCompleted(iFlightInfo flightInfoCompleted);
-    Context getContext();
-
-    void setContext(Context context);
-
-    long getUser_id();
-
-    void setUser_id(long user_id);
-
-    List<iPassengerData> getPassengerData();
-
-    void setPassengerData(List<iPassengerData> passengerData);
-
-    iFlightSearch getFlightSearch();
-
-    void setFlightSearch(iFlightSearch flightSearch);
+    IUserProperties getUserProperties();
+    void setUserProperties(IUserProperties userProperties);
 
     String getUsername();
-
     void setUsername(String username);
 
     String getEmail();
-
     void setEmail(String email);
 
-    HashMap<String, List<List<List<iFlight>>>> getFlightPathResults();
+    long getUserId();
+    void setUserId(long userId);
 
-    void setFlightPathResults(HashMap<String, List<List<List<iFlight>>>> flightPathResults);
+    Context getContext();
+    void setContext(Context context);
 
-    HashMap<String, List<List<iFlight>>> getSelectedFlights();
+    iBookingInfo getBookingInfo();
+    void setBookingInfo(iBookingInfo bookingInfo);
 
-    void setSelectedFlights(HashMap<String, List<List<iFlight>>> selectedFlights);
+    iFlightSearch getFlightSearch();
+    void setFlightSearch(iFlightSearch flightSearch);
 
-    String getCardNum();
+    List<iPassengerData> getPassengerData();
+    void setPassengerData(List<iPassengerData> passengerData);
 
-    void setCardNum(String cardNum);
-
-    String getExpiryDate();
-
-    void setExpiryDate(String expiryDate);
-
-    String getCvv();
-
-    void setCvv(String cvv);
-
-    String getCardholderName();
-
-    void setCardholderName(String cardholderName);
-
-    String getBillingAddress();
-
-    void setBillingAddress(String billingAddress);
+    ITripInvoice getTripInvoice();
+    void setTripInvoice(ITripInvoice tripInvoice);
 }

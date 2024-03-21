@@ -17,6 +17,15 @@ import com.example.skylink.application.Services;
 
 import com.example.skylink.business.Implementations.FlightBookingHandler;
 import com.example.skylink.business.Interface.iFlightBookingHandler;
+import com.example.skylink.objects.Implementations.Aircraft;
+import com.example.skylink.objects.Implementations.BookingInfo;
+import com.example.skylink.objects.Implementations.City;
+import com.example.skylink.objects.Implementations.Flight;
+import com.example.skylink.objects.Implementations.FlightInfo;
+import com.example.skylink.objects.Implementations.FlightSearch;
+import com.example.skylink.objects.Implementations.Flights;
+import com.example.skylink.objects.Implementations.PassengerData;
+import com.example.skylink.objects.Implementations.TripInvoice;
 import com.example.skylink.objects.Interfaces.iFlightInfo;
 import com.example.skylink.presentation.Session;
 import com.example.skylink.business.Implementations.UserHandler;
@@ -29,6 +38,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -40,11 +50,26 @@ public class SignInActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setUpSessions();
         setContentView(R.layout.activity_sign_in);
         copyDatabaseToDevice();
         Session.getInstance().setContext(this);
         setupViews();
         setupListeners();
+    }
+
+    private void setUpSessions(){
+        Session.getInstance().setAircraft(new Aircraft());
+        Session.getInstance().setBookingInfo(new BookingInfo());
+        Session.getInstance().setCity(new City());
+        Session.getInstance().setFlight(new Flight());
+        Session.getInstance().setFlightInfo((new FlightInfo()));
+        Session.getInstance().setFlights(new Flights());
+        Session.getInstance().setFlightSearch(new FlightSearch());
+        Session.getInstance().setPassengerData(new ArrayList<>());
+        Session.getInstance().setTripInvoice(new TripInvoice());
+        Session.getInstance().setUserProperties(new UserProperties());
+        Session.getInstance().setUserProperties(new UserProperties());
     }
 
     private void setupListeners() {
@@ -72,7 +97,7 @@ public class SignInActivity extends AppCompatActivity {
 
             if (userHandler.signinUser(user)) {
                 long userId = userHandler.getUserIdByEmail(userEmail);
-                Session.getInstance().setUser_id(userId);
+                Session.getInstance().getUserProperties().setUser_id(userId);
                 Intent intent = new Intent(SignInActivity.this, FlightSearchP.class);
                 Session.getInstance().setEmail(userEmail);
                 startActivity(intent);

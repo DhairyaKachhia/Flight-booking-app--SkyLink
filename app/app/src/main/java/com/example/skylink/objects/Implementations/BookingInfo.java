@@ -1,6 +1,7 @@
 package com.example.skylink.objects.Implementations;
 
 import com.example.skylink.objects.Interfaces.iBookingInfo;
+import com.github.javafaker.Book;
 
 public class BookingInfo implements iBookingInfo {
     private long id;
@@ -20,6 +21,9 @@ public class BookingInfo implements iBookingInfo {
         this.wheelchairOption = wheelchairOption;
     }
 
+    public BookingInfo(){
+
+    }
     @Override
     public long getId() {
         return id;

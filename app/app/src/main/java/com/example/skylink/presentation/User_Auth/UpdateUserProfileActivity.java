@@ -84,7 +84,8 @@ public class UpdateUserProfileActivity extends AppCompatActivity {
         submit = findViewById(R.id.btnSubmit);
     }
     private void fetchUserData() {
-        String userEmail = Session.getInstance().getEmail();
+        String userEmail = Session.getInstance().getUserProperties().getEmail();
+
 
         user = handler.getUserByEmail(userEmail);
 

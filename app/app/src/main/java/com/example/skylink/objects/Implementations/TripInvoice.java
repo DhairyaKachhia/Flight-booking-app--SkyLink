@@ -13,6 +13,10 @@ public class TripInvoice implements ITripInvoice {
         this.totalAmount = totalAmount;
     }
 
+    public TripInvoice(){
+
+    }
+
     @Override
     public long getUserID() {
         return userID;
