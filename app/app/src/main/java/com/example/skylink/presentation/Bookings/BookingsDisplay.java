@@ -1,7 +1,5 @@
 package com.example.skylink.presentation.Bookings;
 
-import static com.example.skylink.R.*;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -9,7 +7,6 @@ import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.skylink.R;
 import com.example.skylink.business.Implementations.FlightBookingHandler;
 import com.example.skylink.objects.Interfaces.iFlightInfo;
@@ -23,9 +20,9 @@ public class BookingsDisplay extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(layout.bookings_view);
+        setContentView(R.layout.bookings_view);
 
-        bookingsRecyclerView = findViewById(id.bookingsRecyclerView);
+        bookingsRecyclerView = findViewById(R.id.bookingsRecyclerView);
         bookingsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         long userid = Session.getInstance().getUser_id();
@@ -34,12 +31,12 @@ public class BookingsDisplay extends AppCompatActivity {
 
         if (bookings != null && !bookings.isEmpty()) {
             BookingsAdapter bookingsAdapter = new BookingsAdapter(bookings);
-            bookingsRecyclerView.setAdapter(bookingsAdapter); // Set the adapter to the RecyclerView
+            bookingsRecyclerView.setAdapter(bookingsAdapter);
         } else {
             System.out.println("No bookings found");
         }
 
-        Button viewBoardingPassButton = findViewById(id.viewBoardingPassButton);
+        Button viewBoardingPassButton = findViewById(R.id.viewBoardingPassButton);
         viewBoardingPassButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -47,5 +44,10 @@ public class BookingsDisplay extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        if (Session.getInstance().isCheckedIn()) {
+            viewBoardingPassButton.setText("Checked In");
+            viewBoardingPassButton.setEnabled(false);
+        }
     }
 }

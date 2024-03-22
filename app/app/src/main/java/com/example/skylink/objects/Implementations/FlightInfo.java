@@ -15,10 +15,12 @@ public class FlightInfo implements iFlightInfo{
     private List<iFlight> flight;
     private int bagCount, petCount, wifiOption, wheelchairOption;
 
+    private boolean checkedIn;
+
     public FlightInfo(){
 
     }
-
+    private String buttonText;
     public FlightInfo(String econOrBus, HashMap<iPassengerData, String> seatSelected, List<iFlight> flight) {
         this.econOrBus = econOrBus;
         this.seatSelected = seatSelected;
@@ -26,7 +28,6 @@ public class FlightInfo implements iFlightInfo{
     }
 
     // Getters and setters for the class variables
-
     public String getBookingNum() {
         return bookingNum;
     }
@@ -105,5 +106,24 @@ public class FlightInfo implements iFlightInfo{
     @Override
     public void setWheelchairOption(int wheelchairOption) {
         this.wheelchairOption = wheelchairOption;
+    }
+
+    @Override
+    public String getButtonText() {
+        return buttonText;
+    }
+
+    @Override
+    public void setButtonText(String buttonText) {
+        this.buttonText = buttonText;
+    }
+
+    @Override
+    public boolean isCheckedIn() {
+        return checkedIn;
+    }
+
+    public void setCheckedIn(boolean checkedIn) {
+        this.checkedIn = checkedIn;
     }
 }

@@ -21,7 +21,7 @@ public class Session implements ISession {
     private int outboundPrice, inboundPrice, addonsPrice = 0;
     private int totalPrice, flightTotalPrice = 0;
     private List<iPassengerData> passengerData;
-
+    private boolean checkedIn = false;
 
     private Map<String, String> priceType;
 
@@ -235,5 +235,13 @@ public class Session implements ISession {
     @Override
     public void setBillingAddress(String billingAddress) {
         this.billingAddress = billingAddress;
+    }
+
+    public boolean isCheckedIn() {
+        return checkedIn;
+    }
+
+    public void setCheckedIn(boolean checkedIn) {
+        this.checkedIn = checkedIn;
     }
 }

@@ -34,4 +34,11 @@ public interface iFlightInfo {
     int getWheelchairOption();
 
     void setWheelchairOption(int wheelchairOption);
+    String getButtonText();
+
+    void setButtonText(String buttonText);
+
+    boolean isCheckedIn();
+
+    void setCheckedIn(boolean checkedIn);
 }

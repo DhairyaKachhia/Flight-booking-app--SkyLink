@@ -1,12 +1,15 @@
 package com.example.skylink.presentation.Bookings;
+
+import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.skylink.R;
-import com.example.skylink.objects.Interfaces.iFlight;
 import com.example.skylink.objects.Interfaces.iFlightInfo;
 import java.util.List;
 
@@ -34,30 +37,78 @@ public class BookingsAdapter extends RecyclerView.Adapter<BookingsAdapter.Bookin
         holder.textViewEconOrBus.setText(booking.getEconOrBus().toString());
         holder.textViewOutboundOrInbound.setText(booking.getBound().toString());
 
-        isBadgeVisible(holder.textViewWifiBadge, booking.getWifiOption());
-        isBadgeVisible(holder.textViewAccessibilityBadge, booking.getWheelchairOption());
-
-        holder.textViewPetsBadge.setText("Pets: " + booking.getPetCount());
-        holder.textViewLuggageBadge.setText("Bags: " + booking.getBagCount());
-        
-        if (!booking.getFlight().isEmpty()) {
-            iFlight flight = booking.getFlight().get(0);
-            holder.textViewDepartureIcao.setText(flight.getDeparture_icao().toString());
-            holder.textViewArrivalIcao.setText(flight.getArrival_icao().toString());
-            holder.textViewDepartureTime.setText(flight.getFlight_dept_date_time().toString());
-            holder.textViewArrivalTime.setText(flight.getFlight_arr_date_time().toString());
-            holder.textViewFlightDetails.setText(flight.getAirCraft_Type() + " " + flight.getFlightNumber() + " " + flight.getArr_Gate());
-        }
-    }
-
-
-    private void isBadgeVisible(TextView textView, int option) {
-        if (option == 1) {
-            textView.setVisibility(View.VISIBLE);
+        if (booking.isCheckedIn()) {
+            holder.buttonCheckIn.setText("Checked In");
         } else {
-            textView.setVisibility(View.GONE);
+            holder.buttonCheckIn.setText("Online Check-In");
         }
-    }   
+
+        holder.buttonModifyBooking.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int adapterPosition = holder.getAdapterPosition();
+                if (adapterPosition != RecyclerView.NO_POSITION) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(holder.itemView.getContext());
+                    builder.setTitle("Modify Booking");
+                    builder.setMessage("Do you want to cancel the booking or modify the flight?");
+                    builder.setPositiveButton("Cancel Booking", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            AlertDialog.Builder refundDialog = new AlertDialog.Builder(holder.itemView.getContext());
+                            refundDialog.setTitle("Refund Successful");
+                            refundDialog.setMessage("Your booking has been cancelled. Your refund will be processed within seven working days.");
+                            refundDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    bookingsList.remove(adapterPosition);
+                                    notifyItemRemoved(adapterPosition);
+                                }
+                            });
+                            refundDialog.show();
+                        }
+                    });
+                    builder.setNegativeButton("Modify Flight", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            AlertDialog.Builder refundDialog = new AlertDialog.Builder(holder.itemView.getContext());
+                            refundDialog.setTitle("Refund Notice");
+                            refundDialog.setMessage("Your refund will be processed within seven working days. Please proceed with your new booking.");
+                            refundDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    bookingsList.remove(adapterPosition);
+                                    notifyItemRemoved(adapterPosition);
+                                }
+                            });
+                            refundDialog.show();
+                        }
+                    });
+                    builder.setNeutralButton("Cancel", null);
+                    builder.show();
+                }
+            }
+        });
+
+        holder.buttonCheckIn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int adapterPosition = holder.getAdapterPosition();
+                if (adapterPosition != RecyclerView.NO_POSITION) {
+                    booking.setCheckedIn(true);
+
+                    holder.buttonCheckIn.setText("Checked In");
+                    AlertDialog.Builder builder = new AlertDialog.Builder(holder.itemView.getContext());
+                    builder.setMessage("Check-in successful")
+                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                }
+                            });
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+                }
+            }
+        });
+    }
 
     @Override
     public int getItemCount() {
@@ -66,26 +117,16 @@ public class BookingsAdapter extends RecyclerView.Adapter<BookingsAdapter.Bookin
 
     public static class BookingViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView textViewBookingNumber, textViewEconOrBus, textViewDepartureIcao,
-                textViewArrivalIcao, textViewDepartureTime, textViewArrivalTime, textViewFlightDetails,
-                textViewWifiBadge, textViewAccessibilityBadge, textViewPetsBadge, textViewOutboundOrInbound,
-                textViewLuggageBadge;
-
+        public TextView textViewBookingNumber, textViewEconOrBus, textViewOutboundOrInbound;
+        public Button buttonCheckIn, buttonModifyBooking;
 
         public BookingViewHolder(View itemView) {
             super(itemView);
             textViewBookingNumber = itemView.findViewById(R.id.textViewBookingNumber);
             textViewEconOrBus = itemView.findViewById(R.id.textViewEconOrBus);
-            textViewDepartureIcao = itemView.findViewById(R.id.textViewDepartureIcao);
-            textViewArrivalIcao = itemView.findViewById(R.id.textViewArrivalIcao);
-            textViewDepartureTime = itemView.findViewById(R.id.textViewDepartureTime);
-            textViewArrivalTime = itemView.findViewById(R.id.textViewArrivalTime);
-            textViewFlightDetails = itemView.findViewById(R.id.textViewFlightDetails);
-            textViewWifiBadge = itemView.findViewById(R.id.textViewWifiBadge);
-            textViewAccessibilityBadge = itemView.findViewById(R.id.textViewAccessibilityBadge);
-            textViewPetsBadge = itemView.findViewById(R.id.textViewPetsBadge);
             textViewOutboundOrInbound = itemView.findViewById(R.id.textViewOutboundOrInbound);
-            textViewLuggageBadge = itemView.findViewById(R.id.textViewLuggageBadge);
+            buttonCheckIn = itemView.findViewById(R.id.buttonOnlineCheckIn);
+            buttonModifyBooking = itemView.findViewById(R.id.buttonChangeBooking);
         }
     }
 }

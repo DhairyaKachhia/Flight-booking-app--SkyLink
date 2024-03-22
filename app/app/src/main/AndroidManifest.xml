@@ -63,6 +63,11 @@
             android:exported="true" />
         <activity android:name=".presentation.Bookings.BookingsDisplay"
             android:exported="true" />
+        <activity
+            android:name=".presentation.FlightSearching.ChatBotActivity"
+            android:label="Chat_Bot_Activity">
+        </activity>
+
 
     </application>
 

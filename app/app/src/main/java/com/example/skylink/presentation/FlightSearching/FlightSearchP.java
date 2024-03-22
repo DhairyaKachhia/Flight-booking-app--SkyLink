@@ -34,6 +34,7 @@ import com.example.skylink.persistence.Implementations.CitiesRepository;
 import com.example.skylink.persistence.Interfaces.IFlightDB;
 import com.example.skylink.presentation.User_Auth.SignInActivity;
 import com.example.skylink.presentation.User_Auth.UpdateUserProfileActivity;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.textfield.TextInputLayout;
 import androidx.appcompat.widget.Toolbar;
@@ -67,8 +68,6 @@ public class FlightSearchP extends AppCompatActivity implements NavigationView.O
 
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle toggle;
-    private Toolbar toolbar;
-    private NavigationView navigationView;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -84,12 +83,20 @@ public class FlightSearchP extends AppCompatActivity implements NavigationView.O
         setupSearchButton();
         setupTravelerCountButtons();
         setupDefaultTripType();
+
+        FloatingActionButton chatBotButton = findViewById(R.id.ChatBot);
+        chatBotButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openChatBotActivity();
+            }
+        });
     }
 
     private void setupHamburgerMenuNav() {
         drawerLayout = findViewById(R.id.drawer_layout);
-        navigationView = findViewById(R.id.nav_view);
-        toolbar = findViewById(R.id.toolbar);
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawerLayout, toolbar, R.string.open_nav, R.string.close_nav
@@ -340,4 +347,9 @@ public class FlightSearchP extends AppCompatActivity implements NavigationView.O
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
+    private void openChatBotActivity() {
+        Intent intent = new Intent(FlightSearchP.this, ChatBotActivity.class);
+        startActivity(intent);
+    }
+
 }
