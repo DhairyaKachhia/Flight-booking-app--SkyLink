@@ -16,8 +16,8 @@ import com.example.skylink.business.Interface.iFlightBookingHandler;
 import com.example.skylink.objects.Interfaces.iFlight;
 import com.example.skylink.objects.Interfaces.iFlightInfo;
 import com.example.skylink.objects.Interfaces.iFlightSearch;
-import com.example.skylink.presentation.ISession;
 import com.example.skylink.presentation.Payment.CreditCardPaymentActivity;
+import com.example.skylink.presentation.ISession;
 import com.example.skylink.presentation.Session;
 import com.google.android.material.card.MaterialCardView;
 
@@ -49,13 +49,12 @@ public class Addons extends AppCompatActivity {
     private TextView totalPriceTV;
     private Button confirmBtn;
 
-    private ISession session = Session.getInstance();
     private int currentBagCount = MIN_BAG_COUNT;
     private int currentPetSeatCount = MIN_PET_SEAT_COUNT;
     private int wifiSelected = 0;
     private int wheelChairSelected = 0;
     private int addonTotalFee = 0;
-    private int flightTotalFee = session.getFlightTotalPrice();
+    private int flightTotalFee =  Session.getInstance().getBookingInfo().getInboundPrice() + Session.getInstance().getBookingInfo().getOutboundPrice();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -209,9 +208,9 @@ public class Addons extends AppCompatActivity {
         iFlightBookingHandler flightBookingHandler = new FlightBookingHandler();
 
         confirmBtn.setOnClickListener(v -> {
-            session.setAddonsPrice(addonTotalFee);
+            Session.getInstance().getBookingInfo().setAddonsPrice(addonTotalFee);
 
-            List<iFlightInfo> flightInfoList = session.getFlightInfoCompleted();
+            List<iFlightInfo> flightInfoList =  Session.getInstance().getFlightInfoCompleted();
 
             flightBookingHandler.storeAddons(currentBagCount, currentPetSeatCount, wifiSelected, wheelChairSelected, flightInfoList);
 
@@ -227,7 +226,7 @@ public class Addons extends AppCompatActivity {
 
     // Checks if user has selected oneway or round trip and hides card-view accordingly
     private void checkTripWay() {
-        iFlightSearch flightSearch = session.getFlightSearch();
+        iFlightSearch flightSearch =  Session.getInstance().getFlightSearch();
 
         if (flightSearch != null) {
             boolean isOneWay = flightSearch.isOneWay();
@@ -277,7 +276,7 @@ public class Addons extends AppCompatActivity {
 
     // helper method to setup card-view
     private void setupCardView(TextView originCode, TextView takeoffTime, TextView midCode, TextView destCode, TextView landingTime, String key) {
-        HashMap<String, List<List<iFlight>>> selectedFlight = session.getSelectedFlights();
+        HashMap<String, List<List<iFlight>>> selectedFlight = Session.getInstance().getSelectedFlights();
         if (selectedFlight != null && selectedFlight.containsKey(key)) {
             List<List<iFlight>> flights = selectedFlight.get(key);
 

@@ -38,7 +38,7 @@ public class UserHandler implements IUserHandler {
             throw new UserCreationException("Unable to create new user");
         }
 
-        Session.getInstance().setUser_id(userId);
+        Session.getInstance().getUserProperties().setUser_id(userId);
     }
 
     public String isValidUserPropertiesForCreation(IUserProperties userProperties) {
@@ -106,7 +106,7 @@ public class UserHandler implements IUserHandler {
             return false;
         }
 
-        long user_id = Session.getInstance().getUser_id();
+        long user_id = Session.getInstance().getUserProperties().getUser_id();
 
         try {
             if (userDB.update_user_info(user_id, userProperties)) {
