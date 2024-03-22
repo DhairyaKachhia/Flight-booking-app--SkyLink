@@ -8,6 +8,8 @@ import android.widget.Button;
 
 import com.example.skylink.R;
 import com.example.skylink.application.Services;
+import com.example.skylink.business.validations.IValidateUserAuth;
+import com.example.skylink.business.validations.ValidateUserAuth;
 import com.example.skylink.presentation.Session;
 import com.example.skylink.business.Implementations.UserHandler;
 import com.example.skylink.business.Interface.IUserHandler;
@@ -52,12 +54,19 @@ public class UpdateUserProfileActivity extends AppCompatActivity {
         String phoneText = phone.getText().toString();
         String dobText = dateOfBirth.getText().toString();
         String genderText = gender.getText().toString();
+        IValidateUserAuth validateUserAuth = new ValidateUserAuth();
 
-        if (addressText.isEmpty() || cityText.isEmpty() || provinceText.isEmpty() || phoneText.isEmpty() || dobText.isEmpty() || genderText.isEmpty()) {
+        String addressError = validateUserAuth.validAddress(addressText);
+        String cityError = validateUserAuth.validCity(cityText);
+        String provinceError = validateUserAuth.validProvince(provinceText);
+        String phoneError = validateUserAuth.validPhone(phoneText);
+        String dobError = validateUserAuth.validDOB(dobText);
+        String genderError = validateUserAuth.validGender(genderText);
+
+        if (!addressError.isEmpty() || !cityError.isEmpty() || !provinceError.isEmpty() || !phoneError.isEmpty() || !dobError.isEmpty() || !genderError.isEmpty()) {
             Toast.makeText(UpdateUserProfileActivity.this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
             return;
         }
-
         updateUserProfile(addressText, cityText, provinceText, phoneText, dobText, genderText);
 
         Toast.makeText(UpdateUserProfileActivity.this, "Profile updated successfully", Toast.LENGTH_SHORT).show();
