@@ -5,6 +5,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.example.skylink.presentation.FlightSearching.FlightSearchP;
 import com.example.skylink.presentation.User_Auth.SignInActivity;
+import com.example.skylink.presentation.User_Auth.UpdateUserProfileActivity;
 
 import org.hamcrest.Matchers;
 import org.junit.Rule;
@@ -59,19 +60,19 @@ public class FlightSearchActivityTest {
 
         // Fix the logic here.
 
-//        String[] userInfo = UserInfoGenerator.generateUserInfo();
-//
-//        EspressoUtils.signUp(userInfo[0], userInfo[1], userInfo[2]);
-//
-//        EspressoUtils.verifyActivity(UpdateUserProfileActivity.class);
-//
-//        EspressoUtils.updateUserInfo(userInfo[3], userInfo[4], userInfo[5], userInfo[6], userInfo[7], userInfo[8]);
-//
-//        EspressoUtils.verifyActivity(FlightSearchP.class);
-//
-//        EspressoUtils.clickLogOut();
+        String[] userInfo = UserInfoGenerator.generateUserInfo();
 
-        EspressoUtils.signIn("akintundemayokun@gmail.com","22ChancellorCircle");
+        EspressoUtils.signUp(userInfo[0], userInfo[1], userInfo[2]);
+
+        EspressoUtils.verifyActivity(UpdateUserProfileActivity.class);
+
+        EspressoUtils.updateUserInfo(userInfo[3], userInfo[4], userInfo[5], userInfo[6], userInfo[7], userInfo[8]);
+
+        EspressoUtils.verifyActivity(FlightSearchP.class);
+
+        EspressoUtils.clickLogOut();
+
+        EspressoUtils.signIn(userInfo[1],userInfo[2]);
 
         EspressoUtils.verifyActivity(FlightSearchP.class);
 
