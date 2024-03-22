@@ -31,9 +31,10 @@ public class PaymentSuccessfulActivity extends AppCompatActivity {
         updateReview();
 
         IPaymentHandler paymentHandler = new PaymentHandler(Services.getPaymentDatabase());
-        ITripInvoice tripInvoice = new TripInvoice(session.getUser_id(), session.getTotalPrice());
+        int total = Session.getInstance().getBookingInfo().getInboundPrice() + Session.getInstance().getBookingInfo().getOutboundPrice() + Session.getInstance().getBookingInfo().getAddonsPrice();
+        ITripInvoice tripInvoice = new TripInvoice(session.getUserProperties().getUser_id(), total);
 
-        boolean addSuccess = paymentHandler.addPayment(tripInvoice, session.getUser_id());
+        boolean addSuccess = paymentHandler.addPayment(tripInvoice, session.getUserProperties().getUser_id());
 
         Button buttonMainMenu = findViewById(R.id.buttonMainMenu);
         buttonMainMenu.setOnClickListener(v -> {
@@ -50,7 +51,7 @@ public class PaymentSuccessfulActivity extends AppCompatActivity {
         transactionDate = findViewById(R.id.transactionDate);
         totalAmount = findViewById(R.id.totalAmount);
 
-        payeeName.setText(session.getCardholderName());
+        payeeName.setText(Session.getInstance().getCreditCard().getCardholderName());
 
 
         // Get the current date
@@ -62,8 +63,8 @@ public class PaymentSuccessfulActivity extends AppCompatActivity {
         // Format the current date using the formatter
         transactionDate.setText(formatter.format(currentDate));
 
-
-        totalAmount.setText("" + session.getTotalPrice());
+        int total = Session.getInstance().getBookingInfo().getInboundPrice() + Session.getInstance().getBookingInfo().getOutboundPrice() + Session.getInstance().getBookingInfo().getAddonsPrice();
+        totalAmount.setText("" + total);
 
     }
 }

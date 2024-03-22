@@ -12,6 +12,10 @@ public class City implements iCity {
         this.code = code;
     }
 
+    public City(){
+
+    }
+
     // Getters and Setters
     public String getName() {
         return name;

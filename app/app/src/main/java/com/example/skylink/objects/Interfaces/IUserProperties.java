@@ -20,7 +20,8 @@ public interface IUserProperties {
     void setPhone(String phone);
     void setDateOfBirth(String dateOfBirth);
     void setCountryOfOrigin(String countryOfOrigin);
-
+    void setUser_id(long user_id);
+    long getUser_id();
     String isValidFullName();
     String isValidEmail();
     String isValidPassword();

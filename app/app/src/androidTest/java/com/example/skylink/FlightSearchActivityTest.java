@@ -1,17 +1,10 @@
 package com.example.skylink;
-import androidx.test.espresso.Espresso;
-import androidx.test.espresso.action.ViewActions;
-import androidx.test.espresso.contrib.DrawerActions;
-import androidx.test.espresso.contrib.PickerActions;
-import androidx.test.espresso.matcher.RootMatchers;
-import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.filters.LargeTest;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.example.skylink.presentation.FlightSearching.FlightSearchP;
 import com.example.skylink.presentation.User_Auth.SignInActivity;
-import com.example.skylink.presentation.User_Auth.UpdateUserProfileActivity;
 
 import org.hamcrest.Matchers;
 import org.junit.Rule;

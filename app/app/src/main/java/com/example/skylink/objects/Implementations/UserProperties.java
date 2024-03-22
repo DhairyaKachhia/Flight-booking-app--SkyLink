@@ -7,6 +7,8 @@ import java.text.SimpleDateFormat;
 
 public class UserProperties implements IUserProperties {
 
+    private long user_id;
+
     private String fullName;
     private String email;
     private String password;
@@ -36,6 +38,19 @@ public class UserProperties implements IUserProperties {
         this.dateOfBirth = dateOfBirth;
         this.countryOfOrigin = countryOfOrigin;
     }
+
+    public UserProperties(){
+
+    }
+
+    public long getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(long user_id) {
+        this.user_id = user_id;
+    }
+
 
     public UserProperties(String email, String password) {
         this.email = email;

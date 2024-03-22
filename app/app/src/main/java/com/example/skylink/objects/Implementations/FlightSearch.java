@@ -9,15 +9,6 @@ public class FlightSearch implements iFlightSearch {
     private String flightDeptDate;
     private String flightReturnDate;
     private boolean isOneWay;
-
-    public int getTotalPassengers() {
-        return totalPassengers;
-    }
-
-    public void setTotalPassengers(int totalPassengers) {
-        this.totalPassengers = totalPassengers;
-    }
-
     private int  totalPassengers;
 
     public FlightSearch(String flightDept, String flightArrival, String flightDeptDate, String flightReturnDate, int totalPassengers, boolean isOneWay) {
@@ -28,7 +19,17 @@ public class FlightSearch implements iFlightSearch {
         this.isOneWay = isOneWay;
         this.totalPassengers = totalPassengers;
     }
+    public FlightSearch(){
 
+    }
+
+    public int getTotalPassengers() {
+        return totalPassengers;
+    }
+
+    public void setTotalPassengers(int totalPassengers) {
+        this.totalPassengers = totalPassengers;
+    }
     public String getFlightDept() {
         return flightDept;
     }

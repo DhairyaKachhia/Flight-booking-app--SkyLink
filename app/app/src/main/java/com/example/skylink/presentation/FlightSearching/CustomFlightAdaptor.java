@@ -135,6 +135,9 @@ public class CustomFlightAdaptor extends BaseAdapter {
         return listItemView;
     }
 
+
+
+
     private void bookFlight(Button bookButton, TextView priceView, String priceType, View v) {
         int selectedFlightPrice = userInput.getTotalPassengers() * Integer.parseInt(priceView.getText().toString());
 
@@ -146,12 +149,12 @@ public class CustomFlightAdaptor extends BaseAdapter {
 
         if (flightResult != null) {
             HashMap<String, List<List<iFlight>>> selectedFlights = flightResult.getSelectedFlights();
-            Session.getInstance().setpriceType("Price", priceType);
+            Session.getInstance().getBookingInfo().setpriceType("Price", priceType);
             if (isOneWay) {
                 selectedFlights.put("Outbound", flightCardView);
                 flightResult.setSelectedFlights(selectedFlights);
 
-                Session.getInstance().setOutboundPrice(selectedFlightPrice);
+                Session.getInstance().getBookingInfo().setOutboundPrice(selectedFlightPrice);
 
                 toNextActivity();
 
@@ -161,7 +164,7 @@ public class CustomFlightAdaptor extends BaseAdapter {
                     selectedFlights.put("Inbound", flightCardView);
                     flightResult.setSelectedFlights(selectedFlights);
 
-                    Session.getInstance().setInboundPrice(selectedFlightPrice);
+                    Session.getInstance().getBookingInfo().setInboundPrice(selectedFlightPrice);
 
                     toNextActivity();
                 } else {
@@ -169,7 +172,7 @@ public class CustomFlightAdaptor extends BaseAdapter {
                     flightResult.setSelectedFlights(selectedFlights);
                     flightResult.setDepartureStatus(true);
 
-                    Session.getInstance().setOutboundPrice(selectedFlightPrice);
+                    Session.getInstance().getBookingInfo().setOutboundPrice(selectedFlightPrice);
 
                     displayReturnFlight();
                 }
@@ -205,7 +208,6 @@ public class CustomFlightAdaptor extends BaseAdapter {
 
     private void toNextActivity() {
         if (flightResult != null) {
-
             Session.getInstance().setSelectedFlights(flightResult.getSelectedFlights());
 
             Intent nextPageIntent = new Intent(flightResult, User_info.class);

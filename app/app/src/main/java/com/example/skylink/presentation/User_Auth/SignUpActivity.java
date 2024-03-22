@@ -72,7 +72,7 @@ public class SignUpActivity extends AppCompatActivity {
 
             try {
                 handler.createUser(user, userRePassword);
-                Session.getInstance().setEmail(userEmail);
+                Session.getInstance().getUserProperties().setEmail(userEmail);
                 navigateToUpdateUserProfileActivity();
             } catch (UserHandler.UserCreationException e) {
                 showErrorMessage(e.getMessage());

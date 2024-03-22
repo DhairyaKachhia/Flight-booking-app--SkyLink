@@ -53,7 +53,7 @@ public class CreditCardPaymentActivity extends AppCompatActivity {
             if (isValid()) {
                 addToSession();
                 iFlightBookingHandler flightHandler = new FlightBookingHandler(Services.getFlightBookingDB(),Services.getBookDatabase(),Services.getFlightDatabase());
-                String flightBooked = flightHandler.addConfirmBookings(session.getUser_id(), session.getFlightInfoCompleted(), session.getAddonsPrice());
+                String flightBooked = flightHandler.addConfirmBookings(session.getUserProperties().getUser_id(), session.getFlightInfoCompleted(), Session.getInstance().getBookingInfo().getAddonsPrice());
                 if(!flightBooked.isEmpty()){
                     Intent intent = new Intent(CreditCardPaymentActivity.this, PaymentSuccessfulActivity.class);
                     startActivity(intent);
@@ -106,8 +106,8 @@ public class CreditCardPaymentActivity extends AppCompatActivity {
         if (inboundCard.getVisibility() == View.VISIBLE) {
             setupCardView(returnOriginCode, returnTakeoffTime, returnMidCode, returnDestCode, returnLandingTime, "Inbound");
         }
-
-        totalPrice.setText("$" + session.getTotalPrice());
+        int total = Session.getInstance().getBookingInfo().getOutboundPrice() + Session.getInstance().getBookingInfo().getInboundPrice() + Session.getInstance().getBookingInfo().getAddonsPrice();
+        totalPrice.setText("$" + total);
     }
 
     private void setupCardView(TextView originCode, TextView takeoffTime, TextView midCode, TextView destCode, TextView landingTime, String key) {
@@ -176,13 +176,11 @@ public class CreditCardPaymentActivity extends AppCompatActivity {
     }
 
     private void addToSession() {
-
-        session.setCardNum(cardNum.getText().toString());
-        session.setExpiryDate(expiryDate.getText().toString());
-        session.setCvv(cvv.getText().toString());
-        session.setCardholderName(cardholderName.getText().toString());
-        session.setBillingAddress(billingAddress.getText().toString());
-
+        Session.getInstance().getCreditCard().setCardNum(cardNum.getText().toString());
+        Session.getInstance().getCreditCard().setExpiryDate(expiryDate.getText().toString());
+        Session.getInstance().getCreditCard().setCvv(cvv.getText().toString());
+        Session.getInstance().getCreditCard().setCardholderName(cardholderName.getText().toString());
+        Session.getInstance().getCreditCard().setBillingAddress(billingAddress.getText().toString());
     }
 
 //    Client Side Validation.

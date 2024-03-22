@@ -57,5 +57,7 @@ public class Aircraft implements iAircraft {
         this.numRowsEcon = numRowsEcon;
     }
 
-    // Getters and setters (if needed)
+    public Aircraft(){
+
+    }
 }

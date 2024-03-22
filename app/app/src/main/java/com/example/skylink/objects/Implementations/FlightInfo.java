@@ -25,8 +25,6 @@ public class FlightInfo implements iFlightInfo{
         this.flight = flight;
     }
 
-    // Getters and setters for the class variables
-
     public String getBookingNum() {
         return bookingNum;
     }

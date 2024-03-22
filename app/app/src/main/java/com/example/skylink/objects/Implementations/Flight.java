@@ -26,6 +26,9 @@ public class Flight implements iFlight {
         this.econPrice = econPrice;
         this.busnPrice = busnPrice;
     }
+    public Flight(){
+
+    }
 
 
     public String getFlightNumber() {

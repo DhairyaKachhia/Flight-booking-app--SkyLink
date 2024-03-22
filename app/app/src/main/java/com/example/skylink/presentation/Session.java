@@ -1,58 +1,46 @@
 package com.example.skylink.presentation;
 
 import android.content.Context;
-
+import com.example.skylink.objects.Interfaces.iAircraft;
+import com.example.skylink.objects.Interfaces.iBookingInfo;
+import com.example.skylink.objects.Interfaces.iCity;
+import com.example.skylink.objects.Interfaces.iCreditCard;
 import com.example.skylink.objects.Interfaces.iFlight;
 import com.example.skylink.objects.Interfaces.iFlightInfo;
+import com.example.skylink.objects.Interfaces.iFlights;
 import com.example.skylink.objects.Interfaces.iFlightSearch;
 import com.example.skylink.objects.Interfaces.iPassengerData;
+import com.example.skylink.objects.Interfaces.ITripInvoice;
+import com.example.skylink.objects.Interfaces.IUserProperties;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.List;
 
 public class Session implements ISession {
 
     private static Session instance;
+    private iAircraft aircraft;
+    private iCity city;
+    private iFlight  flight;
+    private iFlightInfo flightInfo;
+    private iFlights iFlights;
+    private IUserProperties iUserProperties;
     private String username;
     private String email;
-    private iFlightSearch flightSearch;
-    private int outboundPrice, inboundPrice, addonsPrice = 0;
-    private int totalPrice, flightTotalPrice = 0;
-    private List<iPassengerData> passengerData;
-
-
-    private Map<String, String> priceType;
-
-    public Map<String, String> getpriceType() {
-        return priceType;
-    }
+    private long userId;
     private Context context;
-    HashMap<String, List<List<List<iFlight>>>> flightPathResults;
-    private String  cardNum, expiryDate, cvv, cardholderName, billingAddress;
-
-    public void setpriceType(String key, String value) {
-        if (priceType == null) {
-            priceType = new HashMap<>();
-        }
-        priceType.put(key, value);
-    }
-
+    private iBookingInfo bookingInfo;
+    private iFlightSearch flightSearch;
+    private List<iPassengerData> passengerData;
+    private ITripInvoice tripInvoice;
+    private HashMap<String, List<List<List<iFlight>>>> flightPathResults;
     private HashMap<String, List<List<iFlight>>> selectedFlights;
-
-    public Context getContext() {
-        return context;
-    }
-
-    public void setContext(Context context) {
-        this.context = context;
-    }
-
-    private long user_id;
+    private List<iFlightInfo> flightInfoCompleted;
+    private iCreditCard creditCard;
 
     private Session() {
-        // Private constructor to prevent instantiation
     }
 
     public static synchronized Session getInstance() {
@@ -61,100 +49,111 @@ public class Session implements ISession {
         }
         return instance;
     }
-
-    public List<iPassengerData> getPassengerData() {
-        return passengerData;
+    @Override
+    public iAircraft getAircraft() {
+        return aircraft;
+    }
+    @Override
+    public void setAircraft(iAircraft aircraft) {
+        this.aircraft = aircraft;
+    }
+    @Override
+    public iCity getCity() {
+        return city;
     }
 
-    public void setPassengerData(List<iPassengerData> passengerData) {
-        this.passengerData = passengerData;
+    @Override
+    public void setCity(iCity city) {
+        this.city = city;
+    }
+    @Override
+    public iFlight getFlight() {
+        return flight;
+    }
+    @Override
+    public void setFlight(iFlight flight) {
+        this.flight = flight;
+    }
+    @Override
+    public iFlightInfo getFlightInfo() {
+        return flightInfo;
+    }
+    @Override
+    public void setFlightInfo(iFlightInfo flightInfo) {
+        this.flightInfo = flightInfo;
+    }
+    @Override
+    public iFlights getFlights() {
+        return iFlights;
+    }
+    @Override
+    public void setFlights(iFlights iFlights) {
+        this.iFlights = iFlights;
+    }
+    @Override
+    public IUserProperties getUserProperties() {
+        return iUserProperties;
+    }
+    @Override
+    public void setUserProperties(IUserProperties iUserProperties) {
+        this.iUserProperties = iUserProperties;
     }
 
-    public long getUser_id() {
-        return user_id;
+    @Override
+    public Context getContext() {
+        return context;
     }
 
-    public void setUser_id(long user_id) {
-        this.user_id = user_id;
+    @Override
+    public void setContext(Context context) {
+        this.context = context;
     }
 
+    @Override
+    public iBookingInfo getBookingInfo() {
+        return bookingInfo;
+    }
+
+    @Override
+    public void setBookingInfo(iBookingInfo bookingInfo) {
+        this.bookingInfo = bookingInfo;
+    }
+
+    @Override
     public iFlightSearch getFlightSearch() {
         return flightSearch;
     }
 
+    @Override
     public void setFlightSearch(iFlightSearch flightSearch) {
         this.flightSearch = flightSearch;
     }
 
     @Override
-    public int getOutboundPrice() {
-        return outboundPrice;
+    public List<iPassengerData> getPassengerData() {
+        return passengerData;
     }
 
     @Override
-    public void setOutboundPrice(int outboundPrice) {
-        this.outboundPrice = outboundPrice;
+    public void setPassengerData(List<iPassengerData> passengerData) {
+        this.passengerData = passengerData;
     }
 
     @Override
-    public int getInboundPrice() {
-        return inboundPrice;
+    public ITripInvoice getTripInvoice() {
+        return tripInvoice;
     }
 
     @Override
-    public void setInboundPrice(int inboundPrice) {
-        this.inboundPrice = inboundPrice;
+    public void setTripInvoice(ITripInvoice tripInvoice) {
+        this.tripInvoice = tripInvoice;
     }
-
-    @Override
-    public int getAddonsPrice() {
-        return addonsPrice;
-    }
-
-    @Override
-    public void setAddonsPrice(int addonsPrice) {
-        this.addonsPrice = addonsPrice;
-    }
-
-    @Override
-    public void setTotalPrice(int totalPrice) {
-        this.totalPrice = totalPrice;
-    }
-
-    @Override
-    public int getTotalPrice() {
-        totalPrice = outboundPrice + inboundPrice + addonsPrice;
-        return totalPrice;
-    }
-
-    @Override
-    public int getFlightTotalPrice() {
-        flightTotalPrice = outboundPrice + inboundPrice;
-        return flightTotalPrice;
-    }
-
-    public HashMap<String, List<List<List<iFlight>>>> getFlightPathResults() {
-        return flightPathResults;
-    }
-
     public void setFlightPathResults(HashMap<String, List<List<List<iFlight>>>> flightPathResults) {
         this.flightPathResults = flightPathResults;
     }
 
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
+    public HashMap<String, List<List<List<iFlight>>>> getFlightPathResults() {
+        return flightPathResults;
     }
 
     public HashMap<String, List<List<iFlight>>> getSelectedFlights() {
@@ -164,9 +163,6 @@ public class Session implements ISession {
     public void setSelectedFlights(HashMap<String, List<List<iFlight>>> selectedFlights) {
         this.selectedFlights = selectedFlights;
     }
-
-    private List<iFlightInfo> flightInfoCompleted;
-
     public List<iFlightInfo> getFlightInfoCompleted() {
         return flightInfoCompleted;
     }
@@ -178,62 +174,11 @@ public class Session implements ISession {
         this.flightInfoCompleted.add(flightInfoCompleted);
     }
 
-
-
-
-
-    /*
-    *   Storing Payment info:
-    *      cardNum, expiryDate, cvv, cardholderName, billingAddress
-    */
-
-    @Override
-    public String getCardNum() {
-        return cardNum;
+    public iCreditCard getCreditCard() {
+        return creditCard;
     }
 
-    @Override
-    public void setCardNum(String cardNum) {
-        this.cardNum = cardNum;
-    }
-
-    @Override
-    public String getExpiryDate() {
-        return expiryDate;
-    }
-
-    @Override
-    public void setExpiryDate(String expiryDate) {
-        this.expiryDate = expiryDate;
-    }
-
-    @Override
-    public String getCvv() {
-        return cvv;
-    }
-
-    @Override
-    public void setCvv(String cvv) {
-        this.cvv = cvv;
-    }
-
-    @Override
-    public String getCardholderName() {
-        return cardholderName;
-    }
-
-    @Override
-    public void setCardholderName(String cardholderName) {
-        this.cardholderName = cardholderName;
-    }
-
-    @Override
-    public String getBillingAddress() {
-        return billingAddress;
-    }
-
-    @Override
-    public void setBillingAddress(String billingAddress) {
-        this.billingAddress = billingAddress;
+    public void setCreditCard(iCreditCard creditCard) {
+        this.creditCard = creditCard;
     }
 }
