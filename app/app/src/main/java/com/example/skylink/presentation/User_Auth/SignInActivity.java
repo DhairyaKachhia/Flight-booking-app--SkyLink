@@ -1,7 +1,5 @@
 package com.example.skylink.presentation.User_Auth;
-
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetManager;
@@ -10,14 +8,19 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.example.skylink.R;
 import com.example.skylink.application.Main;
 import com.example.skylink.application.Services;
-
-import com.example.skylink.business.Implementations.FlightBookingHandler;
-import com.example.skylink.business.Interface.iFlightBookingHandler;
-import com.example.skylink.objects.Interfaces.iFlightInfo;
+import com.example.skylink.objects.Implementations.Aircraft;
+import com.example.skylink.objects.Implementations.BookingInfo;
+import com.example.skylink.objects.Implementations.City;
+import com.example.skylink.objects.Implementations.CreditCard;
+import com.example.skylink.objects.Implementations.Flight;
+import com.example.skylink.objects.Implementations.FlightInfo;
+import com.example.skylink.objects.Implementations.FlightSearch;
+import com.example.skylink.objects.Implementations.Flights;
+import com.example.skylink.objects.Implementations.TripInvoice;
+import com.example.skylink.objects.Interfaces.iCreditCard;
 import com.example.skylink.presentation.Session;
 import com.example.skylink.business.Implementations.UserHandler;
 import com.example.skylink.business.validations.IValidateUserAuth;
@@ -29,8 +32,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.HashMap;
-import java.util.List;
+import java.util.ArrayList;
 
 public class SignInActivity extends AppCompatActivity {
 
@@ -40,14 +42,34 @@ public class SignInActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setUpSessions();
         setContentView(R.layout.activity_sign_in);
-        copyDatabaseToDevice();
-        Session.getInstance().setContext(this);
+        if(Session.getInstance().getContext()==null){
+            Session.getInstance().setContext(this);
+            copyDatabaseToDevice();
+        }
         setupViews();
         setupListeners();
     }
 
+    private void setUpSessions(){
+        Session.getInstance().setAircraft(new Aircraft());
+        Session.getInstance().setBookingInfo(new BookingInfo());
+        Session.getInstance().setCity(new City());
+        Session.getInstance().setCreditCard(new CreditCard());
+        Session.getInstance().setFlight(new Flight());
+        Session.getInstance().setFlightInfo((new FlightInfo()));
+        Session.getInstance().setFlights(new Flights());
+        Session.getInstance().setFlightSearch(new FlightSearch());
+        Session.getInstance().setPassengerData(new ArrayList<>());
+        Session.getInstance().setTripInvoice(new TripInvoice());
+        Session.getInstance().setUserProperties(new UserProperties());
+        Session.getInstance().setUserProperties(new UserProperties());
+    }
+
     private void setupListeners() {
+
+
         signUp.setOnClickListener(v -> {
             navigateToSignUpActivity();
         });
@@ -63,6 +85,7 @@ public class SignInActivity extends AppCompatActivity {
     }
 
     private void attemptSignIn() {
+
         if (isValid()) {
             String userEmail = email.getText().toString();
             String userPassword = password.getText().toString();
@@ -72,9 +95,9 @@ public class SignInActivity extends AppCompatActivity {
 
             if (userHandler.signinUser(user)) {
                 long userId = userHandler.getUserIdByEmail(userEmail);
-                Session.getInstance().setUser_id(userId);
+                Session.getInstance().getUserProperties().setUser_id(userId);
                 Intent intent = new Intent(SignInActivity.this, FlightSearchP.class);
-                Session.getInstance().setEmail(userEmail);
+                Session.getInstance().getUserProperties().setEmail(userEmail);
                 startActivity(intent);
             } else {
                 showIncorrectCredentialsMessage();

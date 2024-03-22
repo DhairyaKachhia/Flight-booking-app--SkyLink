@@ -54,4 +54,65 @@ public class ValidateUserAuth implements IValidateUserAuth{
 
         return error;
     }
+
+    public String validAddress(String name) {
+        String error = "";
+
+        if (name == null || name.isEmpty()) {
+            error = "Name cannot be empty";
+        }
+
+        return error;
+    }
+
+    public String validCity(String name) {
+        String error = "";
+
+        if (name == null || name.isEmpty()) {
+            error = "Name cannot be empty";
+        }
+
+        return error;
+    }
+
+    public String validProvince(String name) {
+        String error = "";
+
+        if (name == null || name.isEmpty()) {
+            error = "Name cannot be empty";
+        }
+
+        return error;
+    }
+
+    public String validPhone(String name) {
+        String error = "";
+
+        if (name == null || name.isEmpty()) {
+            error = "Name cannot be empty";
+        }
+
+        return error;
+    }
+
+    public String validDOB(String name) {
+        String error = "";
+
+        if (name == null || name.isEmpty()) {
+            error = "Name cannot be empty";
+        }
+
+        return error;
+    }
+
+    public String validGender(String name) {
+        String error = "";
+
+        if (name == null || name.isEmpty()) {
+            error = "Name cannot be empty";
+        }
+
+        return error;
+    }
+
 }

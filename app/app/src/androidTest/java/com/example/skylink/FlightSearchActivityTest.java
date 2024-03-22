@@ -1,10 +1,4 @@
 package com.example.skylink;
-import androidx.test.espresso.Espresso;
-import androidx.test.espresso.action.ViewActions;
-import androidx.test.espresso.contrib.DrawerActions;
-import androidx.test.espresso.contrib.PickerActions;
-import androidx.test.espresso.matcher.RootMatchers;
-import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.filters.LargeTest;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
@@ -66,19 +60,19 @@ public class FlightSearchActivityTest {
 
         // Fix the logic here.
 
-//        String[] userInfo = UserInfoGenerator.generateUserInfo();
-//
-//        EspressoUtils.signUp(userInfo[0], userInfo[1], userInfo[2]);
-//
-//        EspressoUtils.verifyActivity(UpdateUserProfileActivity.class);
-//
-//        EspressoUtils.updateUserInfo(userInfo[3], userInfo[4], userInfo[5], userInfo[6], userInfo[7], userInfo[8]);
-//
-//        EspressoUtils.verifyActivity(FlightSearchP.class);
-//
-//        EspressoUtils.clickLogOut();
+        String[] userInfo = UserInfoGenerator.generateUserInfo();
 
-        EspressoUtils.signIn("akintundemayokun@gmail.com","22ChancellorCircle");
+        EspressoUtils.signUp(userInfo[0], userInfo[1], userInfo[2]);
+
+        EspressoUtils.verifyActivity(UpdateUserProfileActivity.class);
+
+        EspressoUtils.updateUserInfo(userInfo[3], userInfo[4], userInfo[5], userInfo[6], userInfo[7], userInfo[8]);
+
+        EspressoUtils.verifyActivity(FlightSearchP.class);
+
+        EspressoUtils.clickLogOut();
+
+        EspressoUtils.signIn(userInfo[1],userInfo[2]);
 
         EspressoUtils.verifyActivity(FlightSearchP.class);
 

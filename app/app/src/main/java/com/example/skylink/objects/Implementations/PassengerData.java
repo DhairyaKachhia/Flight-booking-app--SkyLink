@@ -17,6 +17,9 @@ public class PassengerData implements iPassengerData {
         this.email_address = email_address;
     }
 
+    public PassengerData(){
+
+    }
     // Getter methods for the booking details
     public String getTitle() {
         return title;

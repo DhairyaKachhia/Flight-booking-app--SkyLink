@@ -13,6 +13,9 @@ public class Flights implements iFlights {
     public Flights(HashMap<String, List<List<List<iFlight>>>> data) {
         this.data = data;
     }
+    public Flights(){
+
+    };
 
     public HashMap<String, List<List<List<iFlight>>>> getData() {
         return data;

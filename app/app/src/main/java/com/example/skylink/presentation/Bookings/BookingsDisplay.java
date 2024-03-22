@@ -26,7 +26,7 @@ public class BookingsDisplay extends AppCompatActivity {
         bookingsRecyclerView = findViewById(id.bookingsRecyclerView);
         bookingsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        long userid = Session.getInstance().getUser_id();
+        long userid = Session.getInstance().getUserProperties().getUser_id();
         FlightBookingHandler flightBookingHandler = new FlightBookingHandler(true);
         List<iFlightInfo> bookings = flightBookingHandler.getBookingDetails(userid);
 
