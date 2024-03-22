@@ -44,8 +44,10 @@ public class SignInActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setUpSessions();
         setContentView(R.layout.activity_sign_in);
-        copyDatabaseToDevice();
-        Session.getInstance().setContext(this);
+        if(Session.getInstance().getContext()==null){
+            Session.getInstance().setContext(this);
+            copyDatabaseToDevice();
+        }
         setupViews();
         setupListeners();
     }
@@ -66,6 +68,8 @@ public class SignInActivity extends AppCompatActivity {
     }
 
     private void setupListeners() {
+
+
         signUp.setOnClickListener(v -> {
             navigateToSignUpActivity();
         });
@@ -81,6 +85,7 @@ public class SignInActivity extends AppCompatActivity {
     }
 
     private void attemptSignIn() {
+
         if (isValid()) {
             String userEmail = email.getText().toString();
             String userPassword = password.getText().toString();
