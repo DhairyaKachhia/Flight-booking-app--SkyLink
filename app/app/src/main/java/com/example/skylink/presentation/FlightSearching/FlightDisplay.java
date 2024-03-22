@@ -14,20 +14,26 @@ import android.widget.TextView;
 
 import com.example.skylink.R;
 import com.example.skylink.business.Implementations.FlightSorting;
+import com.example.skylink.business.Implementations.SortingByDirectFlight;
+import com.example.skylink.business.Implementations.SortingByEarliestDeparture;
+import com.example.skylink.business.Implementations.SortingByPrice;
+import com.example.skylink.business.Interface.ISortingOption;
 import com.example.skylink.presentation.Session;
 import com.example.skylink.business.Interface.iFlightSorting;
 import com.example.skylink.objects.Implementations.Flights;
-import com.example.skylink.objects.Implementations.Flight;
 import com.example.skylink.objects.Interfaces.iFlight;
 import com.example.skylink.objects.Interfaces.iFlightSearch;
 import com.example.skylink.objects.Interfaces.iFlights;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
 public class FlightDisplay extends AppCompatActivity {
+
+    public static final String SORT_LOWEST_PRICE = "Lowest price";
+    public static final String SORT_DIRECT_FLIGHT = "Direct flight";
+    public static final String SORT_EARLIEST_DEPARTURE = "Earliest departure";
 
     private ListView showFlightLV;
     private Spinner sortingOptions;
@@ -37,7 +43,6 @@ public class FlightDisplay extends AppCompatActivity {
     private CustomFlightAdaptor originAdaptor;
     private CustomFlightAdaptor returnAdaptor;
     private CustomFlightAdaptor currAdaptor;
-    private iFlightSorting flightSorting;
     private boolean isDepartureSelected;
     private List<List<List<iFlight>>> tripOutbound = new ArrayList<>();
     private List<List<List<iFlight>>> tripInbound = new ArrayList<>();
@@ -184,21 +189,23 @@ public class FlightDisplay extends AppCompatActivity {
             List<List<List<iFlight>>> filteredFlights = new ArrayList<>(availableFlights);
 
             if (filteredFlights.size() > 0) {
-                if (selectedItem.equals("Lowest price")) {
+                ISortingOption sortingOption = new SortingByPrice();        // by default - sort by lowest price
 
-                    flightSorting = new FlightSorting(FlightSorting.SortingOption.PRICE);
+                if (selectedItem.equals(SORT_LOWEST_PRICE)) {
 
+                    sortingOption = new SortingByPrice();
 
-                } else if (selectedItem.equals("Direct flight")) {
-                    flightSorting = new FlightSorting(FlightSorting.SortingOption.DIRECT_FLIGHTS);
+                } else if (selectedItem.equals(SORT_DIRECT_FLIGHT)) {
 
+                    sortingOption = new SortingByDirectFlight();
 
-                } else {                //sorting on Earliest departure
-                    flightSorting = new FlightSorting(FlightSorting.SortingOption.EARLIEST_DEPARTURE);
+                } else if (selectedItem.equals(SORT_EARLIEST_DEPARTURE)) {
 
+                    sortingOption = new SortingByEarliestDeparture();
                 }
 
-                Collections.sort(filteredFlights, flightSorting);
+                iFlightSorting flightSorting = new FlightSorting(sortingOption);
+                filteredFlights.sort(flightSorting);
 
                 if (filteredFlights.size() > 0) {
 
@@ -214,16 +221,6 @@ public class FlightDisplay extends AppCompatActivity {
         public void onNothingSelected(AdapterView<?> parent) {
             // Do nothing if nothing is selected
         }
-    }
-
-    private int getTotalPrice(List<List<Flight>> flightList) {
-        int totalPrice = 0;
-        for (List<Flight> flights : flightList) {
-            for (Flight flight : flights) {
-                totalPrice += flight.getEconPrice();
-            }
-        }
-        return totalPrice;
     }
 
     public void updateFlights() {
