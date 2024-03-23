@@ -47,13 +47,20 @@ public class UserHandlerUnit {
         IUserProperties mockUserProperties = new UserProperties("Test User", "test@example.com", "password123");
         String rePassword = "password123";
         try {
+
             userHandler.createUser(mockUserProperties, rePassword);
+
+            IUserProperties mockUserProperties2 = new UserProperties("Test User","test@example.com", "password123");
+            when(userStub.findPassword(mockUserProperties.getEmail())).thenReturn(mockUserProperties.getPassword());
+
+            boolean signInResult = userHandler.signinUser(mockUserProperties2);
+            assertTrue("User should be able to sign in successfully.", signInResult);
+
         } catch (UserHandler.UserCreationException e) {
             fail("User creation should succeed.");
         }
 
-        boolean signInResult = userHandler.signinUser(new UserProperties("test@example.com", "password123"));
-        assertTrue("User should be able to sign in successfully.", signInResult);
+
     }
 
     @Test
@@ -140,25 +147,29 @@ public class UserHandlerUnit {
         String rePassword = "mayor101";
         try {
             userHandler.createUser(mockUserProperties, rePassword);
+
+            // Update the user profile
+            IUserProperties updatedUserProperties = new UserProperties(
+                    "Mayokun Moses Akintunde",
+                    "akintundemayokun@gmail.com",
+                    "mayor101",
+                    "Male",
+                    "456 Side St",
+                    "1987654321",
+                    "1990-01-01",
+                    "New Country"
+            );
+
+            when(userStub.update_user_info(mockUserProperties.getUser_id(), updatedUserProperties)).thenReturn(true);
+
+            boolean result = userHandler.updateUserProfile(updatedUserProperties);
+
+            // Verify the result
+            assertTrue(result);
+
         } catch (UserHandler.UserCreationException e) {
             fail("Exception should not be thrown");
         }
-
-        // Update the user profile
-        IUserProperties updatedUserProperties = new UserProperties(
-                "Mayokun Moses Akintunde",
-                "akintundemayokun@gmail.com",
-                "mayor101",
-                "Male",
-                "456 Side St",
-                "1987654321",
-                "1990-01-01",
-                "New Country"
-        );
-        boolean result = userHandler.updateUserProfile(updatedUserProperties);
-
-        // Verify the result
-        assertTrue(result);
     }
 
     @Test

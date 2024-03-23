@@ -2,6 +2,8 @@ package com.example.skylink.business.validations;
 
 import androidx.core.util.PatternsCompat;       // using this android import to validate email format
 
+import java.util.regex.Pattern;
+
 public class ValidateUserAuth implements IValidateUserAuth{
     @Override
     public String validEmail(String email) {
@@ -55,61 +57,67 @@ public class ValidateUserAuth implements IValidateUserAuth{
         return error;
     }
 
-    public String validAddress(String name) {
+    public String validAddress(String address) {
         String error = "";
 
-        if (name == null || name.isEmpty()) {
-            error = "Name cannot be empty";
+        if (address == null || address.isEmpty()) {
+            error = "Address cannot be empty";
         }
 
         return error;
     }
 
-    public String validCity(String name) {
+    public String validCity(String city) {
         String error = "";
 
-        if (name == null || name.isEmpty()) {
-            error = "Name cannot be empty";
+        if (city == null || city.isEmpty()) {
+            error = "City cannot be empty";
         }
 
         return error;
     }
 
-    public String validProvince(String name) {
+    public String validProvince(String province) {
         String error = "";
 
-        if (name == null || name.isEmpty()) {
-            error = "Name cannot be empty";
+        if (province == null || province.isEmpty()) {
+            error = "Province cannot be empty";
         }
 
         return error;
     }
 
-    public String validPhone(String name) {
+    public String validPhone(String phoneNum) {
         String error = "";
 
-        if (name == null || name.isEmpty()) {
-            error = "Name cannot be empty";
+        String regex = "\\d{10}";   // checks for 10 digit number
+
+        Pattern phonePattern = Pattern.compile(regex);
+
+        if (phoneNum == null || phoneNum.isEmpty()) {
+            error = "Phone number cannot be empty";
+        } else if (!phonePattern.matcher(phoneNum).matches()) {
+            error = "Invalid phone number";
         }
 
         return error;
     }
 
-    public String validDOB(String name) {
+    public String validDOB(String dob) {
         String error = "";
 
-        if (name == null || name.isEmpty()) {
-            error = "Name cannot be empty";
+        if (dob == null || dob.isEmpty()) {
+            error = "Date of birth cannot be empty";
         }
 
         return error;
     }
 
-    public String validGender(String name) {
+    public String validGender(String gender) {
         String error = "";
 
-        if (name == null || name.isEmpty()) {
-            error = "Name cannot be empty";
+        if (gender == null || gender.isEmpty()) {
+            error = "Gender cannot be empty";
         }
 
         return error;
