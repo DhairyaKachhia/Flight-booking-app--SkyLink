@@ -49,7 +49,7 @@ public class PaymentHandlerIntegrated {
 
         try {
             handler.createUser(user, userRePassword);
-            sessionUserID = Session.getInstance().getUser_id();
+            sessionUserID = Session.getInstance().getUserProperties().getUser_id();
         } catch (UserHandler.UserCreationException e) {
             fail("Should not fail");
         }

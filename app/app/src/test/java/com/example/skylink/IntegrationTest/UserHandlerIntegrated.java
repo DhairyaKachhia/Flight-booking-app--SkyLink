@@ -4,6 +4,7 @@ package com.example.skylink.IntegrationTest;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -13,6 +14,7 @@ import com.example.skylink.business.Implementations.UserHandler;
 import com.example.skylink.business.Interface.IUserHandler;
 import com.example.skylink.objects.Implementations.UserProperties;
 import com.example.skylink.objects.Interfaces.IUserProperties;
+import com.example.skylink.presentation.Session;
 
 import org.junit.After;
 import org.junit.Before;
@@ -177,6 +179,115 @@ public class UserHandlerIntegrated {
 
         // Verify the result
         assertFalse(result);
+    }
+
+    @Test
+    public void testSignin_Success() {
+        IUserProperties mockUserProperties = new UserProperties("Mayokun Moses Akintunde", "person1@gmail.com", "mayor101");
+        String rePassword = "mayor101";
+
+        try {
+            userHandler.createUser(mockUserProperties, rePassword);         // add user to the database (it will hash the password)
+
+            // create same user again with normal password
+            IUserProperties mockUserProperties2 = new UserProperties("Mayokun Moses Akintunde", "person1@gmail.com", "mayor101");
+            boolean result = userHandler.signinUser(mockUserProperties2);
+
+            assertTrue(result);
+        } catch (UserHandler.UserCreationException e) {
+            fail("Exception should not be thrown");
+        }
+
+    }
+
+    @Test
+    public void testSignin_Fail() {
+        IUserProperties mockUserProperties = new UserProperties("Mayokun Moses Akintunde", "person1@gmail.com", "mayor101");
+        String rePassword = "mayor101";
+
+        try {
+            userHandler.createUser(mockUserProperties, rePassword);         // add user to the database (it will hash the password)
+
+            // create same user again with different password
+            IUserProperties mockUserProperties2 = new UserProperties("Mayokun Moses Akintunde", "person1@gmail.com", "mayor111");
+            boolean result = userHandler.signinUser(mockUserProperties2);   // should fail because password is different
+
+            assertFalse(result);
+        } catch (UserHandler.UserCreationException e) {
+            fail("Exception should not be thrown");
+        }
+
+    }
+
+    @Test
+    public void testUserIdByEmail() {
+        IUserProperties mockUserProperties = new UserProperties("Mayokun Moses Akintunde", "person1@gmail.com", "mayor101");
+        String rePassword = "mayor101";
+
+        long userIdFromSession = -1;
+
+        try {
+            userHandler.createUser(mockUserProperties, rePassword);
+            userIdFromSession = Session.getInstance().getUserProperties().getUser_id();
+
+            long resultingUserId = userHandler.getUserIdByEmail("person1@gmail.com");
+
+            assertEquals(userIdFromSession, resultingUserId);
+
+        } catch (UserHandler.UserCreationException e) {
+            fail("Exception should not be thrown");
+        }
+
+    }
+
+    @Test
+    public void testUserIdByWrongEmail() {
+        IUserProperties mockUserProperties = new UserProperties("Mayokun Moses Akintunde", "person1@gmail.com", "mayor101");
+        String rePassword = "mayor101";
+
+        long userIdFromSession = -1;
+
+        try {
+            userHandler.createUser(mockUserProperties, rePassword);
+
+            long resultingUserId = userHandler.getUserIdByEmail("person2@gmail.com");
+
+            assertEquals(userIdFromSession, resultingUserId);
+
+
+        } catch (UserHandler.UserCreationException e) {
+            fail("Exception should not be thrown");
+
+        }
+
+    }
+
+    @Test
+    public void testUserByEmail() {
+        IUserProperties mockUserProperties = new UserProperties("Mayokun Moses Akintunde", "person1@gmail.com", "mayor101");
+        String rePassword = "mayor101";
+
+        IUserProperties userFromSession = null;
+        try {
+            userHandler.createUser(mockUserProperties, rePassword);
+            Session.getInstance().getUserProperties().setFullName(mockUserProperties.getFullName());
+            Session.getInstance().getUserProperties().setEmail(mockUserProperties.getEmail());
+            Session.getInstance().getUserProperties().setPassword(mockUserProperties.getPassword());
+
+            userFromSession = Session.getInstance().getUserProperties();
+
+            IUserProperties resultingUser = userHandler.getUserByEmail("person1@gmail.com");
+
+            assertEquals(userFromSession.getFullName(), resultingUser.getFullName());
+            assertEquals(userFromSession.getEmail(), resultingUser.getEmail());
+            assertEquals(userFromSession.getPassword(), resultingUser.getPassword());
+
+
+        } catch (UserHandler.UserCreationException e) {
+            fail("Exception should not be thrown");
+
+        }
+
     }
 
     @After

@@ -151,9 +151,6 @@ public class AirportPath implements iAirportPath {
             return null;
         }
 
-        Log.d("FlightSearchP", "Searching flights for: " + flightSearch.getFlightDept());
-
-
         HashMap<String, List<List<List<iFlight>>>> itinerary = new HashMap<>();
         List<List<String>> findAllPossiblePathsFromOriginToDestination = findAllPaths(flightSearch.getFlightDept(), flightSearch.getFlightArrival());
         List<List<List<iFlight>>> outBoundFlights = findFlight(flightSearch.getFlightDeptDate(),findAllPossiblePathsFromOriginToDestination);

@@ -36,32 +36,6 @@ public class UserHSQLDB implements IUserDB {
         return DriverManager.getConnection("jdbc:hsqldb:file:" + dbPath + ";shutdown=true", "SA", "");
     }
 
-    public boolean getAllUsers() {
-        String sql = "SELECT * FROM USER";
-
-        try (Connection conn = connect();
-             Statement statement = conn.createStatement();
-             ResultSet resultSet = statement.executeQuery(sql)) {
-
-            while (resultSet.next()) {
-                long id = resultSet.getLong("id");
-                String fullName = resultSet.getString("full_name");
-                String email = resultSet.getString("email");
-                String password = resultSet.getString("password");
-
-                // You may include other columns as needed
-
-
-
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return true;
-    }
-
-
     public long addUser_Auth(IUserProperties user) {
         String sql = "INSERT INTO USER (full_name, email, password) VALUES (?, ?, ?)";
 
@@ -125,25 +99,6 @@ public class UserHSQLDB implements IUserDB {
             e.printStackTrace();
         }
         return "";
-    }
-
-    public long getUserIdByEmail(String email) {
-        String sql = "SELECT id FROM USER WHERE email=?";
-
-        try (Connection conn = connect();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-
-            ps.setString(1, email);
-
-            try (ResultSet rs = ps.executeQuery()) {
-                if (rs.next()) {
-                    return rs.getLong("id");
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return -1;
     }
 
     @Override
