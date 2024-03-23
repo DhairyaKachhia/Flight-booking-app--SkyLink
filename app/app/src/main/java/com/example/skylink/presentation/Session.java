@@ -1,6 +1,17 @@
 package com.example.skylink.presentation;
 
 import android.content.Context;
+
+import com.example.skylink.objects.Implementations.Aircraft;
+import com.example.skylink.objects.Implementations.BookingInfo;
+import com.example.skylink.objects.Implementations.City;
+import com.example.skylink.objects.Implementations.CreditCard;
+import com.example.skylink.objects.Implementations.Flight;
+import com.example.skylink.objects.Implementations.FlightInfo;
+import com.example.skylink.objects.Implementations.FlightSearch;
+import com.example.skylink.objects.Implementations.Flights;
+import com.example.skylink.objects.Implementations.TripInvoice;
+import com.example.skylink.objects.Implementations.UserProperties;
 import com.example.skylink.objects.Interfaces.iAircraft;
 import com.example.skylink.objects.Interfaces.iBookingInfo;
 import com.example.skylink.objects.Interfaces.iCity;
@@ -41,6 +52,17 @@ public class Session implements ISession {
     private iCreditCard creditCard;
 
     private Session() {
+        this.aircraft = new Aircraft();
+        this.bookingInfo = new BookingInfo();
+        this.city = new City();
+        this.creditCard = new CreditCard();
+        this.flight = new Flight();
+        this.flightInfo = new FlightInfo();
+        this.iFlights = new Flights();
+        this.flightSearch = new FlightSearch();
+        this.passengerData = new ArrayList<>();
+        this.tripInvoice = new TripInvoice();
+        this.iUserProperties = new UserProperties();
     }
 
     public static synchronized Session getInstance() {

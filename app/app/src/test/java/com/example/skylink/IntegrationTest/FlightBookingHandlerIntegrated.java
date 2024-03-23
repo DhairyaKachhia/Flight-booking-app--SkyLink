@@ -57,7 +57,7 @@ public class FlightBookingHandlerIntegrated {
 
         try {
             userHandler.createUser(user, "password");
-            sessionUserID = Session.getInstance().getUser_id();
+            sessionUserID = Session.getInstance().getUserProperties().getUser_id();
         } catch (UserHandler.UserCreationException e) {
             fail("User creation should not fail");
         }
@@ -98,7 +98,7 @@ public class FlightBookingHandlerIntegrated {
 
         try {
             userHandler.createUser(user, "password");
-            sessionUserID = Session.getInstance().getUser_id();
+            sessionUserID = Session.getInstance().getUserProperties().getUser_id();
         } catch (UserHandler.UserCreationException e) {
             fail("User creation should not fail");
         }
@@ -176,7 +176,7 @@ public class FlightBookingHandlerIntegrated {
 
         try {
             userHandler.createUser(user, "password");
-            sessionUserID = Session.getInstance().getUser_id();
+            sessionUserID = Session.getInstance().getUserProperties().getUser_id();
         } catch (UserHandler.UserCreationException e) {
             fail("User creation should not fail");
         }
@@ -238,7 +238,7 @@ public class FlightBookingHandlerIntegrated {
 
         try {
             userHandler.createUser(user, "password");
-            sessionUserID = Session.getInstance().getUser_id();
+            sessionUserID = Session.getInstance().getUserProperties().getUser_id();
         } catch (UserHandler.UserCreationException e) {
             fail("User creation should not fail");
         }
@@ -308,7 +308,7 @@ public class FlightBookingHandlerIntegrated {
 
         try {
             userHandler.createUser(user, userRePassword);
-            sessionUserID = Session.getInstance().getUser_id();
+            sessionUserID = Session.getInstance().getUserProperties().getUser_id();
         } catch (UserHandler.UserCreationException e) {
             fail("User creation should not fail");
         }
@@ -373,7 +373,7 @@ public class FlightBookingHandlerIntegrated {
 
         try {
             userHandler.createUser(user, userRePassword);
-            sessionUserID = Session.getInstance().getUser_id();
+            sessionUserID = Session.getInstance().getUserProperties().getUser_id();
         } catch (UserHandler.UserCreationException e) {
             fail("User creation should not fail");
         }
@@ -441,7 +441,7 @@ public class FlightBookingHandlerIntegrated {
 
         try {
             userHandler.createUser(user, userRePassword);
-            sessionUserID = Session.getInstance().getUser_id();
+            sessionUserID = Session.getInstance().getUserProperties().getUser_id();
         } catch (UserHandler.UserCreationException e) {
             fail("User creation should not fail");
         }
