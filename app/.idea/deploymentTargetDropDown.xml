@@ -2,7 +2,22 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
+      <entry key="FlightSearchActivityTest">
+        <State />
+      </entry>
+      <entry key="FlightSortingActivityTest">
+        <State />
+      </entry>
+      <entry key="InboundActivityTest">
+        <State />
+      </entry>
+      <entry key="OutBoundActivityTest">
+        <State />
+      </entry>
       <entry key="app">
+        <State />
+      </entry>
+      <entry key="testFlightSearch()">
         <State />
       </entry>
     </value>

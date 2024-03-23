@@ -185,6 +185,8 @@ public class SeatSelectionUtils {
                 150, 150);
         imageLayoutParams.setMargins(25, 25, 25, 25);
         seatImage.setLayoutParams(imageLayoutParams);
+        String seatTag =  getSeatLetter(seatNumber) + row;
+        seatImage.setTag(seatTag);
 
         if (isBusinessClass) {
             seatImage.setImageResource(R.drawable.firstclass_seat);

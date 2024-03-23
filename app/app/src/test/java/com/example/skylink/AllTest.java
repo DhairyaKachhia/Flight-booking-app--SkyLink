@@ -23,7 +23,6 @@ import org.junit.runners.Suite;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
-        // Add all the classes from IntegratedTest and UnitTestStart
         AirportPathIntegrated.class,
         FlightBookingHandlerIntegrated.class,
         PassengerDataManagerIntegrated.class,
