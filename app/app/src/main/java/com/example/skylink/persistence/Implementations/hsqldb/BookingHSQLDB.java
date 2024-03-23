@@ -88,33 +88,6 @@ public class BookingHSQLDB implements iBookingDB {
             e.printStackTrace();
         }
     }
-    public List<String> getAllRows() {
-        List<String> resultRows = new ArrayList<>();
-        String sql = "SELECT * FROM BOOKINGS";
-
-        try (Connection conn = connect();
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(sql)) {
-
-            while (rs.next()) {
-                StringBuilder rowStringBuilder = new StringBuilder();
-                rowStringBuilder.append("ID: ").append(rs.getLong("id")).append(", ");
-                rowStringBuilder.append("Title: ").append(rs.getString("title")).append(", ");
-                rowStringBuilder.append("First Name: ").append(rs.getString("first_name")).append(", ");
-                rowStringBuilder.append("Last Name: ").append(rs.getString("last_name")).append(", ");
-                rowStringBuilder.append("Telephone Number: ").append(rs.getString("telephone_number")).append(", ");
-                rowStringBuilder.append("Email Address: ").append(rs.getString("email_address")).append(", ");
-                rowStringBuilder.append("Seat Number: ").append(rs.getString("seatNumber"));
-
-                resultRows.add(rowStringBuilder.toString());
-            }
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-
-        return resultRows;
-    }
 
     public HashMap<iPassengerData, String> getPassengersWithSeatNumbers(String flightBookingNumber) {
         HashMap<iPassengerData, String> passengerSeatMap = new HashMap<>();

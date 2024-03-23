@@ -42,7 +42,6 @@ public class SignInActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setUpSessions();
         setContentView(R.layout.activity_sign_in);
         if(Session.getInstance().getContext()==null){
             Session.getInstance().setContext(this);
@@ -50,21 +49,6 @@ public class SignInActivity extends AppCompatActivity {
         }
         setupViews();
         setupListeners();
-    }
-
-    private void setUpSessions(){
-        Session.getInstance().setAircraft(new Aircraft());
-        Session.getInstance().setBookingInfo(new BookingInfo());
-        Session.getInstance().setCity(new City());
-        Session.getInstance().setCreditCard(new CreditCard());
-        Session.getInstance().setFlight(new Flight());
-        Session.getInstance().setFlightInfo((new FlightInfo()));
-        Session.getInstance().setFlights(new Flights());
-        Session.getInstance().setFlightSearch(new FlightSearch());
-        Session.getInstance().setPassengerData(new ArrayList<>());
-        Session.getInstance().setTripInvoice(new TripInvoice());
-        Session.getInstance().setUserProperties(new UserProperties());
-        Session.getInstance().setUserProperties(new UserProperties());
     }
 
     private void setupListeners() {
