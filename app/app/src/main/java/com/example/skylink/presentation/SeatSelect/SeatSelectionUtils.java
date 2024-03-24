@@ -253,6 +253,15 @@ public class SeatSelectionUtils {
             long notSelectedCount = countNotSelected(seatMap);
             if (notSelectedCount > 0) {
                 Toast.makeText(context, "Please select seats for all passengers", Toast.LENGTH_SHORT).show();
+                int seatCounter = 1;
+                for (Map.Entry<iPassengerData, String> entry : seatMap.entrySet()) {
+                    entry.setValue("A" + seatCounter);
+                    seatCounter++;
+                }
+                // Handle addons activity
+                handleAddonsActivity(seatMap, bound);
+                activity.startActivity(new Intent(activity, Addons.class));
+
             } else {
                 handleAddonsActivity(seatMap, bound);
                 if (!returnFlight) {
