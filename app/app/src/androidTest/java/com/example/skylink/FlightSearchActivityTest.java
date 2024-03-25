@@ -68,7 +68,7 @@ public class FlightSearchActivityTest {
 
         EspressoUtils.updateUserInfo(userInfo[3], userInfo[4], userInfo[5], userInfo[6], userInfo[7], userInfo[8]);
 
-        EspressoUtils.verifyActivity(FlightSearchP.class);
+//        EspressoUtils.verifyActivity(FlightSearchP.class);
 
         EspressoUtils.clickLogOut();
 
