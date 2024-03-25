@@ -10,6 +10,8 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import com.example.skylink.Util.EspressoUtils;
+import com.example.skylink.Util.UserInfoGenerator;
 import com.example.skylink.presentation.FlightSearching.FlightDisplay;
 import com.example.skylink.presentation.FlightSearching.FlightSearchP;
 import com.example.skylink.presentation.SeatSelect.Out_boundActivity;
@@ -35,6 +37,14 @@ public class UserInfoActivityTest {
     public void setup() {
         // Initialize Espresso Intents before the test starts
         Intents.init();
+        String[] userInfo = UserInfoGenerator.generateUserInfo();
+        EspressoUtils.signUp(userInfo[0], userInfo[1], userInfo[2]);
+
+        EspressoUtils.verifyActivity(UpdateUserProfileActivity.class);
+
+        EspressoUtils.updateUserInfo(userInfo[3], userInfo[4], userInfo[5], userInfo[6], userInfo[7], userInfo[8]);
+
+        EspressoUtils.verifyActivity(FlightSearchP.class);
     }
 
     @Test
@@ -42,33 +52,13 @@ public class UserInfoActivityTest {
         String flyFrom = "Vancouver - YVR";
         String flyTo = "Hamilton - YHM";
 
-// --- Sign-up page
-
-        // call a method to perform signup test with valid inputs
-        EspressoUtils.signUp("John Doe", "john@example.com", "password");
-
-
-// --- Update user profile page
-
-        // Verify that the expected intent was sent
-        intended(hasComponent(UpdateUserProfileActivity.class.getName()));
-
-        // call a method to perform update user info test with valid user profile info
-        EspressoUtils.updateUserInfo("123 some rd.", "Winnipeg", "MB", "1234567890", "12/12/2000", "Male");
-
-
-// --- Flight search page
-
-        // Verify that the expected intent was sent
-        intended(hasComponent(FlightSearchP.class.getName()));
-
         /* Search flight from YVR to YHM on April 8, 2024 */
 
         // call a method to perform flight searching test with valid search data.
         EspressoUtils.performFlightSearch(flyFrom, flyTo, 2024, 4, 8);
 
 
-// --- Flight display page
+        // --- Flight display page
 
         // Verify that the expected intent was sent
         intended(hasComponent(FlightDisplay.class.getName()));
@@ -78,7 +68,7 @@ public class UserInfoActivityTest {
         // Click the button for economy class
         onView(withId(R.id.econPriceBtn)).perform(click());
 
-// --- User info page
+        // --- User info page
 
         // Verify that the expected intent was sent
         intended(hasComponent(User_info.class.getName()));
@@ -86,7 +76,7 @@ public class UserInfoActivityTest {
         // Fill in passenger information
         EspressoUtils.performUserInfo("Mr.", "Yiming", "Zang", "1234567890", "yiming@gmail.com");
 
-// --- Seat selection page
+        // --- Seat selection page
 
         // Verify that the expected intent was sent
         intended(hasComponent(Out_boundActivity.class.getName()));

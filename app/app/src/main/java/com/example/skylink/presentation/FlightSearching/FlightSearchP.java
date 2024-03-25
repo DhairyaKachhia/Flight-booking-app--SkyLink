@@ -283,25 +283,9 @@ public class FlightSearchP extends AppCompatActivity implements NavigationView.O
             Session.getInstance().setFlightSearch(flightSearch);
 
 
-            Log.d("FlightSearchP", "Search parameters: Departure City: " + departingCity + ", Return City: " + returningCity +
-                    ", Departure Date: " + departingDate + ", Return Date: " + returningDate +
-                    ", Total Passengers: " + totalPassengers + ", Is One Way: " + isOneWay);
-
-
             HashMap<String, List<List<List<iFlight>>>> flightPathResults = path.findFlights(flightSearch);
 
-            // Get the keys of the flightPathResults
-            Set<String> keys = flightPathResults.keySet();
 
-            // Check if the HashMap is empty
-            if (keys.isEmpty()) {
-                Log.d("FlightSearchP", "No flight paths found.");
-            } else {
-                // Iterate through the keys and print them
-                for (String key : keys) {
-                    Log.d("FlightSearchP", "Flight Path: " + key);
-                }
-            }
             Session.getInstance().setFlightPathResults(flightPathResults);
 
             Intent intent = new Intent(FlightSearchP.this, FlightDisplay.class);

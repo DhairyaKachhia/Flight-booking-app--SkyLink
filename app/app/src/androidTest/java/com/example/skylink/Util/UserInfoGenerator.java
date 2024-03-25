@@ -1,4 +1,4 @@
-package com.example.skylink;
+package com.example.skylink.Util;
 
 import java.util.ArrayList;
 import java.util.List;
