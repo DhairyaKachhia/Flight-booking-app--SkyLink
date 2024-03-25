@@ -5,6 +5,12 @@
       <entry key="AddonsActivityTest">
         <State />
       </entry>
+      <entry key="FlightSearchActivityTest">
+        <State />
+      </entry>
+      <entry key="OutBoundActivityTest">
+        <State />
+      </entry>
       <entry key="app">
         <State />
       </entry>

@@ -1,6 +1,5 @@
 package com.example.skylink;
 
-import androidx.test.espresso.Espresso;
 import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.intent.Intents;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
@@ -10,6 +9,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import com.example.skylink.presentation.Addons.Addons;
 import com.example.skylink.presentation.FlightSearching.FlightDisplay;
 import com.example.skylink.presentation.FlightSearching.FlightSearchP;
+import com.example.skylink.presentation.Payment.CreditCardPaymentActivity;
 import com.example.skylink.presentation.SeatSelect.Out_boundActivity;
 import com.example.skylink.presentation.UserInfo.User_info;
 import com.example.skylink.presentation.User_Auth.SignInActivity;
@@ -26,16 +26,9 @@ import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.intent.Intents.intended;
 import static androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent;
 import static androidx.test.espresso.matcher.ViewMatchers.isChecked;
-import static androidx.test.espresso.matcher.ViewMatchers.isClickable;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static androidx.test.espresso.matcher.ViewMatchers.isEnabled;
-import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
-import static androidx.test.espresso.matcher.ViewMatchers.withTagValue;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
-import static org.hamcrest.Matchers.allOf;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.not;
 
 
 @LargeTest
@@ -46,20 +39,23 @@ public class AddonsActivityTest {
     public ActivityScenarioRule<SignInActivity> activityScenarioRule = new ActivityScenarioRule<>(SignInActivity.class);
 
     @Before
-    public void setup() {
-        // Initialize Espresso Intents before the test starts
+    public void setUp() {
         Intents.init();
+
     }
 
     @Test
-    public void testUserInfo() {
+    public void testAddonsPage() {
         String flyFrom = "Vancouver - YVR";
         String flyTo = "Hamilton - YHM";
+
+        // used for generation random user info
+        String[] userInfo = UserInfoGenerator.generateUserInfo();
 
 // --- Sign-up page
 
         // call a method to perform signup test with valid inputs
-        EspressoUtils.signUp("John Doe", "john@example.com", "password");
+        EspressoUtils.signUp(userInfo[0], userInfo[1], userInfo[2]);
 
 
 // --- Update user profile page
@@ -68,7 +64,7 @@ public class AddonsActivityTest {
         intended(hasComponent(UpdateUserProfileActivity.class.getName()));
 
         // call a method to perform update user info test with valid user profile info
-        EspressoUtils.updateUserInfo("123 some rd.", "Winnipeg", "MB", "1234567890", "12/12/2000", "Male");
+        EspressoUtils.updateUserInfo(userInfo[3], userInfo[4], userInfo[5], userInfo[6], userInfo[7], userInfo[8]);
 
 
 // --- Flight search page
@@ -90,7 +86,7 @@ public class AddonsActivityTest {
         onView(withId(R.id.flightListView)).check(matches(isDisplayed()));      // check if flights are shown
 
         // Click the button for economy class
-        onView(withId(R.id.busnPriceBtn)).perform(click());
+        onView(withId(R.id.econPriceBtn)).perform(click());
 
 // --- User info page
 
@@ -105,170 +101,76 @@ public class AddonsActivityTest {
         // Verify that the expected intent was sent
         intended(hasComponent(Out_boundActivity.class.getName()));
 
-//        onView(allOf(withId(R.id.Flight_Layout), withTagValue(equalTo("black"))))
-//                .perform(click());
+        onView(withId(R.id.confirmButton)).perform(click());    // perform auto seat select
 
-        onView(allOf(withId(R.id.Flight_Layout), isClickable()))
-                .perform(click());
+// --- Add-ons page
 
-        onView(withId(R.id.confirmButton)).perform(click());
+        // Verify that the expected intent was sent
+        intended(hasComponent(Addons.class.getName()));
+
+        String expectedBagCount = "2";
+        String expectedBagFee = "$50";
+
+        String expectedPetCountFirst = "2";
+        String expectedPetFeeFirst = "$120";
+
+        String expectedPetCountSecond = "1";
+        String expectedPetFeeSecond = "$60";
+
+        // add a bag => $50
+        onView(withId(R.id.bag_btn_increment)).perform(click());           // find and click add button to add a bag
+
+        onView(withId(R.id.totalBags)).check(matches(withText(expectedBagCount)));     // check if number of bag is incremented
+        onView(withId(R.id.bagFees)).check(matches(withText(expectedBagFee)));         // check if bag's fee is changed
+
+        onView(withId(R.id.totalPriceTV)).check(matches(withText("$899")));         // check if bag's fee is changed in total price field
+
+
+        // add two pet => $120
+        onView(withId(R.id.pet_btn_increment)).perform(ViewActions.click());           // find and click add button to add one pet
+        onView(withId(R.id.pet_btn_increment)).perform(ViewActions.click());           // find and click add button to add second pet
+
+        onView(withId(R.id.totalPetSeat)).check(matches(withText(expectedPetCountFirst)));     // check if number of pet is incremented
+        onView(withId(R.id.petSeatFees)).check(matches(withText(expectedPetFeeFirst)));         // check if pet's fee is changed
+
+        onView(withId(R.id.totalPriceTV)).check(matches(withText("$1019")));         // check if pet's fee is changed in total price field
+
+        // remove one pet => $60
+        onView(withId(R.id.pet_btn_decrement)).perform(ViewActions.click());           // find and click subtract button to remove the pet
+
+        onView(withId(R.id.totalPetSeat)).check(matches(withText(expectedPetCountSecond)));     // check if number of pet is incremented
+        onView(withId(R.id.petSeatFees)).check(matches(withText(expectedPetFeeSecond)));         // check if pet's fee is changed
+
+        onView(withId(R.id.totalPriceTV)).check(matches(withText("$959")));         // check if pet's fee is changed in total price field
+
+
+        // add wifi => $50
+        onView(withId(R.id.radioButtonIncludeWifi)).perform(ViewActions.click());           // find and click radio button to add wifi
+
+        onView(withId(R.id.radioButtonIncludeWifi)).check(matches(isChecked()));             // check if wifi button is selected
+        onView(withId(R.id.totalPriceTV)).check(matches(withText("$1009")));         // check if wifi fee is changed in total price field
+
+
+        // add wheelchair => $0
+        onView(withId(R.id.radioButtonIncludeWheelchair)).perform(ViewActions.click());     // find and click radio button to add wheelchair
+
+        onView(withId(R.id.radioButtonIncludeWheelchair)).check(matches(isChecked()));     // check if wheelchair button is selected
+        onView(withId(R.id.totalPriceTV)).check(matches(withText("$1009")));                // check if wheelchair's fee is changed in total price field
+
+        // remove wheelchair => $0
+        onView(withId(R.id.radioButtonNoWheelchair)).perform(ViewActions.click());          // find and click radio button to remove wheelchair
+
+        onView(withId(R.id.radioButtonNoWheelchair)).check(matches(isChecked()));     // check if wheelchair button is selected
+
+        onView(withId(R.id.totalPriceTV)).check(matches(withText("$1009")));         // check if selected addons fee is changed in total price field
+
+
+        onView(withId(R.id.btnConfirmExtra)).perform(click());      // click confirm to go to next activity
+
+// --- Payment page
+
+        // Verify that the expected intent was sent
+        intended(hasComponent(CreditCardPaymentActivity.class.getName()));
     }
-
-//    @Test
-//    public void testAddExtraBag() {
-//        String expectedBagCount = "2";
-//        String expectedBagFee = "$50";
-//
-//        Espresso.onView(withId(R.id.bag_btn_increment)).perform(ViewActions.click());           // find and click add button
-//
-//        Espresso.onView(withId(R.id.totalBags)).check(matches(withText(expectedBagCount)));     // check if number of bag is incremented
-//        Espresso.onView(withId(R.id.bagFees)).check(matches(withText(expectedBagFee)));         // check if bag's fee is changed
-//
-//        Espresso.onView(withId(R.id.totalPriceTV)).check(matches(withText(expectedBagFee)));         // check if bag's fee is changed in total price field
-//
-//        // check if add bag button is disabled when max count is reached
-//        Espresso.onView(withId(R.id.bag_btn_increment)).check(matches(not(isEnabled())));
-//
-//    }
-//
-//    @Test
-//    public void testRemoveExtraBag() {
-//        String expectedBagCount = "1";
-//        String expectedBagFee = "$0";
-//
-//        Espresso.onView(withId(R.id.bag_btn_increment)).perform(ViewActions.click());           // find and click add button
-//
-//        Espresso.onView(withId(R.id.bag_btn_decrement)).perform(ViewActions.click());           // find and click subtract button
-//
-//        Espresso.onView(withId(R.id.totalBags)).check(matches(withText(expectedBagCount)));     // check if number of bag is decremented
-//        Espresso.onView(withId(R.id.bagFees)).check(matches(withText(expectedBagFee)));         // check if bag's fee is changed
-//
-//        Espresso.onView(withId(R.id.totalPriceTV)).check(matches(withText(expectedBagFee)));         // check if bag's fee is changed in total price field
-//
-//        // check if subtract bag button is disabled when max count is reached
-//        Espresso.onView(withId(R.id.bag_btn_decrement)).check(matches(not(isEnabled())));
-//
-//    }
-//
-//    @Test
-//    public void testAddExtraPet() {
-//        String expectedPetCount = "2";
-//        String expectedPetFee = "$120";
-//
-//        Espresso.onView(withId(R.id.pet_btn_increment)).perform(ViewActions.click());           // find and click add button first time
-//        Espresso.onView(withId(R.id.pet_btn_increment)).perform(ViewActions.click());           // find and click add button second time
-//
-//        Espresso.onView(withId(R.id.totalPetSeat)).check(matches(withText(expectedPetCount)));     // check if number of pet is incremented
-//        Espresso.onView(withId(R.id.petSeatFees)).check(matches(withText(expectedPetFee)));         // check if pet's fee is changed
-//
-//        Espresso.onView(withId(R.id.totalPriceTV)).check(matches(withText(expectedPetFee)));         // check if pet's fee is changed in total price field
-//
-//
-//        // check if add pet button is disabled when max count is reached
-//        Espresso.onView(withId(R.id.pet_btn_increment)).check(matches(not(isEnabled())));
-//
-//    }
-//
-//    @Test
-//    public void testRemoveExtraPet() {
-//        String expectedPetCount = "0";
-//        String expectedPetFee = "$0";
-//
-//        // press subtract button twice to make sure we start with 0 pet count
-//        Espresso.onView(withId(R.id.pet_btn_decrement)).perform(ViewActions.click());           // find and click subtract button first time
-//        Espresso.onView(withId(R.id.pet_btn_decrement)).perform(ViewActions.click());           // find and click subtract button second time
-//
-//
-//        Espresso.onView(withId(R.id.pet_btn_increment)).perform(ViewActions.click());           // find and click add button to add one pet
-//
-//
-//        Espresso.onView(withId(R.id.pet_btn_decrement)).perform(ViewActions.click());           // find and click subtract button to remove the pet
-//
-//
-//        Espresso.onView(withId(R.id.totalPetSeat)).check(matches(withText(expectedPetCount)));     // check if number of pet is decremented
-//        Espresso.onView(withId(R.id.petSeatFees)).check(matches(withText(expectedPetFee)));         // check if pet's fee is changed
-//
-//        Espresso.onView(withId(R.id.totalPriceTV)).check(matches(withText(expectedPetFee)));         // check if pet's fee is changed in total price field
-//
-//
-//        // check if subtract pet button is disabled when max count is reached
-//        Espresso.onView(withId(R.id.pet_btn_decrement)).check(matches(not(isEnabled())));
-//    }
-//
-//    @Test
-//    public void testAddWifi() {
-//        String expectedWifiFee = "$50";
-//
-//        Espresso.onView(withId(R.id.radioButtonIncludeWifi)).perform(ViewActions.click());           // find and click radio button to add wifi
-//
-//        Espresso.onView(withId(R.id.radioButtonIncludeWifi)).check(matches(isChecked()));             // check if wifi button is selected
-//        Espresso.onView(withId(R.id.totalPriceTV)).check(matches(withText(expectedWifiFee)));         // check if wifi fee is changed in total price field
-//
-//    }
-//
-//    @Test
-//    public void testRemoveWifi() {
-//        String expectedWifiFee = "$0";
-//
-//        Espresso.onView(withId(R.id.radioButtonIncludeWifi)).perform(ViewActions.click());          // find and click radio button to add wifi
-//
-//        Espresso.onView(withId(R.id.radioButtonNoWifi)).perform(ViewActions.click());               // find and click radio button to remove wifi
-//
-//        Espresso.onView(withId(R.id.radioButtonNoWifi)).check(matches(isChecked()));                // check if wifi button is not selected
-//        Espresso.onView(withId(R.id.totalPriceTV)).check(matches(withText(expectedWifiFee)));       // check if wifi fee is changed in total price field
-//
-//    }
-//
-//    @Test
-//    public void testAddWheelchair() {
-//        String expectedWheelchairFee = "$0";
-//
-//        Espresso.onView(withId(R.id.radioButtonIncludeWheelchair)).perform(ViewActions.click());           // find and click radio button to add wheelchair
-//
-//        Espresso.onView(withId(R.id.radioButtonIncludeWheelchair)).check(matches(isChecked()));             // check if wheelchair button is selected
-//        Espresso.onView(withId(R.id.totalPriceTV)).check(matches(withText(expectedWheelchairFee)));         // check if wheelchair's fee is changed in total price field
-//
-//    }
-//
-//    @Test
-//    public void testRemoveWheelchair() {
-//        String expectedWheelchairFee = "$0";
-//
-//        Espresso.onView(withId(R.id.radioButtonIncludeWheelchair)).perform(ViewActions.click());           // find and click radio button to add wheelchair
-//
-//        Espresso.onView(withId(R.id.radioButtonNoWheelchair)).perform(ViewActions.click());                 // find and click radio button to remove wheelchair
-//
-//        Espresso.onView(withId(R.id.radioButtonNoWheelchair)).check(matches(isChecked()));             // check if wheelchair button is selected
-//        Espresso.onView(withId(R.id.totalPriceTV)).check(matches(withText(expectedWheelchairFee)));         // check if wheelchair's fee is changed in total price field
-//
-//    }
-//
-//    @Test
-//    public void testAllAddons() {
-//        String expectedPrice = "$160";
-//
-//        // add a bag => $50
-//        Espresso.onView(withId(R.id.bag_btn_increment)).perform(ViewActions.click());           // find and click add button to add a bag
-//
-//
-//        // add a pet => $60
-//        Espresso.onView(withId(R.id.pet_btn_increment)).perform(ViewActions.click());           // find and click add button to add one pet
-//        Espresso.onView(withId(R.id.pet_btn_increment)).perform(ViewActions.click());           // find and click add button to add second pet
-//
-//        Espresso.onView(withId(R.id.pet_btn_decrement)).perform(ViewActions.click());           // find and click subtract button to remove the pet
-//
-//
-//        // add wifi => $50
-//        Espresso.onView(withId(R.id.radioButtonIncludeWifi)).perform(ViewActions.click());           // find and click radio button to add wifi
-//
-//
-//        // do not add wheelchair => $0
-//        Espresso.onView(withId(R.id.radioButtonIncludeWheelchair)).perform(ViewActions.click());     // find and click radio button to add wheelchair
-//        Espresso.onView(withId(R.id.radioButtonNoWheelchair)).perform(ViewActions.click());          // find and click radio button to remove wheelchair
-//
-//
-//        Espresso.onView(withId(R.id.totalPriceTV)).check(matches(withText(expectedPrice)));         // check if selected addons fee is changed in total price field
-//
-//    }
 
 }
