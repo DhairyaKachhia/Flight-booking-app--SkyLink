@@ -81,7 +81,7 @@ To build and run the app, follow these steps:
 - [User Stories](https://code.cs.umanitoba.ca/comp3350-winter2024/shadedragon-a02-6/-/issues/?sort=created_date&state=all&label_name%5B%5D=User%20Story&milestone_title=Iteration%201&milestone_title=Iteration%202&milestone_title=Iteration%203&first_page_size=20)
 
 ## Architecture
-- [Architecture file] ()
+- [Architecture file](/docs/Iteration3Architecture.md)
 
 ## Retrospective
-- [Retrospective file] ()
+- [Retrospective file](/docs/Retrospective.md)
