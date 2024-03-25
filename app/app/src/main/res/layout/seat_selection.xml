@@ -102,17 +102,7 @@
             <!-- Add your flight-related content here -->
         </LinearLayout>
 
-        <Button
-            android:id="@+id/confirmButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Next"
-            android:textSize="20sp"
-            android:textColor="#FFFFFF"
-            android:gravity="center"
-            android:layout_gravity="center"
-            android:layout_marginTop="32dp"
-            android:background="@drawable/rounded_button"/>
+
 
     </LinearLayout>
 </ScrollView>
