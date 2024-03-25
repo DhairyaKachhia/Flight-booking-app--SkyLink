@@ -35,7 +35,7 @@ public class UserInfoGenerator {
     }
 
     private static String generateRandomPhoneNumber() {
-        return "1" + generateRandomNumericString(10); // Assuming the phone number starts with 1
+        return generateRandomNumericString(10);
     }
 
     private static String generateRandomNumericString(int length) {
