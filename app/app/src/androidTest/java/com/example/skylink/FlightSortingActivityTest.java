@@ -25,6 +25,8 @@ import androidx.test.espresso.matcher.BoundedMatcher;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
+import com.example.skylink.Util.EspressoUtils;
+import com.example.skylink.Util.UserInfoGenerator;
 import com.example.skylink.presentation.FlightSearching.FlightDisplay;
 import com.example.skylink.presentation.FlightSearching.FlightSearchP;
 import com.example.skylink.presentation.User_Auth.SignInActivity;
@@ -47,6 +49,14 @@ public class FlightSortingActivityTest {
     public void setup() {
         // Initialize Espresso Intents before the test starts
         Intents.init();
+        String[] userInfo = UserInfoGenerator.generateUserInfo();
+        EspressoUtils.signUp(userInfo[0], userInfo[1], userInfo[2]);
+
+        EspressoUtils.verifyActivity(UpdateUserProfileActivity.class);
+
+        EspressoUtils.updateUserInfo(userInfo[3], userInfo[4], userInfo[5], userInfo[6], userInfo[7], userInfo[8]);
+
+        EspressoUtils.verifyActivity(FlightSearchP.class);
     }
 
     @Test
@@ -54,33 +64,13 @@ public class FlightSortingActivityTest {
         String flyFrom = "Toronto - YYZ";
         String flyTo = "Hamilton - YHM";
 
-// --- Sign-up page
-
-        // call a method to perform signup test with valid inputs
-        EspressoUtils.signUp("John Doe", "john@example.com", "password");
-
-
-// --- Update user profile page
-
-        // Verify that the expected intent was sent
-        intended(hasComponent(UpdateUserProfileActivity.class.getName()));
-
-        // call a method to perform update user info test with valid user profile info
-        EspressoUtils.updateUserInfo("123 some rd.", "Winnipeg", "MB", "1234567890", "12/12/2000", "Male");
-
-
-// --- Flight search page
-
-        // Verify that the expected intent was sent
-        intended(hasComponent(FlightSearchP.class.getName()));
-
         /* Search flight from YYZ to YHM on April 6, 2024 */
 
         // call a method to perform flight searching test with valid search data.
         EspressoUtils.performFlightSearch(flyFrom, flyTo, 2024, 4, 6);
 
 
-// --- Flight display page
+        // --- Flight display page
 
         // Verify that the expected intent was sent
         intended(hasComponent(FlightDisplay.class.getName()));

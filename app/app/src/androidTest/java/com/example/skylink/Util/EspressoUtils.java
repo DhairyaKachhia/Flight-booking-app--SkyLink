@@ -1,4 +1,4 @@
-package com.example.skylink;
+package com.example.skylink.Util;
 
 import androidx.test.espresso.Espresso;
 import androidx.test.espresso.ViewInteraction;
@@ -24,6 +24,8 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 import android.app.Activity;
 
+import com.example.skylink.R;
+
 import org.hamcrest.Matchers;
 
 public class EspressoUtils {
@@ -31,7 +33,7 @@ public class EspressoUtils {
 
     public static void signUp(String fullName, String email, String password) {
         // Open Sign Up Screen.
-        Espresso.onView(withId(R.id.tvSignInClick)).perform(click());
+        Espresso.onView(ViewMatchers.withId(R.id.tvSignInClick)).perform(click());
 
         // Fill in the form with provided values
         Espresso.onView(ViewMatchers.withId(R.id.etFullname))
