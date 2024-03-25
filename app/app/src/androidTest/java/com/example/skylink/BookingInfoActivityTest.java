@@ -1,19 +1,7 @@
 package com.example.skylink;
 
-import androidx.test.espresso.action.ViewActions;
-import androidx.test.espresso.intent.Intents;
-import androidx.test.espresso.matcher.ViewMatchers;
-import androidx.test.ext.junit.rules.ActivityScenarioRule;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
-
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
-import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.intent.Intents.intended;
 import static androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent;
 import static androidx.test.espresso.matcher.ViewMatchers.isChecked;
@@ -21,9 +9,22 @@ import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
+import static java.util.regex.Pattern.matches;
+
+import androidx.test.core.app.ActivityScenario;
+import androidx.test.espresso.action.ViewActions;
+import androidx.test.espresso.assertion.ViewAssertions;
+import androidx.test.espresso.contrib.DrawerActions;
+import androidx.test.espresso.contrib.NavigationViewActions;
+import androidx.test.espresso.contrib.RecyclerViewActions;
+import androidx.test.espresso.intent.Intents;
+import androidx.test.espresso.matcher.ViewMatchers;
+import androidx.test.ext.junit.rules.ActivityScenarioRule;
+
 import com.example.skylink.Util.EspressoUtils;
 import com.example.skylink.Util.UserInfoGenerator;
 import com.example.skylink.presentation.Addons.Addons;
+import com.example.skylink.presentation.Bookings.BookingsDisplay;
 import com.example.skylink.presentation.FlightSearching.FlightDisplay;
 import com.example.skylink.presentation.FlightSearching.FlightSearchP;
 import com.example.skylink.presentation.SeatSelect.Out_boundActivity;
@@ -31,14 +32,16 @@ import com.example.skylink.presentation.UserInfo.User_info;
 import com.example.skylink.presentation.User_Auth.SignInActivity;
 import com.example.skylink.presentation.User_Auth.UpdateUserProfileActivity;
 
-@RunWith(AndroidJUnit4.class)
-public class PaymentSystemTest {
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
 
+public class BookingInfoActivityTest {
     @Rule
     public ActivityScenarioRule<SignInActivity> activityScenarioRule = new ActivityScenarioRule<>(SignInActivity.class);
 
     @Before
-    public void setUp() {
+    public void setup() {
         Intents.init();
 
         // Perform setup tasks here
@@ -57,7 +60,7 @@ public class PaymentSystemTest {
         // --- Flight search page ---
         EspressoUtils.performFlightSearch(flyFrom, flyTo, 2024, 4, 8);
         intended(hasComponent(FlightDisplay.class.getName()));
-        onView(withId(R.id.flightListView)).check(matches(isDisplayed()));
+        onView(withId(R.id.flightListView)).check(ViewAssertions.matches(isDisplayed()));
         onView(withId(R.id.econPriceBtn)).perform(click());
 
         // --- User info page ---
@@ -78,38 +81,34 @@ public class PaymentSystemTest {
         String expectedPetFeeSecond = "$60";
 
         onView(withId(R.id.bag_btn_increment)).perform(click());
-        onView(withId(R.id.totalBags)).check(matches(withText(expectedBagCount)));
-        onView(withId(R.id.bagFees)).check(matches(withText(expectedBagFee)));
-        onView(withId(R.id.totalPriceTV)).check(matches(withText("$899")));
+        onView(withId(R.id.totalBags)).check(ViewAssertions.matches(withText(expectedBagCount)));
+        onView(withId(R.id.bagFees)).check(ViewAssertions.matches(withText(expectedBagFee)));
+        onView(withId(R.id.totalPriceTV)).check(ViewAssertions.matches(withText("$899")));
 
         onView(withId(R.id.pet_btn_increment)).perform(click());
         onView(withId(R.id.pet_btn_increment)).perform(click());
-        onView(withId(R.id.totalPetSeat)).check(matches(withText(expectedPetCountFirst)));
-        onView(withId(R.id.petSeatFees)).check(matches(withText(expectedPetFeeFirst)));
-        onView(withId(R.id.totalPriceTV)).check(matches(withText("$1019")));
+        onView(withId(R.id.totalPetSeat)).check(ViewAssertions.matches(withText(expectedPetCountFirst)));
+        onView(withId(R.id.petSeatFees)).check(ViewAssertions.matches(withText(expectedPetFeeFirst)));
+        onView(withId(R.id.totalPriceTV)).check(ViewAssertions.matches(withText("$1019")));
 
         onView(withId(R.id.pet_btn_decrement)).perform(click());
-        onView(withId(R.id.totalPetSeat)).check(matches(withText(expectedPetCountSecond)));
-        onView(withId(R.id.petSeatFees)).check(matches(withText(expectedPetFeeSecond)));
-        onView(withId(R.id.totalPriceTV)).check(matches(withText("$959")));
+        onView(withId(R.id.totalPetSeat)).check(ViewAssertions.matches(withText(expectedPetCountSecond)));
+        onView(withId(R.id.petSeatFees)).check(ViewAssertions.matches(withText(expectedPetFeeSecond)));
+        onView(withId(R.id.totalPriceTV)).check(ViewAssertions.matches(withText("$959")));
 
         onView(withId(R.id.radioButtonIncludeWifi)).perform(click());
-        onView(withId(R.id.radioButtonIncludeWifi)).check(matches(isChecked()));
-        onView(withId(R.id.totalPriceTV)).check(matches(withText("$1009")));
+        onView(withId(R.id.radioButtonIncludeWifi)).check(ViewAssertions.matches(isChecked()));
+        onView(withId(R.id.totalPriceTV)).check(ViewAssertions.matches(withText("$1009")));
 
         onView(withId(R.id.radioButtonIncludeWheelchair)).perform(click());
-        onView(withId(R.id.radioButtonIncludeWheelchair)).check(matches(isChecked()));
-        onView(withId(R.id.totalPriceTV)).check(matches(withText("$1009")));
+        onView(withId(R.id.radioButtonIncludeWheelchair)).check(ViewAssertions.matches(isChecked()));
+        onView(withId(R.id.totalPriceTV)).check(ViewAssertions.matches(withText("$1009")));
 
         onView(withId(R.id.radioButtonNoWheelchair)).perform(click());
-        onView(withId(R.id.radioButtonNoWheelchair)).check(matches(isChecked()));
-        onView(withId(R.id.totalPriceTV)).check(matches(withText("$1009")));
+        onView(withId(R.id.radioButtonNoWheelchair)).check(ViewAssertions.matches(isChecked()));
+        onView(withId(R.id.totalPriceTV)).check(ViewAssertions.matches(withText("$1009")));
 
         onView(withId(R.id.btnConfirmExtra)).perform(click());
-    }
-
-    @Test
-    public void testPaymentProcess() {
         // Test payment process
         onView(ViewMatchers.withId(R.id.etCreditCardNumber))
                 .perform(ViewActions.typeText("1234567890123456"), ViewActions.closeSoftKeyboard());
@@ -127,5 +126,16 @@ public class PaymentSystemTest {
                 .perform(ViewActions.typeText("123 Main St, Winnipeg, MB"), ViewActions.closeSoftKeyboard());
 
         onView(withId(R.id.btnPay)).perform(click());
+        onView(withId(R.id.buttonMainMenu)).perform(click());
+
     }
+    @Test
+    public void testBookingsDisplay() {
+        // Open the hamburger menu
+        onView(withId(R.id.drawer_layout)).perform(DrawerActions.open());
+
+        onView(withId(R.id.bookings)).perform(ViewActions.click());
+
+    }
+
 }
