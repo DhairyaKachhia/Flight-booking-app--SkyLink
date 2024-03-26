@@ -4,7 +4,7 @@ import androidx.core.util.PatternsCompat;       // using this android import to 
 
 import java.util.regex.Pattern;
 
-public class ValidateUserAuth implements IValidateUserAuth{
+public class ValidateUserProperties implements IValidateUserProperties {
     @Override
     public String validEmail(String email) {
         String error = "";
@@ -12,7 +12,7 @@ public class ValidateUserAuth implements IValidateUserAuth{
         if (email == null || email.isEmpty()) {
             error = "Email cannot be empty";
         } else if (!PatternsCompat.EMAIL_ADDRESS.matcher(email).matches()) {
-            error = "Invalid email";
+            error = "Invalid email format";
         }
 
         return error;
@@ -24,6 +24,8 @@ public class ValidateUserAuth implements IValidateUserAuth{
 
         if (password == null || password.isEmpty()) {
             error = "Password cannot be empty";
+        } else if (password.length() < 8) {
+            error = "Password must be at least 8 characters long";
         }
 
         return error;

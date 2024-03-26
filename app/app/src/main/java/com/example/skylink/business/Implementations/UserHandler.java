@@ -2,6 +2,8 @@ package com.example.skylink.business.Implementations;
 
 import com.example.skylink.application.Services;
 import com.example.skylink.business.Interface.IUserHandler;
+import com.example.skylink.business.validations.IValidateUserProperties;
+import com.example.skylink.business.validations.ValidateUserProperties;
 import com.example.skylink.objects.Interfaces.IUserProperties;
 import com.example.skylink.presentation.Session;
 import com.example.skylink.persistence.Interfaces.IUserDB;
@@ -19,7 +21,7 @@ public class UserHandler implements IUserHandler {
     }
 
     public void createUser(IUserProperties userProperties, String rePassword) throws UserCreationException {
-        
+
         String validationMessage = isValidUserPropertiesForCreation(userProperties);
         if (validationMessage != null) {
             throw new UserCreationException(validationMessage);
@@ -42,13 +44,14 @@ public class UserHandler implements IUserHandler {
     }
 
     public String isValidUserPropertiesForCreation(IUserProperties userProperties) {
+        IValidateUserProperties validator = new ValidateUserProperties();
 
         String fullNameValidation = userProperties.isValidFullName();
         if (fullNameValidation != null && !fullNameValidation.isEmpty()) {
             return fullNameValidation;
         }
 
-        String emailValidation = userProperties.isValidEmail();
+        String emailValidation = validator.validEmail(userProperties.getEmail());
         if (emailValidation != null && !emailValidation.isEmpty()) {
             return emailValidation;
         }

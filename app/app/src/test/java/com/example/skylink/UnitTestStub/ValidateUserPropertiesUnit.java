@@ -2,19 +2,19 @@ package com.example.skylink.UnitTestStub;
 
 import static org.junit.Assert.*;
 
-import com.example.skylink.business.validations.IValidateUserAuth;
-import com.example.skylink.business.validations.ValidateUserAuth;
+import com.example.skylink.business.validations.IValidateUserProperties;
+import com.example.skylink.business.validations.ValidateUserProperties;
 
 import org.junit.Before;
 import org.junit.Test;
 
-public class ValidateUserAuthUnit {
+public class ValidateUserPropertiesUnit {
 
-    private IValidateUserAuth validator;
+    private IValidateUserProperties validator;
 
     @Before
     public void setup() {
-        validator = new ValidateUserAuth();
+        validator = new ValidateUserProperties();
     }
 
     @Test
