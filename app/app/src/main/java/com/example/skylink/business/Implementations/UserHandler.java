@@ -23,7 +23,7 @@ public class UserHandler implements IUserHandler {
     public void createUser(IUserProperties userProperties, String rePassword) throws UserCreationException {
 
         String validationMessage = isValidUserPropertiesForCreation(userProperties);
-        if (validationMessage != null) {
+        if (!validationMessage.isEmpty()) {
             throw new UserCreationException(validationMessage);
         }
 
@@ -47,21 +47,21 @@ public class UserHandler implements IUserHandler {
         IValidateUserProperties validator = new ValidateUserProperties();
 
         String fullNameValidation = validator.validFullname(userProperties.getFullName());
-        if (fullNameValidation != null && !fullNameValidation.isEmpty()) {
+        if (!fullNameValidation.isEmpty()) {
             return fullNameValidation;
         }
 
         String emailValidation = validator.validEmail(userProperties.getEmail());
-        if (emailValidation != null && !emailValidation.isEmpty()) {
+        if (!emailValidation.isEmpty()) {
             return emailValidation;
         }
 
         String passwordValidation = validator.validPassword(userProperties.getPassword());
-        if (passwordValidation != null && !passwordValidation.isEmpty()) {
+        if (!passwordValidation.isEmpty()) {
             return passwordValidation;
         }
         
-        return null;
+        return "";
     }
 
     public String isValidUserPropertiesForUpdate(IUserProperties userProperties) {
@@ -69,31 +69,31 @@ public class UserHandler implements IUserHandler {
         IValidateUserProperties validator = new ValidateUserProperties();
 
         String baseUserPropertiesValidation = isValidUserPropertiesForCreation(userProperties);
-        if (baseUserPropertiesValidation != null) {
+        if (!baseUserPropertiesValidation.isEmpty()) {
             return baseUserPropertiesValidation;
         }
 
         // Validate address
         String addressValidation = validator.validAddress(userProperties.getAddress());
-        if (addressValidation != null) {
+        if (!addressValidation.isEmpty()) {
             return addressValidation;
         }
 
         // Validate phone
         String phoneValidation = validator.validPhone(userProperties.getPhone());
-        if (phoneValidation != null) {
+        if (!phoneValidation.isEmpty()) {
             return phoneValidation;
         }
 
         // Validate gender
         String genderValidation = validator.validGender(userProperties.getGender());
-        if (genderValidation != null) {
+        if (!genderValidation.isEmpty()) {
             return genderValidation;
         }
 
         // Validate date of birth
         String dobValidation = validator.validDOB(userProperties.getDateOfBirth());
-        if (dobValidation != null) {
+        if (!dobValidation.isEmpty()) {
             return dobValidation;
         }
 
