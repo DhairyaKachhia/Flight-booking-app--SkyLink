@@ -1,13 +1,27 @@
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="16dp"
-    android:paddingTop="16dp"
-    android:background="#FFFFFF"
-    android:paddingRight="16dp"
-    android:paddingBottom="16dp"
-    tools:context=".presentation.SeatSelect.InboundActivity">
-    <include layout="@layout/seat_selection"/>
-</ScrollView>
+    tools:context=".presentation.SeatSelect.Out_boundActivity"
+    android:background="#FFFFFF">
+
+    <Button
+        android:id="@+id/confirmButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Next"
+        android:textSize="20sp"
+        android:textColor="#FFFFFF"
+        android:gravity="center"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/rounded_button"/>
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/confirmButton"
+        android:padding="16dp">
+        <include layout="@layout/seat_selection"/>
+    </ScrollView>
+</RelativeLayout>
