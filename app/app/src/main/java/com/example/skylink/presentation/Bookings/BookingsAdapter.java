@@ -2,6 +2,7 @@ package com.example.skylink.presentation.Bookings;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -39,7 +40,7 @@ public class BookingsAdapter extends RecyclerView.Adapter<BookingsAdapter.Bookin
 
         holder.textViewPetsBadge.setText("Pets: " + booking.getPetCount());
         holder.textViewLuggageBadge.setText("Bags: " + booking.getBagCount());
-        
+
         if (!booking.getFlight().isEmpty()) {
             iFlight flight = booking.getFlight().get(0);
             holder.textViewDepartureIcao.setText(flight.getDeparture_icao().toString());
@@ -47,6 +48,19 @@ public class BookingsAdapter extends RecyclerView.Adapter<BookingsAdapter.Bookin
             holder.textViewDepartureTime.setText(flight.getFlight_dept_date_time().toString());
             holder.textViewArrivalTime.setText(flight.getFlight_arr_date_time().toString());
             holder.textViewFlightDetails.setText(flight.getAirCraft_Type() + " " + flight.getFlightNumber() + " " + flight.getArr_Gate());
+        }
+
+        boolean hasIndirectFlight = booking.getFlight().size() > 1;
+
+        holder.layoutSecondFlightDetails.setVisibility(hasIndirectFlight ? View.VISIBLE : View.GONE);
+
+        if (hasIndirectFlight) {
+            iFlight flight = booking.getFlight().get(1);
+            holder.textView2ndDepartureIcao.setText(flight.getDeparture_icao().toString());
+            holder.textView2ndArrivalIcao.setText(flight.getArrival_icao().toString());
+            holder.textView2ndDepartureTime.setText(flight.getFlight_dept_date_time().toString());
+            holder.textView2ndArrivalTime.setText(flight.getFlight_arr_date_time().toString());
+            holder.textView2ndFlightDetails.setText(flight.getAirCraft_Type() + " " + flight.getFlightNumber() + " " + flight.getArr_Gate());
         }
     }
 
@@ -69,8 +83,10 @@ public class BookingsAdapter extends RecyclerView.Adapter<BookingsAdapter.Bookin
         public TextView textViewBookingNumber, textViewEconOrBus, textViewDepartureIcao,
                 textViewArrivalIcao, textViewDepartureTime, textViewArrivalTime, textViewFlightDetails,
                 textViewWifiBadge, textViewAccessibilityBadge, textViewPetsBadge, textViewOutboundOrInbound,
-                textViewLuggageBadge;
+                textViewLuggageBadge, textView2ndDepartureIcao, textView2ndArrivalIcao, textView2ndDepartureTime,
+                textView2ndArrivalTime, textView2ndFlightDetails;
 
+        public LinearLayout layoutSecondFlightDetails;
 
         public BookingViewHolder(View itemView) {
             super(itemView);
@@ -86,6 +102,13 @@ public class BookingsAdapter extends RecyclerView.Adapter<BookingsAdapter.Bookin
             textViewPetsBadge = itemView.findViewById(R.id.textViewPetsBadge);
             textViewOutboundOrInbound = itemView.findViewById(R.id.textViewOutboundOrInbound);
             textViewLuggageBadge = itemView.findViewById(R.id.textViewLuggageBadge);
+            textView2ndDepartureIcao = itemView.findViewById(R.id.textView2ndDepartureIcao);
+            textView2ndArrivalIcao = itemView.findViewById(R.id.textView2ndArrivalIcao);
+            textView2ndDepartureTime = itemView.findViewById(R.id.textView2ndDepartureTime);
+            textView2ndArrivalTime = itemView.findViewById(R.id.textView2ndArrivalTime);
+            textView2ndFlightDetails = itemView.findViewById(R.id.textView2ndFlightDetails);
+            layoutSecondFlightDetails = itemView.findViewById(R.id.layoutSecondFlightDetails);
+
         }
     }
 }
