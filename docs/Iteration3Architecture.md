@@ -383,6 +383,8 @@ As a user, I want to be able to change my booked flight to a different date or r
 
 ***
 
+Online check-in, modify booked flights and view boarding pass are in booking page. Chatbot is in a floating windoe at the flight searching page.
+
 **Chatbot**
 
 As a user, I want to be able to communicate with the chatbot to find the most precise solution to my problems.
