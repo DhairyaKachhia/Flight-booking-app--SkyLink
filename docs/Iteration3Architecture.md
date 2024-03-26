@@ -389,6 +389,14 @@ Online check-in, modify booked flights and view boarding pass are in booking pag
 
 As a user, I want to be able to communicate with the chatbot to find the most precise solution to my problems.
 
+        Added replies:
+        keywordReplies.put("hello", "Hello! How can I help you?");
+        keywordReplies.put("hi", "Hello! How can I help you?");
+        keywordReplies.put("how are you", "I'm doing well, thank you!");
+        keywordReplies.put("cancel booking", "You can modify your bookings in the booking page, or call 123-456-7890");
+        keywordReplies.put("modify booking", "You can modify your bookings in the booking page, or call 123-456-7890");
+        keywordReplies.put("thank you","You're welcome");
+
 ***
 
 ## Dilawer's Work
