@@ -145,12 +145,6 @@ public class FlightBookingHandler implements iFlightBookingHandler {
         List<iFlight> flightBound = flightDB.getFlightsByFlightNumbers(flightBookingBound);
         flightInfo.setFlight(flightBound);
 
-        HashMap<iPassengerData, String> passengers = bookingDB.getPassengersWithSeatNumbers(bookingInfo.getBookingNumber());
-        if(passengers.isEmpty()){
-            return null;
-        }
-        flightInfo.setSeatSelected(passengers);
-
         flightInfo.setBagCount(bookingInfo.getBagCount());
         flightInfo.setPetCount(bookingInfo.getPetCount());
         flightInfo.setWifiOption(bookingInfo.getWifiOption());
