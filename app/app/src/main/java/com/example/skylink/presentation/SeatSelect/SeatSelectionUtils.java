@@ -288,6 +288,7 @@ public class SeatSelectionUtils {
                 selectedFlight.add(layovers.get(1).get(0));
             }else{
                 selectedFlight.add(layovers.get(0).get(0));
+
             }
         }
         String econOrBus =  Session.getInstance().getBookingInfo().getpriceType().get("Price");
