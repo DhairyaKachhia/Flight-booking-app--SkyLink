@@ -135,15 +135,6 @@ public class UserProperties implements IUserProperties {
         return null;
     }
 
-    public String isValidEmail() {
-        if (this.getEmail() == null || this.getEmail().isEmpty()) {
-            return "Email cannot be empty";
-        } else if (!this.getEmail().matches("^[A-Za-z0-9+_.-]+@(.+)$")) {
-            return "Invalid email format";
-        }
-        return null;
-    }
-
     public String isValidPassword() {
         if (this.getPassword() == null || this.getPassword().isEmpty()) {
             return "Password cannot be empty";

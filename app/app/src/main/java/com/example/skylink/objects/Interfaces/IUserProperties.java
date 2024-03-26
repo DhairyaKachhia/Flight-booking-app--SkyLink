@@ -23,7 +23,6 @@ public interface IUserProperties {
     void setUser_id(long user_id);
     long getUser_id();
     String isValidFullName();
-    String isValidEmail();
     String isValidPassword();
     String isValidAddress();
     String isValidPhone();
