@@ -26,7 +26,7 @@ public class FlightSearchActivityTest {
         String fromLocation = "Toronto - YYZ";
         String toLocation = "Vancouver - YVR";
         int year = 2024;
-        int monthOfYear = 4;
+        int monthOfYear = 5;
         int dayOfMonth = 7;
 
         // Fix the logic here.

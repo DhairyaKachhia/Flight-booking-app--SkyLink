@@ -39,7 +39,7 @@ public class AirportPathIntegrated {
 
     @Test
     public void testFindFlights_OneWay() {
-        iFlightSearch flightSearch = new FlightSearch("YEG", "YVR", "06/03/2024", null, 2, true);
+        iFlightSearch flightSearch = new FlightSearch("YEG", "YVR", "06/05/2024", null, 2, true);
         HashMap<String, List<List<List<iFlight>>>> itinerary = airportPath.findFlights(flightSearch);
 
         assertNotNull(itinerary);
@@ -53,7 +53,7 @@ public class AirportPathIntegrated {
 
     @Test
     public void testFindFlights_Return() {
-        iFlightSearch flightSearch = new FlightSearch("YEG", "YVR", "06/03/2024", "08/03/2024", 2, false);
+        iFlightSearch flightSearch = new FlightSearch("YEG", "YVR", "06/05/2024", "08/05/2024", 2, false);
         HashMap<String, List<List<List<iFlight>>>> itinerary = airportPath.findFlights(flightSearch);
 
         assertNotNull(itinerary);

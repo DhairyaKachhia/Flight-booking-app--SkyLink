@@ -77,7 +77,7 @@ public class AddonsActivityTest {
         /* Search flight from YVR to YHM on April 8, 2024 */
 
         // call a method to perform flight searching test with valid search data.
-        EspressoUtils.performFlightSearch(flyFrom, flyTo, 2024, 4, 8);
+        EspressoUtils.performFlightSearch(flyFrom, flyTo, 2024, 5, 8);
 
 
 // --- Flight display page

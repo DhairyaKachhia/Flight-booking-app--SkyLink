@@ -55,7 +55,7 @@ public class PaymentSystemTest {
         intended(hasComponent(FlightSearchP.class.getName()));
 
         // --- Flight search page ---
-        EspressoUtils.performFlightSearch(flyFrom, flyTo, 2024, 4, 8);
+        EspressoUtils.performFlightSearch(flyFrom, flyTo, 2024, 5, 8);
         intended(hasComponent(FlightDisplay.class.getName()));
         onView(withId(R.id.flightListView)).check(matches(isDisplayed()));
         onView(withId(R.id.econPriceBtn)).perform(click());
