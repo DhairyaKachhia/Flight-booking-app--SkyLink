@@ -22,9 +22,7 @@ public interface IUserProperties {
     void setCountryOfOrigin(String countryOfOrigin);
     void setUser_id(long user_id);
     long getUser_id();
-    String isValidFullName();
     String isValidAddress();
-    String isValidPhone();
     String isValidGender();
     String isValidDateOfBirth();
 }

@@ -121,27 +121,9 @@ public class UserProperties implements IUserProperties {
         this.countryOfOrigin = countryOfOrigin;
     }
 
-    public String isValidFullName() {
-        if (this.getFullName() == null || this.getFullName().isEmpty()) {
-            return "Full name cannot be empty";
-        }
-        return null;
-    }
-
     public String isValidAddress() {
         if (this.getAddress() == null || this.getAddress().isEmpty()) {
             return "Address cannot be empty";
-        }
-        return null;
-    }
-
-    public String isValidPhone() {
-        if (this.getPhone() == null || this.getPhone().isEmpty()) {
-            return "Phone cannot be empty";
-        } else if (!this.getPhone().matches("[0-9]+")) {
-            return "Phone can only contain digits";
-        } else if (this.getPhone().length() != 10) {
-            return "Phone must be 10 digits long";
         }
         return null;
     }

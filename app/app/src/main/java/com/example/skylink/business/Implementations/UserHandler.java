@@ -46,7 +46,7 @@ public class UserHandler implements IUserHandler {
     public String isValidUserPropertiesForCreation(IUserProperties userProperties) {
         IValidateUserProperties validator = new ValidateUserProperties();
 
-        String fullNameValidation = userProperties.isValidFullName();
+        String fullNameValidation = validator.validFullname(userProperties.getFullName());
         if (fullNameValidation != null && !fullNameValidation.isEmpty()) {
             return fullNameValidation;
         }
@@ -65,6 +65,9 @@ public class UserHandler implements IUserHandler {
     }
 
     public String isValidUserPropertiesForUpdate(IUserProperties userProperties) {
+
+        IValidateUserProperties validator = new ValidateUserProperties();
+
         String baseUserPropertiesValidation = isValidUserPropertiesForCreation(userProperties);
         if (baseUserPropertiesValidation != null) {
             return baseUserPropertiesValidation;
@@ -77,7 +80,7 @@ public class UserHandler implements IUserHandler {
         }
 
         // Validate phone
-        String phoneValidation = userProperties.isValidPhone();
+        String phoneValidation = validator.validPhone(userProperties.getPhone());
         if (phoneValidation != null) {
             return phoneValidation;
         }
