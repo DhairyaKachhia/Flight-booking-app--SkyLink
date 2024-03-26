@@ -252,7 +252,7 @@ public class SeatSelectionUtils {
         myButton.setOnClickListener(v -> {
             long notSelectedCount = countNotSelected(seatMap);
             if (notSelectedCount > 0) {
-                Toast.makeText(context, "Please select seats for all passengers", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Seat will be randomly assigned by Starlink", Toast.LENGTH_SHORT).show();
                 int seatCounter = 1;
                 for (Map.Entry<iPassengerData, String> entry : seatMap.entrySet()) {
                     entry.setValue("A" + seatCounter);
