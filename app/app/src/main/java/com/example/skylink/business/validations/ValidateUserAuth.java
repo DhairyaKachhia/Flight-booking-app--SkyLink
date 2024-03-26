@@ -64,7 +64,7 @@ public class ValidateUserAuth implements IValidateUserAuth{
             error = "Address cannot be empty";
         }
 
-        return error;
+        return address;
     }
 
     public String validCity(String city) {
@@ -74,17 +74,17 @@ public class ValidateUserAuth implements IValidateUserAuth{
             error = "City cannot be empty";
         }
 
-        return error;
+        return city;
     }
 
     public String validProvince(String province) {
         String error = "";
-
+// just a string of 2 letters
         if (province == null || province.isEmpty()) {
             error = "Province cannot be empty";
         }
 
-        return error;
+        return province;
     }
 
     public String validPhone(String phoneNum) {
