@@ -361,7 +361,7 @@ Real time notification moved to future iteration.
 
 ***
 
-  
+  [Link to the branch](https://code.cs.umanitoba.ca/comp3350-winter2024/shadedragon-a02-6/-/tree/extra_features?ref_type=heads)
 
 **Online check-in**
 
