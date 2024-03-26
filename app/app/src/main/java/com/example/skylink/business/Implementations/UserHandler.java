@@ -86,7 +86,7 @@ public class UserHandler implements IUserHandler {
         }
 
         // Validate gender
-        String genderValidation = userProperties.isValidGender();
+        String genderValidation = validator.validGender(userProperties.getGender());
         if (genderValidation != null) {
             return genderValidation;
         }

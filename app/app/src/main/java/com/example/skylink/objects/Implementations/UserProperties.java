@@ -121,13 +121,6 @@ public class UserProperties implements IUserProperties {
         this.countryOfOrigin = countryOfOrigin;
     }
 
-    public String isValidGender() {
-        if (this.getGender() == null || this.getGender().isEmpty()) {
-            return "Gender cannot be empty";
-        }
-        return null;
-    }
-
     public String isValidDateOfBirth() {
         if (this.getDateOfBirth() == null || this.getDateOfBirth().isEmpty()) {
             return "Date of birth cannot be empty";
