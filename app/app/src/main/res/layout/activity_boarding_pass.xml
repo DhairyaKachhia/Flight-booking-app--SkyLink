@@ -27,7 +27,7 @@
         android:id="@+id/buttonReturn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Return to Booking"
+        android:text="Return to Main Page"
         android:layout_centerHorizontal="true"
         android:layout_below="@id/imageViewBarcode"
         android:layout_marginTop="20dp"/>
