@@ -2,7 +2,35 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
+      <entry key="AddonsActivityTest">
+        <State />
+      </entry>
+      <entry key="BookingDisplayActivityTest">
+        <State />
+      </entry>
       <entry key="app">
+        <State>
+          <targetSelectedWithDropDown>
+            <Target>
+              <type value="QUICK_BOOT_TARGET" />
+              <deviceKey>
+                <Key>
+                  <type value="VIRTUAL_DEVICE_PATH" />
+                  <value value="$USER_HOME$/.android/avd/Pixel_C_API_33.avd" />
+                </Key>
+              </deviceKey>
+            </Target>
+          </targetSelectedWithDropDown>
+          <timeTargetWasSelectedWithDropDown value="2024-03-24T19:18:03.814220Z" />
+        </State>
+      </entry>
+      <entry key="signIn()">
+        <State />
+      </entry>
+      <entry key="testBookingDisplay()">
+        <State />
+      </entry>
+      <entry key="testUserInfo()">
         <State />
       </entry>
       <entry key="selectAvailableSeat()">
