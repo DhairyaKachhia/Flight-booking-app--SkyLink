@@ -56,7 +56,7 @@ public class UserHandler implements IUserHandler {
             return emailValidation;
         }
 
-        String passwordValidation = userProperties.isValidPassword();
+        String passwordValidation = validator.validPassword(userProperties.getPassword());
         if (passwordValidation != null && !passwordValidation.isEmpty()) {
             return passwordValidation;
         }

@@ -135,15 +135,6 @@ public class UserProperties implements IUserProperties {
         return null;
     }
 
-    public String isValidPassword() {
-        if (this.getPassword() == null || this.getPassword().isEmpty()) {
-            return "Password cannot be empty";
-        } else if (this.getPassword().length() < 8) {
-            return "Password must be at least 8 characters long";
-        }
-        return null;
-    }
-
     public String isValidPhone() {
         if (this.getPhone() == null || this.getPhone().isEmpty()) {
             return "Phone cannot be empty";
