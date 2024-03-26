@@ -103,6 +103,7 @@
                     android:gravity="end"
                     android:text="YOW"
                     android:textStyle="bold" />
+
             </LinearLayout>
 
             <LinearLayout

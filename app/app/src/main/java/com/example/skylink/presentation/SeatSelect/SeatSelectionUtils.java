@@ -280,11 +280,21 @@ public class SeatSelectionUtils {
     }
 
     private static void handleAddonsActivity(HashMap<iPassengerData, String> seatMap, String bound) {
-        List<iFlight> selectedFlight = Session.getInstance().getSelectedFlights().get(bound).get(0);;
+        List<iFlight> selectedFlight = new ArrayList<>();
+        List<List<iFlight>> layovers = Session.getInstance().getSelectedFlights().get(bound);
+        if(layovers != null){
+            if (layovers.size() == 2){
+                selectedFlight.add(layovers.get(0).get(0));
+                selectedFlight.add(layovers.get(1).get(0));
+            }else{
+                selectedFlight.add(layovers.get(0).get(0));
+
+            }
+        }
         String econOrBus =  Session.getInstance().getBookingInfo().getpriceType().get("Price");
         HashMap<iPassengerData, String> seatSelected = seatMap;
 
-        if(selectedFlight != null && !selectedFlight.isEmpty()){
+        if(!selectedFlight.isEmpty()){
             iFlightInfo flightInfo = new FlightInfo(econOrBus,seatSelected, selectedFlight);
             flightInfo.setBound(bound);
             Session.getInstance().setFlightInfoCompleted(flightInfo);
