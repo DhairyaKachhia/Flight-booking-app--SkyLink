@@ -92,7 +92,7 @@ public class UserHandler implements IUserHandler {
         }
 
         // Validate date of birth
-        String dobValidation = userProperties.isValidDateOfBirth();
+        String dobValidation = validator.validDOB(userProperties.getDateOfBirth());
         if (dobValidation != null) {
             return dobValidation;
         }

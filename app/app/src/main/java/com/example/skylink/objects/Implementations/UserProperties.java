@@ -120,19 +120,4 @@ public class UserProperties implements IUserProperties {
     public void setCountryOfOrigin(String countryOfOrigin) {
         this.countryOfOrigin = countryOfOrigin;
     }
-
-    public String isValidDateOfBirth() {
-        if (this.getDateOfBirth() == null || this.getDateOfBirth().isEmpty()) {
-            return "Date of birth cannot be empty";
-        } else {
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            sdf.setLenient(false);
-            try {
-                sdf.parse(this.getDateOfBirth());
-            } catch (ParseException e) {
-                return "Date of birth must be in the format YYYY-MM-DD";
-            }
-        }
-        return null;
-    }
 }
