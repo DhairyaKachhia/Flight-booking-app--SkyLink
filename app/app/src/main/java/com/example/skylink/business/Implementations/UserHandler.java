@@ -74,7 +74,7 @@ public class UserHandler implements IUserHandler {
         }
 
         // Validate address
-        String addressValidation = userProperties.isValidAddress();
+        String addressValidation = validator.validAddress(userProperties.getAddress());
         if (addressValidation != null) {
             return addressValidation;
         }
