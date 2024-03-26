@@ -56,17 +56,8 @@ public class UpdateUserProfileActivity extends AppCompatActivity {
         String genderText = gender.getText().toString();
         IValidateUserAuth validateUserAuth = new ValidateUserAuth();
 
-        String addressError = validateUserAuth.validAddress(addressText);
-        String cityError = validateUserAuth.validCity(cityText);
-        String provinceError = validateUserAuth.validProvince(provinceText);
-        String phoneError = validateUserAuth.validPhone(phoneText);
-        String dobError = validateUserAuth.validDOB(dobText);
-        String genderError = validateUserAuth.validGender(genderText);
+        // Dilawer new Logic code for validation.
 
-        if (!addressError.isEmpty() || !cityError.isEmpty() || !provinceError.isEmpty() || !phoneError.isEmpty() || !dobError.isEmpty() || !genderError.isEmpty()) {
-            Toast.makeText(UpdateUserProfileActivity.this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
-            return;
-        }
         updateUserProfile(addressText, cityText, provinceText, phoneText, dobText, genderText);
 
         Toast.makeText(UpdateUserProfileActivity.this, "Profile updated successfully", Toast.LENGTH_SHORT).show();

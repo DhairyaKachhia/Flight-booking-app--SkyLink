@@ -13,8 +13,10 @@ import com.example.skylink.persistence.Interfaces.IFlightDB;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 public class FlightBookingHandler implements iFlightBookingHandler {
@@ -92,8 +94,7 @@ public class FlightBookingHandler implements iFlightBookingHandler {
         List<iFlightInfo> bookingDetailsList = new ArrayList<>();
 
         // Get all booking numbers for the user
-        List<iBookingInfo> bookingNumbers = flightBookingDB.getBookingInfoByUserId(userID);
-
+        List<iBookingInfo> bookingNumbers =getUniqueBookings(flightBookingDB.getBookingInfoByUserId(userID));
         for (iBookingInfo bookingInfo : bookingNumbers) {
             iFlightInfo flightInfo = prepareFlightInfo(bookingInfo);
             if(flightInfo != null){
@@ -104,6 +105,31 @@ public class FlightBookingHandler implements iFlightBookingHandler {
 
         return bookingDetailsList.isEmpty() ? null : bookingDetailsList;
     }
+
+    private static List<iBookingInfo> getUniqueBookings(List<iBookingInfo> bookingNumbers) {
+        // Create a set to store unique booking identifiers
+        Set<String> uniqueBookingIdentifiers = new HashSet<>();
+
+        // Create a list to store unique bookings
+        List<iBookingInfo> uniqueBookings = new ArrayList<>();
+
+        // Iterate through each booking
+        for (iBookingInfo booking : bookingNumbers) {
+            // Create a unique identifier for each booking using booking number and direction
+            String uniqueIdentifier = booking.getBookingNumber() + "_" + booking.getDirection();
+
+            // Check if the unique identifier is already present in the set
+            if (!uniqueBookingIdentifiers.contains(uniqueIdentifier)) {
+                // If not present, add the unique identifier to the set and add the booking to the unique bookings list
+                uniqueBookingIdentifiers.add(uniqueIdentifier);
+                uniqueBookings.add(booking);
+            }
+        }
+
+        return uniqueBookings;
+    }
+
+
 
 
     private iFlightInfo prepareFlightInfo(iBookingInfo bookingInfo) {
