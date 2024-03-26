@@ -76,7 +76,7 @@ public class BookingDisplayActivityTest {
         String flyFrom = "Vancouver - YVR";
         String flyTo = "Hamilton - YHM";
         int year = 2024;
-        int monthOfYear = 4;
+        int monthOfYear = 5;
         int dayOfMonth = 8;
 
         /* Search flight from YVR to YHM on April 8, 2024 */

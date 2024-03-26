@@ -1,7 +1,7 @@
 package com.example.skylink.application;
 
 public class Main {
-    private static String dbName="DB_SkyLink_9";
+    private static String dbName="DB_SkyLink_10";
 
     public static void main(String[] args) {
         System.out.println("All done");
