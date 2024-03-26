@@ -33,8 +33,10 @@ public class ChatBotActivity extends AppCompatActivity {
         Button sendButton = findViewById(R.id.sendButton);
 
         keywordReplies.put("hello", "Hello! How can I help you?");
+        keywordReplies.put("hi", "Hello! How can I help you?");
         keywordReplies.put("how are you", "I'm doing well, thank you!");
         keywordReplies.put("cancel booking", "You can modify your bookings in the booking page, or call 123-456-7890");
+        keywordReplies.put("modify booking", "You can modify your bookings in the booking page, or call 123-456-7890");
         keywordReplies.put("thank you","You're welcome");
         sendButton.setOnClickListener(v -> sendMessage());
     }
