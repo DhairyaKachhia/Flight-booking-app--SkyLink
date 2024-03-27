@@ -4,6 +4,9 @@ import static com.example.skylink.R.*;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.TextView;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,11 +20,14 @@ import java.util.List;
 public class BookingsDisplay extends AppCompatActivity {
 
     private RecyclerView bookingsRecyclerView;
+    private TextView noBookedFlightTV;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(layout.bookings_view);
+
+        noBookedFlightTV = findViewById(id.noBookedFlightTextV);
 
         bookingsRecyclerView = findViewById(id.bookingsRecyclerView);
         bookingsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -31,10 +37,18 @@ public class BookingsDisplay extends AppCompatActivity {
         List<iFlightInfo> bookings = flightBookingHandler.getBookingDetails(userid);
 
         if (bookings != null && !bookings.isEmpty()) {
+
+            noBookedFlightTV.setVisibility(View.GONE);
+            bookingsRecyclerView.setVisibility(View.VISIBLE);
+
             BookingsAdapter bookingsAdapter = new BookingsAdapter(bookings);
             bookingsRecyclerView.setAdapter(bookingsAdapter); // Set the adapter to the RecyclerView
+
         } else {
-            System.out.println("No bookings found");
+
+            noBookedFlightTV.setVisibility(View.VISIBLE);
+            bookingsRecyclerView.setVisibility(View.GONE);
+
         }
 
     }
