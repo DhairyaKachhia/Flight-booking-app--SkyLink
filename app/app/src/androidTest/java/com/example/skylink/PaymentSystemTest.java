@@ -26,6 +26,7 @@ import com.example.skylink.Util.UserInfoGenerator;
 import com.example.skylink.presentation.Addons.Addons;
 import com.example.skylink.presentation.FlightSearching.FlightDisplay;
 import com.example.skylink.presentation.FlightSearching.FlightSearchP;
+import com.example.skylink.presentation.Payment.PaymentSuccessfulActivity;
 import com.example.skylink.presentation.SeatSelect.Out_boundActivity;
 import com.example.skylink.presentation.UserInfo.User_info;
 import com.example.skylink.presentation.User_Auth.SignInActivity;
@@ -55,7 +56,7 @@ public class PaymentSystemTest {
         intended(hasComponent(FlightSearchP.class.getName()));
 
         // --- Flight search page ---
-        EspressoUtils.performFlightSearch(flyFrom, flyTo, 2024, 4, 8);
+        EspressoUtils.performFlightSearch(flyFrom, flyTo, 2024, 5, 8);
         intended(hasComponent(FlightDisplay.class.getName()));
         onView(withId(R.id.flightListView)).check(matches(isDisplayed()));
         onView(withId(R.id.econPriceBtn)).perform(click());
@@ -127,5 +128,8 @@ public class PaymentSystemTest {
                 .perform(ViewActions.typeText("123 Main St, Winnipeg, MB"), ViewActions.closeSoftKeyboard());
 
         onView(withId(R.id.btnPay)).perform(click());
+
+        intended(hasComponent(PaymentSuccessfulActivity.class.getName()));
+
     }
 }

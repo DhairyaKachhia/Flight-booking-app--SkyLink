@@ -67,7 +67,7 @@ public class FlightSortingActivityTest {
         /* Search flight from YYZ to YHM on April 6, 2024 */
 
         // call a method to perform flight searching test with valid search data.
-        EspressoUtils.performFlightSearch(flyFrom, flyTo, 2024, 4, 6);
+        EspressoUtils.performFlightSearch(flyFrom, flyTo, 2024, 5, 6);
 
 
         // --- Flight display page

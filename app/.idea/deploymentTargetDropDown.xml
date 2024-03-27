@@ -8,6 +8,15 @@
       <entry key="BookingDisplayActivityTest">
         <State />
       </entry>
+      <entry key="FlightSortingActivityTest">
+        <State />
+      </entry>
+      <entry key="PaymentSystemTest">
+        <State />
+      </entry>
+      <entry key="UserInfoActivityTest">
+        <State />
+      </entry>
       <entry key="app">
         <State>
           <targetSelectedWithDropDown>
@@ -23,18 +32,6 @@
           </targetSelectedWithDropDown>
           <timeTargetWasSelectedWithDropDown value="2024-03-24T19:18:03.814220Z" />
         </State>
-      </entry>
-      <entry key="signIn()">
-        <State />
-      </entry>
-      <entry key="testBookingDisplay()">
-        <State />
-      </entry>
-      <entry key="testUserInfo()">
-        <State />
-      </entry>
-      <entry key="selectAvailableSeat()">
-        <State />
       </entry>
     </value>
   </component>

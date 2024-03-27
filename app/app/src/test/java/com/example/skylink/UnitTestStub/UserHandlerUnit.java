@@ -100,7 +100,7 @@ public class UserHandlerUnit {
             fail("User creation should fail for empty name");
         } catch (UserHandler.UserCreationException e) {
             // If createUser throws an exception, the test passes
-            assertEquals("Full name cannot be empty", e.getMessage());
+            assertEquals("Name cannot be empty", e.getMessage());
         }
     }
 

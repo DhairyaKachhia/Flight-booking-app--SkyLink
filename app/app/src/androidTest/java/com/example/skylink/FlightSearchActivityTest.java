@@ -1,11 +1,17 @@
 package com.example.skylink;
 
+import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.withId;
+
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.filters.LargeTest;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.example.skylink.Util.EspressoUtils;
 import com.example.skylink.Util.UserInfoGenerator;
+import com.example.skylink.presentation.FlightSearching.FlightDisplay;
 import com.example.skylink.presentation.FlightSearching.FlightSearchP;
 import com.example.skylink.presentation.User_Auth.SignInActivity;
 import com.example.skylink.presentation.User_Auth.UpdateUserProfileActivity;
@@ -26,7 +32,7 @@ public class FlightSearchActivityTest {
         String fromLocation = "Toronto - YYZ";
         String toLocation = "Vancouver - YVR";
         int year = 2024;
-        int monthOfYear = 4;
+        int monthOfYear = 5;
         int dayOfMonth = 7;
 
         // Fix the logic here.
@@ -46,6 +52,10 @@ public class FlightSearchActivityTest {
         EspressoUtils.verifyActivity(FlightSearchP.class);
 
         EspressoUtils.performFlightSearch(fromLocation, toLocation, year, monthOfYear, dayOfMonth);
+
+        EspressoUtils.verifyActivity(FlightDisplay.class);
+
+        onView(withId(R.id.flightListView)).check(matches(isDisplayed()));
     }
 
 }

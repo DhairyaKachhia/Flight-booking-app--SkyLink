@@ -8,8 +8,8 @@ import android.widget.Button;
 
 import com.example.skylink.R;
 import com.example.skylink.application.Services;
-import com.example.skylink.business.validations.IValidateUserAuth;
-import com.example.skylink.business.validations.ValidateUserAuth;
+import com.example.skylink.business.validations.IValidateUserProperties;
+import com.example.skylink.business.validations.ValidateUserProperties;
 import com.example.skylink.presentation.Session;
 import com.example.skylink.business.Implementations.UserHandler;
 import com.example.skylink.business.Interface.IUserHandler;
@@ -54,7 +54,7 @@ public class UpdateUserProfileActivity extends AppCompatActivity {
         String phoneText = phone.getText().toString();
         String dobText = dateOfBirth.getText().toString();
         String genderText = gender.getText().toString();
-        IValidateUserAuth validateUserAuth = new ValidateUserAuth();
+        IValidateUserProperties validateUserAuth = new ValidateUserProperties();
 
         // Dilawer new Logic code for validation.
 
