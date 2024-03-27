@@ -88,10 +88,6 @@ End to end system tests for our project.
 
 - We use sessions to get different information when the app runs and store temporary data.
 
- 
-
-## Newly added:
-
   
 
 **Add-ons**
@@ -124,7 +120,7 @@ End to end system tests for our project.
 
 ## Business Logic:
 
-**FlightBookingHandler
+**FlightBookingHandler**
 
 - Logic for managing bookings.
   
