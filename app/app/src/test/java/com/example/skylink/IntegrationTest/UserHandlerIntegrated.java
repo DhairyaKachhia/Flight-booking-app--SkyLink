@@ -57,7 +57,7 @@ public class UserHandlerIntegrated {
             userHandler.createUser(mockUserProperties, rePassword);
             fail("User creation should fail for empty name");
         } catch (UserHandler.UserCreationException e) {
-            assertEquals("Full name cannot be empty", e.getMessage());
+            assertEquals("Name cannot be empty", e.getMessage());
         }
     }
 

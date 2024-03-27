@@ -14,8 +14,8 @@ import com.example.skylink.application.Services;
 import com.example.skylink.presentation.Session;
 import com.example.skylink.business.Interface.IUserHandler;
 import com.example.skylink.business.Implementations.UserHandler;
-import com.example.skylink.business.validations.IValidateUserAuth;
-import com.example.skylink.business.validations.ValidateUserAuth;
+import com.example.skylink.business.validations.IValidateUserProperties;
+import com.example.skylink.business.validations.ValidateUserProperties;
 import com.example.skylink.objects.Interfaces.IUserProperties;
 import com.example.skylink.objects.Implementations.UserProperties;
 
@@ -93,7 +93,7 @@ public class SignUpActivity extends AppCompatActivity {
     private boolean validInputs() {
         boolean isValid = true;
 
-        IValidateUserAuth validateUserAuth = new ValidateUserAuth();
+        IValidateUserProperties validateUserAuth = new ValidateUserProperties();
         String error = "";
 
         error = validateUserAuth.validFullname(fullname.getText().toString());
