@@ -24,7 +24,6 @@ public class UserHSQLDB implements IUserDB {
             + "address VARCHAR(255),"
             + "phone VARCHAR(20),"
             + "date_of_birth DATE,"
-            + "country_of_origin VARCHAR(50)"
             + ")";
 
 
@@ -59,7 +58,7 @@ public class UserHSQLDB implements IUserDB {
     }
 
     public boolean update_user_info(long user_id, IUserProperties user){
-        String sql = "UPDATE USER SET gender=?, address=?, phone=?, date_of_birth=?, country_of_origin=? WHERE id=?";
+        String sql = "UPDATE USER SET gender=?, address=?, phone=?, date_of_birth=? WHERE id=?";
 
         try (Connection conn = connect();
              PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -68,8 +67,7 @@ public class UserHSQLDB implements IUserDB {
             ps.setString(2, user.getAddress());
             ps.setString(3, user.getPhone());
             ps.setString(4, user.getDateOfBirth());
-            ps.setString(5, user.getCountryOfOrigin());
-            ps.setLong(6, user_id);
+            ps.setLong(5, user_id);
 
             int rowsAffected = ps.executeUpdate();
 

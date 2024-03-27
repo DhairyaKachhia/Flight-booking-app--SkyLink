@@ -33,7 +33,6 @@ public class UserStub implements IUserDB {
             storedUser.setAddress(user.getAddress());
             storedUser.setPhone(user.getPhone());
             storedUser.setDateOfBirth(user.getDateOfBirth());
-            storedUser.setCountryOfOrigin(user.getCountryOfOrigin());
             return true;
         }
         return false; // User not found

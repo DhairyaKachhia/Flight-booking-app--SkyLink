@@ -9,7 +9,6 @@ import org.junit.Test;
 
 public class ValidatePaymentUnit {
 
-
     @Test
     public void validCardNum_emptyCardNum_returnsErrorMessage() {
         IValidatePayment validator = new ValidatePayment();

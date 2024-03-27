@@ -14,8 +14,6 @@ import com.example.skylink.application.Services;
 import com.example.skylink.presentation.Session;
 import com.example.skylink.business.Interface.IUserHandler;
 import com.example.skylink.business.Implementations.UserHandler;
-import com.example.skylink.business.validations.IValidateUserProperties;
-import com.example.skylink.business.validations.ValidateUserProperties;
 import com.example.skylink.objects.Interfaces.IUserProperties;
 import com.example.skylink.objects.Implementations.UserProperties;
 
@@ -61,7 +59,7 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     private void attemptSignUp() {
-        if (validInputs()) {
+
             String userFullname = fullname.getText().toString();
             String userEmail = email.getText().toString();
             String userPassword = password.getText().toString();
@@ -74,10 +72,9 @@ public class SignUpActivity extends AppCompatActivity {
                 handler.createUser(user, userRePassword);
                 Session.getInstance().getUserProperties().setEmail(userEmail);
                 navigateToUpdateUserProfileActivity();
-            } catch (UserHandler.UserCreationException e) {
+            } catch (UserHandler.UserValidationException e) {
                 showErrorMessage(e.getMessage());
             }
-        }
     }
 
     private void navigateToUpdateUserProfileActivity() {
@@ -87,40 +84,5 @@ public class SignUpActivity extends AppCompatActivity {
 
     private void showErrorMessage(String message) {
         Toast.makeText(SignUpActivity.this, message, Toast.LENGTH_SHORT).show();
-    }
-
-    // client side validation..
-    private boolean validInputs() {
-        boolean isValid = true;
-
-        IValidateUserProperties validateUserAuth = new ValidateUserProperties();
-        String error = "";
-
-        error = validateUserAuth.validFullname(fullname.getText().toString());
-        if (!error.isEmpty()) {
-            fullname.setError(error);
-            isValid = false;
-        }
-
-        error = validateUserAuth.validEmail(email.getText().toString());
-        if (!error.isEmpty()) {
-            email.setError(error);
-            isValid = false;
-        }
-
-        error = validateUserAuth.validPassword(password.getText().toString());
-        if (!error.isEmpty()) {
-            password.setError(error);
-            isValid = false;
-        }
-
-        error = validateUserAuth.validRePassword(password.getText().toString(), retypePassword.getText().toString());
-        if (!error.isEmpty()) {
-            retypePassword.setError(error);
-            isValid = false;
-        }
-
-
-        return isValid;
     }
 }

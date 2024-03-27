@@ -2,8 +2,6 @@ package com.example.skylink.IntegrationTest;
 
 import static org.junit.Assert.*;
 
-import android.content.Intent;
-
 import com.example.skylink.TestUtils.TestUtils;
 import com.example.skylink.application.Services;
 import com.example.skylink.business.Implementations.PaymentHandler;
@@ -12,9 +10,7 @@ import com.example.skylink.business.Interface.IUserHandler;
 import com.example.skylink.objects.Implementations.TripInvoice;
 import com.example.skylink.objects.Implementations.UserProperties;
 import com.example.skylink.objects.Interfaces.IUserProperties;
-import com.example.skylink.presentation.FlightSearching.FlightSearchP;
 import com.example.skylink.presentation.Session;
-import com.example.skylink.presentation.User_Auth.SignInActivity;
 
 import org.junit.After;
 import org.junit.Before;
@@ -50,7 +46,7 @@ public class PaymentHandlerIntegrated {
         try {
             handler.createUser(user, userRePassword);
             sessionUserID = Session.getInstance().getUserProperties().getUser_id();
-        } catch (UserHandler.UserCreationException e) {
+        } catch (UserHandler.UserValidationException e) {
             fail("Should not fail");
         }
 
