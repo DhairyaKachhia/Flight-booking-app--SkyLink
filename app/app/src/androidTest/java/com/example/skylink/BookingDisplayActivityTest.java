@@ -79,7 +79,7 @@ public class BookingDisplayActivityTest {
         int monthOfYear = 5;
         int dayOfMonth = 8;
 
-        /* Search flight from YVR to YHM on April 8, 2024 */
+        /* Search flight from YVR to YHM on May 8, 2024 */
 
         // call a method to perform flight searching test with valid search data.
         EspressoUtils.performFlightSearch(flyFrom, flyTo, year, monthOfYear, dayOfMonth);
@@ -186,6 +186,13 @@ public class BookingDisplayActivityTest {
         onView(withId(R.id.drawer_layout)).perform(DrawerActions.open());
 
         onView(withId(R.id.bookings)).perform(ViewActions.click());
+
+        intended(hasComponent(BookingsDisplay.class.getName()));
+
+        onView(withId(R.id.bookingsRecyclerView)).check(matches(isDisplayed()));        // check if flights are shown
+
+        onView(withId(R.id.textViewDepartureIcao)).check(matches(withText("YVR")));
+        onView(withId(R.id.textViewArrivalIcao)).check(matches(withText("YHM")));
 
     }
 
