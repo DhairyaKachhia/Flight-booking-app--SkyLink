@@ -124,10 +124,9 @@ End to end system tests for our project.
 
 ## Business Logic:
 
-  
+**FlightBookingHandler
 
-- No major changes made in this iteration.
-
+- Logic for managing bookings.
   
 
 **AirportPath**
@@ -250,11 +249,6 @@ End to end system tests for our project.
 **UserProperties**
 
 - This class contains information such as the user's name, email, password, gender, address, phone number, date of birth, and country/region and provides a method to verify this information.
-
-  
-
-### Added in this iteration:
-
   
 
 **Booking info**
@@ -267,91 +261,6 @@ End to end system tests for our project.
 
 - This enables us to process flight information.
 
-  
-
-## Features
-
-  
-
-  
-
-Finished:
-
-  
-
-- Update user profile
-
-  
-
-- View Confirmed Bookings
-
-  
-
-- Add-ons
-
-  
-
-Real time notification has been moved to future.
-
-  
-
-  
-
-## User stories
-
-  
-
-### Wheel chair Add-ons
-
-  
-
-- Description: As a passenger with mobility challenges, I want access to a wheelchair.
-
-  
-
-****
-
-  
-
-#### Wifi Add-ons
-
-  
-
-- Description: As a user, I want to add inflight wifi connectivity for my flight.
-
-  
-
-***
-
-**Pet Add-ons**
-
-  
-
-- Description: As a pet owner, I want to be able to easily arrange for pet accommodation services through the app for a seamless and comfortable journey for my furry companion.
-
-***
-
-  
-
-**Luggage Add-ons**
-
-- Description: As a user, I want to choose more luggage options when booking my flight.
-
-***
-
-  
-
-**View Confirmed Bookings**
-
-  
-
-- Description: As a user, I should be able to view my booked flights.
-
-***
-
-Real time notification moved to future iteration.
-
-***
 
 ## Extra features and user stories
 
@@ -398,11 +307,3 @@ As a user, I want to be able to communicate with the chatbot to find the most pr
         keywordReplies.put("thank you","You're welcome");
 
 ***
-
-## Dilawer's Work
-
-  
-
-**Customer Feedback**
-
-Description:
