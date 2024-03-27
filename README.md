@@ -1,3 +1,50 @@
+## Extra features and user stories
+
+  
+
+### Yiming's Work
+
+***
+
+  [Link to the branch](https://code.cs.umanitoba.ca/comp3350-winter2024/shadedragon-a02-6/-/tree/extra_features?ref_type=heads)
+
+**Online check-in**
+
+Description: As a user, I want to be able to check-in online to save time.
+
+***
+
+**View Boarding Pass**
+
+Description: As a user, I want to be able to view my boarding pass online.
+
+***
+
+**Modify Booked Flights**
+
+As a user, I want to be able to cancel my booked flights.
+
+As a user, I want to be able to change my booked flight to a different date or route.
+
+***
+
+Online check-in, modify booked flights and view boarding pass are in booking page. Chatbot is in a floating windoe at the flight searching page.
+
+**Chatbot**
+
+As a user, I want to be able to communicate with the chatbot to find the most precise solution to my problems.
+
+        Added replies:
+        keywordReplies.put("hello", "Hello! How can I help you?");
+        keywordReplies.put("hi", "Hello! How can I help you?");
+        keywordReplies.put("how are you", "I'm doing well, thank you!");
+        keywordReplies.put("cancel booking", "You can modify your bookings in the booking page, or call 123-456-7890");
+        keywordReplies.put("modify booking", "You can modify your bookings in the booking page, or call 123-456-7890");
+        keywordReplies.put("thank you","You're welcome");
+
+***
+
+
 # SkyLink
 Canada's premier flight-booking platform, where travelers can seamlessly discover and book the most innovative and tailored flight options, redefining their travel experience.
 
