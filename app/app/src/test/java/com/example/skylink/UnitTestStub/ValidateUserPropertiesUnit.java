@@ -18,6 +18,42 @@ public class ValidateUserPropertiesUnit {
     }
 
     @Test
+    public void validTitle_emptyTitle_returnsErrorMessage() {
+        String error = validator.validTitle("");        // empty title field
+        assertEquals("Title cannot be empty", error);
+    }
+
+    @Test
+    public void validTitle_nonEmptyTitle_returnsEmptyString() {
+        String error = validator.validTitle("Mr.");     // valid title
+        assertEquals("", error);
+    }
+
+    @Test
+    public void validFirstname_emptyFirstname_returnsErrorMessage() {
+        String error = validator.validFirstname("");        // empty first name field
+        assertEquals("First name cannot be empty", error);
+    }
+
+    @Test
+    public void validFirstname_nonEmptyFirstname_returnsEmptyString() {
+        String error = validator.validFirstname("Hello");    // valid first name
+        assertEquals("", error);
+    }
+
+    @Test
+    public void validLastname_emptyLastname_returnsErrorMessage() {
+        String error = validator.validLastname("");         // empty last name field
+        assertEquals("Last name cannot be empty", error);
+    }
+
+    @Test
+    public void validLastname_nonEmptyLastname_returnsEmptyString() {
+        String error = validator.validLastname("world");      // valid last name
+        assertEquals("", error);
+    }
+
+    @Test
     public void validEmail_emptyEmail_returnsErrorMessage() {
         String error = validator.validEmail("");        // empty email field
         assertEquals("Email cannot be empty", error);
@@ -133,7 +169,7 @@ public class ValidateUserPropertiesUnit {
 
     @Test
     public void validDOB_Success() {
-        String error = validator.validDOB("12/20/2000");     // valid date of birth
+        String error = validator.validDOB("2000-12-20");     // valid date of birth
         assertEquals("", error);
     }
 

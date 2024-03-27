@@ -1,10 +1,45 @@
 package com.example.skylink.business.validations;
 
 import androidx.core.util.PatternsCompat;       // using this android import to validate email format
-
 import java.util.regex.Pattern;
-
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Locale;
 public class ValidateUserProperties implements IValidateUserProperties {
+
+    @Override
+    public String validTitle(String title) {
+        String error = "";
+
+        if (title == null || title.isEmpty()) {
+            error = "Title cannot be empty";
+        }
+
+        return error;
+    }
+
+    @Override
+    public String validFirstname(String firstname) {
+        String error = "";
+
+        if (firstname == null || firstname.isEmpty()) {
+            error = "First name cannot be empty";
+        }
+
+        return error;
+    }
+
+    @Override
+    public String validLastname(String lastname) {
+        String error = "";
+
+        if (lastname == null || lastname.isEmpty()) {
+            error = "Last name cannot be empty";
+        }
+
+        return error;
+    }
+
     @Override
     public String validEmail(String email) {
         String error = "";
@@ -66,7 +101,7 @@ public class ValidateUserProperties implements IValidateUserProperties {
             error = "Address cannot be empty";
         }
 
-        return address;
+        return error;
     }
 
     public String validCity(String city) {
@@ -76,7 +111,7 @@ public class ValidateUserProperties implements IValidateUserProperties {
             error = "City cannot be empty";
         }
 
-        return city;
+        return error;
     }
 
     public String validProvince(String province) {
@@ -86,7 +121,7 @@ public class ValidateUserProperties implements IValidateUserProperties {
             error = "Province cannot be empty";
         }
 
-        return province;
+        return error;
     }
 
     public String validPhone(String phoneNum) {
@@ -107,9 +142,19 @@ public class ValidateUserProperties implements IValidateUserProperties {
 
     public String validDOB(String dob) {
         String error = "";
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
 
         if (dob == null || dob.isEmpty()) {
             error = "Date of birth cannot be empty";
+        } else if (!dob.matches("^\\d{4}-\\d{2}-\\d{2}$")) {
+            error = "Date of birth must be in the format YYYY-MM-DD";
+        } else {
+            formatter.setLenient(false);
+            try {
+                formatter.parse(dob);
+            } catch (ParseException e) {
+                error = "Invalid date provided";
+            }
         }
 
         return error;

@@ -14,9 +14,9 @@ import com.example.skylink.R;
 import com.example.skylink.application.Services;
 import com.example.skylink.presentation.Session;
 import com.example.skylink.business.Interface.iPassengerDataManager;
-import com.example.skylink.business.validations.IValidatePassgnData;
+import com.example.skylink.business.validations.IValidateUserProperties;
+import com.example.skylink.business.validations.ValidateUserProperties;
 import com.example.skylink.business.Implementations.PassengerDataManager;
-import com.example.skylink.business.validations.ValidatePassgnData;
 import com.example.skylink.objects.Interfaces.iPassengerData;
 import com.example.skylink.presentation.SeatSelect.Out_boundActivity;
 
@@ -84,7 +84,8 @@ public class User_info extends AppCompatActivity {
         String email = emailEditText.getText().toString();
         String phoneNum = phoneNumberEditText.getText().toString();
 
-        IValidatePassgnData validator = new ValidatePassgnData();
+        IValidateUserProperties validator = new ValidateUserProperties();
+
         boolean success = true;
 
         String error = validator.validTitle(title);
@@ -107,7 +108,7 @@ public class User_info extends AppCompatActivity {
             emailEditText.setError(error);
             success = false;
         }
-        error = validator.validPhoneNum(phoneNum);
+        error = validator.validPhone(phoneNum);
         if (!error.isEmpty()) {
             phoneNumberEditText.setError(error);
             success = false;

@@ -38,8 +38,6 @@ public class UpdateUserProfileActivity extends AppCompatActivity {
         submit = findViewById(R.id.btnSubmit);
     }
 
-
-
     private void setupSubmitClickListener() {
         submit.setOnClickListener(v -> {
             handleSubmitClick();
@@ -54,24 +52,24 @@ public class UpdateUserProfileActivity extends AppCompatActivity {
         String phoneText = phone.getText().toString();
         String dobText = dateOfBirth.getText().toString();
         String genderText = gender.getText().toString();
-        IValidateUserProperties validateUserAuth = new ValidateUserProperties();
 
-        // Dilawer new Logic code for validation.
-
-        updateUserProfile(addressText, cityText, provinceText, phoneText, dobText, genderText);
-
-        Toast.makeText(UpdateUserProfileActivity.this, "Profile updated successfully", Toast.LENGTH_SHORT).show();
-
-        Intent flightSearchIntent = new Intent(UpdateUserProfileActivity.this, FlightSearchP.class);
-        startActivity(flightSearchIntent);
+        try {
+            user.setAddress(addressText + ", " + cityText + ", " + provinceText);
+            user.setPhone(phoneText);
+            user.setDateOfBirth(dobText);
+            user.setGender(genderText);
+            if(handler.updateUserProfile(user)) {
+                Intent flightSearchIntent = new Intent(UpdateUserProfileActivity.this, FlightSearchP.class);
+                startActivity(flightSearchIntent);
+                Toast.makeText(UpdateUserProfileActivity.this, "Profile updated successfully", Toast.LENGTH_SHORT).show();
+            }
+        } catch (UserHandler.UserValidationException e) {
+            showErrorMessage(e.getMessage());
+        }
     }
 
-    private void updateUserProfile(String addressText, String cityText, String provinceText, String phoneText, String dobText, String genderText) {
-        user.setAddress(addressText + ", " + cityText + ", " + provinceText);
-        user.setPhone(phoneText);
-        user.setDateOfBirth(dobText);
-        user.setGender(genderText);
-        handler.updateUserProfile(user);
+    private void showErrorMessage(String message) {
+        Toast.makeText(UpdateUserProfileActivity.this, message, Toast.LENGTH_SHORT).show();
     }
 
     private void initializeViews() {
@@ -83,14 +81,18 @@ public class UpdateUserProfileActivity extends AppCompatActivity {
         gender = findViewById(R.id.etGender);
         submit = findViewById(R.id.btnSubmit);
     }
+
     private void fetchUserData() {
         String userEmail = Session.getInstance().getUserProperties().getEmail();
-
 
         user = handler.getUserByEmail(userEmail);
 
         if (user != null) {
             updateWelcomeMessage(user.getFullName());
+            address.setText(user.getAddress());
+            phone.setText(user.getPhone());
+            gender.setText(user.getGender());
+            dateOfBirth.setText(user.getDateOfBirth());
         } else {
             handleUserNotFound();
         }

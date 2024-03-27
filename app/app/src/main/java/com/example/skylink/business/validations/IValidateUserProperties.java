@@ -3,6 +3,9 @@ package com.example.skylink.business.validations;
 public interface IValidateUserProperties {
 
     String validEmail(String email);
+    String validTitle(String title);
+    String validFirstname(String firstname);
+    String validLastname(String lastname);
     String validPassword(String password);
     String validRePassword(String password, String rePassword);
     String validFullname(String name);

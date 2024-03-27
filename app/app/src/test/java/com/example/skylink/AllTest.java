@@ -13,7 +13,6 @@ import com.example.skylink.UnitTestStub.PaymentHandlerUnit;
 import com.example.skylink.UnitTestStub.PlaneConfigurationUnit;
 import com.example.skylink.UnitTestStub.FlightSortingUnit;
 import com.example.skylink.UnitTestStub.UserHandlerUnit;
-import com.example.skylink.UnitTestStub.ValidatePassgnDataUnit;
 import com.example.skylink.UnitTestStub.ValidatePaymentUnit;
 import com.example.skylink.UnitTestStub.ValidateSearchInputUnit;
 import com.example.skylink.UnitTestStub.ValidateUserPropertiesUnit;
@@ -39,7 +38,6 @@ import org.junit.runners.Suite;
         AirportPathUnit.class,
         ValidateUserPropertiesUnit.class,
         ValidateSearchInputUnit.class,
-        ValidatePassgnDataUnit.class,
         ValidatePaymentUnit.class
 })
 public class AllTest {

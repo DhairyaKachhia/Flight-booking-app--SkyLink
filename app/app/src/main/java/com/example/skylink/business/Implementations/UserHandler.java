@@ -20,15 +20,15 @@ public class UserHandler implements IUserHandler {
         this.userDB = userDB;
     }
 
-    public void createUser(IUserProperties userProperties, String rePassword) throws UserCreationException {
+    public void createUser(IUserProperties userProperties, String rePassword) throws UserValidationException {
 
         String validationMessage = isValidUserPropertiesForCreation(userProperties);
         if (!validationMessage.isEmpty()) {
-            throw new UserCreationException(validationMessage);
+            throw new UserValidationException(validationMessage);
         }
 
         if (!userProperties.getPassword().equals(rePassword)) {
-            throw new UserCreationException("Passwords do not match");
+            throw new UserValidationException("Passwords do not match");
         }
 
         String hashedRePassword = BCrypt.hashpw(rePassword, BCrypt.gensalt());
@@ -37,7 +37,7 @@ public class UserHandler implements IUserHandler {
         long userId = userDB.addUser_Auth(userProperties);
 
         if (userId == -1) {
-            throw new UserCreationException("Unable to create new user");
+            throw new UserValidationException("Unable to create new user");
         }
 
         Session.getInstance().getUserProperties().setUser_id(userId);
@@ -97,36 +97,56 @@ public class UserHandler implements IUserHandler {
             return dobValidation;
         }
 
-        return null;
+        return "";
     }
 
-    public boolean updateUserProfile(IUserProperties userProperties) {
+    public boolean updateUserProfile(IUserProperties userProperties) throws UserValidationException {
+
+        IValidateUserProperties validator = new ValidateUserProperties();
 
         if (userProperties == null) {
             return false;
         }
 
-        // Already checked during sign up activity but doesn't hurt to validate
+        // We've already made sure the users basic info is valid but it doesn't hurt
         String validationMessage = isValidUserPropertiesForUpdate(userProperties);
-        if (validationMessage != null) {
-            return false;
+        if (!validationMessage.isEmpty()) {
+            throw new UserValidationException(validationMessage);
+        }
+
+        String validateAddress = validator.validAddress(userProperties.getAddress());
+        if(!validateAddress.isEmpty()){
+            throw new UserValidationException(validateAddress);
+        }
+
+        String validateDateOfBirth = validator.validDOB(userProperties.getDateOfBirth());
+        if(!validateDateOfBirth.isEmpty()) {
+            throw new UserValidationException(validateDateOfBirth);
         }
 
         long user_id = Session.getInstance().getUserProperties().getUser_id();
 
         try {
-            if (userDB.update_user_info(user_id, userProperties)) {
-                return true;
-            }
+            return userDB.update_user_info(user_id, userProperties);
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new UserValidationException(e.getMessage());
         }
-        return false;
     }
 
-    public boolean signinUser(IUserProperties userProperties) {
+    public boolean signinUser(IUserProperties userProperties) throws UserValidationException {
+        IValidateUserProperties validator = new ValidateUserProperties();
 
         String email = userProperties.getEmail();
+        String emailValidation = validator.validEmail(userProperties.getEmail());
+        if (!emailValidation.isEmpty()) {
+            throw new UserValidationException(emailValidation);
+        }
+
+        String passwordValidation = validator.validPassword(userProperties.getPassword());
+        if (!passwordValidation.isEmpty()) {
+            throw new UserValidationException(passwordValidation);
+        }
+
         String providedPassword = userProperties.getPassword();
 
         try {
@@ -159,8 +179,8 @@ public class UserHandler implements IUserHandler {
         return userDB.getUserByEmail(email);
     }
 
-    public class UserCreationException extends Exception {
-        public UserCreationException(String message) {
+    public class UserValidationException extends Exception {
+        public UserValidationException(String message) {
             super(message);
         }
     }
