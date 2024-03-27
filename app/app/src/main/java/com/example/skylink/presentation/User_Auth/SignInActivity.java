@@ -11,20 +11,10 @@ import android.widget.Toast;
 import com.example.skylink.R;
 import com.example.skylink.application.Main;
 import com.example.skylink.application.Services;
-import com.example.skylink.objects.Implementations.Aircraft;
-import com.example.skylink.objects.Implementations.BookingInfo;
-import com.example.skylink.objects.Implementations.City;
-import com.example.skylink.objects.Implementations.CreditCard;
-import com.example.skylink.objects.Implementations.Flight;
-import com.example.skylink.objects.Implementations.FlightInfo;
-import com.example.skylink.objects.Implementations.FlightSearch;
-import com.example.skylink.objects.Implementations.Flights;
-import com.example.skylink.objects.Implementations.TripInvoice;
-import com.example.skylink.objects.Interfaces.iCreditCard;
 import com.example.skylink.presentation.Session;
 import com.example.skylink.business.Implementations.UserHandler;
-import com.example.skylink.business.validations.IValidateUserAuth;
-import com.example.skylink.business.validations.ValidateUserAuth;
+import com.example.skylink.business.validations.IValidateUserProperties;
+import com.example.skylink.business.validations.ValidateUserProperties;
 import com.example.skylink.objects.Implementations.UserProperties;
 import com.example.skylink.presentation.FlightSearching.FlightSearchP;
 
@@ -32,7 +22,6 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
 
 public class SignInActivity extends AppCompatActivity {
 
@@ -104,7 +93,7 @@ public class SignInActivity extends AppCompatActivity {
     private boolean isValid(){
         boolean isValid = true;
 
-        IValidateUserAuth validateUserAuth = new ValidateUserAuth();
+        IValidateUserProperties validateUserAuth = new ValidateUserProperties();
         String error = "";
 
         error = validateUserAuth.validEmail(email.getText().toString());

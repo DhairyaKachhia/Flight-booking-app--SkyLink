@@ -2,6 +2,8 @@ package com.example.skylink.business.Implementations;
 
 import com.example.skylink.application.Services;
 import com.example.skylink.business.Interface.IUserHandler;
+import com.example.skylink.business.validations.IValidateUserProperties;
+import com.example.skylink.business.validations.ValidateUserProperties;
 import com.example.skylink.objects.Interfaces.IUserProperties;
 import com.example.skylink.presentation.Session;
 import com.example.skylink.persistence.Interfaces.IUserDB;
@@ -19,9 +21,9 @@ public class UserHandler implements IUserHandler {
     }
 
     public void createUser(IUserProperties userProperties, String rePassword) throws UserCreationException {
-        
+
         String validationMessage = isValidUserPropertiesForCreation(userProperties);
-        if (validationMessage != null) {
+        if (!validationMessage.isEmpty()) {
             throw new UserCreationException(validationMessage);
         }
 
@@ -42,52 +44,56 @@ public class UserHandler implements IUserHandler {
     }
 
     public String isValidUserPropertiesForCreation(IUserProperties userProperties) {
+        IValidateUserProperties validator = new ValidateUserProperties();
 
-        String fullNameValidation = userProperties.isValidFullName();
-        if (fullNameValidation != null && !fullNameValidation.isEmpty()) {
+        String fullNameValidation = validator.validFullname(userProperties.getFullName());
+        if (!fullNameValidation.isEmpty()) {
             return fullNameValidation;
         }
 
-        String emailValidation = userProperties.isValidEmail();
-        if (emailValidation != null && !emailValidation.isEmpty()) {
+        String emailValidation = validator.validEmail(userProperties.getEmail());
+        if (!emailValidation.isEmpty()) {
             return emailValidation;
         }
 
-        String passwordValidation = userProperties.isValidPassword();
-        if (passwordValidation != null && !passwordValidation.isEmpty()) {
+        String passwordValidation = validator.validPassword(userProperties.getPassword());
+        if (!passwordValidation.isEmpty()) {
             return passwordValidation;
         }
         
-        return null;
+        return "";
     }
 
     public String isValidUserPropertiesForUpdate(IUserProperties userProperties) {
+
+        IValidateUserProperties validator = new ValidateUserProperties();
+
         String baseUserPropertiesValidation = isValidUserPropertiesForCreation(userProperties);
-        if (baseUserPropertiesValidation != null) {
+        if (!baseUserPropertiesValidation.isEmpty()) {
             return baseUserPropertiesValidation;
         }
 
         // Validate address
-        String addressValidation = userProperties.isValidAddress();
-        if (addressValidation != null) {
+        String addressValidation = validator.validAddress(userProperties.getAddress());
+        if (!addressValidation.isEmpty()) {
             return addressValidation;
         }
 
         // Validate phone
-        String phoneValidation = userProperties.isValidPhone();
-        if (phoneValidation != null) {
+        String phoneValidation = validator.validPhone(userProperties.getPhone());
+        if (!phoneValidation.isEmpty()) {
             return phoneValidation;
         }
 
         // Validate gender
-        String genderValidation = userProperties.isValidGender();
-        if (genderValidation != null) {
+        String genderValidation = validator.validGender(userProperties.getGender());
+        if (!genderValidation.isEmpty()) {
             return genderValidation;
         }
 
         // Validate date of birth
-        String dobValidation = userProperties.isValidDateOfBirth();
-        if (dobValidation != null) {
+        String dobValidation = validator.validDOB(userProperties.getDateOfBirth());
+        if (!dobValidation.isEmpty()) {
             return dobValidation;
         }
 
