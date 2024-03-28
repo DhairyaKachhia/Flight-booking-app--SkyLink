@@ -43,7 +43,7 @@ public class UserHandlerIntegrated {
 
         try {
             userHandler.createUser(mockUserProperties, rePassword);
-        } catch (UserHandler.UserCreationException e) {
+        } catch (UserHandler.UserValidationException e) {
             fail("Exception should not be thrown");
         }
     }
@@ -56,7 +56,7 @@ public class UserHandlerIntegrated {
         try {
             userHandler.createUser(mockUserProperties, rePassword);
             fail("User creation should fail for empty name");
-        } catch (UserHandler.UserCreationException e) {
+        } catch (UserHandler.UserValidationException e) {
             assertEquals("Name cannot be empty", e.getMessage());
         }
     }
@@ -69,7 +69,7 @@ public class UserHandlerIntegrated {
         try {
             userHandler.createUser(mockUserProperties, rePassword);
             fail("User creation should fail for invalid email format");
-        } catch (UserHandler.UserCreationException e) {
+        } catch (UserHandler.UserValidationException e) {
             assertEquals("Invalid email format", e.getMessage());
         }
     }
@@ -82,7 +82,7 @@ public class UserHandlerIntegrated {
         try {
             userHandler.createUser(mockUserProperties, rePassword);
             fail("User creation should fail for password mismatch");
-        } catch (UserHandler.UserCreationException e) {
+        } catch (UserHandler.UserValidationException e) {
             assertEquals("Passwords do not match", e.getMessage());
         }
     }
@@ -99,7 +99,7 @@ public class UserHandlerIntegrated {
 
         try {
             userHandler.createUser(mockUserProperties, rePassword);
-        } catch (UserHandler.UserCreationException e) {
+        } catch (UserHandler.UserValidationException e) {
             fail("Exception should not be thrown");
         }
 
@@ -114,10 +114,13 @@ public class UserHandlerIntegrated {
                 "1990-01-01",
                 "New Country"
         );
-        boolean result = userHandler.updateUserProfile(updatedUserProperties);
 
-        // Verify the result
-        assertTrue(result);
+        try {
+            boolean result = userHandler.updateUserProfile(updatedUserProperties);
+            assertTrue(result);
+        } catch (UserHandler.UserValidationException e) {
+            fail("Exception should not be thrown");
+        }
     }
 
     @Test
@@ -132,7 +135,7 @@ public class UserHandlerIntegrated {
 
         try {
             userHandler.createUser(mockUserProperties, rePassword);
-        } catch (UserHandler.UserCreationException e) {
+        } catch (UserHandler.UserValidationException e) {
             fail("Exception should not be thrown");
         }
 
@@ -148,11 +151,9 @@ public class UserHandlerIntegrated {
                 "New Country"
         );
 
-        // Perform the test
-        boolean result = userHandler.updateUserProfile(updatedUserProperties);
-
-        // Verify the result
-        assertFalse(result);
+        assertThrows(UserHandler.UserValidationException.class, () -> {
+            userHandler.updateUserProfile(updatedUserProperties);
+        });
     }
 
     @Test
@@ -167,18 +168,17 @@ public class UserHandlerIntegrated {
 
         try {
             userHandler.createUser(mockUserProperties, rePassword);
-        } catch (UserHandler.UserCreationException e) {
+        } catch (UserHandler.UserValidationException e) {
             fail("Exception should not be thrown");
         }
 
-        // Update the user profile with null user properties
-        IUserProperties updatedUserProperties = null;
-
-        // Perform the test
-        boolean result = userHandler.updateUserProfile(updatedUserProperties);
-
-        // Verify the result
-        assertFalse(result);
+        // Perform the test with null user properties
+        try {
+            boolean result = userHandler.updateUserProfile(null);
+            assertFalse(result);
+        } catch (UserHandler.UserValidationException e) {
+            fail("Exception should not be thrown");
+        }
     }
 
     @Test
@@ -192,12 +192,10 @@ public class UserHandlerIntegrated {
             // create same user again with normal password
             IUserProperties mockUserProperties2 = new UserProperties("Mayokun Moses Akintunde", "person1@gmail.com", "mayor101");
             boolean result = userHandler.signinUser(mockUserProperties2);
-
             assertTrue(result);
-        } catch (UserHandler.UserCreationException e) {
+        } catch (UserHandler.UserValidationException e) {
             fail("Exception should not be thrown");
         }
-
     }
 
     @Test
@@ -207,13 +205,10 @@ public class UserHandlerIntegrated {
 
         try {
             userHandler.createUser(mockUserProperties, rePassword);         // add user to the database (it will hash the password)
-
-            // create same user again with different password
             IUserProperties mockUserProperties2 = new UserProperties("Mayokun Moses Akintunde", "person1@gmail.com", "mayor111");
             boolean result = userHandler.signinUser(mockUserProperties2);   // should fail because password is different
-
             assertFalse(result);
-        } catch (UserHandler.UserCreationException e) {
+        } catch (UserHandler.UserValidationException e) {
             fail("Exception should not be thrown");
         }
 
@@ -234,7 +229,7 @@ public class UserHandlerIntegrated {
 
             assertEquals(userIdFromSession, resultingUserId);
 
-        } catch (UserHandler.UserCreationException e) {
+        } catch (UserHandler.UserValidationException e) {
             fail("Exception should not be thrown");
         }
 
@@ -255,7 +250,7 @@ public class UserHandlerIntegrated {
             assertEquals(userIdFromSession, resultingUserId);
 
 
-        } catch (UserHandler.UserCreationException e) {
+        } catch (UserHandler.UserValidationException e) {
             fail("Exception should not be thrown");
 
         }
@@ -283,7 +278,7 @@ public class UserHandlerIntegrated {
             assertEquals(userFromSession.getPassword(), resultingUser.getPassword());
 
 
-        } catch (UserHandler.UserCreationException e) {
+        } catch (UserHandler.UserValidationException e) {
             fail("Exception should not be thrown");
 
         }

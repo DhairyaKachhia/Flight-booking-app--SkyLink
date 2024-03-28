@@ -6,7 +6,7 @@ This is the document of our project, "Skylink."
 
   
 
-[Iteration 3 Architecture](https://code.cs.umanitoba.ca/comp3350-winter2024/shadedragon-a02-6/-/blob/main/docs/i3architecture.png?ref_type=heads)
+[Iteration 3 Architecture](https://code.cs.umanitoba.ca/comp3350-winter2024/shadedragon-a02-6/-/blob/main/docs/iteration3architecture.png)
 
   
   

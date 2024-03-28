@@ -47,7 +47,7 @@ public class PassengerDataManagerIntegrated {
         try {
             userHandler.createUser(user, "password");
             sessionUserID = Session.getInstance().getUserProperties().getUser_id();
-        } catch (UserHandler.UserCreationException e) {
+        } catch (UserHandler.UserValidationException e) {
             fail("User creation should not fail");
         }
 
@@ -71,7 +71,7 @@ public class PassengerDataManagerIntegrated {
         try {
             userHandler.createUser(user, "password");
             sessionUserID = Session.getInstance().getUserProperties().getUser_id();
-        } catch (UserHandler.UserCreationException e) {
+        } catch (UserHandler.UserValidationException e) {
             fail("User creation should not fail");
         }
 
@@ -99,7 +99,7 @@ public class PassengerDataManagerIntegrated {
         try {
             userHandler.createUser(user, "password");
             sessionUserID = Session.getInstance().getUserProperties().getUser_id();
-        } catch (UserHandler.UserCreationException e) {
+        } catch (UserHandler.UserValidationException e) {
             fail("User creation should not fail");
         }
 
@@ -118,7 +118,7 @@ public class PassengerDataManagerIntegrated {
         try {
             userHandler.createUser(user, "password");
             sessionUserID = Session.getInstance().getUserProperties().getUser_id();
-        } catch (UserHandler.UserCreationException e) {
+        } catch (UserHandler.UserValidationException e) {
             fail("User creation should not fail");
         }
 
@@ -142,7 +142,7 @@ public class PassengerDataManagerIntegrated {
         try {
             userHandler.createUser(user, "password");
             sessionUserID = Session.getInstance().getUserProperties().getUser_id();
-        } catch (UserHandler.UserCreationException e) {
+        } catch (UserHandler.UserValidationException e) {
             fail("User creation should not fail");
         }
 

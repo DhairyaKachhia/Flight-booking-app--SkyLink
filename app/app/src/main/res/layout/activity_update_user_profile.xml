@@ -184,7 +184,7 @@
                 android:layout_marginStart="50dp"
                 android:layout_marginTop="40dp"
                 android:layout_marginEnd="50dp"
-                android:hint="Date of Birth (MM/DD/YYYY)"
+                android:hint="Date of Birth (YYYY-MM-DD)"
                 app:boxStrokeWidth="3sp"
                 app:hintTextAppearance="@style/TextAppearance.AppCompat.Headline"
                 app:layout_constraintEnd_toEndOf="parent"

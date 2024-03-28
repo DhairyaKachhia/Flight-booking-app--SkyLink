@@ -56,7 +56,7 @@ public class UserInfoGenerator {
         int year = random.nextInt(maxYear - minYear + 1) + minYear;
         int month = random.nextInt(12) + 1;
         int day = random.nextInt(28) + 1; // Assuming all months have 28 days
-        return String.format("%02d/%02d/%04d", day, month, year);
+        return String.format("%04d-%02d-%02d", year, month, day);
     }
 
     private static String generateRandomGender() {

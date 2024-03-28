@@ -59,27 +59,29 @@ public class SignInActivity extends AppCompatActivity {
 
     private void attemptSignIn() {
 
-        if (isValid()) {
             String userEmail = email.getText().toString();
             String userPassword = password.getText().toString();
 
             UserProperties user = new UserProperties(userEmail, userPassword);
             UserHandler userHandler = new UserHandler(Services.getUserDatabase());
 
-            if (userHandler.signinUser(user)) {
-                long userId = userHandler.getUserIdByEmail(userEmail);
-                Session.getInstance().getUserProperties().setUser_id(userId);
-                Intent intent = new Intent(SignInActivity.this, FlightSearchP.class);
-                Session.getInstance().getUserProperties().setEmail(userEmail);
-                startActivity(intent);
-            } else {
-                showIncorrectCredentialsMessage();
+            try {
+                if (userHandler.signinUser(user)) {
+                    long userId = userHandler.getUserIdByEmail(userEmail);
+                    Session.getInstance().getUserProperties().setUser_id(userId);
+                    Intent intent = new Intent(SignInActivity.this, FlightSearchP.class);
+                    Session.getInstance().getUserProperties().setEmail(userEmail);
+                    startActivity(intent);
+                } else {
+                    showErrorMessage("Incorrect Email or Password");
+                }
+            } catch (UserHandler.UserValidationException e) {
+                showErrorMessage(e.getMessage());
             }
-        }
     }
 
-    private void showIncorrectCredentialsMessage() {
-        Toast.makeText(SignInActivity.this, "Incorrect email or password", Toast.LENGTH_SHORT).show();
+    private void showErrorMessage(String message) {
+        Toast.makeText(SignInActivity.this, message, Toast.LENGTH_SHORT).show();
     }
 
 
@@ -88,28 +90,6 @@ public class SignInActivity extends AppCompatActivity {
         password = findViewById(R.id.etPassword);
         signUp = findViewById(R.id.tvSignInClick);
         signIn = findViewById(R.id.btnSignIn);
-    }
-
-    private boolean isValid(){
-        boolean isValid = true;
-
-        IValidateUserProperties validateUserAuth = new ValidateUserProperties();
-        String error = "";
-
-        error = validateUserAuth.validEmail(email.getText().toString());
-        if (!error.isEmpty()) {
-            email.setError(error);
-            isValid = false;
-        }
-
-        error = validateUserAuth.validPassword(password.getText().toString());
-        if (!error.isEmpty()) {
-            password.setError(error);
-            isValid = false;
-        }
-
-
-        return isValid;
     }
 
     private void copyDatabaseToDevice() {
