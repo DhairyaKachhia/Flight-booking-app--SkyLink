@@ -13,3 +13,7 @@ In the second iteration of our project, we encountered significant challenges wi
 3. **Error Handling and User Feedback**: We improved error handling by leveraging exceptions to convey error messages. These messages are now displayed as toast notifications, providing immediate and clear feedback to users upon encountering validation errors.
 
 4. **Improved User Interface for Profile Updates**: We addressed the issue of displaying user information on the profile update screen. Now, when users navigate to this section, their current information is accurately displayed, facilitating a smoother and more intuitive update process.
+
+##Velocity chart
+![Velocity](docs/Velocity.png)
+
