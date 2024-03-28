@@ -14,6 +14,18 @@ In the second iteration of our project, we encountered significant challenges wi
 
 4. **Improved User Interface for Profile Updates**: We addressed the issue of displaying user information on the profile update screen. Now, when users navigate to this section, their current information is accurately displayed, facilitating a smoother and more intuitive update process.
 
+###To gauge the success of enhancements in the User Profile Update Functionality, we will use the following key metrics:
+
+    
+**Code Reusability and Maintenance Efficiency: Success will be measured by the reduction in maintenance and debugging time, reflecting improvements in code reusability and simplicity due to the consolidation of validation logic.
+
+**Reduction in Code Duplication: A decrease in the lines of code for validation functions, indicating streamlined processes and less redundancy.
+System Stability and Performance: Fewer system errors and improved performance metrics, such as quicker response times for profile updates, will demonstrate enhanced system reliability.
+
+**Developer Satisfaction: Higher satisfaction levels within the development team, assessed via a survey, regarding the ease of implementation and the clarity of the new validation framework.
+
+**Efficiency in Future Feature Development: A reduction in the time required to implement new features that rely on user information validation, indicating a more efficient development process.
+
 ##Velocity chart
 ![Velocity](docs/Velocity.png)
 
