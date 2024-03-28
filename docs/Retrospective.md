@@ -14,7 +14,7 @@ In the second iteration of our project, we encountered significant challenges wi
 
 4. **Improved User Interface for Profile Updates**: We addressed the issue of displaying user information on the profile update screen. Now, when users navigate to this section, their current information is accurately displayed, facilitating a smoother and more intuitive update process.
 
-### Success Metrics for User Profile Update Functionality Enhancement
+### Success Metrics
 
 To gauge the success of enhancements in the User Profile Update Functionality, we will use the following key metrics:
 
