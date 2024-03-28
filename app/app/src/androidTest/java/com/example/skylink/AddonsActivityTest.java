@@ -42,6 +42,7 @@ public class AddonsActivityTest {
 
     @Before
     public void setUp() {
+        Intents.release();
         Intents.init();
 
     }
