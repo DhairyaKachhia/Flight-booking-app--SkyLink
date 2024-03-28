@@ -27,7 +27,7 @@ import org.junit.runners.Suite;
         ValidateSearchInputUnit.class,
         ValidatePaymentUnit.class
 })
-public class UnitTestStart {
+public class AllUnitTest {
     // This class can remain empty
     // It's used only as a container for the suite
 }

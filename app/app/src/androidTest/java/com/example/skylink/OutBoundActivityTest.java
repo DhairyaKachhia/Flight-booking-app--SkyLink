@@ -37,6 +37,7 @@ public class OutBoundActivityTest {
     @Before
     public void setup() {
         // Initialize Espresso Intents before the test starts
+        Intents.release();
         Intents.init();
         String[] userInfo = UserInfoGenerator.generateUserInfo();
         EspressoUtils.signUp(userInfo[0], userInfo[1], userInfo[2]);

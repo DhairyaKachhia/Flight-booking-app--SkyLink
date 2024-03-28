@@ -40,6 +40,7 @@ public class PaymentSystemTest {
 
     @Before
     public void setUp() {
+        Intents.release();
         Intents.init();
 
         // Perform setup tasks here
