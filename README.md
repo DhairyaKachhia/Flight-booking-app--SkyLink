@@ -62,7 +62,7 @@ To build and run the app, follow these steps:
 
 
 ## Vision Statement
-- Our [Vision Statement](https://code.cs.umanitoba.ca/comp3350-winter2024/shadedragon-a02-6/-/blob/main/docs/VisionStatement.md)
+- Our [Vision Statement](/docs/VISION.md)
 
 ## Iteration Documents
 
