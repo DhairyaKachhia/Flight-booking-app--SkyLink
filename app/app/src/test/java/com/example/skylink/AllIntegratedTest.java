@@ -19,7 +19,7 @@ import org.junit.runners.Suite;
         PaymentHandlerIntegrated.class,
         UserHandlerIntegrated.class
 })
-public class  IntegratedTest{
+public class AllIntegratedTest {
     // This class can remain empty
     // It's used only as a container for the suite
 }

@@ -57,6 +57,7 @@ public class BookingDisplayActivityTest {
 
     @Before
     public void setup() {
+        Intents.release();
         Intents.init();
     }
 
