@@ -113,7 +113,11 @@ public class UserHSQLDB implements IUserDB {
             if (rs.next()) {
                 String name = rs.getString("full_name");
                 String password = rs.getString("password");
-                return new UserProperties(name, email, password);
+                String gender =rs.getString("gender");
+                String address = rs.getString("address");
+                String phone = rs.getString("phone");
+                String dateOfBirth = rs.getString("date_of_birth");
+                return new UserProperties(name, email, password, gender, address, phone, dateOfBirth,"");
             }
 
         } catch (SQLException e) {

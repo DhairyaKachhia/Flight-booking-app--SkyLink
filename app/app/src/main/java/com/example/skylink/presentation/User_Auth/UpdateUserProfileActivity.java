@@ -89,10 +89,15 @@ public class UpdateUserProfileActivity extends AppCompatActivity {
 
         if (user != null) {
             updateWelcomeMessage(user.getFullName());
-            address.setText(user.getAddress());
-            phone.setText(user.getPhone());
-            gender.setText(user.getGender());
-            dateOfBirth.setText(user.getDateOfBirth());
+
+            if (user.getAddress() != null) {
+                String[] addressDB = user.getAddress().split(",");
+                address.setText(addressDB.length > 0 ? addressDB[0] : "");
+            }
+
+            phone.setText(user.getPhone() != null ? user.getPhone() : "");
+            gender.setText(user.getGender() != null ? user.getGender() : "");
+            dateOfBirth.setText(user.getDateOfBirth() != null ? user.getDateOfBirth() : "");
         } else {
             handleUserNotFound();
         }
