@@ -15,6 +15,7 @@ import androidx.test.espresso.matcher.ViewMatchers;
 
 
 import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.action.ViewActions.clearText;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.typeText;
@@ -59,26 +60,38 @@ public class EspressoUtils {
         // Second screen is displayed. Perform actions on update user info page
 
         // Enter Address
+        onView(withId(R.id.etAddress)).perform(clearText());        // Clear the EditText field first
+
         Espresso.onView(ViewMatchers.withId(R.id.etAddress))
                 .perform(ViewActions.typeText(address), ViewActions.closeSoftKeyboard());
 
         // Enter City
+        onView(withId(R.id.etCity)).perform(clearText());        // Clear the EditText field first
+
         Espresso.onView(ViewMatchers.withId(R.id.etCity))
                 .perform(ViewActions.typeText(city), ViewActions.closeSoftKeyboard());
 
         // Enter Province
+        onView(withId(R.id.etProvince)).perform(clearText());        // Clear the EditText field first
+
         Espresso.onView(ViewMatchers.withId(R.id.etProvince))
                 .perform(ViewActions.typeText(province), ViewActions.closeSoftKeyboard());
 
         // Enter Phone
+        onView(withId(R.id.etPhone)).perform(clearText());        // Clear the EditText field first
+
         Espresso.onView(ViewMatchers.withId(R.id.etPhone))
                 .perform(ViewActions.typeText(phone), ViewActions.closeSoftKeyboard());
 
         // Enter Dob
+        onView(withId(R.id.etDoB)).perform(clearText());        // Clear the EditText field first
+
         Espresso.onView(ViewMatchers.withId(R.id.etDoB))
                 .perform(ViewActions.typeText(dob), ViewActions.closeSoftKeyboard());
 
         // Enter Gender
+        onView(withId(R.id.etGender)).perform(clearText());        // Clear the EditText field first
+
         Espresso.onView(ViewMatchers.withId(R.id.etGender))
                 .perform(ViewActions.typeText(gender), ViewActions.closeSoftKeyboard());
 
